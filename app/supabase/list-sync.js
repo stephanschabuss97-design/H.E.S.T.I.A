@@ -1,4 +1,4 @@
-import { ensureHouseholdKey, hasSupabasePublicConfig } from "../core/runtime-config.js";
+import { ensureHouseholdKey, getRuntimeConfig, hasSupabasePublicConfig } from "../core/runtime-config.js";
 import { createSupabaseClient, getLastSupabaseClientError } from "./client.js";
 
 const TRANSIENT_ERROR_PATTERNS = [
@@ -77,11 +77,124 @@ function toItem(row) {
   };
 }
 
+function normalizeHeaderValue(value) {
+  if (typeof value !== "string") {
+    return "";
+  }
+
+  return value.replace(/[\u0000-\u001F\u007F]+/g, " ").trim();
+}
+
+function getRestContext() {
+  const { supabaseUrl, supabaseKey } = getRuntimeConfig();
+  const householdKey = normalizeHeaderValue(ensureHouseholdKey());
+
+  if (!supabaseUrl || !supabaseKey) {
+    return { ok: false, message: "Supabase ist noch nicht konfiguriert." };
+  }
+
+  if (!householdKey) {
+    return { ok: false, message: "Household-Key fehlt." };
+  }
+
+  return {
+    ok: true,
+    supabaseUrl,
+    supabaseKey,
+    householdKey,
+    headers: {
+      apikey: supabaseKey,
+      Authorization: `Bearer ${supabaseKey}`,
+      "x-household-key": householdKey
+    }
+  };
+}
+
+async function parseJsonSafely(response) {
+  const rawText = await response.text();
+  if (!rawText) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(rawText);
+  } catch {
+    return rawText;
+  }
+}
+
+function normalizeRestError(status, payload, fallback) {
+  if (payload && typeof payload === "object" && !Array.isArray(payload)) {
+    return normalizeErrorMessage(payload, fallback);
+  }
+
+  if (typeof payload === "string" && payload.trim()) {
+    return `${fallback} | HTTP ${status}: ${payload.trim()}`;
+  }
+
+  return `${fallback} | HTTP ${status}`;
+}
+
+async function restRequest(path, options = {}) {
+  const restContext = getRestContext();
+  if (!restContext.ok) {
+    return { ok: false, message: restContext.message, data: null };
+  }
+
+  const { supabaseUrl, headers } = restContext;
+  const requestHeaders = {
+    Accept: "application/json",
+    ...headers,
+    ...(options.headers || {})
+  };
+
+  const result = await withRetry(
+    async () => {
+      try {
+        const response = await fetch(`${supabaseUrl}/rest/v1/${path}`, {
+          method: options.method || "GET",
+          headers: requestHeaders,
+          body: options.body ? JSON.stringify(options.body) : undefined
+        });
+
+        const payload = await parseJsonSafely(response);
+        if (!response.ok) {
+          return {
+            data: null,
+            error: new Error(
+              normalizeRestError(
+                response.status,
+                payload,
+                options.errorMessage || "REST-Anfrage fehlgeschlagen."
+              )
+            )
+          };
+        }
+
+        return { data: payload, error: null };
+      } catch (error) {
+        return { data: null, error };
+      }
+    },
+    { retries: Number(options.retries ?? 0), retryDelayMs: Number(options.retryDelayMs ?? 0) }
+  );
+
+  if (result?.error) {
+    return {
+      ok: false,
+      message: normalizeErrorMessage(result.error, options.errorMessage || "REST-Anfrage fehlgeschlagen."),
+      data: null
+    };
+  }
+
+  return { ok: true, message: "", data: result?.data ?? null };
+}
+
 export function createListSync() {
   let cachedHousehold = null;
   let cachedHouseholdKey = "";
 
-  async function resolveHousehold(client) {
+  async function resolveHousehold() {
     const householdKey = ensureHouseholdKey();
     if (!householdKey) {
       return { data: null, error: new Error("Household-Key fehlt.") };
@@ -91,20 +204,17 @@ export function createListSync() {
       return { data: cachedHousehold, error: null };
     }
 
-    const { data, error } = await withRetry(
-      async () =>
-        client
-          .from("households")
-          .select("id, label")
-          .limit(1)
-          .maybeSingle(),
-      { retries: 2, retryDelayMs: 180 }
-    );
+    const restResult = await restRequest("households?select=id,label&limit=1", {
+      retries: 2,
+      retryDelayMs: 180,
+      errorMessage: "Haushalt konnte nicht geladen werden."
+    });
 
-    if (error) {
-      return { data: null, error: new Error(normalizeErrorMessage(error, "Haushalt konnte nicht geladen werden.")) };
+    if (!restResult.ok) {
+      return { data: null, error: new Error(restResult.message) };
     }
 
+    const data = Array.isArray(restResult.data) ? restResult.data[0] || null : restResult.data;
     if (!data) {
       return { data: null, error: new Error("Kein Haushalt fuer diesen Household-Key gefunden.") };
     }
@@ -114,60 +224,45 @@ export function createListSync() {
     return { data, error: null };
   }
 
-  async function getClientAndHousehold() {
+  async function getHousehold() {
     if (!hasSupabasePublicConfig()) {
-      return { client: null, household: null, error: new Error("Supabase ist noch nicht konfiguriert.") };
+      return { household: null, error: new Error("Supabase ist noch nicht konfiguriert.") };
     }
 
     const householdKey = ensureHouseholdKey();
     if (!householdKey) {
-      return { client: null, household: null, error: new Error("Household-Key fehlt.") };
+      return { household: null, error: new Error("Household-Key fehlt.") };
     }
 
-    const client = createSupabaseClient();
-    if (!client) {
-      const clientError = getLastSupabaseClientError();
-      return {
-        client: null,
-        household: null,
-        error: new Error(
-          clientError
-            ? `Supabase-Client konnte nicht erstellt werden: ${clientError}`
-            : "Supabase-Client konnte nicht erstellt werden."
-        )
-      };
-    }
-
-    const householdResult = await resolveHousehold(client);
+    const householdResult = await resolveHousehold();
     if (householdResult.error) {
-      return { client: null, household: null, error: householdResult.error };
+      return { household: null, error: householdResult.error };
     }
 
-    return { client, household: householdResult.data, error: null };
+    return { household: householdResult.data, error: null };
   }
 
-  async function loadItemsForHousehold(client, householdId) {
-    const { data, error } = await withRetry(
-      async () =>
-        client
-          .from("shopping_items")
-          .select("id, name, quantity, unit, in_cart, created_at")
-          .eq("household_id", householdId)
-          .order("created_at", { ascending: true }),
-      { retries: 2, retryDelayMs: 220 }
+  async function loadItemsForHousehold(householdId) {
+    const restResult = await restRequest(
+      `shopping_items?select=id,name,quantity,unit,in_cart,created_at&household_id=eq.${encodeURIComponent(householdId)}&order=created_at.asc`,
+      {
+        retries: 2,
+        retryDelayMs: 220,
+        errorMessage: "Liste konnte nicht geladen werden."
+      }
     );
 
-    if (error) {
+    if (!restResult.ok) {
       return {
         ok: false,
-        message: normalizeErrorMessage(error, "Liste konnte nicht geladen werden."),
+        message: restResult.message,
         items: []
       };
     }
 
     return {
       ok: true,
-      items: Array.isArray(data) ? data.map(toItem) : [],
+      items: Array.isArray(restResult.data) ? restResult.data.map(toItem) : [],
       syncedAt: new Date().toISOString()
     };
   }
@@ -178,33 +273,42 @@ export function createListSync() {
     },
 
     async saveSnapshot(items) {
-      const syncTarget = await getClientAndHousehold();
+      const syncTarget = await getHousehold();
       if (syncTarget.error) {
         return { ok: false, message: syncTarget.error.message };
       }
 
-      const { client, household } = syncTarget;
-      const { error: deleteError } = await withRetry(
-        async () =>
-          client
-            .from("shopping_items")
-            .delete()
-            .eq("household_id", household.id),
-        { retries: 1, retryDelayMs: 150 }
+      const { household } = syncTarget;
+      const deleteResult = await restRequest(
+        `shopping_items?household_id=eq.${encodeURIComponent(household.id)}`,
+        {
+          method: "DELETE",
+          retries: 1,
+          retryDelayMs: 150,
+          headers: { Prefer: "return=minimal" },
+          errorMessage: "Liste konnte nicht geloescht werden."
+        }
       );
 
-      if (deleteError) {
-        return { ok: false, message: normalizeErrorMessage(deleteError, "Liste konnte nicht geloescht werden.") };
+      if (!deleteResult.ok) {
+        return { ok: false, message: deleteResult.message };
       }
 
       if (items.length > 0) {
         const rows = items.map((item) => toRow(item, household.id));
-        const { error: insertError } = await withRetry(
-          async () => client.from("shopping_items").insert(rows),
-          { retries: 1, retryDelayMs: 150 }
-        );
-        if (insertError) {
-          return { ok: false, message: normalizeErrorMessage(insertError, "Liste konnte nicht gespeichert werden.") };
+        const insertResult = await restRequest("shopping_items", {
+          method: "POST",
+          body: rows,
+          retries: 1,
+          retryDelayMs: 150,
+          headers: {
+            "Content-Type": "application/json",
+            Prefer: "return=minimal"
+          },
+          errorMessage: "Liste konnte nicht gespeichert werden."
+        });
+        if (!insertResult.ok) {
+          return { ok: false, message: insertResult.message };
         }
       }
 
@@ -216,13 +320,13 @@ export function createListSync() {
     },
 
     async loadSnapshot() {
-      const syncTarget = await getClientAndHousehold();
+      const syncTarget = await getHousehold();
       if (syncTarget.error) {
         return { ok: false, message: syncTarget.error.message, items: [] };
       }
 
-      const { client, household } = syncTarget;
-      const result = await loadItemsForHousehold(client, household.id);
+      const { household } = syncTarget;
+      const result = await loadItemsForHousehold(household.id);
       if (!result.ok) {
         return result;
       }
@@ -234,16 +338,28 @@ export function createListSync() {
     },
 
     async subscribeToSnapshots(onRemoteChange) {
-      const syncTarget = await getClientAndHousehold();
+      const syncTarget = await getHousehold();
       if (syncTarget.error) {
         return { ok: false, message: syncTarget.error.message, unsubscribe() {} };
       }
 
-      const { client, household } = syncTarget;
+      const client = createSupabaseClient();
+      if (!client) {
+        const clientError = getLastSupabaseClientError();
+        return {
+          ok: false,
+          message: clientError
+            ? `Realtime konnte nicht gestartet werden: ${clientError}`
+            : "Realtime konnte nicht gestartet werden.",
+          unsubscribe() {}
+        };
+      }
+
+      const { household } = syncTarget;
       let refreshTimer = 0;
 
       const refreshRemoteSnapshot = async () => {
-        const result = await loadItemsForHousehold(client, household.id);
+        const result = await loadItemsForHousehold(household.id);
         if (typeof onRemoteChange === "function") {
           onRemoteChange(result);
         }
