@@ -25,6 +25,7 @@ export function initShopping(doc, store) {
     listElement.querySelectorAll("[data-toggle]").forEach((checkbox) => {
       checkbox.addEventListener("change", () => {
         store.toggleInCart(checkbox.dataset.toggle, checkbox.checked);
+        doc.dispatchEvent(new CustomEvent("hestia:items-updated", { detail: { source: "local" } }));
       });
     });
   }
@@ -32,7 +33,7 @@ export function initShopping(doc, store) {
   finishButton.addEventListener("click", () => {
     store.finishShopping();
     render();
-    doc.dispatchEvent(new CustomEvent("hestia:items-updated"));
+    doc.dispatchEvent(new CustomEvent("hestia:items-updated", { detail: { source: "local" } }));
   });
 
   doc.addEventListener("hestia:items-updated", render);

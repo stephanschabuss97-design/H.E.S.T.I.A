@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="app/styles/base.css">
   <link rel="stylesheet" href="app/styles/components.css">
   <link rel="stylesheet" href="app/styles/screens.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <title>H.E.S.T.I.A.</title>
 </head>
 <body>
@@ -82,8 +83,14 @@
       </div>
       <div class="panel">
         <div class="panel-head">
-          <h3>Offene Liste</h3>
-          <button class="inline-link" id="clear-list" type="button">Liste leeren</button>
+          <div>
+            <h3>Offene Liste</h3>
+            <p id="writing-sync-status" class="sync-status" aria-live="polite">Nur lokal gespeichert.</p>
+          </div>
+          <div class="panel-head-actions">
+            <button class="surface-button compact" id="save-list" type="button" hidden>Liste speichern</button>
+            <button class="inline-link" id="clear-list" type="button">Liste leeren</button>
+          </div>
         </div>
         <ul id="writing-list" class="items"></ul>
       </div>

@@ -1,8 +1,12 @@
-export function createSupabaseClient() {
-  const url = window.HESTIA_SUPABASE_URL;
-  const anonKey = window.HESTIA_SUPABASE_ANON_KEY;
+import { getRuntimeConfig } from "../core/runtime-config.js";
 
-  if (!url || !anonKey) {
+let cachedClient = null;
+let cachedSignature = "";
+
+export function createSupabaseClient() {
+  const { supabaseUrl, supabaseKey, householdKey } = getRuntimeConfig();
+
+  if (!supabaseUrl || !supabaseKey) {
     return null;
   }
 
@@ -10,7 +14,22 @@ export function createSupabaseClient() {
     return null;
   }
 
-  return window.supabase.createClient(url, anonKey, {
-    auth: { persistSession: true, autoRefreshToken: true }
+  const signature = `${supabaseUrl}|${supabaseKey}|${householdKey}`;
+  if (cachedClient && cachedSignature === signature) {
+    return cachedClient;
+  }
+
+  cachedClient = window.supabase.createClient(supabaseUrl, supabaseKey, {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+      detectSessionInUrl: false
+    },
+    global: {
+      headers: householdKey ? { "x-household-key": householdKey } : {}
+    }
   });
+  cachedSignature = signature;
+
+  return cachedClient;
 }

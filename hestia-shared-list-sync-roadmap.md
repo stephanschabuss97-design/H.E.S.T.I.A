@@ -35,8 +35,7 @@ Die Einkaufsliste kann manuell als Snapshot nach Supabase gespeichert werden und
 - `app/core/state.js`
 - `app/main.js`
 - `app/supabase/client.js`
-- `sql/001_init.sql`
-- `sql/002_rls.sql`
+- `sql/01_setup-supabase.sql`
 - `index.html`
 - `app/styles/components.css`
 
@@ -96,12 +95,12 @@ Die Einkaufsliste kann manuell als Snapshot nach Supabase gespeichert werden und
 ## Statusuebersicht
 | ID | Schritt | Status | Ergebnis/Notiz |
 |----|--------|--------|---------------|
-| S1 | Datenfluss und Contract finalisieren | TODO | |
-| S2 | Supabase-Schreibpfad fuer Listen-Snapshot implementieren | TODO | |
-| S3 | UI-Trigger `Liste speichern` im Schreiben-Flow integrieren | TODO | |
-| S4 | Realtime-Lesepfad fuer Fremdgeraet-Aenderungen integrieren | TODO | |
-| S5 | Sync-Status im UI anzeigen | TODO | |
-| S6 | Smokechecks, Regression, Doku-Update | TODO | |
+| S1 | Datenfluss und Contract finalisieren | DONE | Produktvertrag, SQL und Sync-Doku stehen |
+| S2 | Supabase-Schreibpfad fuer Listen-Snapshot implementieren | DONE | manueller Save-Path live gegen Supabase verifiziert |
+| S3 | UI-Trigger `Liste speichern` im Schreiben-Flow integrieren | DONE | Button und Sync-Status im Writing-Flow aktiv |
+| S4 | Realtime-Lesepfad fuer Fremdgeraet-Aenderungen integrieren | DONE | Initial-Load plus Realtime-Refresh auf weiterem Geraet verdrahtet |
+| S5 | Sync-Status im UI anzeigen | DONE | Writing-Status reagiert auf lokale und entfernte Aenderungen |
+| S6 | Smokechecks, Regression, Doku-Update | IN_PROGRESS | Syntax-Checks erledigt, Cross-Device-Live-Test noch offen |
 
 Status-Legende: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`
 
@@ -117,7 +116,7 @@ Status-Legende: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`
 #### S1 Ergebnisprotokoll
 - Datenvertrag und Verhaltensregeln dokumentiert.
 - Datei: `PRODUCT.md`
-- Check-Ergebnis: Vertragsabgleich mit vorhandenem `sql/001_init.sql`.
+- Check-Ergebnis: Vertragsabgleich mit vorhandenem `sql/01_setup-supabase.sql`.
 
 ---
 
@@ -152,7 +151,7 @@ Status-Legende: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`
 
 #### S4 Ergebnisprotokoll
 - Realtime-Sync zwischen zwei Browserinstanzen funktioniert.
-- Dateien: `app/main.js`, `app/core/state.js`, `app/modules/shopping.js`, `app/modules/writing.js`
+- Dateien: `app/main.js`, `app/core/state.js`, `app/supabase/list-sync.js`, `app/modules/shopping.js`, `app/modules/writing.js`
 - Check-Ergebnis: Aenderung auf Geraet A erscheint auf Geraet B.
 
 ---
@@ -183,10 +182,10 @@ Status-Legende: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`
 
 ## Smokechecks + Regression
 - Test A: Schreiben-Flow lokal ohne Supabase-Config bleibt nutzbar -> PENDING
-- Test B: `Liste speichern` sendet Snapshot erfolgreich nach Supabase -> PENDING
+- Test B: `Liste speichern` sendet Snapshot erfolgreich nach Supabase -> DONE
 - Test C: Realtime-Aenderung von zweitem Geraet erscheint innerhalb weniger Sekunden -> PENDING
 - Test D: Fehlerfall (Netzwerk weg) zeigt `Sync fehlgeschlagen` ohne Datenverlust -> PENDING
-- Regression: Normalverhalten (Add/Remove/Finish Shopping) unveraendert -> PENDING
+- Regression: Normalverhalten (Add/Remove/Finish Shopping) unveraendert -> DONE
 
 ---
 

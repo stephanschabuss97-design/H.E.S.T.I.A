@@ -75,7 +75,7 @@ Heute ist HESTIA ein fruehes PWA-Scaffold mit klaren Grenzen:
 - lokale Semantik-Hilfe fuer Autocomplete und Einheitshinweise
 - lokaler Zustand ueber `localStorage`
 - PWA-Basis mit Manifest, Service Worker und Offline-Fallback
-- Supabase- und RLS-Skelett fuer spaeteren Shared-Sync
+- Runtime-Config, manueller Snapshot-Save-Pfad und erster Realtime-Load-Pfad fuer Supabase
 
 ## Design- und UX-Haltung
 
@@ -141,6 +141,13 @@ Das bevorzugte Modell ist:
 - lokal gespeicherter Key pro Geraet
 
 Das passt zum Threat-Model: wenig Reibung, aber trotzdem kein voellig offener Zugriff.
+
+Wichtige Langfrist-Regel:
+
+- Auch bei spaeter mehr beteiligten Personen bleibt HESTIA haushaltsbasiert statt identity-first.
+- Schreiben soll nicht an persoenliche Konten oder individuelle Login-Huerden gebunden werden.
+- Der schnellste Weg zum Eintrag ist wichtiger als saubere Nutzerverwaltung.
+- Personalisierung ist hoechstens optional und weich, nie Voraussetzung fuer den Kernfluss.
 
 ### Sync-Modell
 

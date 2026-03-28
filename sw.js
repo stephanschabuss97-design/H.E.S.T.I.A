@@ -14,6 +14,7 @@ const APP_SHELL = [
   "./app/styles/components.css",
   "./app/styles/screens.css",
   "./app/core/router.js",
+  "./app/core/runtime-config.js",
   "./app/core/pwa-install.js",
   "./app/core/state.js",
   "./app/core/semantics.js",
@@ -23,7 +24,10 @@ const APP_SHELL = [
   "./app/diagnostics/ambient-touch.js",
   "./app/diagnostics/art-style-presets.js",
   "./app/diagnostics/font-presets.js",
+  "./app/supabase/client.js",
+  "./app/supabase/list-sync.js",
   "./assets/js/semantics.de.json",
+  "./public/runtime-config.json",
   "./public/icon.svg",
   "./public/icon-192.png",
   "./public/icon-512.png"
@@ -56,6 +60,11 @@ self.addEventListener("fetch", (event) => {
 
   const requestUrl = new URL(event.request.url);
   if (requestUrl.origin !== self.location.origin) {
+    return;
+  }
+
+  if (requestUrl.pathname.endsWith("/public/runtime-config.json")) {
+    event.respondWith(networkFirstForConfig(event.request));
     return;
   }
 
@@ -103,4 +112,22 @@ async function staleWhileRevalidate(request) {
     .catch(() => cachedResponse);
 
   return cachedResponse || networkPromise;
+}
+
+async function networkFirstForConfig(request) {
+  try {
+    const networkResponse = await fetch(request);
+    const cache = await caches.open(RUNTIME_CACHE);
+    cache.put(request, networkResponse.clone());
+    return networkResponse;
+  } catch {
+    const cachedResponse = await caches.match(request);
+    if (cachedResponse) {
+      return cachedResponse;
+    }
+    return new Response("{}", {
+      status: 200,
+      headers: { "Content-Type": "application/json; charset=utf-8" }
+    });
+  }
 }

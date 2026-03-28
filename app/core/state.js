@@ -20,43 +20,56 @@ function saveItems(items) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
 }
 
+function normalizeItem(rawItem) {
+  return {
+    id: String(rawItem?.id || crypto.randomUUID()),
+    name: String(rawItem?.name || "").trim(),
+    quantity: Number(rawItem?.quantity) || 1,
+    unit: String(rawItem?.unit || "Stk").trim() || "Stk",
+    inCart: Boolean(rawItem?.inCart)
+  };
+}
+
 export function createState() {
   const state = {
-    items: loadItems()
+    items: loadItems().map(normalizeItem)
   };
 
-  function upsertItem(nextItem) {
-    state.items.push(nextItem);
+  function setItems(nextItems) {
+    state.items = Array.isArray(nextItems) ? nextItems.map(normalizeItem) : [];
     saveItems(state.items);
+  }
+
+  function upsertItem(nextItem) {
+    setItems([...state.items, nextItem]);
   }
 
   function removeItem(id) {
-    state.items = state.items.filter((item) => item.id !== id);
-    saveItems(state.items);
+    setItems(state.items.filter((item) => item.id !== id));
   }
 
   function toggleInCart(id, inCart) {
-    state.items = state.items.map((item) => {
-      if (item.id !== id) {
-        return item;
-      }
-      return { ...item, inCart };
-    });
-    saveItems(state.items);
+    setItems(
+      state.items.map((item) => {
+        if (item.id !== id) {
+          return item;
+        }
+        return { ...item, inCart };
+      })
+    );
   }
 
   function clearAll() {
-    state.items = [];
-    saveItems(state.items);
+    setItems([]);
   }
 
   function finishShopping() {
-    state.items = state.items.filter((item) => !item.inCart);
-    saveItems(state.items);
+    setItems(state.items.filter((item) => !item.inCart));
   }
 
   return {
     state,
+    setItems,
     upsertItem,
     removeItem,
     toggleInCart,

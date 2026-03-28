@@ -132,6 +132,12 @@ html[data-font-set="g"] .home-title {
   transform: scale(0.985);
 }
 
+.surface-button[disabled] {
+  opacity: 0.72;
+  cursor: progress;
+  filter: none;
+}
+
 .panel {
   background: var(--c-panel);
   border-radius: var(--radius-card);
@@ -145,6 +151,29 @@ html[data-font-set="g"] .home-title {
   justify-content: space-between;
   align-items: baseline;
   gap: 10px;
+  flex-wrap: wrap;
+}
+
+.panel-head-actions {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.sync-status {
+  margin: 6px 0 0;
+  font-size: 0.92rem;
+  color: var(--c-text-dim);
+}
+
+.sync-status[data-sync-state="saved"] {
+  color: var(--c-accent-soft);
+}
+
+.sync-status[data-sync-state="error"] {
+  color: var(--c-danger);
 }
 
 h2,

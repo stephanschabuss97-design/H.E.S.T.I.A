@@ -81,9 +81,15 @@ Arbeitsregeln:
 - [PRODUCT.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/PRODUCT.md): kanonische Produkt- und Systembeschreibung
 - [setup-supabase.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/setup-supabase.md): Supabase-Setup und Household-Key-Header
 - [hestia-shared-list-sync-roadmap.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/hestia-shared-list-sync-roadmap.md): geplanter Sync-Ausbau
+- [QA_CHECKS.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/QA_CHECKS.md): manuelle Smokechecks und Regressionsbasis
 - [docs/modules/home.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/home.md)
 - [docs/modules/writing.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/writing.md)
 - [docs/modules/shopping.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/shopping.md)
+- [Bootflow Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Bootflow%20Module%20Overview.md)
+- [State Layer Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/State%20Layer%20Module%20Overview.md)
+- [Supabase Sync Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Supabase%20Sync%20Module%20Overview.md)
+- [Runtime Config Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Runtime%20Config%20Module%20Overview.md)
+- [Deployment Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Deployment%20Module%20Overview.md)
 
 ## Kurzfassung fuer neue Chats
 
