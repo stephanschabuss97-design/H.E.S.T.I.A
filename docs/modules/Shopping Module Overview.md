@@ -7,7 +7,8 @@ Kurze Einordnung:
 
 Related docs:
 - [PRODUCT.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/PRODUCT.md)
-- [writing.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/writing.md)
+- [Writing Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Writing%20Module%20Overview.md)
+- [Supabase Sync Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Supabase%20Sync%20Module%20Overview.md)
 
 ---
 
@@ -23,8 +24,9 @@ Related docs:
 
 | Datei | Zweck |
 |------|------|
-| `app/modules/shopping.js` | Rendern der Einkaufsliste, Checkbox-Handling, Abschlusslogik |
+| `app/modules/shopping.js` | Rendern der Einkaufsliste, Checkbox-Handling, Abschlusslogik und Sync-Persist |
 | `app/core/state.js` | toggelt `inCart` und loescht gekaufte Eintraege beim Abschluss |
+| `app/supabase/list-sync.js` | speichert geaenderte Einkaufs-Snapshots |
 | `index.html` | Shopping-Panel mit Liste und Abschlussaktionen |
 | `app/styles/components.css` | Listen- und Checkbox-Darstellung |
 
@@ -60,11 +62,9 @@ Related docs:
 - Beim Abschluss werden alle Items mit `inCart = true` hart entfernt.
 - Nicht markierte Eintraege bleiben bestehen.
 
-### 4.4 Persistenz
-- Persistenz laeuft aktuell rein lokal ueber `state.js` und `localStorage`.
-- Zielbild spaeter:
-  - derselbe Flow mit gemeinsamem Remote-Listenstand
-  - Realtime-Aenderungen von anderen Geraeten
+### 4.4 Persistenz heute
+- Checkbox-Aenderungen und `Liste abschliessen` schreiben den veraenderten Snapshot heute direkt in den Shared State nach, wenn Sync konfiguriert ist.
+- Dadurch spiegelt Realtime den Einkaufsfortschritt auf andere Geraete.
 
 ---
 
@@ -78,48 +78,23 @@ Related docs:
 
 ## 6. Fehler- & Diagnoseverhalten
 
-- Es gibt aktuell keine expliziten Fehlermeldungen im Shopping-Flow.
-- Der lokale Abschluss ist deterministisch und reduziert dadurch Fehlerflaeche.
-- Konflikte zwischen mehreren Geraeten existieren heute noch nicht, weil kein Realtime aktiv ist.
+- Es gibt noch keine eigene Nutzer-Fehlermeldung im Shopping-Screen.
+- Save-Fehler landen heute im Touchlog und ueber die gemeinsamen Sync-Mechanismen.
+- Der Shopping-Flow bleibt absichtlich klein und verzichtet auf Undo oder Historie.
 
 ---
 
-## 7. Events & Integration Points
+## 7. Risiken
 
-- Input:
-  - `change` auf Checkboxen
-  - Klick auf `Liste abschliessen`
-- Output:
-  - `hestia:items-updated` nach Abschluss
-- Dependencies:
-  - gemeinsamer State aus `state.js`
-  - Writing als Quelle fuer neue oder geaenderte Eintraege
+- Last-Write-Wins bleibt fuer parallele Einkaufsaenderungen die aktuelle Vereinfachung.
+- Abschluss loescht hart und bietet keine Undo-Ebene.
+- kuenftige Offline-/Reconnect-Faelle duerfen den einfachen Einkaufsfluss nicht aufblaehen.
 
 ---
 
-## 8. Erweiterungspunkte / Zukunft
-
-- Realtime-Aktualisierung waehrend des Einkaufs
-- sauberer Echo-Umgang bei eigenen Saves
-- optionaler Marker wie `nicht gefunden`, falls alltaglich wirklich noetig
-
----
-
-## 9. Status / Dependencies / Risks
-
-- Status: aktiv, lokal nutzbar.
-- Dependencies (hard): `state.js`, `index.html`.
-- Dependencies (soft): spaeter Sync-/Realtime-Schicht.
-- Known risks:
-  - aktuell kein Mehrgeraete-Abgleich
-  - Abschluss loescht hart und bietet keine Undo-Ebene
-  - kuenftige Realtime-Events duerfen den einfachen Flow nicht verkomplizieren
-
----
-
-## 10. Definition of Done
+## 8. Definition of Done
 
 - Offene Eintraege sind klar und schnell abhakbar.
 - `Im Wagen` fuehlt sich wie ein einfacher Einkaufsstatus an.
 - Abschluss entfernt nur gekaufte Dinge und laesst offene Reste stehen.
-- Shopping bleibt schneller als jede formale Aufgabenverwaltung.
+- Shopping-Aenderungen werden auf anderen Geraeten sichtbar.

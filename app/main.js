@@ -109,7 +109,7 @@ async function initApp() {
   });
   initRouter(document);
   initWriting(document, state, listSync, touchlog);
-  initShopping(document, state, touchlog);
+  initShopping(document, state, listSync, touchlog);
   initArtStylePresets(document);
   initHomeScene(document);
   initAmbientTouch(document);

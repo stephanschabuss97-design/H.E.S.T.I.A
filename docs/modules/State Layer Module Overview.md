@@ -1,34 +1,39 @@
 # State Layer Module Overview
 
 Kurze Einordnung:
-- Zweck: beschreibt die aktuelle fachliche Wahrheitsquelle von HESTIA.
-- Rolle innerhalb von HESTIA: erklaert, wo Listendaten heute leben und welche Operationen darauf erlaubt sind.
-- Abgrenzung: keine UI-Doku, kein kompletter Sync-Entwurf.
+- Zweck: beschreibt die operative Wahrheitsquelle von HESTIA und ihre Beziehung zur Remote-Haushaltsebene.
+- Rolle innerhalb von HESTIA: erklaert, wo Listendaten heute leben und wie lokale und entfernte Aenderungen zusammenlaufen.
+- Abgrenzung: keine UI-Doku und kein kompletter Offline-/Konflikt-Plan.
 
 Related docs:
 - [PRODUCT.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/PRODUCT.md)
 - [Bootflow Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Bootflow%20Module%20Overview.md)
-- [writing.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/writing.md)
-- [shopping.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/shopping.md)
+- [Writing Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Writing%20Module%20Overview.md)
+- [Shopping Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Shopping%20Module%20Overview.md)
+- [Supabase Sync Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Supabase%20Sync%20Module%20Overview.md)
 
 ---
 
 ## 1. Zielsetzung
 
 - Der State Layer soll den aktuellen Listenstand einfach, ehrlich und leicht veraenderbar halten.
-- HESTIA braucht keinen komplexen globalen Store, solange der Kernfluss klein bleibt.
-- Nichtziel: Historie, Undo-Stack, Mehrstatusmodell oder Store-Abstraktionen auf Vorrat.
+- HESTIA braucht keinen schweren globalen Store, solange der Produktkern klein bleibt.
+- Nichtziel: Historie, Undo-Stack oder Store-Abstraktionen auf Vorrat.
 
 ---
 
 ## 2. Source of Truth heute
 
-- `app/core/state.js` ist die fachliche Kernwahrheit fuer die Liste.
+- `app/core/state.js` ist die operative UI-Wahrheit fuer die Liste.
 - `state.items` enthaelt die aktuelle offene Einkaufsliste.
 - Persistenz erfolgt lokal ueber `localStorage`.
 
 Storage-Key:
 - `hestia.v1.items`
+
+Wichtige Einordnung:
+- Der UI-State ist lokal sofort wirksam.
+- Der gemeinsame Haushaltsstand entsteht zusaetzlich ueber den Sync-Layer.
 
 ---
 
@@ -42,40 +47,31 @@ Jeder Listeneintrag folgt aktuell diesem Frontend-Vertrag:
 - `unit`
 - `inCart`
 
-Wichtige Regel:
-- Dieser Vertrag soll stabil bleiben, bis eine bewusste Vertragsaenderung beschlossen wird.
+Der Remote-Vertrag in Supabase wird in `app/supabase/list-sync.js` nach `in_cart` gespiegelt und wieder zurueck normalisiert.
 
 ---
 
 ## 4. Erlaubte State-Operationen
 
-Der State Layer exportiert aktuell:
-
+- `setItems(nextItems)`
 - `upsertItem(nextItem)`
 - `removeItem(id)`
 - `toggleInCart(id, inCart)`
 - `clearAll()`
 - `finishShopping()`
 
-Bedeutung:
-
-- `upsertItem`: fuegt heute effektiv neue Eintraege hinzu
-- `removeItem`: entfernt genau einen Eintrag
-- `toggleInCart`: setzt den operativen Einkaufsstatus
-- `clearAll`: leert die komplette Liste
-- `finishShopping`: loescht alle bereits im Wagen markierten Eintraege
-
 ---
 
-## 5. Beziehung zu Writing und Shopping
+## 5. Beziehung zu Writing, Shopping und Sync
 
-- Writing erzeugt und entfernt Eintraege.
+- Writing erzeugt, entfernt und leert Eintraege.
 - Shopping toggelt `inCart` und schliesst die Liste ab.
-- Beide Module arbeiten auf demselben State und nicht auf getrennten Kopien.
+- Der Sync-Layer spiegelt erfolgreiche Remote-Loads wieder in `state.items`.
 
-Damit bleibt die Produktwahrheit einfach:
-- eine gemeinsame aktuelle Liste
-- kein doppelter Modulzustand
+Heute gilt:
+- lokale Aenderung schreibt zuerst in den State
+- danach wird, wenn konfiguriert, der gemeinsame Snapshot gespeichert
+- eingehende Realtime-Aenderungen ersetzen den lokalen operativen Stand deterministisch
 
 ---
 
@@ -85,53 +81,30 @@ Der zentrale UI-Refresh-Impuls ist:
 
 - `hestia:items-updated`
 
-Typischer Ablauf:
-- State aendert sich
-- Modul rendert lokal neu
-- Event wird dispatcht
-- andere Module reagieren darauf
-
-Heute:
-- Writing dispatcht das Event bei Add/Remove/Clear
-- Shopping hoert auf das Event und rendert neu
+Typische Nutzung:
+- `source: "local"` fuer lokale UI-Aenderungen
+- `source: "remote"` fuer erfolgreich angewendete Remote-Snapshots
 
 ---
 
 ## 7. Aktuelle Grenzen
 
-- Es gibt keine Remote-Wahrheit im produktiven Flow.
-- Es gibt keine Konfliktbehandlung.
-- `upsertItem` ist aktuell eher ein `appendItem`, nicht ein echtes Update.
-- State-Mutationen sind einfach gehalten und noch nicht fuer Mehrgeraete-Konkurrenz entworfen.
+- Es gibt noch keine echte Konfliktlogik jenseits von Last-Write-Wins.
+- `upsertItem` ist weiterhin eher ein `appendItem`.
+- Remote-Reaktionen ersetzen aktuell den Snapshot als Ganzes statt feiner Item-Diffs.
 
 ---
 
-## 8. Zukuenftige Entwicklung
+## 8. Risiken
 
-Mit Supabase wird der State Layer der sensibelste Bereich.
-
-Offene Designfragen fuer spaeter:
-
-- bleibt HESTIA local-first mit manuellem Remote-Save?
-- oder wird Supabase die primaere gemeinsame Wahrheitsquelle?
-- wie werden eingehende Realtime-Aenderungen in `state.items` gespiegelt?
-- wie werden Echo-Events vom eigenen Geraet behandelt?
-
-Wichtig:
-- auch mit Sync sollte HESTIA nicht in einen schweren Store oder Event-Bus kippen, wenn der Produktkern das nicht verlangt.
+- lokale und entfernte Wahrheit koennen bei spaeteren Randfaellen auseinanderlaufen
+- Echo-Events und kuenftige Offline-Reconnects koennen Statusflattern erzeugen
+- zu viele implizite Render-/Persist-Muster koennen spaeter schwerer zu debuggen sein
 
 ---
 
-## 9. Risiken
+## 9. Definition of Done
 
-- lokale und spaetere Remote-Wahrheit koennen auseinanderlaufen
-- zu viele implizite Render-/Event-Muster koennen spaeter schwer zu debuggen sein
-- ein zu frueher Umbau des State Layers koennte den heute stabilen lokalen Kern verschlechtern
-
----
-
-## 10. Definition of Done
-
-- Ein neuer Chat versteht sofort, wo die aktuelle Listenwahrheit liegt.
+- Ein neuer Chat versteht sofort, wo HESTIAs operative Listenwahrheit lebt.
 - Die erlaubten State-Operationen sind klar und begrenzt.
-- Der kuenftige Sync kann auf diesen Layer aufbauen, ohne den lokalen Kernfluss zu zerstoeren.
+- Die Beziehung zwischen lokalem UI-State und gemeinsamem Household-Snapshot ist beschrieben.

@@ -1,6 +1,38 @@
-export function initShopping(doc, store, touchlog) {
+export function initShopping(doc, store, listSync, touchlog) {
   const listElement = doc.getElementById("shopping-list");
   const finishButton = doc.getElementById("finish-shopping");
+
+  async function persistSharedState(reason) {
+    if (!listSync?.isConfigured()) {
+      return { ok: true };
+    }
+
+    touchlog?.add(`[sync] save start reason=${reason} items=${store.state.items.length}`, {
+      eventId: `sync-save-start-${reason}`
+    });
+
+    const result = await listSync.saveSnapshot(store.state.items);
+    if (!result.ok) {
+      touchlog?.add(`[sync] save failed reason=${reason} ${result.message || "unknown"}`, {
+        severity: "warn",
+        eventId: `sync-save-failed-${reason}`
+      });
+      return result;
+    }
+
+    touchlog?.add(`[sync] save success reason=${reason} items=${store.state.items.length}`, {
+      eventId: `sync-save-success-${reason}`
+    });
+    doc.dispatchEvent(
+      new CustomEvent("hestia:items-updated", {
+        detail: {
+          source: "remote",
+          syncedAt: result.savedAt || new Date().toISOString()
+        }
+      })
+    );
+    return result;
+  }
 
   function render() {
     if (store.state.items.length === 0) {
@@ -30,6 +62,7 @@ export function initShopping(doc, store, touchlog) {
           { eventId: `shopping-toggle-${checkbox.dataset.toggle}-${checkbox.checked ? "yes" : "no"}` }
         );
         doc.dispatchEvent(new CustomEvent("hestia:items-updated", { detail: { source: "local" } }));
+        persistSharedState("shopping-toggle").catch(() => {});
       });
     });
   }
@@ -41,6 +74,7 @@ export function initShopping(doc, store, touchlog) {
     });
     render();
     doc.dispatchEvent(new CustomEvent("hestia:items-updated", { detail: { source: "local" } }));
+    persistSharedState("shopping-finish").catch(() => {});
   });
 
   doc.addEventListener("hestia:items-updated", render);

@@ -1,9 +1,9 @@
 # Runtime Config Module Overview
 
 Kurze Einordnung:
-- Zweck: beschreibt, welche Laufzeitkonfiguration HESTIA braucht und wie sie ins Frontend gelangt.
-- Rolle innerhalb von HESTIA: schafft Klarheit zwischen oeffentlichen Client-Werten, lokalen Secrets und dem Household-Kontext.
-- Abgrenzung: keine Business-Logik, kein Implementierungsplan fuer Sync im Detail.
+- Zweck: beschreibt, welche Laufzeitkonfiguration HESTIA heute wirklich braucht und wie sie validiert wird.
+- Rolle innerhalb von HESTIA: trennt oeffentliche Client-Werte, lokalen Household-Kontext und unzulaessige Secrets.
+- Abgrenzung: keine Business-Logik und kein vollstaendiger Sync-Plan.
 
 Related docs:
 - [PRODUCT.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/PRODUCT.md)
@@ -15,9 +15,9 @@ Related docs:
 
 ## 1. Zielsetzung
 
-- Neue Chats sollen sofort sehen, welche Werte HESTIA zur Laufzeit wirklich braucht.
-- Die Konfiguration soll fuer eine statische Browser-PWA so einfach wie moeglich bleiben.
-- Nichtziel: serverseitiges Secret-Management oder komplexe Konfigurationssysteme.
+- Neue Chats sollen sofort sehen, welche Werte HESTIA zur Laufzeit braucht.
+- Die Konfiguration soll fuer eine statische GitHub-Pages-PWA so einfach wie moeglich bleiben.
+- Nichtziel: serverseitiges Secret-Management oder komplexe Build-Konfiguration.
 
 ---
 
@@ -26,7 +26,7 @@ Related docs:
 ### Oeffentlich und im Browser erlaubt
 - `SUPABASE_URL`
 - `SUPABASE_PUBLISHABLE_KEY`
-- voruebergehend alternativ `SUPABASE_ANON_KEY`
+- alternativ `SUPABASE_ANON_KEY`
 - `HOUSEHOLD_KEY` fuer den bekannten Haushalt
 
 ### Nicht in den Browser
@@ -35,14 +35,11 @@ Related docs:
 - Supabase `service_role key`
 - echte JWT-Secrets oder andere Admin-Credentials
 
-Wichtige Regel:
-- HESTIA ist eine statische PWA. Alles, was im Browser landet, muss als oeffentlich behandelbar sein.
-
 ---
 
-## 3. Aktueller HESTIA-Stand
+## 3. Aktueller Frontend-Vertrag
 
-Der aktuelle Frontend-Vertrag laeuft ueber:
+Der Frontend-Vertrag laeuft ueber:
 
 - `public/runtime-config.json`
 
@@ -57,23 +54,22 @@ Aktuelle Form:
 }
 ```
 
-Der Household-Key darf dort vorbelegt sein, kann aber auch bewusst leer bleiben und lokal erst bei Bedarf erfasst werden.
-
 ---
 
-## 4. Household-Kontext
+## 4. Household-Key-Verhalten heute
 
-Der `HOUSEHOLD_KEY` ist kein Supabase-Systemwert, sondern Teil des HESTIA-Zugriffsmodells.
+- Der Household-Key kann in `runtime-config.json` leer bleiben.
+- Falls er leer ist, wird er beim ersten Sync-Zugriff lokal abgefragt.
+- Danach wird er lokal unter `hestia.v1.household-key` gespeichert.
 
-Er wird genutzt fuer:
+Wichtige Haertung:
+- HESTIA akzeptiert nur Household-Keys mit gueltigem Muster.
+- Korrupte oder unplausible Storage-Werte werden verworfen.
+- Dadurch kann ein kaputter lokaler Wert den Sync nicht mehr dauerhaft blockieren.
 
-- Seed des ersten Haushalts in `public.households`
-- lokalen Konfigurationswert auf den Geraeten
-- Request-Header `x-household-key`
-- RLS-Kontext in Supabase
-
-Wichtige Regel:
-- `HOUSEHOLD_KEY` ist kein Hochsicherheitsgeheimnis wie ein Admin-Key, aber er sollte trotzdem nicht unnötig breit verteilt werden.
+Aktuelle Gueltigkeitsregel:
+- 16 bis 128 Zeichen
+- nur Buchstaben, Zahlen, `_` oder `-`
 
 ---
 
@@ -87,37 +83,29 @@ Diese Datei bleibt lokale Referenz und darf nicht ins Repo.
 
 ---
 
-## 6. Deployment-Frage fuer GitHub Pages
+## 6. Laufzeitdiagnostik
 
-Da HESTIA statisch ueber GitHub Pages laeuft, ist die kleine oeffentliche Config-Datei der aktuelle und bevorzugte Weg.
+`app/main.js` loggt beim Boot inzwischen eine kleine Konfig-Zusammenfassung:
 
-Nicht sinnvoll fuer HESTIA:
-- komplizierte Build-Time-Injection
-- serverseitige Secret-Auslieferung
-- Secret-Keys im Frontend
-
----
-
-## 7. Zukuenftige Entscheidung
-
-Vor produktivem Sync sollte HESTIA einen festen Runtime-Config-Vertrag bekommen:
-
-1. welche Werte oeffentlich im Browser landen
-2. in welcher Datei oder an welcher Stelle sie definiert werden
-3. wie lokaler Betrieb und GitHub Pages denselben Vertrag sprechen
+- Host
+- Key-Typ
+- Key-Prefix
+- ob ein Household-Key vorhanden ist
+- ob er als gueltig erkannt wurde
+- Laenge und Tail des Household-Keys
 
 ---
 
-## 8. Risiken
+## 7. Risiken
 
 - versehentliches Vermischen von oeffentlichen und nicht oeffentlichen Keys
-- uneinheitliche Konfiguration zwischen lokalem Betrieb und GitHub Pages
-- Household-Kontext wird vergessen oder falsch gesetzt
+- kaputte lokale Household-Keys in `localStorage`
+- unterschiedliche Konfiguration zwischen lokalem Betrieb und GitHub Pages
 
 ---
 
-## 9. Definition of Done
+## 8. Definition of Done
 
 - Ein neuer Chat weiss sofort, welche Laufzeitwerte HESTIA braucht.
 - Es ist klar getrennt, was ins Frontend darf und was nicht.
-- Lokaler Betrieb und spaeteres Deployment koennen denselben Config-Vertrag nutzen.
+- Household-Key-Erfassung, -Validierung und -Persistenz sind als zusammenhaengender Vertrag beschrieben.

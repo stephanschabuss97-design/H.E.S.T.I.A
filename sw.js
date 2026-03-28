@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v23";
+const CACHE_VERSION = "v24";
 const STATIC_CACHE = `hestia-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `hestia-runtime-${CACHE_VERSION}`;
 const OFFLINE_URL = "./offline.html";

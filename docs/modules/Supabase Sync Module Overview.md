@@ -1,9 +1,9 @@
 # Supabase Sync Module Overview
 
 Kurze Einordnung:
-- Zweck: beschreibt die geplante Rolle von Supabase in HESTIA.
-- Rolle innerhalb von HESTIA: definiert die technische Grenze zwischen lokalem Listenkern und spaeterem Shared-Household-Sync.
-- Abgrenzung: kein vollstaendiger Implementierungsplan; dafuer existiert die Roadmap.
+- Zweck: beschreibt die aktuelle Rolle von Supabase im produktiven Shared-List-Flow.
+- Rolle innerhalb von HESTIA: definiert die technische Grenze zwischen lokalem UI-State, gemeinsamem Household-Snapshot und Realtime.
+- Abgrenzung: kein detaillierter Offline-/Konfliktplan und keine Roadmap im Volltext.
 
 Related docs:
 - [PRODUCT.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/PRODUCT.md)
@@ -23,57 +23,37 @@ Related docs:
 
 ## 2. Aktueller Stand
 
-Heute ist Supabase in HESTIA im ersten produktiven Shared-Flow angekommen.
+Heute ist Supabase im echten produktiven Kernfluss angekommen.
 
 Vorhanden:
-- `app/supabase/client.js`
-- `app/supabase/list-sync.js`
-- `sql/01_setup-supabase.sql`
-- `public/runtime-config.json`
-- Setup- und Roadmap-Doku
-- manueller Snapshot-Save nach Supabase
-- Initial-Load aus Supabase beim App-Start
-- Realtime-Refresh fuer eingehende Remote-Aenderungen
-
-Noch nicht abgeschlossen:
-- echter Cross-Device-Live-Test als Smokecheck
-- spaetere Schaerfung fuer Echo-Behandlung und Offline-Reconnects
+- Runtime-Config ueber `public/runtime-config.json`
+- Household-Key-Validierung und lokale Household-Key-Persistenz
+- Household-Resolve gegen `public.households`
+- Snapshot-Load beim App-Start
+- Snapshot-Save fuer manuellen Save, Loeschen, Liste leeren, Toggle und Shopping-Abschluss
+- Realtime-Abos fuer eingehende Aenderungen
+- Touchlog-Diagnostik fuer Sync- und PWA-Randfaelle
 
 ---
 
-## 3. Technische Rolle von Supabase
+## 3. Technischer Zuschnitt heute
 
-Supabase soll in HESTIA spaeter:
+### REST fuer Load/Save
+- `app/supabase/list-sync.js` nutzt den REST-Pfad direkt fuer:
+  - Household-Resolve
+  - Snapshot-Load
+  - Snapshot-Save
 
-- den gemeinsamen aktuellen Listenstand speichern
-- Aenderungen zwischen Geraeten spiegeln
-- Household-Zugriff ueber RLS begrenzen
+### `supabase-js` fuer Realtime
+- `app/supabase/client.js` bleibt fuer Realtime-Channels im Einsatz.
 
-Supabase soll nicht:
-
-- Nutzeridentitaeten zum Produktmittelpunkt machen
-- Historie oder Analytics erzwingen
-- HESTIA ohne Remote-Konfiguration unbrauchbar machen
-
----
-
-## 4. Konfiguration
-
-Relevante Werte:
-
-- `SUPABASE_URL`
-- `SUPABASE_PUBLISHABLE_KEY` oder vorerst `SUPABASE_ANON_KEY`
-- `HOUSEHOLD_KEY`
-
-Der aktuelle Frontend-Vertrag laeuft ueber:
-
-- `public/runtime-config.json`
-
-Der Household-Key kann dort gesetzt oder beim ersten manuellen Save lokal erfasst werden.
+Grund fuer den Schnitt:
+- der direkte REST-Pfad ist fuer HESTIA kleiner, transparenter und leichter zu diagnostizieren
+- Realtime bleibt ueber den Client am sinnvollsten
 
 ---
 
-## 5. Household-Modell
+## 4. Household-Modell
 
 HESTIA arbeitet nicht mit klassischen Nutzerkonten als Kernlogik.
 
@@ -84,75 +64,70 @@ Stattdessen:
 - `household_key` identifiziert den Haushalt
 - der Request-Header `x-household-key` bestimmt ueber RLS den Zugriffskontext
 
-Das macht HESTIA leichtgewichtig und passend fuer einen bekannten Familienkontext.
-
-Wichtige Produktgrenze:
-
-- Auch wenn HESTIA spaeter von mehr Familienmitgliedern genutzt wird, bleibt das Modell haushaltsbasiert.
-- HESTIA soll nicht in ein identity-first System mit verpflichtenden Einzelkonten kippen.
-- Das Haushaltsmodell ist hier keine Uebergangsloesung, sondern Teil des Produktkerns.
-
 ---
 
-## 6. Geplantes Sync-Modell
+## 5. Aktuelles Sync-Modell
 
-Der Zielpfad ist bewusst schmal:
+Der aktuelle Shared-Flow ist bewusst schmal:
 
-1. lokale Liste schreiben
-2. manuell `Liste speichern`
-3. Snapshot nach Supabase uebertragen
-4. andere Geraete erhalten den aktuellen Listenstand
-5. Realtime spiegelt spaetere Aenderungen
+1. lokaler UI-State wird veraendert
+2. HESTIA speichert den neuen Snapshot, wenn die Aktion den gemeinsamen Zustand veraendern soll
+3. andere Geraete laden den veraenderten Stand ueber Realtime-Refresh nach
 
 Wichtige Regeln:
 
-- kein Auto-Save bei jedem Tastendruck
-- Last-Write-Wins ist fuer V1 akzeptabel
-- lokaler Flow bleibt wichtig
-- Push ist spaeter ein separater Awareness-Layer, kein Bestandteil des Datenmodells
+- Add bleibt lokal plus bewusster manueller Save
+- destruktive und Shopping-relevante Aktionen schreiben den Shared-Zustand direkt nach
+- Last-Write-Wins ist fuer den aktuellen Zuschnitt akzeptiert
 
 ---
 
-## 7. Beziehung zum State Layer
+## 6. Beziehung zum State Layer
 
 Heute:
-- `state.items` plus `localStorage` sind die einzige operative Wahrheit
+- `state.items` ist die operative UI-Wahrheit
+- Supabase haelt den gemeinsamen Household-Snapshot
 
-Spaeter:
-- lokaler State bleibt das unmittelbare UI-Modell
-- Supabase wird die gemeinsame Haushaltsebene
-- Realtime muss eingehende Aenderungen deterministisch in den State spiegeln
-
-Der schwierigste kuenftige Punkt ist nicht SQL, sondern die saubere Beziehung zwischen lokalem Zustand und Remote-Wahrheit.
+Das heisst:
+- lokale Aenderungen werden zuerst im State wirksam
+- erfolgreiche Remote-Loads und Realtime-Refreshes spiegeln den Snapshot wieder in `state.items`
 
 ---
 
-## 8. Realtime
+## 7. Realtime
 
-Realtime ist fuer HESTIA nur dann sinnvoll, wenn es den Kernfluss ruhiger macht.
-
-Das heisst:
-
-- keine Eventflut
-- keine schwer verstaendlichen Zwischenzustaende
-- keine doppelte UI-Aktualisierung durch Echo vom selben Geraet
-
-Realtime soll schlicht bedeuten:
+Realtime soll fuer HESTIA nur bedeuten:
 - Aenderung auf Geraet A erscheint kurz darauf auf Geraet B
+
+Nicht Ziel:
+- Eventflut
+- schwer lesbare Zwischenzustaende
+- tiefe Mehrbenutzer-Orchestrierung
+
+---
+
+## 8. Laufzeitdiagnostik
+
+Der Sync-Layer loggt heute im Touchlog:
+
+- Runtime-Config-Zusammenfassung
+- Initial-Load-Erfolg oder Fehler
+- Realtime-Abo
+- Realtime-Refreshes
+- Save-Erfolg oder Fehler mit Grund
 
 ---
 
 ## 9. Risiken
 
-- falscher oder fehlender `x-household-key` hebelt den Household-Kontext aus
-- lokale und Remote-Wahrheit koennen auseinanderlaufen
-- Echo-Events koennen doppelte Render oder Statusflattern erzeugen
-- zu fruehe Komplexitaet im Sync-Layer kann den heute guten lokalen Kern verschlechtern
+- falscher oder korrupter `householdKey` blockiert den Household-Kontext
+- Last-Write-Wins kann bei Parallelbearbeitung ueberschreiben
+- Echo-Events und spaetere Offline-Reconnects brauchen noch saubere Guardrails
 
 ---
 
 ## 10. Definition of Done
 
-- Ein neuer Chat versteht sofort, was Supabase in HESTIA leisten soll und was bewusst nicht.
-- Household-Key, RLS und Shared-List-Logik sind als ein zusammenhaengender Vertrag beschrieben.
-- Der naechste Sync-Ausbauschritt kann ohne konzeptionelle Unklarheit begonnen werden.
+- Ein neuer Chat versteht sofort, was Supabase in HESTIA heute real leistet.
+- Household-Key, RLS, REST-Snapshot und Realtime sind als ein Vertrag beschrieben.
+- Die naechsten Roadmap-Schritte koennen darauf ohne begriffliche Unschaerfe aufbauen.

@@ -44,8 +44,8 @@ Die Einkaufsliste kann manuell als Snapshot nach Supabase gespeichert werden und
 ## Relevante Referenzen (Doku)
 - `README.md`
 - `PRODUCT.md`
-- `docs/modules/writing.md`
-- `docs/modules/shopping.md`
+- `docs/modules/Writing Module Overview.md`
+- `docs/modules/Shopping Module Overview.md`
 - `setup-supabase.md`
 
 ---
@@ -175,7 +175,7 @@ Status-Legende: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`
 
 #### S6 Ergebnisprotokoll
 - Feature stabil, keine bekannten Regressionen.
-- Dateien: `docs/modules/writing.md`, `docs/modules/shopping.md`, `PRODUCT.md`, `setup-supabase.md`
+- Dateien: `docs/modules/Writing Module Overview.md`, `docs/modules/Shopping Module Overview.md`, `PRODUCT.md`, `setup-supabase.md`
 - Check-Ergebnis: Smokes dokumentiert, offene Punkte erfasst.
 
 ---

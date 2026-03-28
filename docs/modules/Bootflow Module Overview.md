@@ -2,120 +2,102 @@
 
 Kurze Einordnung:
 - Zweck: erklaert, was beim Laden von HESTIA in welcher Reihenfolge startet.
-- Rolle innerhalb von HESTIA: hilft neuen Chats und spaeteren Aenderungen zu unterscheiden zwischen produktkritischem Startpfad und optionaler Atmosphaere.
-- Abgrenzung: keine Fachlogik im Detail; die eigentlichen Modulvertraege stehen in `docs/modules/`.
+- Rolle innerhalb von HESTIA: trennt produktkritischen Startpfad von Stil, PWA und Diagnose.
+- Abgrenzung: keine tiefe Fachlogik der einzelnen Module.
 
 Related docs:
 - [README.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/README.md)
 - [PRODUCT.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/PRODUCT.md)
 - [State Layer Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/State%20Layer%20Module%20Overview.md)
 - [Supabase Sync Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Supabase%20Sync%20Module%20Overview.md)
+- [PWA Install Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/PWA%20Install%20Module%20Overview.md)
 
 ---
 
 ## 1. Zielsetzung
 
-- Neue Chats sollen schnell verstehen, wie HESTIA beim App-Start zusammengesetzt wird.
-- Der Bootflow soll klar machen, welche Initialisierung fuer den Produktkern noetig ist und was eher UX-/PWA-Randlogik ist.
-- Nichtziel: Startpfad unnoetig kompliziert oder framework-artig zu machen.
+- Neue Chats sollen den App-Start in wenigen Minuten nachvollziehen koennen.
+- Der Bootflow soll zeigen, welche Initialisierung fuer den Shared-List-Kern noetig ist und was nur Atmosphaere oder Betriebshilfe ist.
+- Nichtziel: einen schweren Lifecycle-Rahmen um eine kleine PWA zu bauen.
 
 ---
 
 ## 2. Einstiegspunkt
 
-- `index.html` bindet Styles, die statische Screen-Struktur und `app/main.js`.
-- `app/main.js` ist der zentrale Bootstrap fuer die App.
+- `index.html` laedt Styles, die statische Screen-Struktur, den fruehen PWA-Bootstrap und `app/main.js`.
+- `app/main.js` ist der zentrale Bootstrap fuer HESTIA.
 
 ---
 
-## 3. Startreihenfolge in `app/main.js`
+## 3. Aktuelle Startreihenfolge in `app/main.js`
 
-### 3.1 State erzeugen
-- `loadRuntimeConfig()` laedt zuerst die oeffentliche Laufzeitkonfiguration.
-- `createState()` wird sofort ausgefuehrt.
-- Damit steht der lokale Item-State aus `localStorage` bereit.
+### 3.1 PWA-Install-Banner sofort binden
+- `initPwaInstallBanner(document)` laeuft als Erstes.
+- Grund: `beforeinstallprompt` darf nicht durch spaetere asynchrone Bootschritte verpasst werden.
 
-### 3.2 Semantik vorbereiten
-- `initSemantics(semanticsList)` laedt `assets/js/semantics.de.json`.
-- Nach erfolgreichem Load wird `bindSemanticsAutocomplete(...)` an das Produktfeld gebunden.
+### 3.2 Touchlog und PWA-Diagnostik starten
+- `createTouchlog(document)` wird sehr frueh erzeugt.
+- Direkt danach werden Boot- und PWA-Kontextinformationen geloggt.
 
-### 3.3 UI-Kern initialisieren
-- `initPwaInstallBanner(document)`
+### 3.3 Runtime-Config laden
+- `loadRuntimeConfig()` laedt `public/runtime-config.json`.
+- Danach wird eine kompakte Sync-Konfig-Zusammenfassung geloggt.
+
+### 3.4 State und Sync vorbereiten
+- `createState()` baut den lokalen Listenstand aus `localStorage`.
+- `createListSync()` kapselt Household-Resolve, REST-Snapshot-Load/Save und Realtime-Start.
+- Wenn Supabase konfiguriert ist, wird zuerst ein initialer Remote-Snapshot geladen und in `state.items` gespiegelt.
+
+### 3.5 Kernmodule binden
+- `initSemantics(...)`
 - `initRouter(document)`
-- `initWriting(document, state, listSync)`
-- `initShopping(document, state)`
+- `initWriting(document, state, listSync, touchlog)`
+- `initShopping(document, state, listSync, touchlog)`
 
-Diese Schritte sind fuer den eigentlichen Listenfluss zentral.
-
-### 3.4 Atmosphaere und Diagnose
+### 3.6 Atmosphaere und Diagnose
 - `initArtStylePresets(document)`
 - `initHomeScene(document)`
 - `initAmbientTouch(document)`
 - `initFontPresets(document)`
 
-Diese Schritte betreffen Look, Stil und Atmosphaere, nicht den fachlichen Kern.
-
-### 3.5 Service Worker
-- Falls vom Browser unterstuetzt, wird `sw.js` bei `window.load` registriert.
-- Das dient Offline-Fallback, Caching und PWA-Verhalten.
+### 3.7 Remote-Events und Service Worker
+- Nach erfolgreichem Initial-Load startet Realtime ueber `listSync.subscribeToSnapshots(...)`.
+- Der Service Worker wird bei `window.load` registriert.
+- `controllerchange` fuehrt bei neuer Shell einmalig zu einem Reload.
 
 ---
 
 ## 4. Produktkritischer vs. optionaler Boot
 
 ### Produktkritisch
+- Runtime Config
 - State
+- Supabase Initial-Load bei vorhandener Konfiguration
 - Semantik
 - Router
 - Writing
 - Shopping
 
-Ohne diese Teile funktioniert HESTIA als Einkaufslisten-Werkzeug nicht sauber.
-
 ### Optional / degradierbar
 - Home-Scene / WebGL-Hintergrund
 - Stil-Presets
 - Ambient Touch
-- Install-Banner
+- Touchlog
 - Service Worker
-
-Wenn diese Bereiche ausfallen, soll der Listenkern trotzdem weiter funktionieren.
-
----
-
-## 5. Aktuelle Bootflow-Eigenschaften
-
-- Boot ist bewusst leichtgewichtig und ohne Build-Step.
-- Es gibt keinen globalen App-Container mit komplexen Lifecycles.
-- Supabase ist aktuell noch nicht in den produktiven Startpfad integriert.
+- Install-Banner
 
 ---
 
-## 6. Zukuenftiger Supabase-Einbau
+## 5. Risiken
 
-Spaeter sollte der Bootflow zusaetzlich sauber klaeren:
-
-- wie `SUPABASE_URL` und der oeffentliche Key geladen werden
-- wann der Household-Kontext bekannt ist
-- wann initiale Remote-Daten gelesen werden
-- wann Realtime startet
-- wie der lokale Zustand mit dem Remote-Zustand zusammenspielt
-
-Wichtig:
-- HESTIA darf auch kuenftig nicht so booten, dass ohne Remote-Konfiguration der gesamte lokale Kern unbrauchbar wird.
+- Zu viele fruehe asynchrone Schritte koennen den kleinen Bootflow spaeter wieder unruhig machen.
+- Atmosphaerische Initialisierung darf den Shared-List-Kern nicht blockieren.
+- Realtime und kuenftige Offline-/Reconnect-Logik duerfen den Startpfad nicht sprunghaft oder mehrfach machen.
 
 ---
 
-## 7. Risiken
+## 6. Definition of Done
 
-- Startlogik koennte schleichend unuebersichtlich werden, wenn Sync und Push ohne klaren Bootstrap dazukommen.
-- Atmosphaerische Features duerfen den Kernboot nicht blockieren.
-- Supabase darf den lokalen Fallback nicht still zerbrechen.
-
----
-
-## 8. Definition of Done
-
-- Ein neuer Chat kann den App-Start in wenigen Minuten nachvollziehen.
-- Produktkritische und optionale Initialisierung sind klar getrennt.
-- Spaetere Sync-Initialisierung laesst sich sauber in denselben Bootflow einordnen.
+- Ein neuer Chat versteht den aktuellen App-Start inklusive Remote-Initialisierung.
+- PWA, Sync und Listenkern sind als zusammenhaengender Bootflow lesbar.
+- Produktkritische und optionale Initialisierung bleiben klar getrennt.

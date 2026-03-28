@@ -1,24 +1,26 @@
 # Touchlog Module Overview
 
 Kurze Einordnung:
-- Zweck: beschreibt die kleine deterministische Event-Trace-Flaeche fuer HESTIA.
-- Rolle innerhalb von HESTIA: macht Boot, Sync und wichtige Nutzeraktionen nachvollziehbar, ohne HESTIA in ein lautes Debug-System zu verwandeln.
-- Abgrenzung: kein vollwertiges Diagnostics-Cockpit wie in groesseren Projekten.
+- Zweck: beschreibt die kleine deterministische Diagnoseflaeche fuer Boot, PWA und Sync.
+- Rolle innerhalb von HESTIA: macht echte Laufzeitprobleme nachvollziehbar, ohne HESTIA in ein lautes Dev-Cockpit zu verwandeln.
+- Abgrenzung: kein Ersatz fuer Browser-Konsole oder Netzwerktab.
 
 Related docs:
 - [PRODUCT.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/PRODUCT.md)
 - [QA_CHECKS.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/QA_CHECKS.md)
 - [HESTIA Sync Behavior, Conflicts & Status Roadmap.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/HESTIA%20Sync%20Behavior,%20Conflicts%20%26%20Status%20Roadmap.md)
+- [PWA Install Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/PWA%20Install%20Module%20Overview.md)
 
 ---
 
 ## 1. Zielsetzung
 
 - Der Touchlog soll HESTIA im Alltag nicht veraendern, aber Debugging, QA und neue Chats deutlich leichter machen.
-- Er soll nur die hochwertigen, fachlich relevanten Ereignisse zeigen:
+- Er soll nur hochwertige, fachlich oder betrieblich relevante Ereignisse zeigen:
   - Boot
-  - Save
-  - Realtime
+  - PWA-Kontext
+  - Runtime-Config
+  - Save / Load / Realtime
   - Writing-/Shopping-Aktionen
 
 ---
@@ -26,49 +28,55 @@ Related docs:
 ## 2. Was der Touchlog bewusst nicht ist
 
 - kein Pointer-/Gesture-Spam
-- kein Ersatz fuer Konsole oder tiefe Netzwerkdiagnostik
-- kein permanent sichtbares Nutzer-Feature
-- kein lautes Entwicklerpanel mit vielen Toggles
+- kein permanentes Nutzer-Feature
+- kein grosses Developer-Dashboard mit vielen Schaltern
+- kein Ersatz fuer tiefe Netzwerkdiagnostik
 
 ---
 
 ## 3. Aktueller Zuschnitt in HESTIA
 
 Vorhanden:
-- kleines Touchlog-Panel in `index.html`
+- Touchlog-Panel in `index.html`
 - Core-Logger in `app/core/touchlog.js`
 - persistenter Snapshot in `localStorage`
 - Dedupe-Fenster fuer Wiederholungen
-- Hooking an Boot, Writing, Shopping und Sync
+- Hooking an Boot, PWA, Sync, Writing und Shopping
 
 Zugriff:
-- Button `Touchlog` in der kleinen Stil-/Diagnoseleiste
+- `Dev`-Button auf dem Homescreen
 - zusaetzlich Shortcut `Shift + D`
 
----
-
-## 4. Produktregel
-
-- HESTIA loggt keine beliebige technische Chatterei.
-- Eine logische Aktion soll moeglichst genau einmal sichtbar werden.
-- Wiederholungen sollen wenn moeglich aggregiert statt gespammt werden.
-
-Das Ziel ist:
-- klarer Trace
-- wenig Laerm
-- gute Lesbarkeit bei echten Randfaellen
+Im Panel:
+- links Stilwahl
+- rechts Logausgabe
 
 ---
 
-## 5. Typische Ereignisse
+## 4. Wichtige aktuelle Ereignisse
+
+Typische Zeilen sind heute:
 
 - `[boot] init start`
-- `[boot] runtime-config loaded`
+- `[pwa] diag ...`
+- `[sync] config ...`
 - `[sync] remote snapshot loaded ...`
 - `[sync] realtime subscribed`
 - `[writing] added item ...`
-- `[sync] save success ...`
 - `[shopping] finished shopping run`
+
+Neu wichtig:
+- PWA-Kontextdiagnostik
+- Sync-Konfig-Zusammenfassung
+- Save-Gruende wie `manual-save`, `remove-item` oder `shopping-finish`
+
+---
+
+## 5. Produktregel
+
+- HESTIA loggt keine beliebige technische Chatterei.
+- Eine logische Aktion soll moeglichst genau einmal sichtbar werden.
+- Wiederholungen sollen aggregiert statt gespammt werden.
 
 ---
 
@@ -77,13 +85,9 @@ Das Ziel ist:
 Der Touchlog ist besonders wertvoll fuer:
 - Sync-Randfaelle
 - Offline-/Reconnect-Verhalten
+- PWA- und Install-Kontexte
+- Household-Key-Fehler
 - spaetere Push-Versuche
-- QA-Smokes mit zwei Geraeten
-
-Er soll sichtbar machen:
-- was ist lokal passiert
-- was ist remote angekommen
-- wo scheitert ein Save oder Reconnect
 
 ---
 

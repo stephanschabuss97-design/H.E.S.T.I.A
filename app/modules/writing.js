@@ -77,6 +77,49 @@ export function initWriting(doc, store, listSync, touchlog) {
     syncStatus.dataset.syncState = "idle";
   }
 
+  async function persistSharedState(reason) {
+    if (!listSync?.isConfigured()) {
+      renderSyncState();
+      return { ok: true, savedAt: "" };
+    }
+
+    touchlog?.add(`[sync] save start reason=${reason} items=${store.state.items.length}`, {
+      eventId: `sync-save-start-${reason}`
+    });
+    syncMode = "saving";
+    lastError = "";
+    renderSyncState();
+
+    const result = await listSync.saveSnapshot(store.state.items);
+    if (!result.ok) {
+      touchlog?.add(`[sync] save failed reason=${reason} ${result.message || "unknown"}`, {
+        severity: "warn",
+        eventId: `sync-save-failed-${reason}`
+      });
+      syncMode = "error";
+      lastError = result.message || "Sync fehlgeschlagen.";
+      renderSyncState();
+      return result;
+    }
+
+    touchlog?.add(`[sync] save success reason=${reason} items=${store.state.items.length}`, {
+      eventId: `sync-save-success-${reason}`
+    });
+    syncMode = hasItems() ? "saved" : "idle";
+    lastSavedAt = result.savedAt || new Date().toISOString();
+    lastError = "";
+    renderSyncState();
+    doc.dispatchEvent(
+      new CustomEvent("hestia:items-updated", {
+        detail: {
+          source: "remote",
+          syncedAt: lastSavedAt
+        }
+      })
+    );
+    return result;
+  }
+
   function render() {
     if (store.state.items.length === 0) {
       listElement.innerHTML = "<li class=\"item-row muted\">Noch keine Eintraege.</li>";
@@ -105,6 +148,7 @@ export function initWriting(doc, store, listSync, touchlog) {
         markDirty();
         render();
         doc.dispatchEvent(new CustomEvent("hestia:items-updated", { detail: { source: "local" } }));
+        persistSharedState("remove-item").catch(() => {});
       });
     });
 
@@ -164,35 +208,11 @@ export function initWriting(doc, store, listSync, touchlog) {
     markDirty();
     render();
     doc.dispatchEvent(new CustomEvent("hestia:items-updated", { detail: { source: "local" } }));
+    persistSharedState("clear-list").catch(() => {});
   });
 
   saveButton?.addEventListener("click", async () => {
-    touchlog?.add(`[sync] save start items=${store.state.items.length}`, {
-      eventId: "sync-save-start"
-    });
-    syncMode = "saving";
-    lastError = "";
-    renderSyncState();
-
-    const result = await listSync.saveSnapshot(store.state.items);
-    if (!result.ok) {
-      touchlog?.add(`[sync] save failed ${result.message || "unknown"}`, {
-        severity: "warn",
-        eventId: "sync-save-failed"
-      });
-      syncMode = "error";
-      lastError = result.message || "Sync fehlgeschlagen.";
-      renderSyncState();
-      return;
-    }
-
-    touchlog?.add(`[sync] save success items=${store.state.items.length}`, {
-      eventId: "sync-save-success"
-    });
-    syncMode = hasItems() ? "saved" : "idle";
-    lastSavedAt = result.savedAt || "";
-    lastError = "";
-    renderSyncState();
+    await persistSharedState("manual-save");
   });
 
   render();

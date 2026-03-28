@@ -20,6 +20,11 @@ Pruefbare Zieldefinition:
 - Entscheidung, welche lokalen Aenderungen offline erlaubt bleiben.
 - Entscheidung, wie HESTIA Offline-Save-Fehler kommuniziert.
 - Umsetzung der finalen Reconnect- und Fehlerregeln im bestehenden PWA-/Sync-Pfad.
+- Nutzung der heute vorhandenen Diagnosebasis:
+  - Touchlog
+  - PWA-Kontextdiagnostik
+  - Runtime-Config-Summary
+  - Retry-/Fehlernormalisierung im Sync-Layer
 
 ## Not in Scope
 - Vollstaendige Offline-Queue mit spaeterem automatischem Replay.
@@ -82,7 +87,7 @@ Forbidden:
 ## Statusmatrix
 | ID | Schritt | Status | Ergebnis/Notiz |
 |---|---|---|---|
-| S1 | Ist-Analyse des heutigen Offline- und Reconnect-Verhaltens | TODO | |
+| S1 | Ist-Analyse des heutigen Offline- und Reconnect-Verhaltens | TODO | Diagnosebasis steht bereits: Touchlog, PWA-Kontext, SW-Update-Pfad und Sync-Fehlerhaertung sind vorhanden. |
 | S2 | Produktvertrag fuer Offline, Fehler und Reconnect finalisieren | TODO | |
 | S3 | Technischen Reconnect-Vertrag fuer State, Realtime und Bootflow festziehen | TODO | |
 | S4 | Repo-Umsetzung des finalen Offline-/Reconnect-Vertrags | TODO | |
@@ -110,10 +115,11 @@ Status-Legende: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`.
   - Save-Klick ohne Netz
   - Reconnect nach offenem Tab
 - S1.3 Service Worker und `offline.html` gegen den echten Sync-Pfad abgleichen.
-- S1.4 Heutige Fehlermeldungen und Statuswechsel im UI aufnehmen.
-- S1.5 Schritt-Abnahme.
-- S1.6 Doku-Sync.
-- S1.7 Commit-Empfehlung.
+- S1.4 Heutige Fehlermeldungen, Retry-Pfade und Statuswechsel im UI aufnehmen.
+- S1.5 Bereits vorhandene Touchlog-Signale fuer Connectivity und PWA-Kontext auf Eignung pruefen.
+- S1.6 Schritt-Abnahme.
+- S1.7 Doku-Sync.
+- S1.8 Commit-Empfehlung.
 - Output: klare Ist-Karte fuer Offline, Online und Reconnect.
 - Exit-Kriterium: kein unkartierter Connectivity-Fall mehr offen.
 

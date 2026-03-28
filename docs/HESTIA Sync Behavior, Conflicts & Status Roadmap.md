@@ -4,7 +4,7 @@
 Der bestehende Shared-List-Sync soll fachlich und UX-seitig so festgezogen werden, dass HESTIA im Alltag ruhig, eindeutig und vorhersehbar bleibt, obwohl der Listenstand jetzt zwischen mehreren Geraeten geteilt wird.
 
 Pruefbare Zieldefinition:
-- Es ist verbindlich entschieden, ob HESTIA in V1 bei manuellem Speichern bleibt oder an einzelnen Stellen Auto-Save bekommt.
+- Es ist verbindlich entschieden, wo HESTIA in V1 bei manuellem Speichern bleibt und wo direkte Shared-Persistenz bewusst erlaubt ist.
 - `Last write wins` ist fuer V1 nicht nur stillschweigende Technik, sondern expliziter Produktvertrag.
 - Der Zustand `lokal geaendert, noch nicht gespeichert` ist fachlich und visuell eindeutig.
 - Eingehende Remote-Aenderungen haben eine klar definierte Wirkung auf lokalen State, UI und Status.
@@ -12,7 +12,9 @@ Pruefbare Zieldefinition:
 - Doku, UI-Status und Implementierung verwenden dieselben Begriffe und Randfall-Regeln.
 
 ## Scope
-- Entscheidung und Dokumentation zu manuellem Speichern vs. moeglichem Teil-Auto-Save.
+- Entscheidung und Dokumentation zum heutigen Hybrid-Vertrag:
+  - `Add` bleibt bewusst manuell speicherbar
+  - harte oder abschliessende Mutationen duerfen direkt gemeinsam persistieren
 - Finalisierung des V1-Konfliktmodells rund um `Last write wins`.
 - Definition des UX-Vertrags fuer Sync-Status:
   - `nur lokal`
@@ -47,8 +49,8 @@ Pruefbare Zieldefinition:
 - `PRODUCT.md`
 - `README.md`
 - `hestia-shared-list-sync-roadmap.md`
-- `docs/modules/writing.md`
-- `docs/modules/shopping.md`
+- `docs/modules/Writing Module Overview.md`
+- `docs/modules/Shopping Module Overview.md`
 - `docs/modules/Supabase Sync Module Overview.md`
 - `docs/QA_CHECKS.md`
 
@@ -59,6 +61,7 @@ Pruefbare Zieldefinition:
 - `Last write wins` darf fuer V1 bleiben, aber nicht unsichtbar als Zufallsverhalten.
 - Writing und Shopping duerfen nicht unterschiedliche Wahrheiten ueber denselben Listenstand zeigen.
 - Neue Sync-Status muessen helfen, nicht laermen.
+- Der heute bereits eingefuehrte Hybrid-Schnitt darf nicht versehentlich wieder in einen inkonsistenten Halb-Auto-Save driften.
 
 ## Architektur-Constraints
 - Bestehender Household-/RLS-Vertrag bleibt unveraendert.
@@ -90,10 +93,10 @@ Forbidden:
 ## Statusmatrix
 | ID | Schritt | Status | Ergebnis/Notiz |
 |---|---|---|---|
-| S1 | Ist-Analyse des aktuellen Sync-Verhaltens und der Randfaelle | TODO | |
-| S2 | Produktvertrag fuer Speichern, Konflikte und Remote-Ereignisse finalisieren | TODO | |
-| S3 | UX- und Statusvertrag fuer Writing und Shopping festziehen | TODO | |
-| S4 | Repo-Umsetzung des beschlossenen Sync-Vertrags | TODO | |
+| S1 | Ist-Analyse des aktuellen Sync-Verhaltens und der Randfaelle | DONE | Boot-, PWA-, Save-, Load-, Realtime- und Household-Key-Verhalten heute real durch Touchlog und Live-Smokes gemappt. |
+| S2 | Produktvertrag fuer Speichern, Konflikte und Remote-Ereignisse finalisieren | IN_PROGRESS | Hybrid-Schnitt ist implizit entstanden: `Add` manuell, `Loeschen`/`Liste leeren`/`Im Wagen`/`Liste abschliessen` direkt shared. Muss noch explizit finalisiert werden. |
+| S3 | UX- und Statusvertrag fuer Writing und Shopping festziehen | TODO | Statusverhalten ist funktional vorhanden, aber noch nicht als ruhiger Endvertrag beschrieben. |
+| S4 | Repo-Umsetzung des beschlossenen Sync-Vertrags | IN_PROGRESS | Shared Persistenz fuer mehrere kritische Mutationen ist bereits im Repo umgesetzt. |
 | S5 | QA, Doku-Sync und Abschlussbewertung | TODO | |
 
 Status-Legende: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`.
@@ -111,14 +114,17 @@ Status-Legende: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`.
 ## Schritte + Subschritte
 
 ### S1 - Ist-Analyse des aktuellen Sync-Verhaltens und der Randfaelle
-- S1.1 Den aktuellen Save-/Load-/Realtime-Pfad in `app/main.js`, `app/modules/writing.js`, `app/modules/shopping.js` und `app/supabase/list-sync.js` exakt mappen.
+- S1.1 Den heute gemappten Save-/Load-/Realtime-Pfad als Ist-Befund festhalten:
+  - Boot laedt Runtime-Config, versucht Remote-Snapshot und abonniert danach Realtime.
+  - `Add` in Writing bleibt lokal bis zu einem expliziten Save.
+  - `Loeschen`, `Liste leeren`, `Im Wagen` und `Liste abschliessen` persistieren heute direkt shared.
 - S1.2 Aufnehmen, welche Status heute real existieren und wie sie im UI erscheinen.
-- S1.3 Die heutigen Randfaelle als reale Karten notieren:
-  - lokaler Dirty-State
-  - Remote-Update waehrend lokaler Dirty-State
-  - Shopping-Completion auf anderem Geraet
-  - gleichzeitige lokale Nutzung auf zwei Geraeten
-- S1.4 Alle Stellen markieren, an denen heutiges Verhalten nur implizit ist.
+- S1.3 Die heute bereits beobachteten Randfaelle als reale Karten notieren:
+  - lokaler Dirty-State nach `Add`
+  - direkte Shared-Persistenz bei destruktiven oder abschliessenden Aktionen
+  - Remote-Update auf zweitem Geraet
+  - Household-Key-Fehler und korrupter Local-Storage-Wert
+- S1.4 Alle Stellen markieren, an denen das heutige Verhalten noch implizit oder nur durch Diagnosewissen klar ist.
 - S1.5 Schritt-Abnahme.
 - S1.6 Doku-Sync.
 - S1.7 Commit-Empfehlung.
@@ -126,7 +132,9 @@ Status-Legende: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`.
 - Exit-Kriterium: kein ungepruefter Sync-Randfall mehr offen.
 
 ### S2 - Produktvertrag fuer Speichern, Konflikte und Remote-Ereignisse finalisieren
-- S2.1 Verbindlich entscheiden, ob HESTIA in V1 bei manuellem Speichern bleibt.
+- S2.1 Verbindlich finalisieren, ob der heutige Hybrid-Schnitt der V1-Vertrag ist:
+  - `Add` bleibt manuell
+  - harte oder abschliessende Mutationen persistieren direkt
 - S2.2 `Last write wins` als bewussten V1-Vertrag formulieren:
   - was wird ueberschrieben
   - wann gilt der spaetere Save
@@ -185,6 +193,7 @@ Status-Legende: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`.
 ## Smokechecks / Regression (Definition)
 - Lokale Aenderung ohne Speichern bleibt klar als nicht gemeinsam markiert.
 - Manueller Save macht den Stand auf dem zweiten Geraet sichtbar.
+- `Loeschen`, `Liste leeren`, `Im Wagen` und `Liste abschliessen` verhalten sich gemass dem finalen Vertrag und nicht widerspruechlich zu `Add`.
 - Gleichzeitige Aenderungen auf zwei Geraeten verhalten sich gemass dem finalen `Last write wins`-Vertrag.
 - Remote-Update waehrend lokalem Dirty-State fuehrt nicht zu stiller, unverstandener Verwirrung.
 - Shopping-Abschluss auf Geraet A erscheint auf Geraet B im selben Vertragsverhalten wie andere Aenderungen.

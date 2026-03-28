@@ -40,7 +40,9 @@ Pruefbare Zieldefinition:
 - `README.md`
 - `setup-supabase.md`
 - `docs/modules/Deployment Module Overview.md`
+- `docs/modules/PWA Install Module Overview.md`
 - `docs/modules/Supabase Sync Module Overview.md`
+- `docs/modules/Touchlog Module Overview.md`
 - `docs/QA_CHECKS.md`
 
 ## Guardrails
@@ -79,7 +81,7 @@ Forbidden:
 ## Statusmatrix
 | ID | Schritt | Status | Ergebnis/Notiz |
 |---|---|---|---|
-| S1 | Ist-Analyse und Produktabgrenzung fuer HESTIA-Push | TODO | |
+| S1 | Ist-Analyse und Produktabgrenzung fuer HESTIA-Push | TODO | Hosting-, PWA- und Sync-Basis sind heute deutlich stabiler als beim Anlegen der Roadmap. |
 | S2 | Produktvertrag fuer manuellen Awareness-Push finalisieren | TODO | |
 | S3 | Technischen Sender-, Delivery- und Opt-in-Vertrag festziehen | TODO | |
 | S4 | Repo- und Delivery-Umsetzung des finalen Push-Vertrags | TODO | |
