@@ -10,6 +10,10 @@ body {
   min-height: 100%;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 body {
   color: var(--c-text-main);
   font-family: var(--font-sans);
