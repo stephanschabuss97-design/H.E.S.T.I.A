@@ -8,6 +8,14 @@ function hasDisplayMode(mode) {
   }
 }
 
+function hasWindowControlsOverlay() {
+  try {
+    return window.navigator.windowControlsOverlay?.visible === true;
+  } catch {
+    return false;
+  }
+}
+
 function isInstalledAppContext() {
   const params = new URLSearchParams(window.location.search);
   if (params.get("source") === "pwa") {
@@ -19,6 +27,7 @@ function isInstalledAppContext() {
   }
 
   return (
+    hasWindowControlsOverlay() ||
     hasDisplayMode("standalone") ||
     hasDisplayMode("window-controls-overlay") ||
     hasDisplayMode("minimal-ui") ||
@@ -49,34 +58,51 @@ export function initPwaInstallBanner(doc) {
   }
 
   let deferredInstallPrompt = null;
-  const standalone = isInstalledAppContext();
-
-  if (standalone) {
-    markInstalled();
-  }
-
-  function showInstallBanner() {
-    if (standalone || hasInstalledMarker()) {
-      hideInstallBanner();
-      return;
-    }
-    installBanner.hidden = false;
-    installBanner.setAttribute("aria-hidden", "false");
-  }
 
   function hideInstallBanner() {
     installBanner.hidden = true;
     installBanner.setAttribute("aria-hidden", "true");
   }
 
+  function showInstallBanner() {
+    installBanner.hidden = false;
+    installBanner.setAttribute("aria-hidden", "false");
+  }
+
+  function syncInstallBanner() {
+    const installed = isInstalledAppContext() || hasInstalledMarker();
+    if (installed) {
+      markInstalled();
+      deferredInstallPrompt = null;
+      installBtn.disabled = true;
+      hideInstallBanner();
+      return;
+    }
+
+    installBtn.disabled = !deferredInstallPrompt;
+
+    if (deferredInstallPrompt) {
+      showInstallBanner();
+      return;
+    }
+
+    hideInstallBanner();
+  }
+
   window.addEventListener("beforeinstallprompt", (event) => {
     event.preventDefault();
+    if (isInstalledAppContext() || hasInstalledMarker()) {
+      deferredInstallPrompt = null;
+      syncInstallBanner();
+      return;
+    }
     deferredInstallPrompt = event;
-    showInstallBanner();
+    syncInstallBanner();
   });
 
   installBtn.addEventListener("click", async () => {
     if (!deferredInstallPrompt) {
+      syncInstallBanner();
       return;
     }
     hideInstallBanner();
@@ -91,15 +117,22 @@ export function initPwaInstallBanner(doc) {
       // Ignore user cancellation.
     }
     deferredInstallPrompt = null;
+    syncInstallBanner();
   });
 
   window.addEventListener("appinstalled", () => {
     markInstalled();
     deferredInstallPrompt = null;
-    hideInstallBanner();
+    syncInstallBanner();
   });
 
-  if (standalone || hasInstalledMarker()) {
-    hideInstallBanner();
-  }
+  window.addEventListener("pageshow", syncInstallBanner);
+  window.addEventListener("focus", syncInstallBanner);
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") {
+      syncInstallBanner();
+    }
+  });
+
+  syncInstallBanner();
 }
