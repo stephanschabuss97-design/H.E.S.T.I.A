@@ -55,16 +55,22 @@ export function getPwaInstallDiagnostics(doc = document) {
   const installBtn = doc.getElementById("installBtn");
   const debug = window.__hestiaPwaDebug || {};
   const prompt = window.__hestiaInstallPrompt;
+  const params = new URLSearchParams(window.location.search);
 
   return {
+    href: window.location.href,
+    pathname: window.location.pathname,
+    search: window.location.search,
+    referrer: document.referrer || "",
     installedContext: isInstalledAppContext(),
     installMarker: hasInstalledMarker(),
     standalone: hasDisplayMode("standalone"),
     overlay: hasWindowControlsOverlay(),
     minimalUi: hasDisplayMode("minimal-ui"),
     fullscreen: hasDisplayMode("fullscreen"),
+    windowControlsOverlayMode: hasDisplayMode("window-controls-overlay"),
     navigatorStandalone: window.navigator.standalone === true,
-    sourceParam: new URLSearchParams(window.location.search).get("source") || "",
+    sourceParam: params.get("source") || "",
     promptReady: Boolean(prompt && typeof prompt.prompt === "function"),
     bannerHidden: installBanner?.hidden ?? null,
     buttonDisabled: installBtn?.disabled ?? null,
