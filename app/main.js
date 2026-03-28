@@ -74,7 +74,7 @@ async function initApp() {
   touchlog.add("[boot] runtime-config loaded", { eventId: "boot-runtime-config-loaded" });
   const runtimeConfigSummary = getRuntimeConfigSummary();
   touchlog.add(
-    `[sync] config host=${runtimeConfigSummary.host || "-"} keyType=${runtimeConfigSummary.keyType} keyPrefix=${runtimeConfigSummary.keyPrefix || "-"} householdPresent=${runtimeConfigSummary.householdKeyPresent} householdLen=${runtimeConfigSummary.householdKeyLength} householdTail=${runtimeConfigSummary.householdKeyTail || "-"}`,
+    `[sync] config host=${runtimeConfigSummary.host || "-"} keyType=${runtimeConfigSummary.keyType} keyPrefix=${runtimeConfigSummary.keyPrefix || "-"} householdPresent=${runtimeConfigSummary.householdKeyPresent} householdValid=${runtimeConfigSummary.householdKeyValid} householdLen=${runtimeConfigSummary.householdKeyLength} householdTail=${runtimeConfigSummary.householdKeyTail || "-"}`,
     { eventId: "sync-config-summary" }
   );
 
