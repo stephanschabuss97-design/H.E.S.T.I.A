@@ -1,5 +1,5 @@
 import { ensureHouseholdKey, hasSupabasePublicConfig } from "../core/runtime-config.js";
-import { createSupabaseClient } from "./client.js";
+import { createSupabaseClient, getLastSupabaseClientError } from "./client.js";
 
 function toRow(item, householdId) {
   return {
@@ -67,10 +67,15 @@ export function createListSync() {
 
     const client = createSupabaseClient();
     if (!client) {
+      const clientError = getLastSupabaseClientError();
       return {
         client: null,
         household: null,
-        error: new Error("Supabase-Client konnte nicht erstellt werden.")
+        error: new Error(
+          clientError
+            ? `Supabase-Client konnte nicht erstellt werden: ${clientError}`
+            : "Supabase-Client konnte nicht erstellt werden."
+        )
       };
     }
 

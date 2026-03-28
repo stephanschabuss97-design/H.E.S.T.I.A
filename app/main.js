@@ -1,6 +1,6 @@
 import { createState } from "./core/state.js";
 import { initRouter } from "./core/router.js";
-import { initPwaInstallBanner } from "./core/pwa-install.js";
+import { getPwaInstallDiagnostics, initPwaInstallBanner } from "./core/pwa-install.js";
 import { loadRuntimeConfig } from "./core/runtime-config.js";
 import { createTouchlog } from "./core/touchlog.js";
 import { bindSemanticsAutocomplete, initSemantics } from "./core/semantics.js";
@@ -18,11 +18,52 @@ function emitItemsUpdated(detail = {}) {
 
 let didReloadForNewController = false;
 
+function formatPwaDiagnostics(diag) {
+  return [
+    `installed=${diag.installedContext}`,
+    `marker=${diag.installMarker}`,
+    `prompt=${diag.promptReady}`,
+    `bannerHidden=${diag.bannerHidden}`,
+    `btnDisabled=${diag.buttonDisabled}`,
+    `standalone=${diag.standalone}`,
+    `overlay=${diag.overlay}`,
+    `minimal=${diag.minimalUi}`,
+    `fullscreen=${diag.fullscreen}`,
+    `navStandalone=${diag.navigatorStandalone}`,
+    `source=${diag.sourceParam || "-"}`,
+    `lastEvent=${diag.lastEvent || "-"}`,
+    `bip=${diag.beforeInstallPromptCount}`,
+    `installedEvents=${diag.appInstalledCount}`,
+    `bootstrapInstalledLike=${diag.lastInstalledLikeContext}`
+  ].join(" ");
+}
+
 async function initApp() {
   initPwaInstallBanner(document);
 
   const touchlog = createTouchlog(document);
   touchlog.add("[boot] init start", { eventId: "boot-init-start" });
+  touchlog.add(`[pwa] diag ${formatPwaDiagnostics(getPwaInstallDiagnostics(document))}`, {
+    eventId: "pwa-diag-init"
+  });
+
+  window.addEventListener("hestia:installprompt-ready", () => {
+    touchlog.add(`[pwa] installprompt-ready ${formatPwaDiagnostics(getPwaInstallDiagnostics(document))}`, {
+      eventId: "pwa-installprompt-ready"
+    });
+  });
+
+  window.addEventListener("hestia:appinstalled", () => {
+    touchlog.add(`[pwa] appinstalled ${formatPwaDiagnostics(getPwaInstallDiagnostics(document))}`, {
+      eventId: "pwa-appinstalled"
+    });
+  });
+
+  window.addEventListener("pageshow", () => {
+    touchlog.add(`[pwa] pageshow ${formatPwaDiagnostics(getPwaInstallDiagnostics(document))}`, {
+      eventId: "pwa-pageshow"
+    });
+  });
 
   await loadRuntimeConfig();
   touchlog.add("[boot] runtime-config loaded", { eventId: "boot-runtime-config-loaded" });

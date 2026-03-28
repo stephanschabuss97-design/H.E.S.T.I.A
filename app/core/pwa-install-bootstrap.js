@@ -5,6 +5,13 @@
 
   global.__hestiaInstallPromptBootstrapAttached = true;
   global.__hestiaInstallPrompt = null;
+  global.__hestiaPwaDebug = global.__hestiaPwaDebug || {
+    bootstrapAttached: true,
+    beforeInstallPromptCount: 0,
+    appInstalledCount: 0,
+    lastEvent: "bootstrap",
+    lastInstalledLikeContext: false
+  };
 
   function hasDisplayMode(mode) {
     try {
@@ -54,8 +61,17 @@
     clearPrompt();
   }
 
+  global.__hestiaPwaDebug.bootstrapAttached = true;
+  global.__hestiaPwaDebug.lastInstalledLikeContext = isInstalledLikeContext();
+
   global.addEventListener("beforeinstallprompt", (event) => {
-    if (isInstalledLikeContext()) {
+    const installedLikeContext = isInstalledLikeContext();
+    global.__hestiaPwaDebug.beforeInstallPromptCount += 1;
+    global.__hestiaPwaDebug.lastEvent = "beforeinstallprompt";
+    global.__hestiaPwaDebug.lastInstalledLikeContext = installedLikeContext;
+    global.__hestiaPwaDebug.lastBeforeInstallPromptAt = Date.now();
+
+    if (installedLikeContext) {
       clearPrompt();
       return;
     }
@@ -66,6 +82,9 @@
   });
 
   global.addEventListener("appinstalled", () => {
+    global.__hestiaPwaDebug.appInstalledCount += 1;
+    global.__hestiaPwaDebug.lastEvent = "appinstalled";
+    global.__hestiaPwaDebug.lastAppInstalledAt = Date.now();
     clearPrompt();
     global.dispatchEvent(new CustomEvent("hestia:appinstalled"));
   });

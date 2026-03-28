@@ -50,6 +50,31 @@ function markInstalled() {
   } catch {}
 }
 
+export function getPwaInstallDiagnostics(doc = document) {
+  const installBanner = doc.getElementById("installBanner");
+  const installBtn = doc.getElementById("installBtn");
+  const debug = window.__hestiaPwaDebug || {};
+  const prompt = window.__hestiaInstallPrompt;
+
+  return {
+    installedContext: isInstalledAppContext(),
+    installMarker: hasInstalledMarker(),
+    standalone: hasDisplayMode("standalone"),
+    overlay: hasWindowControlsOverlay(),
+    minimalUi: hasDisplayMode("minimal-ui"),
+    fullscreen: hasDisplayMode("fullscreen"),
+    navigatorStandalone: window.navigator.standalone === true,
+    sourceParam: new URLSearchParams(window.location.search).get("source") || "",
+    promptReady: Boolean(prompt && typeof prompt.prompt === "function"),
+    bannerHidden: installBanner?.hidden ?? null,
+    buttonDisabled: installBtn?.disabled ?? null,
+    lastEvent: debug.lastEvent || "",
+    beforeInstallPromptCount: Number(debug.beforeInstallPromptCount || 0),
+    appInstalledCount: Number(debug.appInstalledCount || 0),
+    lastInstalledLikeContext: Boolean(debug.lastInstalledLikeContext)
+  };
+}
+
 export function initPwaInstallBanner(doc) {
   const installBanner = doc.getElementById("installBanner");
   const installBtn = doc.getElementById("installBtn");
