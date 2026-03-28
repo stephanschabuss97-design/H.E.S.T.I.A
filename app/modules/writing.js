@@ -7,7 +7,7 @@ function formatTime(isoString) {
   }).format(new Date(isoString));
 }
 
-export function initWriting(doc, store, listSync) {
+export function initWriting(doc, store, listSync, touchlog) {
   const listElement = doc.getElementById("writing-list");
   const form = doc.getElementById("item-form");
   const clearButton = doc.getElementById("clear-list");
@@ -91,7 +91,7 @@ export function initWriting(doc, store, listSync) {
       row.innerHTML = `
         <span class="item-main">${item.name}</span>
         <span class="item-meta">${item.quantity} ${item.unit}</span>
-        <button class="inline-link destructive" type="button" data-remove="${item.id}">Loeschen</button>
+        <button class="inline-link destructive" type="button" data-remove="${item.id}" data-item-name="${item.name}">Loeschen</button>
       `;
       listElement.appendChild(row);
     });
@@ -99,6 +99,9 @@ export function initWriting(doc, store, listSync) {
     listElement.querySelectorAll("[data-remove]").forEach((button) => {
       button.addEventListener("click", () => {
         store.removeItem(button.dataset.remove);
+        touchlog?.add(`[writing] removed item ${button.dataset.itemName || button.dataset.remove}`, {
+          eventId: `writing-remove-${button.dataset.remove}`
+        });
         markDirty();
         render();
         doc.dispatchEvent(new CustomEvent("hestia:items-updated", { detail: { source: "local" } }));
@@ -113,6 +116,9 @@ export function initWriting(doc, store, listSync) {
       syncMode = hasItems() ? "saved" : "idle";
       lastSavedAt = event.detail?.syncedAt || new Date().toISOString();
       lastError = "";
+      touchlog?.add(`[writing] remote state visible items=${store.state.items.length}`, {
+        eventId: "writing-remote-state-visible"
+      });
     } else if (event.detail?.source === "local") {
       markDirty();
     }
@@ -142,6 +148,9 @@ export function initWriting(doc, store, listSync) {
       unit,
       inCart: false
     });
+    touchlog?.add(`[writing] added item ${name} qty=${quantity} unit=${unit}`, {
+      eventId: `writing-add-${name}-${quantity}-${unit}`
+    });
     form.reset();
     qtyInput.value = "1";
     markDirty();
@@ -151,24 +160,35 @@ export function initWriting(doc, store, listSync) {
 
   clearButton.addEventListener("click", () => {
     store.clearAll();
+    touchlog?.add("[writing] cleared list", { eventId: "writing-clear-list" });
     markDirty();
     render();
     doc.dispatchEvent(new CustomEvent("hestia:items-updated", { detail: { source: "local" } }));
   });
 
   saveButton?.addEventListener("click", async () => {
+    touchlog?.add(`[sync] save start items=${store.state.items.length}`, {
+      eventId: "sync-save-start"
+    });
     syncMode = "saving";
     lastError = "";
     renderSyncState();
 
     const result = await listSync.saveSnapshot(store.state.items);
     if (!result.ok) {
+      touchlog?.add(`[sync] save failed ${result.message || "unknown"}`, {
+        severity: "warn",
+        eventId: "sync-save-failed"
+      });
       syncMode = "error";
       lastError = result.message || "Sync fehlgeschlagen.";
       renderSyncState();
       return;
     }
 
+    touchlog?.add(`[sync] save success items=${store.state.items.length}`, {
+      eventId: "sync-save-success"
+    });
     syncMode = hasItems() ? "saved" : "idle";
     lastSavedAt = result.savedAt || "";
     lastError = "";

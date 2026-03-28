@@ -11,16 +11,10 @@
 }
 
 .font-switch {
-  position: fixed;
-  top: 14px;
-  right: 14px;
-  z-index: 10;
   display: grid;
   gap: 6px;
-  padding: 8px 10px;
-  border-radius: 12px;
-  background: var(--c-switch-bg);
-  box-shadow: var(--shadow-engraved);
+  width: min(100%, 540px);
+  margin: 0 auto;
 }
 
 .font-switch-label {
@@ -32,7 +26,26 @@
 
 .font-switch-buttons {
   display: inline-flex;
+  flex-wrap: wrap;
   gap: 6px;
+}
+
+.touchlog-toggle {
+  justify-self: start;
+  margin-top: 4px;
+}
+
+.home-utilities {
+  width: min(100%, 540px);
+  display: grid;
+  gap: 12px;
+}
+
+.home-dev-toggle {
+  min-height: 50px;
+  font-size: 1.1rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .font-option {
@@ -337,6 +350,44 @@ input {
   filter: brightness(1.05);
 }
 
+.touchlog-panel {
+  position: fixed;
+  right: 14px;
+  bottom: 14px;
+  z-index: 18;
+  width: min(94vw, 920px);
+}
+
+.touchlog-layout {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.touchlog-sidebar {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--c-switch-bg);
+  box-shadow: var(--shadow-engraved);
+}
+
+.touchlog-log {
+  min-height: 260px;
+  max-height: min(52vh, 420px);
+  overflow: auto;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(14, 18, 30, 0.62);
+  border: 1px solid rgba(230, 227, 221, 0.14);
+  color: var(--c-text-main);
+  font: 0.9rem/1.45 "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  white-space: pre-wrap;
+}
+
 @keyframes screen-fade {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
@@ -389,6 +440,18 @@ input {
 .install-banner-btn:hover,
 .install-banner-btn:focus-visible {
   filter: brightness(1.07);
+}
+
+@media (max-width: 720px) {
+  .touchlog-panel {
+    left: 12px;
+    right: 12px;
+    width: auto;
+  }
+
+  .touchlog-layout {
+    grid-template-columns: 1fr;
+  }
 }
 
 .semantics-popup {

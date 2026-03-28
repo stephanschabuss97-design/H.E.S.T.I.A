@@ -1,5 +1,21 @@
+const INSTALL_STATE_KEY = "hestia.pwa-installed";
+
 function isStandaloneMode() {
   return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+}
+
+function hasInstalledMarker() {
+  try {
+    return localStorage.getItem(INSTALL_STATE_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+
+function markInstalled() {
+  try {
+    localStorage.setItem(INSTALL_STATE_KEY, "1");
+  } catch {}
 }
 
 export function initPwaInstallBanner(doc) {
@@ -10,9 +26,15 @@ export function initPwaInstallBanner(doc) {
   }
 
   let deferredInstallPrompt = null;
+  const standalone = isStandaloneMode();
+
+  if (standalone) {
+    markInstalled();
+  }
 
   function showInstallBanner() {
-    if (isStandaloneMode()) {
+    if (standalone || hasInstalledMarker()) {
+      hideInstallBanner();
       return;
     }
     installBanner.hidden = false;
@@ -36,8 +58,12 @@ export function initPwaInstallBanner(doc) {
     }
     hideInstallBanner();
     deferredInstallPrompt.prompt();
+
     try {
-      await deferredInstallPrompt.userChoice;
+      const choice = await deferredInstallPrompt.userChoice;
+      if (choice?.outcome === "accepted") {
+        markInstalled();
+      }
     } catch {
       // Ignore user cancellation.
     }
@@ -45,11 +71,12 @@ export function initPwaInstallBanner(doc) {
   });
 
   window.addEventListener("appinstalled", () => {
+    markInstalled();
     deferredInstallPrompt = null;
     hideInstallBanner();
   });
 
-  if (isStandaloneMode()) {
+  if (standalone || hasInstalledMarker()) {
     hideInstallBanner();
   }
 }

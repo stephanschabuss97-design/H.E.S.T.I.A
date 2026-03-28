@@ -79,8 +79,20 @@ Diese Checks erst ausfuehren, wenn Realtime eingebaut ist:
 
 ---
 
-## 7. Definition of Done
+## 7. Touchlog
+
+- `Touchlog`-Button oeffnet das Panel.
+- `Shift + D` toggelt das Panel ebenfalls.
+- Boot zeigt einen knappen, nachvollziehbaren Start-Trace.
+- `Item hinzufuegen`, `Loeschen`, `Liste leeren`, `Liste speichern` und Shopping-Aktionen erscheinen als hochwertige Eintraege.
+- Realtime-Ereignisse erscheinen als eigene Sync-Eintraege.
+- Wiederholte identische Ereignisse werden aggregiert statt gespammt.
+
+---
+
+## 8. Definition of Done
 
 - Der lokale HESTIA-Kern besteht alle Checks aus Abschnitt 1 bis 4.
 - Neue Features duerfen diese Baseline nicht verschlechtern.
 - Sync und Realtime werden erst als stabil betrachtet, wenn auch Abschnitt 5 und 6 reproduzierbar gruen sind.
+- Touchlog bleibt hilfreich und ruhig statt technisch laut zu werden.

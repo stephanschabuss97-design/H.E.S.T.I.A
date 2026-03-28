@@ -1,4 +1,4 @@
-export function initShopping(doc, store) {
+export function initShopping(doc, store, touchlog) {
   const listElement = doc.getElementById("shopping-list");
   const finishButton = doc.getElementById("finish-shopping");
 
@@ -25,6 +25,10 @@ export function initShopping(doc, store) {
     listElement.querySelectorAll("[data-toggle]").forEach((checkbox) => {
       checkbox.addEventListener("change", () => {
         store.toggleInCart(checkbox.dataset.toggle, checkbox.checked);
+        touchlog?.add(
+          `[shopping] toggle cart id=${checkbox.dataset.toggle} checked=${checkbox.checked ? "yes" : "no"}`,
+          { eventId: `shopping-toggle-${checkbox.dataset.toggle}-${checkbox.checked ? "yes" : "no"}` }
+        );
         doc.dispatchEvent(new CustomEvent("hestia:items-updated", { detail: { source: "local" } }));
       });
     });
@@ -32,6 +36,9 @@ export function initShopping(doc, store) {
 
   finishButton.addEventListener("click", () => {
     store.finishShopping();
+    touchlog?.add("[shopping] finished shopping run", {
+      eventId: "shopping-finish-run"
+    });
     render();
     doc.dispatchEvent(new CustomEvent("hestia:items-updated", { detail: { source: "local" } }));
   });

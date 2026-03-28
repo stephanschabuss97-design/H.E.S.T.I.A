@@ -32,29 +32,22 @@
   </div>
 
   <main id="app" class="app-shell">
-    <aside class="font-switch" aria-label="Stil wählen">
-      <span class="font-switch-label">Schriftstil</span>
-      <div class="font-switch-buttons">
-        <button class="font-option" data-font-set="a" type="button">A</button>
-        <button class="font-option is-active" data-font-set="b" type="button">B</button>
-        <button class="font-option" data-font-set="c" type="button">C</button>
-        <button class="font-option" data-font-set="d" type="button">D</button>
-        <button class="font-option" data-font-set="e" type="button">E</button>
-        <button class="font-option" data-font-set="f" type="button">F</button>
-        <button class="font-option" data-font-set="g" type="button">G</button>
-      </div>
-      <span class="font-switch-label">Artstil</span>
-      <div class="font-switch-buttons">
-        <button class="font-option is-active" data-art-style="a" type="button">A</button>
-        <button class="font-option" data-art-style="b" type="button">B</button>
-      </div>
-    </aside>
-
     <section id="screen-home" class="screen screen-home is-active" data-screen="home">
       <h1 class="home-title">H.E.S.T.I.A.</h1>
       <div class="actions">
         <button class="surface-button" data-nav="shopping" type="button">Einkaufen</button>
         <button class="surface-button" data-nav="writing" type="button">Schreiben</button>
+      </div>
+      <div class="home-utilities">
+        <button
+          class="surface-button compact home-dev-toggle"
+          id="dev-panel-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="touchlog-panel"
+        >
+          Dev
+        </button>
       </div>
     </section>
 
@@ -110,6 +103,43 @@
       </div>
     </section>
   </main>
+
+  <section
+    id="touchlog-panel"
+    class="touchlog-panel"
+    role="dialog"
+    aria-modal="false"
+    aria-labelledby="touchlog-title"
+    hidden
+    aria-hidden="true"
+  >
+    <div class="panel">
+      <div class="panel-head">
+        <h3 id="touchlog-title">Touchlog</h3>
+        <button class="inline-link" id="touchlog-close" type="button">Schließen</button>
+      </div>
+      <div class="touchlog-layout">
+        <aside class="touchlog-sidebar" aria-label="Stile">
+          <span class="font-switch-label">Schriftstil</span>
+          <div class="font-switch-buttons">
+            <button class="font-option" data-font-set="a" type="button">A</button>
+            <button class="font-option is-active" data-font-set="b" type="button">B</button>
+            <button class="font-option" data-font-set="c" type="button">C</button>
+            <button class="font-option" data-font-set="d" type="button">D</button>
+            <button class="font-option" data-font-set="e" type="button">E</button>
+            <button class="font-option" data-font-set="f" type="button">F</button>
+            <button class="font-option" data-font-set="g" type="button">G</button>
+          </div>
+          <span class="font-switch-label">Artstil</span>
+          <div class="font-switch-buttons">
+            <button class="font-option is-active" data-art-style="a" type="button">A</button>
+            <button class="font-option" data-art-style="b" type="button">B</button>
+          </div>
+        </aside>
+        <pre id="touchlog-log" class="touchlog-log"></pre>
+      </div>
+    </div>
+  </section>
 
   <div
     id="installBanner"
