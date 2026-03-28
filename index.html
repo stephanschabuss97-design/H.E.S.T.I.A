@@ -1,0 +1,124 @@
+﻿<!doctype html>
+<html lang="de" data-art-style="a">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="H.E.S.T.I.A. - Shared Shopping App for Couples & Families">
+  <meta name="theme-color" content="#2b3557">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="H.E.S.T.I.A.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="public/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="public/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Allura&family=Caveat:wght@500;600&family=Cormorant+Garamond:wght@500;600&family=Cormorant+Upright:wght@500;600&family=Lora:wght@500;600&family=Nunito+Sans:wght@400;500;600&family=Parisienne&family=Playfair+Display:wght@500;600&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="app/styles/tokens.css">
+  <link rel="stylesheet" href="app/styles/base.css">
+  <link rel="stylesheet" href="app/styles/components.css">
+  <link rel="stylesheet" href="app/styles/screens.css">
+  <title>H.E.S.T.I.A.</title>
+</head>
+<body>
+  <div id="scene-host" class="scene-host" aria-hidden="true"></div>
+
+  <div class="ambient" aria-hidden="true">
+    <div class="ambient-layer layer-base"></div>
+    <div class="ambient-layer layer-wave-1"></div>
+    <div class="ambient-layer layer-wave-2"></div>
+  </div>
+
+  <main id="app" class="app-shell">
+    <aside class="font-switch" aria-label="Stil wählen">
+      <span class="font-switch-label">Schriftstil</span>
+      <div class="font-switch-buttons">
+        <button class="font-option" data-font-set="a" type="button">A</button>
+        <button class="font-option is-active" data-font-set="b" type="button">B</button>
+        <button class="font-option" data-font-set="c" type="button">C</button>
+        <button class="font-option" data-font-set="d" type="button">D</button>
+        <button class="font-option" data-font-set="e" type="button">E</button>
+        <button class="font-option" data-font-set="f" type="button">F</button>
+        <button class="font-option" data-font-set="g" type="button">G</button>
+      </div>
+      <span class="font-switch-label">Artstil</span>
+      <div class="font-switch-buttons">
+        <button class="font-option is-active" data-art-style="a" type="button">A</button>
+        <button class="font-option" data-art-style="b" type="button">B</button>
+      </div>
+    </aside>
+
+    <section id="screen-home" class="screen screen-home is-active" data-screen="home">
+      <h1 class="home-title">H.E.S.T.I.A.</h1>
+      <div class="actions">
+        <button class="surface-button" data-nav="shopping" type="button">Einkaufen</button>
+        <button class="surface-button" data-nav="writing" type="button">Schreiben</button>
+      </div>
+    </section>
+
+    <section id="screen-writing" class="screen" data-screen="writing">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Schreiben</h2>
+          <button class="inline-link" data-nav="home" type="button">Zur Startseite</button>
+        </div>
+        <form id="item-form" class="item-form">
+          <label for="item-name">Produkt</label>
+          <input id="item-name" name="name" list="semantics-list" autocomplete="off" placeholder="z. B. Milch" required>
+          <datalist id="semantics-list"></datalist>
+          <div class="inline-fields">
+            <div>
+              <label for="item-qty">Menge</label>
+              <input id="item-qty" name="quantity" type="number" step="0.25" min="0.25" value="1" required>
+            </div>
+            <div>
+              <label for="item-unit">Einheit</label>
+              <input id="item-unit" name="unit" placeholder="Stk / L / g ...">
+            </div>
+          </div>
+          <button class="surface-button compact" type="submit">Item hinzufügen</button>
+        </form>
+      </div>
+      <div class="panel">
+        <div class="panel-head">
+          <h3>Offene Liste</h3>
+          <button class="inline-link" id="clear-list" type="button">Liste leeren</button>
+        </div>
+        <ul id="writing-list" class="items"></ul>
+      </div>
+    </section>
+
+    <section id="screen-shopping" class="screen" data-screen="shopping">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Einkaufen</h2>
+          <button class="inline-link" data-nav="home" type="button">Zur Startseite</button>
+        </div>
+        <ul id="shopping-list" class="items"></ul>
+        <div class="row-actions">
+          <button class="surface-button compact" id="finish-shopping" type="button">Liste abschließen</button>
+          <button class="inline-link" data-nav="writing" type="button">Ändern</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div
+    id="installBanner"
+    class="install-banner"
+    role="status"
+    aria-live="polite"
+    hidden
+    aria-hidden="true"
+  >
+    <div class="install-banner-text">
+      <div class="install-banner-label">App installieren</div>
+      <div class="install-banner-hint">H.E.S.T.I.A. als App installieren für schnelleren Zugriff.</div>
+    </div>
+    <button id="installBtn" class="install-banner-btn" type="button">Installieren</button>
+  </div>
+
+  <script type="module" src="app/main.js"></script>
+</body>
+</html>

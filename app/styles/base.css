@@ -1,0 +1,109 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  color: var(--c-text-main);
+  font-family: var(--font-sans);
+  background: linear-gradient(165deg, var(--c-bg-deep) 0%, var(--c-bg-mid) 45%, var(--c-bg-light) 100%);
+}
+
+.scene-host {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 700ms ease;
+}
+
+.scene-host canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.scene-host * {
+  pointer-events: none;
+}
+
+.app-shell {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  padding: clamp(20px, 3vh, 36px) 16px 40px;
+  overflow: hidden;
+}
+
+.ambient {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  transition: opacity 500ms ease;
+}
+
+.ambient-layer {
+  position: absolute;
+  inset: -12%;
+  background-repeat: no-repeat;
+  mix-blend-mode: screen;
+  opacity: 0.46;
+}
+
+.layer-base {
+  background-image:
+    radial-gradient(circle at 18% 24%, rgba(241, 224, 200, 0.25), transparent 35%),
+    radial-gradient(circle at 76% 38%, rgba(232, 240, 255, 0.26), transparent 40%),
+    radial-gradient(circle at 50% 78%, rgba(255, 245, 226, 0.18), transparent 34%);
+  animation: drift-a 23s ease-in-out infinite;
+}
+
+.layer-wave-1 {
+  background-image:
+    linear-gradient(118deg, transparent 22%, rgba(255, 255, 255, 0.28) 48%, transparent 74%),
+    linear-gradient(152deg, transparent 28%, rgba(245, 223, 189, 0.22) 56%, transparent 80%);
+  filter: blur(4px);
+  animation: drift-b 28s ease-in-out infinite;
+}
+
+.layer-wave-2 {
+  background-image:
+    linear-gradient(108deg, transparent 26%, rgba(255, 244, 219, 0.2) 50%, transparent 76%),
+    linear-gradient(166deg, transparent 20%, rgba(226, 234, 248, 0.26) 48%, transparent 78%);
+  filter: blur(6px);
+  opacity: 0.4;
+  animation: drift-c 30s ease-in-out infinite;
+}
+
+html.has-webgl-scene .scene-host {
+  opacity: 1;
+}
+
+html.has-webgl-scene .ambient {
+  opacity: 0.32;
+}
+
+@keyframes drift-a {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1.02); }
+  50% { transform: translate3d(-1.5%, 1.5%, 0) scale(1.06); }
+}
+
+@keyframes drift-b {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(2%, -1.5%, 0); }
+}
+
+@keyframes drift-c {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(-1.8%, -1.2%, 0); }
+}

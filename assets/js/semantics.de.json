@@ -1,0 +1,842 @@
+[
+  {
+    "id": "milk",
+    "label": "Milch",
+    "aliases": ["milch", "kuhmilch", "frische milch"],
+    "default_unit": "l",
+    "category": "dairy"
+  },
+  {
+    "id": "yogurt",
+    "label": "Joghurt",
+    "aliases": ["joghurt", "naturjoghurt", "yoghurt"],
+    "default_unit": "pkg",
+    "category": "dairy"
+  },
+  {
+    "id": "butter",
+    "label": "Butter",
+    "aliases": ["butter"],
+    "default_unit": "g",
+    "category": "dairy"
+  },
+  {
+    "id": "egg",
+    "label": "Ei",
+    "aliases": ["ei", "eier"],
+    "default_unit": "stk",
+    "category": "dairy"
+  },
+  {
+    "id": "bread",
+    "label": "Brot",
+    "aliases": ["brot", "laib"],
+    "default_unit": "stk",
+    "category": "bakery"
+  },
+  {
+    "id": "bread_roll",
+    "label": "Brötchen",
+    "aliases": ["brötchen", "brötchen", "semmel", "semmeln"],
+    "default_unit": "stk",
+    "category": "bakery"
+  },
+  {
+    "id": "rice",
+    "label": "Reis",
+    "aliases": ["reis", "langkornreis", "basmati", "jasminreis"],
+    "default_unit": "g",
+    "category": "pantry"
+  },
+  {
+    "id": "pasta",
+    "label": "Nudel",
+    "aliases": ["nudel", "nudeln", "pasta", "spaghetti", "penne"],
+    "default_unit": "g",
+    "category": "pantry"
+  },
+  {
+    "id": "tomato_passata",
+    "label": "Passierte Tomaten",
+    "aliases": ["passierte tomaten", "passata", "tomaten passiert"],
+    "default_unit": "pkg",
+    "category": "pantry"
+  },
+  {
+    "id": "potato",
+    "label": "Kartoffel",
+    "aliases": ["kartoffel", "kartoffeln"],
+    "default_unit": "kg",
+    "category": "vegetables"
+  },
+  {
+    "id": "onion",
+    "label": "Zwiebel",
+    "aliases": ["zwiebel", "zwiebeln"],
+    "default_unit": "kg",
+    "category": "vegetables"
+  },
+  {
+    "id": "garlic",
+    "label": "Knoblauch",
+    "aliases": ["knoblauch"],
+    "default_unit": "stk",
+    "category": "vegetables"
+  },
+  {
+    "id": "banana",
+    "label": "Banane",
+    "aliases": ["banane", "bananen"],
+    "default_unit": "stk",
+    "category": "fruit"
+  },
+  {
+    "id": "apple",
+    "label": "Äpfel",
+    "aliases": ["apfel", "äpfel"],
+    "default_unit": "kg",
+    "category": "fruit"
+  },
+  {
+    "id": "strawberry",
+    "label": "Erdbeere",
+    "aliases": ["erdbeere", "erdbeeren"],
+    "default_unit": "kg",
+    "category": "fruit"
+  },
+  {
+    "id": "mineral_water",
+    "label": "Mineralwasser",
+    "aliases": ["mineralwasser", "wasser", "sprudel"],
+    "default_unit": "l",
+    "category": "drinks"
+  },
+  {
+    "id": "coffee",
+    "label": "Kaffee",
+    "aliases": ["kaffee", "kaffeebohnen", "gemahlener kaffee"],
+    "default_unit": "g",
+    "category": "drinks"
+  },
+  {
+    "id": "laundry_detergent",
+    "label": "Waschmittel",
+    "aliases": ["waschmittel", "waschpulver", "flüssigwaschmittel"],
+    "default_unit": "pkg",
+    "category": "cleaning"
+  },
+  {
+    "id": "dish_soap",
+    "label": "Spülmittel",
+    "aliases": ["spülmittel", "spülmittel", "spüli", "spüli"],
+    "default_unit": "pkg",
+    "category": "cleaning"
+  },
+  {
+    "id": "sugar",
+    "label": "Zucker",
+    "aliases": ["zucker", "kristallzucker"],
+    "default_unit": "g",
+    "category": "pantry"
+  },
+  {
+    "id": "vanilla_sugar",
+    "label": "Vanillezucker",
+    "aliases": ["vanillezucker"],
+    "default_unit": "pkg",
+    "category": "pantry"
+  },
+  {
+    "id": "powdered_sugar",
+    "label": "Staubzucker",
+    "aliases": ["staubzucker", "puderzucker"],
+    "default_unit": "g",
+    "category": "pantry"
+  },
+  {
+    "id": "flour_wheat_700",
+    "label": "Weizenmehl 700",
+    "aliases": ["mehl grün", "weizen 700", "weizenmehl 700"],
+    "default_unit": "g",
+    "category": "pantry"
+  },
+  {
+    "id": "flour_wheat_480",
+    "label": "Weizenmehl 480",
+    "aliases": ["mehl blau", "weizen 480", "weizenmehl 480"],
+    "default_unit": "g",
+    "category": "pantry"
+  },
+  {
+    "id": "flour_rye_960",
+    "label": "Roggenmehl 960",
+    "aliases": ["mehl braun", "roggen 960", "roggenmehl 960"],
+    "default_unit": "g",
+    "category": "pantry"
+  },
+  {
+    "id": "oat_flakes",
+    "label": "Haferflocken",
+    "aliases": ["haferflocken", "hafer"],
+    "default_unit": "g",
+    "category": "pantry"
+  },
+  {
+    "id": "müsli",
+    "label": "Müsli",
+    "aliases": ["müsli"],
+    "default_unit": "g",
+    "category": "pantry"
+  },
+  {
+    "id": "tea_winter_magic",
+    "label": "Tee Winterzauber",
+    "aliases": ["winterzauber tee", "tee winterzauber"],
+    "default_unit": "pkg",
+    "category": "drinks"
+  },
+  {
+    "id": "tea_chamomile",
+    "label": "Kamillentee",
+    "aliases": ["kamillentee", "tee kamille", "kamille"],
+    "default_unit": "pkg",
+    "category": "drinks"
+  },
+  {
+    "id": "multivitamin_juice",
+    "label": "Multivitaminsaft",
+    "aliases": ["multivitaminsaft", "vitaminsaft"],
+    "default_unit": "l",
+    "category": "drinks"
+  },
+  {
+    "id": "diluted_juice",
+    "label": "Verdünnungssaft",
+    "aliases": ["verdünnungssaft", "sirup", "saftkonzentrat"],
+    "default_unit": "l",
+    "category": "drinks"
+  },
+  {
+    "id": "olive_oil",
+    "label": "Olivenöl",
+    "aliases": ["olivenöl"],
+    "default_unit": "ml",
+    "category": "pantry"
+  },
+  {
+    "id": "rapeseed_oil",
+    "label": "Rapsöl",
+    "aliases": ["rapsöl"],
+    "default_unit": "ml",
+    "category": "pantry"
+  },
+  {
+    "id": "cream",
+    "label": "Sahne",
+    "aliases": ["sahne", "schlagobers", "obers"],
+    "default_unit": "ml",
+    "category": "dairy"
+  },
+  {
+    "id": "curd_cheese",
+    "label": "Topfen",
+    "aliases": ["topfen", "quark"],
+    "default_unit": "pkg",
+    "category": "dairy"
+  },
+  {
+    "id": "smacks",
+    "label": "Smacks",
+    "aliases": ["smacks", "weizenpuff", "puffweizen"],
+    "default_unit": "pkg",
+    "category": "pantry"
+  },
+  {
+    "id": "honey_pops",
+    "label": "Honey Pops",
+    "aliases": ["honey pops", "honeypops"],
+    "default_unit": "pkg",
+    "category": "pantry"
+  },
+  {
+    "id": "lettuce",
+    "label": "Salat",
+    "aliases": ["salat", "blattsalat"],
+    "default_unit": "stk",
+    "category": "vegetables"
+  },
+  {
+    "id": "cucumber",
+    "label": "Salatgurke",
+    "aliases": ["salatgurke", "gurke"],
+    "default_unit": "stk",
+    "category": "vegetables"
+  },
+  {
+    "id": "lemon",
+    "label": "Zitrone",
+    "aliases": ["zitrone", "zitronen"],
+    "default_unit": "stk",
+    "category": "fruit"
+  },
+  {
+    "id": "grapes",
+    "label": "Trauben",
+    "aliases": ["traube", "trauben", "weintrauben"],
+    "default_unit": "pkg",
+    "category": "fruit"
+  },
+  {
+    "id": "sweet_potato",
+    "label": "Süßkartoffel",
+    "aliases": ["süßkartoffel", "gemüse"],
+    "default_unit": "stk",
+    "category": "vegetables"
+  },
+  {
+    "id": "salami",
+    "label": "Salami",
+    "aliases": ["wurst", "salami"],
+    "default_unit": "pkg",
+    "category": "meat"
+  },
+  {
+    "id": "ham",
+    "label": "Schinken",
+    "aliases": ["wurst", "schinken"],
+    "default_unit": "pkg",
+    "category": "meat"
+  },
+  {
+    "id": "gouda",
+    "label": "Gouda",
+    "aliases": ["käse", "gouda"],
+    "default_unit": "pkg",
+    "category": "dairy"
+  },
+  {
+    "id": "edam",
+    "label": "Edamer",
+    "aliases": ["käse", "edamer"],
+    "default_unit": "pkg",
+    "category": "dairy"
+  },
+  {
+    "id": "mozzarella",
+    "label": "Mozzarella",
+    "aliases": ["käse", "mozzarella"],
+    "default_unit": "pkg",
+    "category": "dairy"
+  },
+  {
+    "id": "parmesan",
+    "label": "Parmesan",
+    "aliases": ["käse", "parmesan", "parmigiano"],
+    "default_unit": "g",
+    "category": "dairy"
+  },
+  {
+    "id": "bresso",
+    "label": "Bresso",
+    "aliases": ["bresso", "frischkäse kräuter"],
+    "default_unit": "pkg",
+    "category": "dairy"
+  },
+  {
+    "id": "apple_juice",
+    "label": "Apfelsaft",
+    "aliases": ["apfelsaft", "apfel saft"],
+    "default_unit": "l",
+    "category": "drinks"
+  },
+  {
+    "id": "dishwasher_tabs",
+    "label": "Geschirrspültabs",
+    "aliases": ["geschirrspültabs", "spültabs"],
+    "default_unit": "pkg",
+    "category": "cleaning"
+  },
+  {
+    "id": "bay_leaf",
+    "label": "Lorbeerblätter",
+    "aliases": ["lorbeer", "lorbeerblatt", "lorbeerblätter"],
+    "default_unit": "pkg",
+    "category": "spices"
+  },
+  {
+    "id": "paprika_sweet",
+    "label": "Paprikapulver süß",
+    "aliases": ["paprikapulver", "paprikapulver süß", "paprika süß"],
+    "default_unit": "g",
+    "category": "spices"
+  },
+  {
+    "id": "paprika_smoked",
+    "label": "Paprikapulver rauchig",
+    "aliases": ["paprikapulver", "paprikapulver rauchig", "smoked paprika"],
+    "default_unit": "g",
+    "category": "spices"
+  },
+  {
+    "id": "mustard",
+    "label": "Senf",
+    "aliases": ["senf"],
+    "default_unit": "g",
+    "category": "pantry"
+  },
+  {
+    "id": "ketchup",
+    "label": "Ketchup",
+    "aliases": ["ketchup"],
+    "default_unit": "g",
+    "category": "pantry"
+  },
+  {
+    "id": "toast_bread",
+    "label": "Toastbrot",
+    "aliases": ["toast", "toastbrot"],
+    "default_unit": "stk",
+    "category": "bakery"
+  },
+  {
+    "id": "nut_mix",
+    "label": "Nusskernmischung",
+    "aliases": ["nusskernmischung", "nüsse mix"],
+    "default_unit": "g",
+    "category": "pantry"
+  },
+  {
+    "id": "tomato",
+    "label": "Tomate",
+    "aliases": ["tomate", "tomaten"],
+    "default_unit": "kg",
+    "category": "vegetables"
+  },
+  {
+    "id": "salt",
+    "label": "Salz",
+    "aliases": ["salz", "meersalz", "steinsalz"],
+    "default_unit": "g",
+    "category": "spices"
+  },
+  {
+    "id": "pepper",
+    "label": "Pfeffer",
+    "aliases": ["pfeffer", "schwarzer pfeffer", "weisser pfeffer"],
+    "default_unit": "g",
+    "category": "spices"
+  },
+  {
+    "id": "cinnamon",
+    "label": "Zimt",
+    "aliases": ["zimt", "zimtpulver"],
+    "default_unit": "g",
+    "category": "spices"
+  },
+  {
+    "id": "vanilla",
+    "label": "Vanille",
+    "aliases": ["vanille", "vanillearoma", "vanilleschote"],
+    "default_unit": "pkg",
+    "category": "spices"
+  },
+  {
+    "id": "baking_powder",
+    "label": "Backpulver",
+    "aliases": ["backpulver"],
+    "default_unit": "pkg",
+    "category": "pantry"
+  },
+  {
+    "id": "baking_soda",
+    "label": "Natron",
+    "aliases": ["natron", "speisenatron"],
+    "default_unit": "pkg",
+    "category": "pantry"
+  },
+  {
+    "id": "yeast_fresh",
+    "label": "Germ frisch",
+    "aliases": ["germ", "hefe frisch", "frische hefe"],
+    "default_unit": "pkg",
+    "category": "pantry"
+  },
+  {
+    "id": "yeast_dry",
+    "label": "Hefe trocken",
+    "aliases": ["hefe trocken", "trockenhefe"],
+    "default_unit": "pkg",
+    "category": "pantry"
+  },
+  {
+    "id": "cocoa_powder",
+    "label": "Kakao",
+    "aliases": ["kakao", "kakaopulver"],
+    "default_unit": "g",
+    "category": "pantry"
+  },
+  {
+    "id": "vegetable_stock",
+    "label": "Suppenwürfel",
+    "aliases": ["gemüsebrühe", "suppenwürfel", "brühewürfel"],
+    "default_unit": "pkg",
+    "category": "pantry"
+  },
+  {
+    "id": "vinegar_balsamico",
+    "label": "Balsamico Essig",
+    "aliases": ["balsamico", "balsamico essig", "essig"],
+    "default_unit": "ml",
+    "category": "pantry"
+  },
+  {
+    "id": "vinegar_apple_cider",
+    "label": "Apfelessig",
+    "aliases": ["apfelessig", "essig"],
+    "default_unit": "ml",
+    "category": "pantry"
+  },
+  {
+    "id": "soy_sauce",
+    "label": "Sojasauce",
+    "aliases": ["sojasauce", "soya sauce"],
+    "default_unit": "ml",
+    "category": "pantry"
+  },
+  {
+    "id": "tomato_paste",
+    "label": "Tomatenmark",
+    "aliases": ["tomatenmark"],
+    "default_unit": "g",
+    "category": "pantry"
+  },
+  {
+    "id": "canned_corn",
+    "label": "Mais Dose",
+    "aliases": ["mais", "mais dose", "konservenmais"],
+    "default_unit": "pkg",
+    "category": "pantry"
+  },
+  {
+    "id": "canned_beans",
+    "label": "Bohnen Dose",
+    "aliases": ["bohnen", "bohnen dose", "dosenbohnen"],
+    "default_unit": "pkg",
+    "category": "pantry"
+  },
+  {
+    "id": "tuna",
+    "label": "Thunfisch",
+    "aliases": ["thunfisch", "tuna"],
+    "default_unit": "pkg",
+    "category": "pantry"
+  },
+  {
+    "id": "coconut_milk",
+    "label": "Kokosmilch",
+    "aliases": ["kokosmilch"],
+    "default_unit": "ml",
+    "category": "pantry"
+  },
+  {
+    "id": "rice_cakes",
+    "label": "Reiswaffeln",
+    "aliases": ["reiswaffeln", "waffeln reis", "reiswaffeln"],
+    "default_unit": "pkg",
+    "category": "pantry"
+  },
+  {
+    "id": "jam",
+    "label": "Marmelade",
+    "aliases": ["marmelade"],
+    "default_unit": "pkg",
+    "category": "pantry"
+  },
+  {
+    "id": "honey",
+    "label": "Honig",
+    "aliases": ["honig"],
+    "default_unit": "pkg",
+    "category": "pantry"
+  },
+  {
+    "id": "nutella",
+    "label": "Nutella",
+    "aliases": ["nutella", "nussnougatcreme"],
+    "default_unit": "pkg",
+    "category": "pantry"
+  },
+  {
+    "id": "cream_cheese",
+    "label": "Frischkäse",
+    "aliases": ["frischkäse", "frischkäse natur", "käse", "aufstrich"],
+    "default_unit": "pkg",
+    "category": "dairy"
+  },
+  {
+    "id": "skyr",
+    "label": "Skyr",
+    "aliases": ["skyr", "joghurt skyr"],
+    "default_unit": "pkg",
+    "category": "dairy"
+  },
+  {
+    "id": "spread_liver_pate",
+    "label": "Leberpastete",
+    "aliases": ["leberpastete", "aufstrich", "herzhaft aufstrich"],
+    "default_unit": "pkg",
+    "category": "pantry"
+  },
+  {
+    "id": "hummus",
+    "label": "Hummus",
+    "aliases": ["hummus", "aufstrich", "kichererbsen aufstrich"],
+    "default_unit": "pkg",
+    "category": "pantry"
+  },
+  {
+    "id": "chicken_meat",
+    "label": "Hühnerfleisch",
+    "aliases": ["hühnerfleisch", "huhn", "hähnchen", "fleisch"],
+    "default_unit": "g",
+    "category": "meat"
+  },
+  {
+    "id": "minced_meat",
+    "label": "Faschiertes",
+    "aliases": ["faschiertes", "hack", "hackfleisch", "fleisch"],
+    "default_unit": "g",
+    "category": "meat"
+  },
+  {
+    "id": "sausages",
+    "label": "Würstel",
+    "aliases": ["würstel", "wurst", "fleischwurst"],
+    "default_unit": "pkg",
+    "category": "meat"
+  },
+  {
+    "id": "fish_fingers",
+    "label": "Fischstäbchen",
+    "aliases": ["fischstäbchen", "fisch sticks"],
+    "default_unit": "pkg",
+    "category": "frozen"
+  },
+  {
+    "id": "frozen_pizza",
+    "label": "Tiefkühlpizza",
+    "aliases": ["tiefkühlpizza", "pizza", "frozen pizza"],
+    "default_unit": "pkg",
+    "category": "frozen"
+  },
+  {
+    "id": "carrot",
+    "label": "Karotte",
+    "aliases": ["karotte", "karotten", "gemüse"],
+    "default_unit": "kg",
+    "category": "vegetables"
+  },
+  {
+    "id": "bell_pepper",
+    "label": "Paprika",
+    "aliases": ["paprika", "gemüse"],
+    "default_unit": "stk",
+    "category": "vegetables"
+  },
+  {
+    "id": "broccoli",
+    "label": "Brokkoli",
+    "aliases": ["brokkoli", "gemüse"],
+    "default_unit": "stk",
+    "category": "vegetables"
+  },
+  {
+    "id": "zucchini",
+    "label": "Zucchini",
+    "aliases": ["zucchini", "gemüse"],
+    "default_unit": "stk",
+    "category": "vegetables"
+  },
+  {
+    "id": "mushrooms",
+    "label": "Champignons",
+    "aliases": ["champignons", "pilze", "gemüse"],
+    "default_unit": "g",
+    "category": "vegetables"
+  },
+  {
+    "id": "spinach_fresh",
+    "label": "Spinat frisch",
+    "aliases": ["spinat frisch", "spinat", "gemüse"],
+    "default_unit": "g",
+    "category": "vegetables"
+  },
+  {
+    "id": "spinach_frozen",
+    "label": "Spinat tk",
+    "aliases": ["spinat tk", "blattspinat tk", "spinat"],
+    "default_unit": "pkg",
+    "category": "frozen"
+  },
+  {
+    "id": "orange",
+    "label": "Orange",
+    "aliases": ["orange", "orangen", "obst"],
+    "default_unit": "kg",
+    "category": "fruit"
+  },
+  {
+    "id": "mandarine",
+    "label": "Mandarine",
+    "aliases": ["mandarine", "mandarinen", "obst"],
+    "default_unit": "kg",
+    "category": "fruit"
+  },
+  {
+    "id": "pear",
+    "label": "Birne",
+    "aliases": ["birne", "birnen", "obst"],
+    "default_unit": "kg",
+    "category": "fruit"
+  },
+  {
+    "id": "kiwi",
+    "label": "Kiwi",
+    "aliases": ["kiwi", "kiwis", "obst"],
+    "default_unit": "stk",
+    "category": "fruit"
+  },
+  {
+    "id": "berries_generic",
+    "label": "Beeren",
+    "aliases": ["beeren", "beeren mix", "obst"],
+    "default_unit": "kg",
+    "category": "fruit"
+  },
+  {
+    "id": "fruit_generic",
+    "label": "Obst",
+    "aliases": ["obst", "frucht", "früchte"],
+    "default_unit": "kg",
+    "category": "fruit"
+  },
+  {
+    "id": "toilet_paper",
+    "label": "Klopapier",
+    "aliases": ["klopapier", "toilettenpapier"],
+    "default_unit": "pkg",
+    "category": "cleaning"
+  },
+  {
+    "id": "paper_towels",
+    "label": "Küchenrolle",
+    "aliases": ["küchenrolle", "haushaltsrolle"],
+    "default_unit": "pkg",
+    "category": "cleaning"
+  },
+  {
+    "id": "tissues",
+    "label": "Taschentücher",
+    "aliases": ["taschentücher"],
+    "default_unit": "pkg",
+    "category": "cleaning"
+  },
+  {
+    "id": "trash_bags",
+    "label": "Müllsäcke",
+    "aliases": ["müllsäcke", "müllbeutel"],
+    "default_unit": "pkg",
+    "category": "cleaning"
+  },
+  {
+    "id": "aluminum_foil",
+    "label": "Alufolie",
+    "aliases": ["alufolie"],
+    "default_unit": "pkg",
+    "category": "pantry"
+  },
+  {
+    "id": "baking_paper",
+    "label": "Backpapier",
+    "aliases": ["backpapier"],
+    "default_unit": "pkg",
+    "category": "pantry"
+  },
+  {
+    "id": "cling_film",
+    "label": "Frischhaltefolie",
+    "aliases": ["frischhaltefolie", "folie frischhalten"],
+    "default_unit": "pkg",
+    "category": "pantry"
+  },
+  {
+    "id": "toothpaste",
+    "label": "Zahncreme",
+    "aliases": ["zahncreme", "zahnpasta"],
+    "default_unit": "pkg",
+    "category": "cleaning"
+  },
+  {
+    "id": "shampoo",
+    "label": "Shampoo",
+    "aliases": ["shampoo", "haarshampoo"],
+    "default_unit": "pkg",
+    "category": "cleaning"
+  },
+  {
+    "id": "shower_gel",
+    "label": "Duschgel",
+    "aliases": ["duschgel", "dusche gel"],
+    "default_unit": "pkg",
+    "category": "cleaning"
+  },
+  {
+    "id": "deodorant",
+    "label": "Deo",
+    "aliases": ["deo", "deodorant"],
+    "default_unit": "pkg",
+    "category": "cleaning"
+  },
+  {
+    "id": "toilet_cleaner",
+    "label": "WC Reiniger",
+    "aliases": ["wc reiniger", "toilettenreiniger"],
+    "default_unit": "pkg",
+    "category": "cleaning"
+  },
+  {
+    "id": "kitchen_cleaner",
+    "label": "Küchenreiniger",
+    "aliases": ["küchenreiniger"],
+    "default_unit": "pkg",
+    "category": "cleaning"
+  },
+  {
+    "id": "glass_cleaner",
+    "label": "Glasreiniger",
+    "aliases": ["glasreiniger"],
+    "default_unit": "pkg",
+    "category": "cleaning"
+  },
+  {
+    "id": "descaler",
+    "label": "Entkalker",
+    "aliases": ["entkalker", "kalkreiniger"],
+    "default_unit": "pkg",
+    "category": "cleaning"
+  },
+  {
+    "id": "sponge",
+    "label": "Schwamm",
+    "aliases": ["schwamm", "abwaschschwamm"],
+    "default_unit": "pkg",
+    "category": "cleaning"
+  },
+  {
+    "id": "dish_brush",
+    "label": "Geschirrbürste",
+    "aliases": ["geschirrbürste", "spülbürste"],
+    "default_unit": "pkg",
+    "category": "cleaning"
+  }
+] 
