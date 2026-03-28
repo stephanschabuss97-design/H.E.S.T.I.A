@@ -16,6 +16,8 @@ function emitItemsUpdated(detail = {}) {
   document.dispatchEvent(new CustomEvent("hestia:items-updated", { detail }));
 }
 
+let didReloadForNewController = false;
+
 async function initApp() {
   initPwaInstallBanner(document);
 
@@ -100,10 +102,36 @@ async function initApp() {
   }
 
   if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      if (didReloadForNewController) {
+        return;
+      }
+
+      didReloadForNewController = true;
+      window.location.reload();
+    });
+
     window.addEventListener("load", () => {
       navigator.serviceWorker
         .register("./sw.js")
-        .then(() => {
+        .then((registration) => {
+          if (registration.waiting) {
+            registration.waiting.postMessage({ type: "SKIP_WAITING" });
+          }
+
+          registration.addEventListener("updatefound", () => {
+            const nextWorker = registration.installing;
+            if (!nextWorker) {
+              return;
+            }
+
+            nextWorker.addEventListener("statechange", () => {
+              if (nextWorker.state === "installed" && registration.waiting) {
+                registration.waiting.postMessage({ type: "SKIP_WAITING" });
+              }
+            });
+          });
+
           touchlog.add("[boot] service worker registered", {
             eventId: "boot-service-worker-registered"
           });

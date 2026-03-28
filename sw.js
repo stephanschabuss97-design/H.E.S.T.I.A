@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v12";
+const CACHE_VERSION = "v13";
 const STATIC_CACHE = `hestia-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `hestia-runtime-${CACHE_VERSION}`;
 const OFFLINE_URL = "./offline.html";
@@ -53,6 +53,12 @@ self.addEventListener("activate", (event) => {
     )
   );
   self.clients.claim();
+});
+
+self.addEventListener("message", (event) => {
+  if (event.data?.type === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
 });
 
 self.addEventListener("fetch", (event) => {
