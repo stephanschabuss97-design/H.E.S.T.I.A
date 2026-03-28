@@ -104,7 +104,6 @@ function getRestContext() {
     householdKey,
     headers: {
       apikey: supabaseKey,
-      Authorization: `Bearer ${supabaseKey}`,
       "x-household-key": householdKey
     }
   };
