@@ -17,6 +17,8 @@ function emitItemsUpdated(detail = {}) {
 }
 
 async function initApp() {
+  initPwaInstallBanner(document);
+
   const touchlog = createTouchlog(document);
   touchlog.add("[boot] init start", { eventId: "boot-init-start" });
 
@@ -52,7 +54,6 @@ async function initApp() {
   initSemantics(semanticsList).then(() => {
     bindSemanticsAutocomplete(itemNameInput, semanticsList);
   });
-  initPwaInstallBanner(document);
   initRouter(document);
   initWriting(document, state, listSync, touchlog);
   initShopping(document, state, touchlog);
