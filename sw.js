@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v14";
+const CACHE_VERSION = "v16";
 const STATIC_CACHE = `hestia-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `hestia-runtime-${CACHE_VERSION}`;
 const OFFLINE_URL = "./offline.html";
@@ -15,6 +15,7 @@ const APP_SHELL = [
   "./app/styles/components.css",
   "./app/styles/screens.css",
   "./app/core/router.js",
+  "./app/core/pwa-install-bootstrap.js",
   "./app/core/runtime-config.js",
   "./app/core/touchlog.js",
   "./app/core/pwa-install.js",

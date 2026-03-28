@@ -57,7 +57,16 @@ export function initPwaInstallBanner(doc) {
     return;
   }
 
-  let deferredInstallPrompt = null;
+  let deferredInstallPrompt = window.__hestiaInstallPrompt || null;
+
+  function hasUsablePrompt() {
+    return !!deferredInstallPrompt && typeof deferredInstallPrompt.prompt === "function";
+  }
+
+  function clearDeferredPrompt() {
+    window.__hestiaInstallPrompt = null;
+    deferredInstallPrompt = null;
+  }
 
   function hideInstallBanner() {
     installBanner.hidden = true;
@@ -73,15 +82,19 @@ export function initPwaInstallBanner(doc) {
     const installed = isInstalledAppContext() || hasInstalledMarker();
     if (installed) {
       markInstalled();
-      deferredInstallPrompt = null;
+      clearDeferredPrompt();
       installBtn.disabled = true;
       hideInstallBanner();
       return;
     }
 
-    installBtn.disabled = !deferredInstallPrompt;
+    if (!hasUsablePrompt()) {
+      clearDeferredPrompt();
+    }
 
-    if (deferredInstallPrompt) {
+    installBtn.disabled = !hasUsablePrompt();
+
+    if (hasUsablePrompt()) {
       showInstallBanner();
       return;
     }
@@ -89,19 +102,19 @@ export function initPwaInstallBanner(doc) {
     hideInstallBanner();
   }
 
-  window.addEventListener("beforeinstallprompt", (event) => {
-    event.preventDefault();
+  window.addEventListener("hestia:installprompt-ready", () => {
     if (isInstalledAppContext() || hasInstalledMarker()) {
-      deferredInstallPrompt = null;
+      clearDeferredPrompt();
       syncInstallBanner();
       return;
     }
-    deferredInstallPrompt = event;
+    deferredInstallPrompt = window.__hestiaInstallPrompt || null;
     syncInstallBanner();
   });
 
   installBtn.addEventListener("click", async () => {
-    if (!deferredInstallPrompt) {
+    if (!hasUsablePrompt()) {
+      clearDeferredPrompt();
       syncInstallBanner();
       return;
     }
@@ -116,13 +129,19 @@ export function initPwaInstallBanner(doc) {
     } catch {
       // Ignore user cancellation.
     }
-    deferredInstallPrompt = null;
+    clearDeferredPrompt();
     syncInstallBanner();
   });
 
   window.addEventListener("appinstalled", () => {
     markInstalled();
-    deferredInstallPrompt = null;
+    clearDeferredPrompt();
+    syncInstallBanner();
+  });
+
+  window.addEventListener("hestia:appinstalled", () => {
+    markInstalled();
+    clearDeferredPrompt();
     syncInstallBanner();
   });
 
