@@ -1,7 +1,30 @@
 const INSTALL_STATE_KEY = "hestia.pwa-installed";
 
-function isStandaloneMode() {
-  return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+function hasDisplayMode(mode) {
+  try {
+    return window.matchMedia(`(display-mode: ${mode})`).matches;
+  } catch {
+    return false;
+  }
+}
+
+function isInstalledAppContext() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("source") === "pwa") {
+    return true;
+  }
+
+  if (document.referrer.startsWith("android-app://")) {
+    return true;
+  }
+
+  return (
+    hasDisplayMode("standalone") ||
+    hasDisplayMode("window-controls-overlay") ||
+    hasDisplayMode("minimal-ui") ||
+    hasDisplayMode("fullscreen") ||
+    window.navigator.standalone === true
+  );
 }
 
 function hasInstalledMarker() {
@@ -26,7 +49,7 @@ export function initPwaInstallBanner(doc) {
   }
 
   let deferredInstallPrompt = null;
-  const standalone = isStandaloneMode();
+  const standalone = isInstalledAppContext();
 
   if (standalone) {
     markInstalled();

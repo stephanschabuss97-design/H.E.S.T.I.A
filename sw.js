@@ -1,10 +1,11 @@
-const CACHE_VERSION = "v11";
+const CACHE_VERSION = "v12";
 const STATIC_CACHE = `hestia-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `hestia-runtime-${CACHE_VERSION}`;
 const OFFLINE_URL = "./offline.html";
 
 const APP_SHELL = [
   "./",
+  "./?source=pwa",
   "./index.html",
   "./offline.html",
   "./manifest.webmanifest",
