@@ -1,7 +1,7 @@
 import { createState } from "./core/state.js";
 import { initRouter } from "./core/router.js";
 import { getPwaInstallDiagnostics, initPwaInstallBanner } from "./core/pwa-install.js";
-import { loadRuntimeConfig } from "./core/runtime-config.js";
+import { getRuntimeConfigSummary, loadRuntimeConfig } from "./core/runtime-config.js";
 import { createTouchlog } from "./core/touchlog.js";
 import { bindSemanticsAutocomplete, initSemantics } from "./core/semantics.js";
 import { initWriting } from "./modules/writing.js";
@@ -72,6 +72,11 @@ async function initApp() {
 
   await loadRuntimeConfig();
   touchlog.add("[boot] runtime-config loaded", { eventId: "boot-runtime-config-loaded" });
+  const runtimeConfigSummary = getRuntimeConfigSummary();
+  touchlog.add(
+    `[sync] config host=${runtimeConfigSummary.host || "-"} keyType=${runtimeConfigSummary.keyType} keyPrefix=${runtimeConfigSummary.keyPrefix || "-"} householdPresent=${runtimeConfigSummary.householdKeyPresent} householdLen=${runtimeConfigSummary.householdKeyLength} householdTail=${runtimeConfigSummary.householdKeyTail || "-"}`,
+    { eventId: "sync-config-summary" }
+  );
 
   const state = createState();
   const listSync = createListSync();

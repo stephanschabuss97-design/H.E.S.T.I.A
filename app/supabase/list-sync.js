@@ -122,16 +122,17 @@ async function parseJsonSafely(response) {
   }
 }
 
-function normalizeRestError(status, payload, fallback) {
+function normalizeRestError(status, payload, fallback, extra = {}) {
+  const requestId = extra.requestId ? ` | request=${extra.requestId}` : "";
   if (payload && typeof payload === "object" && !Array.isArray(payload)) {
-    return normalizeErrorMessage(payload, fallback);
+    return `${normalizeErrorMessage(payload, fallback)} | HTTP ${status}${requestId}`;
   }
 
   if (typeof payload === "string" && payload.trim()) {
-    return `${fallback} | HTTP ${status}: ${payload.trim()}`;
+    return `${fallback} | HTTP ${status}${requestId}: ${payload.trim()}`;
   }
 
-  return `${fallback} | HTTP ${status}`;
+  return `${fallback} | HTTP ${status}${requestId}`;
 }
 
 async function restRequest(path, options = {}) {
@@ -140,23 +141,30 @@ async function restRequest(path, options = {}) {
     return { ok: false, message: restContext.message, data: null };
   }
 
-  const { supabaseUrl, headers } = restContext;
+  const { supabaseUrl, supabaseKey, headers } = restContext;
   const requestHeaders = {
     Accept: "application/json",
     ...headers,
     ...(options.headers || {})
   };
+  const separator = path.includes("?") ? "&" : "?";
+  const requestUrl = `${supabaseUrl}/rest/v1/${path}${separator}apikey=${encodeURIComponent(supabaseKey)}`;
 
   const result = await withRetry(
     async () => {
       try {
-        const response = await fetch(`${supabaseUrl}/rest/v1/${path}`, {
+        const response = await fetch(requestUrl, {
           method: options.method || "GET",
+          mode: "cors",
+          credentials: "omit",
+          cache: "no-store",
+          referrerPolicy: "strict-origin-when-cross-origin",
           headers: requestHeaders,
           body: options.body ? JSON.stringify(options.body) : undefined
         });
 
         const payload = await parseJsonSafely(response);
+        const requestId = response.headers.get("sb-request-id") || "";
         if (!response.ok) {
           return {
             data: null,
@@ -164,7 +172,8 @@ async function restRequest(path, options = {}) {
               normalizeRestError(
                 response.status,
                 payload,
-                options.errorMessage || "REST-Anfrage fehlgeschlagen."
+                options.errorMessage || "REST-Anfrage fehlgeschlagen.",
+                { requestId }
               )
             )
           };

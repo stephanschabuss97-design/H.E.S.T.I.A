@@ -64,6 +64,28 @@ export function getRuntimeConfig() {
   };
 }
 
+export function getRuntimeConfigSummary() {
+  const config = getRuntimeConfig();
+  const householdKey = normalizeValue(config.householdKey);
+  const supabaseKey = normalizeValue(config.supabaseKey);
+
+  let host = "";
+  try {
+    host = config.supabaseUrl ? new URL(config.supabaseUrl).host : "";
+  } catch {
+    host = config.supabaseUrl || "";
+  }
+
+  return {
+    host,
+    keyType: config.supabasePublishableKey ? "publishable" : config.supabaseAnonKey ? "anon" : "missing",
+    keyPrefix: supabaseKey ? supabaseKey.slice(0, 14) : "",
+    householdKeyPresent: Boolean(householdKey),
+    householdKeyLength: householdKey.length,
+    householdKeyTail: householdKey ? householdKey.slice(-4) : ""
+  };
+}
+
 export function hasSupabasePublicConfig() {
   const { supabaseUrl, supabaseKey } = getRuntimeConfig();
   return Boolean(supabaseUrl && supabaseKey);
