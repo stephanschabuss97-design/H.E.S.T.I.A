@@ -10,6 +10,7 @@ import { initHomeScene } from "./modules/home-scene.js";
 import { initAmbientTouch } from "./diagnostics/ambient-touch.js";
 import { initFontPresets } from "./diagnostics/font-presets.js";
 import { initArtStylePresets } from "./diagnostics/art-style-presets.js";
+import { initDevFlags } from "./diagnostics/dev-flags.js";
 import { createListSync } from "./supabase/list-sync.js";
 
 function emitItemsUpdated(detail = {}) {
@@ -51,6 +52,7 @@ async function initApp() {
   touchlog.add(`[pwa] diag ${formatPwaDiagnostics(getPwaInstallDiagnostics(document))}`, {
     eventId: "pwa-diag-init"
   });
+  initDevFlags(document, touchlog);
 
   window.addEventListener("hestia:installprompt-ready", () => {
     touchlog.add(`[pwa] installprompt-ready ${formatPwaDiagnostics(getPwaInstallDiagnostics(document))}`, {

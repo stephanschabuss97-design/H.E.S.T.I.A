@@ -8,7 +8,7 @@ Kurze Einordnung:
 Related docs:
 - [README.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/README.md)
 - [PRODUCT.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/PRODUCT.md)
-- [HESTIA CSS Separation & Style Architecture Roadmap.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/HESTIA%20CSS%20Separation%20%26%20Style%20Architecture%20Roadmap.md)
+- [HESTIA CSS Separation & Style Architecture Roadmap (DONE).md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/archive/HESTIA%20CSS%20Separation%20%26%20Style%20Architecture%20Roadmap%20(DONE).md)
 - [Home Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Home%20Module%20Overview.md)
 - [Writing Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Writing%20Module%20Overview.md)
 - [Shopping Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Shopping%20Module%20Overview.md)

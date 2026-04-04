@@ -9,13 +9,33 @@ export function initFontPresets(doc) {
     return;
   }
 
+  function emit(setName) {
+    const next = ALLOWED_SETS.has(setName) ? setName : DEFAULT_SET;
+    doc.dispatchEvent(
+      new CustomEvent("hestia:dev-mode-state", {
+        detail: {
+          id: "font-set",
+          label: `Schriftstil ${String(next || "").toUpperCase()}`,
+          active: next !== DEFAULT_SET
+        }
+      })
+    );
+  }
+
   function apply(setName) {
     const next = ALLOWED_SETS.has(setName) ? setName : DEFAULT_SET;
     root.setAttribute("data-font-set", next);
-    localStorage.setItem(STORAGE_KEY, next);
+    try {
+      if (next === DEFAULT_SET) {
+        localStorage.removeItem(STORAGE_KEY);
+      } else {
+        localStorage.setItem(STORAGE_KEY, next);
+      }
+    } catch {}
     options.forEach((button) => {
       button.classList.toggle("is-active", button.dataset.fontSet === next);
     });
+    emit(next);
   }
 
   const saved = localStorage.getItem(STORAGE_KEY) || DEFAULT_SET;
@@ -23,5 +43,9 @@ export function initFontPresets(doc) {
 
   options.forEach((button) => {
     button.addEventListener("click", () => apply(button.dataset.fontSet));
+  });
+
+  doc.addEventListener("hestia:dev-reset-state", () => {
+    apply(DEFAULT_SET);
   });
 }

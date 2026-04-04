@@ -9,6 +9,7 @@ Related docs:
 - [PRODUCT.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/PRODUCT.md)
 - [QA_CHECKS.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/QA_CHECKS.md)
 - [HESTIA Sync Behavior, Conflicts & Status Roadmap.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/HESTIA%20Sync%20Behavior,%20Conflicts%20%26%20Status%20Roadmap.md)
+- [HESTIA Dev Panel, Touchlog & Diagnostics Roadmap.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/HESTIA%20Dev%20Panel,%20Touchlog%20%26%20Diagnostics%20Roadmap.md)
 - [PWA Install Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/PWA%20Install%20Module%20Overview.md)
 
 ---
@@ -42,13 +43,19 @@ Vorhanden:
 - persistenter Snapshot in `localStorage`
 - Dedupe-Fenster fuer Wiederholungen
 - Hooking an Boot, PWA, Sync, Writing und Shopping
+- aktive Modusliste fuer lokale Dev-Sonderzustaende
+- lokale Diagnosehilfen fuer Log-/Dev-Hygiene
 
 Zugriff:
 - `Dev`-Button auf dem Homescreen
 - zusaetzlich Shortcut `Shift + D`
 
 Im Panel:
-- links Stilwahl
+- links:
+  - aktive Modi
+  - Diagnose-Toggles
+  - visuelle Sandbox
+  - kleine Hilfsaktionen
 - rechts Logausgabe
 
 ---
@@ -69,6 +76,17 @@ Neu wichtig:
 - PWA-Kontextdiagnostik
 - Sync-Konfig-Zusammenfassung
 - Save-Gruende wie `manual-save`, `remove-item` oder `shopping-finish`
+- Dev-Gruende wie `no-cache assets enabled`, `touchlog cleared` oder `dev state reset`
+
+Kategorienvertrag:
+- `boot`
+- `pwa`
+- `sync`
+- `writing`
+- `shopping`
+- `dev`
+
+Der Touchlog fuehrt bewusst keine breitere technische Kategorienliste ein.
 
 ---
 
@@ -77,6 +95,12 @@ Neu wichtig:
 - HESTIA loggt keine beliebige technische Chatterei.
 - Eine logische Aktion soll moeglichst genau einmal sichtbar werden.
 - Wiederholungen sollen aggregiert statt gespammt werden.
+- Der Dev-Bereich darf nur lokale, sichtbare und reversible Diagnosehebel tragen.
+- Touchlog und Dev-Flags duerfen nie den fachlichen Household-/Sync-Vertrag veraendern.
+- Aktive Dev-Modi muessen sichtbar sein, aber nicht als Log-Spam gespiegelt werden.
+- Der Touchlog bleibt Event-Trace; aktive Sonderzustaende gehoeren primaer in die linke Dev-Spalte.
+- `No Cache Assets` ist ein lokaler Shell-/Asset-Hebel und kein Daten-/Sync-Modus.
+- `Touchlog leeren` und `Dev State zuruecksetzen` bleiben lokale Diagnosehilfen ohne Einfluss auf Produktdaten.
 
 ---
 

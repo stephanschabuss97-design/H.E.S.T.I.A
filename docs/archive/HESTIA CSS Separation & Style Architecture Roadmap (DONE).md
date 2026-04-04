@@ -1,4 +1,4 @@
-# HESTIA CSS Separation & Style Architecture Roadmap
+# HESTIA CSS Separation & Style Architecture Roadmap (DONE)
 
 ## Ziel (klar und pruefbar)
 Der aktuelle HESTIA-CSS-Bestand soll so refaktoriert werden, dass Styles wieder klar nach Verantwortung getrennt sind und kuenftige UI-Arbeit nicht mehr an einer grossen Sammeldatei haengt. HESTIA soll dabei nicht MIDAS kopieren, aber dessen sauberen CSS-Vertrag in kleiner, passender Form uebernehmen.

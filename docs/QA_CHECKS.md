@@ -102,9 +102,22 @@ Diese Checks erst ausfuehren, wenn Realtime eingebaut ist:
 
 ---
 
-## 9. Definition of Done
+## 9. Diagnostics / Dev
+
+- Die linke Dev-Spalte zeigt aktive Sonderzustaende nur dann, wenn wirklich ein Dev-Modus aktiv ist.
+- Default-`Schriftstil` und Default-`Artstil` erscheinen nicht als aktiver Sonderzustand.
+- `No Cache Assets` laesst sich aktivieren und bleibt nach Reload sichtbar aktiv.
+- `No Cache Assets` laesst sich wieder deaktivieren und verschwindet danach aus den aktiven Modi.
+- `Touchlog leeren` leert den Log sichtbar und hinterlaesst genau eine kleine Diagnosezeile.
+- `Dev State zuruecksetzen` setzt nur Dev-/Sandbox-Zustaende zurueck, nicht Household-Key oder Produktdaten.
+- Nach `Dev State zuruecksetzen` sind `No Cache Assets`, Schriftstil-Sonderzustand und Artstil-Sonderzustand wieder auf Default.
+
+---
+
+## 10. Definition of Done
 
 - Der lokale HESTIA-Kern besteht alle Checks aus Abschnitt 1 bis 5.
 - Neue Features duerfen diese Baseline nicht verschlechtern.
 - Sync und Realtime werden erst als stabil betrachtet, wenn auch Abschnitt 6 und 7 reproduzierbar gruen sind.
 - Touchlog bleibt hilfreich und ruhig statt technisch laut zu werden.
+- Dev-/Diagnostics-Hebel bleiben klein, lokal und ohne Eingriff in Produktwahrheit.

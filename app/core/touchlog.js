@@ -38,8 +38,10 @@ function persistSnapshot(lines) {
 export function createTouchlog(doc) {
   const panel = doc.getElementById("touchlog-panel");
   const logEl = doc.getElementById("touchlog-log");
+  const activeModesEl = doc.getElementById("touchlog-active-modes");
   const toggleButton = doc.getElementById("dev-panel-toggle") || doc.getElementById("touchlog-toggle");
   const closeButton = doc.getElementById("touchlog-close");
+  const clearButton = doc.getElementById("touchlog-clear");
 
   const entries = loadSnapshot().map((line) => ({
     line: String(line?.line || ""),
@@ -49,6 +51,7 @@ export function createTouchlog(doc) {
   }));
 
   let isOpen = false;
+  const activeModes = new Map();
 
   function renderLine(entry) {
     return entry.count > 1 ? `${entry.line} (x${entry.count})` : entry.line;
@@ -59,6 +62,29 @@ export function createTouchlog(doc) {
       return;
     }
     logEl.textContent = entries.map(renderLine).join("\n");
+  }
+
+  function renderActiveModes() {
+    if (!activeModesEl) {
+      return;
+    }
+
+    activeModesEl.textContent = "";
+    const items = Array.from(activeModes.values()).filter(Boolean);
+    if (items.length === 0) {
+      const emptyItem = doc.createElement("li");
+      emptyItem.className = "dev-mode-empty";
+      emptyItem.textContent = "Keine aktiven Sonderzustande.";
+      activeModesEl.append(emptyItem);
+      return;
+    }
+
+    items.forEach((mode) => {
+      const item = doc.createElement("li");
+      item.className = "dev-mode-pill";
+      item.textContent = String(mode);
+      activeModesEl.append(item);
+    });
   }
 
   function syncStorage() {
@@ -101,12 +127,25 @@ export function createTouchlog(doc) {
     syncStorage();
   }
 
+  function clear(opts = {}) {
+    entries.length = 0;
+    render();
+    syncStorage();
+
+    if (opts.announce !== false) {
+      add("[dev] touchlog cleared", {
+        eventId: "dev-touchlog-cleared"
+      });
+    }
+  }
+
   function show() {
     if (!panel) {
       return;
     }
     panel.hidden = false;
     panel.setAttribute("aria-hidden", "false");
+    toggleButton?.setAttribute("aria-expanded", "true");
     isOpen = true;
   }
 
@@ -116,6 +155,7 @@ export function createTouchlog(doc) {
     }
     panel.hidden = true;
     panel.setAttribute("aria-hidden", "true");
+    toggleButton?.setAttribute("aria-expanded", "false");
     isOpen = false;
   }
 
@@ -129,16 +169,35 @@ export function createTouchlog(doc) {
 
   toggleButton?.addEventListener("click", toggle);
   closeButton?.addEventListener("click", hide);
+  clearButton?.addEventListener("click", () => clear());
   doc.addEventListener("keydown", (event) => {
     if (event.key.toLowerCase() === "d" && event.shiftKey) {
       toggle();
     }
   });
 
+  doc.addEventListener("hestia:dev-mode-state", (event) => {
+    const detail = event.detail || {};
+    const id = String(detail.id || "");
+    if (!id) {
+      return;
+    }
+
+    if (detail.active === false) {
+      activeModes.delete(id);
+    } else {
+      activeModes.set(id, String(detail.label || id));
+    }
+
+    renderActiveModes();
+  });
+
   render();
+  renderActiveModes();
 
   return {
     add,
+    clear,
     show,
     hide,
     toggle

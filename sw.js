@@ -1,7 +1,8 @@
-const CACHE_VERSION = "v25";
+const CACHE_VERSION = "v28";
 const STATIC_CACHE = `hestia-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `hestia-runtime-${CACHE_VERSION}`;
 const OFFLINE_URL = "./offline.html";
+let noCacheAssetsEnabled = false;
 
 const APP_SHELL = [
   "./",
@@ -32,6 +33,7 @@ const APP_SHELL = [
   "./app/modules/shopping.js",
   "./app/diagnostics/ambient-touch.js",
   "./app/diagnostics/art-style-presets.js",
+  "./app/diagnostics/dev-flags.js",
   "./app/diagnostics/font-presets.js",
   "./app/supabase/client.js",
   "./app/supabase/list-sync.js",
@@ -65,6 +67,11 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("message", (event) => {
   if (event.data?.type === "SKIP_WAITING") {
     self.skipWaiting();
+    return;
+  }
+
+  if (event.data?.type === "DEV_SET_NO_CACHE_ASSETS") {
+    noCacheAssetsEnabled = event.data.enabled === true;
   }
 });
 
@@ -78,8 +85,17 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
+  if (event.request.mode === "navigate" && requestUrl.searchParams.get("dev_nocache_assets") === "1") {
+    noCacheAssetsEnabled = true;
+  }
+
   if (requestUrl.pathname.endsWith("/public/runtime-config.json")) {
     event.respondWith(networkFirstForConfig(event.request));
+    return;
+  }
+
+  if (noCacheAssetsEnabled && isNoCacheAssetRequest(event.request, requestUrl)) {
+    event.respondWith(networkOnlyNoCache(event.request));
     return;
   }
 
@@ -145,4 +161,43 @@ async function networkFirstForConfig(request) {
       headers: { "Content-Type": "application/json; charset=utf-8" }
     });
   }
+}
+
+async function networkOnlyNoCache(request) {
+  try {
+    return await fetch(request, { cache: "reload" });
+  } catch {
+    const cachedResponse = await caches.match(request);
+    if (cachedResponse) {
+      return cachedResponse;
+    }
+
+    if (request.mode === "navigate") {
+      const offlinePage = await caches.match(OFFLINE_URL);
+      if (offlinePage) {
+        return offlinePage;
+      }
+    }
+
+    return new Response("Offline", {
+      status: 503,
+      headers: { "Content-Type": "text/plain; charset=utf-8" }
+    });
+  }
+}
+
+function isNoCacheAssetRequest(request, requestUrl) {
+  if (request.mode === "navigate") {
+    return true;
+  }
+
+  const path = requestUrl.pathname.toLowerCase();
+  return (
+    path.endsWith(".css") ||
+    path.endsWith(".js") ||
+    path.endsWith(".svg") ||
+    path.endsWith(".png") ||
+    path.endsWith(".webmanifest") ||
+    path.endsWith(".html")
+  );
 }
