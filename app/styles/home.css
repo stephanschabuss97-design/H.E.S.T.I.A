@@ -9,7 +9,7 @@
 }
 
 .home-hero {
-  width: min(100%, 960px);
+  width: min(100%, 620px);
   display: grid;
   justify-items: center;
   gap: 26px;
@@ -52,7 +52,7 @@ html[data-font-set="g"] .home-title {
 }
 
 .actions {
-  width: min(100%, 860px);
+  width: min(100%, 540px);
   margin: 0 auto;
   display: grid;
   gap: 16px;
@@ -60,39 +60,34 @@ html[data-font-set="g"] .home-title {
 
 .home-intents {
   width: 100%;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
 }
 
 .home-intent-card {
   width: 100%;
-  min-height: 118px;
-  padding: 14px 14px 16px;
-  display: grid;
-  align-content: start;
-  gap: 10px;
+  min-height: 104px;
+  padding: 18px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
   text-align: left;
-  border-radius: 18px;
   border: 1px solid var(--c-button-border);
-  overflow: hidden;
 }
 
 .home-intent-card-top {
-  width: 100%;
-  display: grid;
-  justify-items: start;
-  gap: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .home-intent-card-icon {
-  width: 18px;
-  height: 18px;
-  flex: 0 0 18px;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   color: var(--c-accent-soft);
-  overflow: hidden;
 }
 
 .home-intent-card-icon svg {
@@ -108,24 +103,19 @@ html[data-font-set="g"] .home-title {
 
 .home-intent-card-title {
   display: block;
-  max-width: 100%;
-  font-size: clamp(1.18rem, 2.4vw, 2.45rem);
-  line-height: 1.08;
-  overflow-wrap: anywhere;
+  font-size: clamp(1.9rem, 4vw, 2.45rem);
+  line-height: 1.02;
 }
 
 .home-intent-card-hint {
   display: block;
-  margin-top: 0;
-  max-width: 100%;
+  margin-top: 8px;
   font-family: var(--font-sans);
-  font-size: 0.79rem;
+  font-size: 0.98rem;
   font-weight: 500;
-  line-height: 1.2;
+  line-height: 1.18;
   letter-spacing: 0.01em;
   color: var(--c-text-dim);
-  white-space: normal;
-  overflow-wrap: anywhere;
 }
 
 .home-utilities {
@@ -158,49 +148,6 @@ html[data-font-set="g"] .home-title {
     inset 0 1px 0 rgba(255, 255, 255, 0.14);
 }
 
-@media (min-width: 920px) {
-  .screen-home.is-active {
-    padding: 92px 32px 56px;
-  }
-
-  .home-hero {
-    gap: 30px;
-  }
-
-  .home-intents {
-    gap: 18px;
-  }
-
-  .home-intent-card {
-    min-height: 176px;
-    padding: 24px 28px;
-    gap: 14px;
-  }
-
-  .home-intent-card-top {
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    justify-items: unset;
-  }
-
-  .home-intent-card-icon {
-    width: 24px;
-    height: 24px;
-    flex-basis: 24px;
-  }
-
-  .home-intent-card-title {
-    font-size: clamp(2rem, 3vw, 2.7rem);
-  }
-
-  .home-intent-card-hint {
-    max-width: 18ch;
-    font-size: 1rem;
-    line-height: 1.24;
-  }
-}
-
 @media (max-width: 640px) {
   .screen-home.is-active {
     padding: 80px 18px 36px;
@@ -214,34 +161,27 @@ html[data-font-set="g"] .home-title {
     text-align: center;
   }
 
-  .home-intents {
-    gap: 10px;
-  }
-
   .home-intent-card {
-    min-height: 110px;
-    padding: 12px 12px 14px;
-    gap: 8px;
+    min-height: 94px;
+    padding: 16px 18px;
   }
 
   .home-intent-card-top {
-    gap: 8px;
+    gap: 10px;
   }
 
   .home-intent-card-icon {
-    width: 16px;
-    height: 16px;
-    flex-basis: 16px;
+    width: 22px;
+    height: 22px;
+    flex-basis: 22px;
   }
 
   .home-intent-card-title {
-    font-size: clamp(1rem, 4.8vw, 1.28rem);
+    font-size: clamp(1.72rem, 8vw, 2.12rem);
   }
 
   .home-intent-card-hint {
-    max-width: 100%;
-    font-size: 0.7rem;
-    line-height: 1.14;
+    font-size: 0.92rem;
   }
 
   .home-utility-bar {
