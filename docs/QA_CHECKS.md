@@ -49,6 +49,11 @@ Zweck:
 ## 4. UI / Grundverhalten
 
 - Home wirkt ruhig und nicht wie ein Dashboard.
+- Home zeigt genau zwei primaere Intent-Flaechen:
+  - `Schreiben`
+  - `Einkaufen`
+- `Schreiben` steht auf Home oberhalb von `Einkaufen`.
+- Der kleine Utility-Einstieg ist auffindbar, aber nicht gleichrangig mit den zwei Kernpfaden.
 - Writing bleibt schneller als ein Formular.
 - Shopping bleibt klar und reduziert.
 - Navigation zwischen Home, Writing und Shopping funktioniert ohne Haken.
@@ -93,19 +98,23 @@ Diese Checks erst ausfuehren, wenn Realtime eingebaut ist:
 
 ## 8. Touchlog
 
-- `Touchlog`-Button oeffnet das Panel.
+- Der kleine Utility-Einstieg auf Home oeffnet `Darstellung & Diagnose`.
 - `Shift + D` toggelt das Panel ebenfalls.
+- Das Panel zeigt `Darstellung` vor `Entwickler`.
 - Boot zeigt einen knappen, nachvollziehbaren Start-Trace.
 - `Item hinzufuegen`, `Loeschen`, `Liste leeren`, `Liste speichern` und Shopping-Aktionen erscheinen als hochwertige Eintraege.
 - Realtime-Ereignisse erscheinen als eigene Sync-Eintraege.
 - Wiederholte identische Ereignisse werden aggregiert statt gespammt.
+- Auf Mobile bleibt das Panel viewport-begrenzt und intern scrollbar; der obere Bereich darf nicht aus dem sichtbaren Fenster herausragen.
 
 ---
 
 ## 9. Diagnostics / Dev
 
-- Die linke Dev-Spalte zeigt aktive Sonderzustaende nur dann, wenn wirklich ein Dev-Modus aktiv ist.
-- Default-`Schriftstil` und Default-`Artstil` erscheinen nicht als aktiver Sonderzustand.
+- Die Sektion `Aktuelle Wahl` zeigt nur lokale Darstellungszustaende.
+- Default-`Schriftstil` und Default-`Artstil` erscheinen nicht als aktiver Diagnosemodus.
+- Ohne aktive Stilabweichung zeigt `Aktuelle Wahl` den Default-Hinweis `Standardstil aktiv.`.
+- Die Sektion `Aktive Diagnosemodi` zeigt aktive Sonderzustaende nur dann, wenn wirklich ein Diagnosemodus aktiv ist.
 - `No Cache Assets` laesst sich aktivieren und bleibt nach Reload sichtbar aktiv.
 - `No Cache Assets` laesst sich wieder deaktivieren und verschwindet danach aus den aktiven Modi.
 - `Touchlog leeren` leert den Log sichtbar und hinterlaesst genau eine kleine Diagnosezeile.
@@ -120,4 +129,5 @@ Diese Checks erst ausfuehren, wenn Realtime eingebaut ist:
 - Neue Features duerfen diese Baseline nicht verschlechtern.
 - Sync und Realtime werden erst als stabil betrachtet, wenn auch Abschnitt 6 und 7 reproduzierbar gruen sind.
 - Touchlog bleibt hilfreich und ruhig statt technisch laut zu werden.
+- Der Home-Hub bleibt bei genau zwei primaeren Intentionen; Utilities duerfen diese Hierarchie nicht aufweichen.
 - Dev-/Diagnostics-Hebel bleiben klein, lokal und ohne Eingriff in Produktwahrheit.

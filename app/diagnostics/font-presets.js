@@ -12,7 +12,7 @@ export function initFontPresets(doc) {
   function emit(setName) {
     const next = ALLOWED_SETS.has(setName) ? setName : DEFAULT_SET;
     doc.dispatchEvent(
-      new CustomEvent("hestia:dev-mode-state", {
+      new CustomEvent("hestia:display-mode-state", {
         detail: {
           id: "font-set",
           label: `Schriftstil ${String(next || "").toUpperCase()}`,

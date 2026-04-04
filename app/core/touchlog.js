@@ -39,7 +39,11 @@ export function createTouchlog(doc) {
   const panel = doc.getElementById("touchlog-panel");
   const logEl = doc.getElementById("touchlog-log");
   const activeModesEl = doc.getElementById("touchlog-active-modes");
-  const toggleButton = doc.getElementById("dev-panel-toggle") || doc.getElementById("touchlog-toggle");
+  const displayModesEl = doc.getElementById("display-active-modes");
+  const toggleButton =
+    doc.getElementById("utility-panel-toggle") ||
+    doc.getElementById("dev-panel-toggle") ||
+    doc.getElementById("touchlog-toggle");
   const closeButton = doc.getElementById("touchlog-close");
   const clearButton = doc.getElementById("touchlog-clear");
 
@@ -52,6 +56,7 @@ export function createTouchlog(doc) {
 
   let isOpen = false;
   const activeModes = new Map();
+  const displayModes = new Map();
 
   function renderLine(entry) {
     return entry.count > 1 ? `${entry.line} (x${entry.count})` : entry.line;
@@ -84,6 +89,29 @@ export function createTouchlog(doc) {
       item.className = "dev-mode-pill";
       item.textContent = String(mode);
       activeModesEl.append(item);
+    });
+  }
+
+  function renderDisplayModes() {
+    if (!displayModesEl) {
+      return;
+    }
+
+    displayModesEl.textContent = "";
+    const items = Array.from(displayModes.values()).filter(Boolean);
+    if (items.length === 0) {
+      const emptyItem = doc.createElement("li");
+      emptyItem.className = "dev-mode-empty";
+      emptyItem.textContent = "Standardstil aktiv.";
+      displayModesEl.append(emptyItem);
+      return;
+    }
+
+    items.forEach((mode) => {
+      const item = doc.createElement("li");
+      item.className = "dev-mode-pill";
+      item.textContent = String(mode);
+      displayModesEl.append(item);
     });
   }
 
@@ -192,8 +220,25 @@ export function createTouchlog(doc) {
     renderActiveModes();
   });
 
+  doc.addEventListener("hestia:display-mode-state", (event) => {
+    const detail = event.detail || {};
+    const id = String(detail.id || "");
+    if (!id) {
+      return;
+    }
+
+    if (detail.active === false) {
+      displayModes.delete(id);
+    } else {
+      displayModes.set(id, String(detail.label || id));
+    }
+
+    renderDisplayModes();
+  });
+
   render();
   renderActiveModes();
+  renderDisplayModes();
 
   return {
     add,

@@ -73,6 +73,34 @@
   box-shadow: var(--shadow-engraved);
 }
 
+.utility-panel-section {
+  display: grid;
+  gap: 10px;
+}
+
+.utility-panel-section-dev {
+  margin-top: 4px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(230, 227, 221, 0.1);
+}
+
+.utility-panel-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.utility-panel-title {
+  color: var(--c-accent-soft);
+}
+
+.utility-panel-copy {
+  font-size: 0.74rem;
+  color: var(--c-text-dim);
+  line-height: 1.3;
+}
+
 .dev-panel-block {
   display: grid;
   gap: 8px;
@@ -251,13 +279,27 @@
 
 @media (max-width: 720px) {
   .touchlog-panel {
+    top: max(12px, env(safe-area-inset-top));
+    bottom: max(12px, env(safe-area-inset-bottom));
     left: 12px;
     right: 12px;
     width: auto;
+    display: grid;
+    overflow: auto;
+    overscroll-behavior: contain;
+  }
+
+  .touchlog-panel > .panel {
+    max-height: 100%;
+    overflow: auto;
   }
 
   .touchlog-layout {
     grid-template-columns: 1fr;
+  }
+
+  .touchlog-log {
+    max-height: min(34vh, 280px);
   }
 }
 

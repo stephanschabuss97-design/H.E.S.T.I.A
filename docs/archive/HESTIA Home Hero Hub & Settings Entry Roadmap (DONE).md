@@ -186,8 +186,8 @@ Forbidden:
 | S1 | Ist-Analyse des aktuellen Home-Hubs und seiner Driftstellen | DONE | Home ist heute ein klarer, aber noch menuehafter Drei-Zonen-Schnitt: zwei starke Intent-Buttons plus kleiner `Dev`-Entry. Der eigentliche Drift sitzt in der Hierarchie und in der noch unsauberen Vermischung von Stilwahl und Entwicklerzugang. |
 | S2 | Produktvertrag fuer den neuen Hero-Hub finalisieren | DONE | Home bleibt ein ruhiger Zwei-Intent-Hub, aber nicht mehr als reines Button-Menue: `Schreiben` und `Einkaufen` werden als ruhige Intent-Kacheln gefasst. Kleine Icons und knappe Hilfscopy sind erlaubt; dynamische Umgewichtung der beiden Pfade je nach Listenstand ist bewusst ausgeschlossen. |
 | S3 | Informationsarchitektur fuer Utilities, Darstellung und Entwicklerzugang festziehen | DONE | Der sekundaere Einstieg wird nicht mehr textlich als `Dev` gefuehrt, sondern als kleines stilles Zahnrad/Utility-Signal. Dahinter bleibt ein gemeinsamer Einstieg erlaubt, aber mit klarer Erstebene `Darstellung` und bewusst nachgeordnetem Bereich `Entwickler`. |
-| S4 | Repo-Umsetzung des finalen Hero-Hub- und Utility-Vertrags | IN_PROGRESS | `S4.1` bis `S4.3` sind umgesetzt: Home-Markup traegt jetzt `home-hero`, strukturierte Intent-Kacheln und einen kleinen semantisch gelabelten Utility-Einstieg. Das Home-CSS zieht die neue Hierarchie sichtbar auf Hero, Intent-Karten, kleine Hint-Zeilen und dezente Inline-Symbolik; die innere Panel-Informationsarchitektur folgt in den naechsten Substeps. |
-| S5 | QA, Doku-Sync und Abschlussbewertung | TODO | |
+| S4 | Repo-Umsetzung des finalen Hero-Hub- und Utility-Vertrags | DONE | `S4.1` bis `S4.6` sind umgesetzt: Home-Markup traegt jetzt `home-hero`, strukturierte Intent-Kacheln und einen kleinen semantisch gelabelten Utility-Einstieg. Das Home-CSS zieht die neue Hierarchie sichtbar auf Hero, Intent-Karten, kleine Hint-Zeilen und dezente Inline-Symbolik; der alte Home-`Dev`-Entry ist technisch in einen Utility-Trigger ueberfuehrt, die Sidebar trennt sichtbar zwischen `Darstellung` und `Entwickler`, die Zustandsverdrahtung folgt dieser Trennung und der Mobile-Container fuer `Darstellung & Diagnose` ist jetzt viewport-begrenzt und intern scrollbar. |
+| S5 | QA, Doku-Sync und Abschlussbewertung | DONE | Die QA-Checks decken jetzt den neuen Hero-Hub, den Utility-Einstieg, die Trennung `Darstellung`/`Entwickler` und das mobile Scrollverhalten des Panels ab. Die Modul-Doku ist auf dem `S4`-Stand, `README.md` braucht keinen eigenen Home-Patch, weil dort kein abweichender Startscreen-Vertrag beschrieben wird. Restrisiko bleibt bei rein manuellen Sicht- und Device-Smokes. |
 
 Status-Legende: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`.
 
@@ -690,18 +690,19 @@ Aktueller Repo-Stand nach `S4.1`:
   - `div.actions.home-intents`
   - zwei strukturierte `button.home-intent-card`
   - `div.home-utilities.home-utility-bar`
-  - den bestehenden Toggle `#dev-panel-toggle` als kleinen Utility-Einstieg mit `aria-label="Optionen öffnen"`
+  - einen kleinen Utility-Einstieg mit `id="utility-panel-toggle"` und `aria-label="Darstellung und Diagnose öffnen"`
 - Die Router- und Touchlog-Hooks bleiben dabei unveraendert intakt.
 
 Bewertung:
 - Der markup-seitige Schnitt fuer den neuen Hero-Hub steht.
 - Die sichtbare Hierarchie ist CSS-seitig noch nicht fertiggezogen; das ist bewusst Teil von `S4.2`.
 
-Update nach `S4.2`:
+Update nach `S4.2`/`S4.3`:
 - `app/styles/home.css` zieht den neuen Schnitt jetzt sichtbar nach:
   - `home-hero`
   - grosszuegigere Intent-Karten
   - ruhige Hint-Zeilen
+  - dezente Inline-Symbolik
   - separater Utility-Trigger in der oberen Ecke
 - Der Home-Screen liest sich damit nicht mehr als drei Buttons im selben Stack.
 
@@ -720,6 +721,54 @@ Nach `S4` muss die Flaeche sichtbar zwischen:
 - `Entwickler`
 
 unterscheiden, auch wenn beides im selben Panel oder Sheet lebt.
+
+Aktueller Repo-Stand nach `S4.4` bis `S4.6`:
+- Der alte Home-`Dev`-Entry ist technisch in `utility-panel-toggle` ueberfuehrt.
+- Die Sidebar von `Darstellung & Diagnose` trennt jetzt sichtbar zwischen:
+  - `Darstellung`
+  - `Entwickler`
+- Stilwahl und Diagnosemodi besitzen getrennte Zustandsflaechen:
+  - `Aktuelle Wahl`
+  - `Aktive Diagnosemodi`
+- Auf kleinen Screens ist das Panel jetzt viewport-begrenzt und intern scrollbar, damit der obere Bereich nicht aus dem sichtbaren Handyfenster herausragt.
+
+#### S4 Checkpoint D - Schritt-Abnahme
+
+Contract-Check:
+- Home spricht jetzt sichtbar genau zwei primaere Intentionen.
+- Der sekundaere Einstieg ist klein, semantisch klar und technisch kein Home-`Dev`-Button mehr.
+- `Darstellung` und `Entwickler` sind nicht nur visuell, sondern auch in ihrer Zustandsverdrahtung getrennt.
+- Der Diagnostics-Surface bleibt lokal, sichtbar und ohne Eingriff in Produktwahrheit.
+- Das Mobile-Verhalten des Panels ist fuer reale Handy-Nutzung gehaertet.
+
+Abnahme:
+- `S4` ist repo-seitig abgeschlossen.
+- Der verbleibende Rest fuer diese Roadmap liegt jetzt in QA, Doku-Sync-Bewertung und Abschluss in `S5`.
+
+#### S4 Checkpoint E - Doku-Sync
+
+Auf den echten `S4`-Stand nachgezogen wurden:
+- `docs/modules/Home Module Overview.md`
+- `docs/modules/Diagnostics Module Overview.md`
+- `docs/modules/Touchlog Module Overview.md`
+- `docs/modules/CSS Module Overview.md`
+
+Hinweis:
+- `docs/QA_CHECKS.md` bleibt bewusst `S5`, weil dort die finalen manuellen Smokes gesammelt und gefahren werden sollen.
+
+#### S4 Checkpoint F - Commit-Empfehlung
+
+Empfohlener Commit:
+- `feat(home): turn HESTIA home into intent hub with utility-based diagnostics entry`
+
+Begruendung:
+- Der Scope ist ueber reines Styling hinausgewachsen:
+  - Home-Markup
+  - Home-CSS
+  - Utility-Einstieg
+  - Panel-Struktur
+  - Zustandsverdrahtung
+  - Mobile-Usability-Fix im Diagnostics-Container
 
 ### S5 - QA, Doku-Sync und Abschlussbewertung
 - S5.1 Home-Smokechecks fuer Desktop und Mobile definieren und fahren.
@@ -741,6 +790,25 @@ Explizit pruefen:
 - `Darstellung` und `Entwickler` sind im Utility-Bereich sauber getrennt
 - Mobile Home bleibt ruhig und nicht gedrungen
 
+Finaler `S5`-Stand:
+- `docs/QA_CHECKS.md` prueft Home jetzt explizit auf:
+  - genau zwei primaere Intent-Flaechen
+  - Reihenfolge `Schreiben` vor `Einkaufen`
+  - kleinen, aber auffindbaren Utility-Einstieg
+- Touchlog-/Panel-QA prueft jetzt:
+  - Utility-Einstieg statt altem `Touchlog`-Button
+  - `Darstellung & Diagnose` als gemeinsames Panel
+  - sichtbare Trennung `Darstellung` vor `Entwickler`
+  - viewport-begrenztes, intern scrollbares Panel auf Mobile
+- Diagnostics-QA prueft jetzt getrennt:
+  - `Aktuelle Wahl` fuer lokale Darstellungszustaende
+  - `Aktive Diagnosemodi` nur fuer echte Diagnoseflags
+  - Default-Stile erscheinen nicht als aktive Diagnosemodi
+
+Bewertung:
+- Die QA-Basis fragt jetzt genau die neue Home-Hierarchie und die neue Utility-Informationsarchitektur ab.
+- Reine Sicht- und Device-Smokes bleiben weiterhin manuell; die Checkliste dafuer ist aber auf dem finalen Vertrag.
+
 #### S5 Checkpoint B - Doku spricht denselben Home-Vertrag
 
 Nachzuziehen sind mindestens:
@@ -750,12 +818,72 @@ Nachzuziehen sind mindestens:
 - `docs/QA_CHECKS.md`
 - `README.md` falls der Home-Einstieg dort kurz referenziert wird
 
+Finaler `S5`-Stand:
+- Bereits auf den neuen Vertrag gezogen:
+  - `docs/modules/Home Module Overview.md`
+  - `docs/modules/Diagnostics Module Overview.md`
+  - `docs/modules/Touchlog Module Overview.md`
+  - `docs/modules/CSS Module Overview.md`
+  - `docs/QA_CHECKS.md`
+- `README.md` bleibt unveraendert:
+  - dort wird der Home-Einstieg nicht im Widerspruch zum neuen Stand beschrieben
+  - deshalb ist kein kuenstlicher README-Patch noetig
+
+Bewertung:
+- Code, Modul-Doku und QA sprechen jetzt denselben Home-/Utility-Vertrag.
+- Kein Doku-Text fuehrt Home noch als Drei-Modi-Schnitt mit sichtbarem `Dev`-Button.
+
 #### S5 Checkpoint C - Guardrail fuer spaetere Home-Erweiterungen bleibt hart
 
 Auch nach erfolgreichem Umbau gilt:
 - Home ist kein Sammelort fuer jede neue Idee
 - neue Startscreen-Inhalte brauchen einen klaren Kernfluss-Gewinn
 - Utilities duerfen nicht schleichend zu einem zweiten Produktbereich anwachsen
+
+Expliziter Abschlussvertrag:
+- Neue Home-Inhalte muessen kuenftig mindestens eine dieser Fragen sauber bestehen:
+  - Macht das `Schreiben` oder `Einkaufen` schneller?
+  - Macht es den gemeinsamen Einkaufsfluss klarer?
+  - Bleibt der Utility-Bereich trotzdem klar sekundar?
+- Nicht ausreichend als Begruendung gelten:
+  - "koennte praktisch sein"
+  - "passt noch irgendwo hin"
+  - "ist ja nur eine kleine Zusatzinfo"
+
+Bewertung:
+- Der Hero-Hub bleibt damit produktseitig auf zwei Kernintentionen begrenzt.
+- Utilities bleiben erlaubt, aber nicht als schleichender zweiter Produktbereich.
+
+#### S5 Checkpoint D - Schritt-Abnahme
+
+Contract-Check:
+- Home bleibt sichtbar bei genau zwei primaeren Intentionen.
+- Der Utility-Einstieg ist klein, klar benannt und nicht mehr als dritter Hauptmodus lesbar.
+- `Darstellung` und `Entwickler` sind in UI, Zustandsanzeige und QA sauber getrennt.
+- Die mobile Nutzung des Panels ist als eigener QA-Fall abgesichert.
+- Der Doku-Stand widerspricht dem finalen Repo-Schnitt nicht mehr.
+
+Abnahme:
+- `S5` ist abgeschlossen.
+- Diese Roadmap ist damit fachlich und dokumentarisch geschlossen.
+
+#### S5 Checkpoint E - Doku-Sync
+
+Im Abschluss von `S5` nachgezogen oder bestaetigt:
+- `docs/QA_CHECKS.md` auf finalen Hero-Hub- und Utility-Vertrag gezogen
+- Modul-Doku aus `S4.8` gegen den finalen Abschluss erneut bestaetigt
+- `README.md` bewusst unveraendert gelassen, weil dort kein abweichender Home-Vertrag beschrieben ist
+
+Hinweis:
+- Reale manuelle Device-Smokes bleiben weiterhin sinnvoll, sind aber kein Doku-Blocker mehr fuer diese Roadmap.
+
+#### S5 Checkpoint F - Commit-Empfehlung
+
+Empfohlener Roadmap-/Doku-Commit:
+- `docs(roadmap): close hero hub roadmap with QA and final contract sync`
+
+Empfohlener Gesamt-Commit fuer den abgeschlossenen Umbau:
+- `feat(home): finalize hero hub and utility-based diagnostics entry`
 
 ## Smokechecks / Regression (Definition)
 - Home zeigt genau zwei klar lesbare Hauptintentionen.

@@ -59,7 +59,7 @@ Begruendung:
 | `app/styles/base.css` | Reset, Body, `[hidden]`, Ambient, globale Form-Control-Grundregeln |
 | `app/styles/layout.css` | `app-shell`, `screen`, `panel`, `panel-head`, `row-actions` |
 | `app/styles/ui.css` | Buttons, Inline-Links, Sync-Status, Listen-Grundmuster, globale mobile UI-Overrides |
-| `app/styles/home.css` | Home-Titel, Actions, Dev-Button, Home-Praesentation |
+| `app/styles/home.css` | Home-Titel, Intent-Karten, Utility-Einstieg, Home-Praesentation |
 | `app/styles/writing.css` | Writing-Form und Semantik-Popup |
 | `app/styles/shopping.css` | Papierliste, Checkbox-/Meta-Layout, mobile Shopping-Regeln |
 | `app/styles/devtools.css` | Touchlog, Stilumschalter, Devtools-Panel |
@@ -86,7 +86,7 @@ Wenn du etwas aendern willst:
 - Startseite -> `app/styles/home.css`
 - Schreiben-Flow -> `app/styles/writing.css`
 - Einkaufen-Flow -> `app/styles/shopping.css`
-- Touchlog oder Stilwahl -> `app/styles/devtools.css`
+- Touchlog, Utility-/Diagnostics-Panel oder Stilwahl -> `app/styles/devtools.css`
 - Install-/PWA-Hinweise -> `app/styles/pwa.css`
 - Theme/Farbe/Font -> `app/styles/tokens.css`
 - Reset, Body, `hidden`, Form-Grundlagen -> `app/styles/base.css`

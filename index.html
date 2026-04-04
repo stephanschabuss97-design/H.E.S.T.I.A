@@ -65,8 +65,8 @@
       </div>
       <div class="home-utilities home-utility-bar">
         <button
-          class="surface-button compact home-dev-toggle home-utility-toggle"
-          id="dev-panel-toggle"
+          class="surface-button compact home-utility-button home-utility-toggle"
+          id="utility-panel-toggle"
           type="button"
           aria-expanded="false"
           aria-controls="touchlog-panel"
@@ -147,59 +147,78 @@
       </div>
       <div class="touchlog-layout">
         <aside class="touchlog-sidebar" aria-label="Darstellung und Diagnose">
-          <section class="dev-panel-block" aria-labelledby="dev-sandbox-title">
-            <span class="font-switch-label" id="dev-sandbox-title">Darstellung</span>
-            <div class="dev-panel-subblock">
-              <span class="font-switch-label">Schriftstil</span>
-              <div class="font-switch-buttons">
-                <button class="font-option" data-font-set="a" type="button">A</button>
-                <button class="font-option is-active" data-font-set="b" type="button">B</button>
-                <button class="font-option" data-font-set="c" type="button">C</button>
-                <button class="font-option" data-font-set="d" type="button">D</button>
-                <button class="font-option" data-font-set="e" type="button">E</button>
-                <button class="font-option" data-font-set="f" type="button">F</button>
-                <button class="font-option" data-font-set="g" type="button">G</button>
+          <section class="utility-panel-section" aria-labelledby="utility-display-title">
+            <div class="utility-panel-heading">
+              <span class="font-switch-label utility-panel-title" id="utility-display-title">Darstellung</span>
+            </div>
+            <div class="dev-panel-block">
+              <div class="dev-panel-subblock" aria-labelledby="display-state-title">
+                <div class="dev-panel-title-row">
+                  <span class="font-switch-label" id="display-state-title">Aktuelle Wahl</span>
+                </div>
+                <ul id="display-active-modes" class="dev-mode-list" aria-live="polite">
+                  <li class="dev-mode-empty">Standardstil aktiv.</li>
+                </ul>
+              </div>
+              <div class="dev-panel-subblock">
+                <span class="font-switch-label">Schriftstil</span>
+                <div class="font-switch-buttons">
+                  <button class="font-option" data-font-set="a" type="button">A</button>
+                  <button class="font-option is-active" data-font-set="b" type="button">B</button>
+                  <button class="font-option" data-font-set="c" type="button">C</button>
+                  <button class="font-option" data-font-set="d" type="button">D</button>
+                  <button class="font-option" data-font-set="e" type="button">E</button>
+                  <button class="font-option" data-font-set="f" type="button">F</button>
+                  <button class="font-option" data-font-set="g" type="button">G</button>
+                </div>
+              </div>
+              <div class="dev-panel-subblock">
+                <span class="font-switch-label">Artstil</span>
+                <div class="font-switch-buttons">
+                  <button class="font-option is-active" data-art-style="a" type="button">A</button>
+                  <button class="font-option" data-art-style="b" type="button">B</button>
+                </div>
               </div>
             </div>
-            <div class="dev-panel-subblock">
-              <span class="font-switch-label">Artstil</span>
-              <div class="font-switch-buttons">
-                <button class="font-option is-active" data-art-style="a" type="button">A</button>
-                <button class="font-option" data-art-style="b" type="button">B</button>
+          </section>
+
+          <section class="utility-panel-section utility-panel-section-dev" aria-labelledby="utility-dev-title">
+            <div class="utility-panel-heading">
+              <span class="font-switch-label utility-panel-title" id="utility-dev-title">Entwickler</span>
+              <span class="utility-panel-copy">lokale Diagnose</span>
+            </div>
+
+            <section class="dev-panel-block" aria-labelledby="dev-active-modes-title">
+              <div class="dev-panel-title-row">
+                <span class="font-switch-label" id="dev-active-modes-title">Aktive Diagnosemodi</span>
+                <span class="dev-panel-hint">lokal</span>
               </div>
-            </div>
-          </section>
+              <ul id="touchlog-active-modes" class="dev-mode-list" aria-live="polite">
+                <li class="dev-mode-empty">Keine aktiven Sonderzustände.</li>
+              </ul>
+            </section>
 
-          <section class="dev-panel-block" aria-labelledby="dev-active-modes-title">
-            <div class="dev-panel-title-row">
-              <span class="font-switch-label" id="dev-active-modes-title">Aktive Modi</span>
-              <span class="dev-panel-hint">lokal</span>
-            </div>
-            <ul id="touchlog-active-modes" class="dev-mode-list" aria-live="polite">
-              <li class="dev-mode-empty">Keine aktiven Sonderzustände.</li>
-            </ul>
-          </section>
+            <section class="dev-panel-block" aria-labelledby="dev-diagnostics-title">
+              <span class="font-switch-label" id="dev-diagnostics-title">Diagnose</span>
+              <label class="dev-toggle-row" for="dev-toggle-nocache-assets">
+                <span class="dev-toggle-copy">
+                  <span class="dev-toggle-label">No Cache Assets</span>
+                  <span class="dev-toggle-hint">Nur lokale App-Shell, CSS, JS und Assets.</span>
+                </span>
+                <span class="dev-toggle-control">
+                  <input id="dev-toggle-nocache-assets" class="dev-toggle-switch" type="checkbox">
+                  <span class="dev-toggle-slider" aria-hidden="true"></span>
+                </span>
+              </label>
+            </section>
 
-          <section class="dev-panel-block" aria-labelledby="dev-diagnostics-title">
-            <span class="font-switch-label" id="dev-diagnostics-title">Diagnose</span>
-            <label class="dev-toggle-row" for="dev-toggle-nocache-assets">
-              <span class="dev-toggle-copy">
-                <span class="dev-toggle-label">No Cache Assets</span>
-                <span class="dev-toggle-hint">Nur lokale App-Shell, CSS, JS und Assets.</span>
-              </span>
-              <span class="dev-toggle-control">
-                <input id="dev-toggle-nocache-assets" class="dev-toggle-switch" type="checkbox">
-                <span class="dev-toggle-slider" aria-hidden="true"></span>
-              </span>
-            </label>
-          </section>
-
-          <section class="dev-panel-block" aria-labelledby="dev-tools-title">
-            <span class="font-switch-label" id="dev-tools-title">Hilfen</span>
-            <div class="dev-action-list">
-              <button class="inline-link dev-action-link" id="touchlog-clear" type="button">Touchlog leeren</button>
-              <button class="inline-link dev-action-link" id="dev-reset-state" type="button">Dev State zurücksetzen</button>
-            </div>
+            <section class="dev-panel-block" aria-labelledby="dev-tools-title">
+              <span class="font-switch-label" id="dev-tools-title">Hilfen</span>
+              <div class="dev-action-list">
+                <button class="inline-link dev-action-link" id="touchlog-clear" type="button">Touchlog leeren</button>
+                <button class="inline-link dev-action-link" id="dev-reset-state" type="button">Dev State zurücksetzen</button>
+              </div>
+            </section>
           </section>
         </aside>
         <pre id="touchlog-log" class="touchlog-log"></pre>

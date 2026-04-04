@@ -43,19 +43,24 @@ Vorhanden:
 - persistenter Snapshot in `localStorage`
 - Dedupe-Fenster fuer Wiederholungen
 - Hooking an Boot, PWA, Sync, Writing und Shopping
-- aktive Modusliste fuer lokale Dev-Sonderzustaende
+- eigene Listen fuer:
+  - aktuelle Darstellungswahl
+  - aktive Diagnosemodi
 - lokale Diagnosehilfen fuer Log-/Dev-Hygiene
 
 Zugriff:
-- `Dev`-Button auf dem Homescreen
+- kleiner Utility-Einstieg `Darstellung & Diagnose` auf dem Homescreen
 - zusaetzlich Shortcut `Shift + D`
 
 Im Panel:
 - links:
-  - aktive Modi
-  - Diagnose-Toggles
-  - visuelle Sandbox
-  - kleine Hilfsaktionen
+  - `Darstellung`
+    - aktuelle Wahl
+    - Stilumschalter
+  - `Entwickler`
+    - aktive Diagnosemodi
+    - Diagnose-Toggle
+    - kleine Hilfsaktionen
 - rechts Logausgabe
 
 ---
@@ -97,8 +102,9 @@ Der Touchlog fuehrt bewusst keine breitere technische Kategorienliste ein.
 - Wiederholungen sollen aggregiert statt gespammt werden.
 - Der Dev-Bereich darf nur lokale, sichtbare und reversible Diagnosehebel tragen.
 - Touchlog und Dev-Flags duerfen nie den fachlichen Household-/Sync-Vertrag veraendern.
-- Aktive Dev-Modi muessen sichtbar sein, aber nicht als Log-Spam gespiegelt werden.
-- Der Touchlog bleibt Event-Trace; aktive Sonderzustaende gehoeren primaer in die linke Dev-Spalte.
+- Aktive Diagnosemodi muessen sichtbar sein, aber nicht als Log-Spam gespiegelt werden.
+- Darstellungswahl und Diagnosemodi werden bewusst getrennt gehalten.
+- Der Touchlog bleibt Event-Trace; aktive Sonderzustaende gehoeren primaer in die linke Sidebar.
 - `No Cache Assets` ist ein lokaler Shell-/Asset-Hebel und kein Daten-/Sync-Modus.
 - `Touchlog leeren` und `Dev State zuruecksetzen` bleiben lokale Diagnosehilfen ohne Einfluss auf Produktdaten.
 

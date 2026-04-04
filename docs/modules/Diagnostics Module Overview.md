@@ -1,7 +1,7 @@
 # Diagnostics Module Overview
 
 Kurze Einordnung:
-- Zweck: beschreibt den kleinen HESTIA-Diagnostics-Surface aus Dev-Panel, aktiven Modi und Touchlog.
+- Zweck: beschreibt den kleinen HESTIA-Diagnostics-Surface innerhalb von `Darstellung & Diagnose`.
 - Rolle innerhalb von HESTIA: hilft bei PWA-, CSS-, Shell- und Sync-Diagnose, ohne daraus ein grosses Dev-Cockpit zu machen.
 - Abgrenzung: kein Produktfeature, kein Monitoring-System, keine Telemetrie.
 
@@ -24,11 +24,15 @@ Related docs:
 ## 2. Aktueller Zuschnitt
 
 Bestandteile:
-- `Dev`-Button auf Home
-- linke Dev-Spalte mit:
-  - aktive Modi
+- kleiner Utility-Einstieg auf Home
+- linke Sidebar mit zwei Bereichen:
+  - `Darstellung`
+    - aktuelle Stilwahl
+    - `Schriftstil`
+    - `Artstil`
+  - `Entwickler`
+    - aktive Diagnosemodi
   - `No Cache Assets`
-  - visuelle Sandbox (`Schriftstil`, `Artstil`)
   - `Touchlog leeren`
   - `Dev State zuruecksetzen`
 - rechter Bereich als ruhiger Touchlog-Trace
@@ -47,6 +51,7 @@ Wichtige Dateien:
 
 - Dev-Hebel bleiben lokal.
 - Dev-Hebel sind sichtbar und reversibel.
+- Stilwahl ist lokal und lebt bewusst ausserhalb des Household-Syncs.
 - `No Cache Assets` betrifft nur lokale App-Shell-/Asset-Diagnose.
 - Diagnostics greift nicht in Household-, Sync- oder Produktdatenwahrheit ein.
 - Default-Stile sind kein aktiver Sonderzustand.
@@ -71,6 +76,6 @@ Nicht zugelassen:
 ## 5. Definition of Done
 
 - Ein neuer Chat versteht sofort, was der HESTIA-Diagnostics-Surface ist.
-- Die Dev-Oberflaeche bleibt klein und lesbar.
-- Aktive Sonderzustaende sind sichtbar.
+- Der Entwicklerbereich bleibt klein und lesbar.
+- Aktive Diagnosemodi sind sichtbar.
 - Touchlog bleibt Event-Trace und kippt nicht in Debug-Spam.

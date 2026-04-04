@@ -12,7 +12,7 @@ export function initArtStylePresets(doc) {
   function emit(styleName) {
     const next = ALLOWED_STYLES.has(styleName) ? styleName : DEFAULT_STYLE;
     doc.dispatchEvent(
-      new CustomEvent("hestia:dev-mode-state", {
+      new CustomEvent("hestia:display-mode-state", {
         detail: {
           id: "art-style",
           label: `Artstil ${String(next || "").toUpperCase()}`,

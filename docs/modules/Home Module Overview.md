@@ -25,13 +25,13 @@ Related docs:
 
 | Datei | Zweck |
 |------|------|
-| `index.html` | Screen-Struktur, Titel, primaere Aktionsbuttons und `Dev`-Einstieg |
+| `index.html` | Screen-Struktur, Titel, zwei Intent-Karten und kleiner Utility-Einstieg |
 | `app/core/router.js` | einfacher Wechsel zwischen `home`, `writing` und `shopping` |
 | `app/modules/home-scene.js` | atmosphaerischer Hintergrund fuer die Startansicht |
 | `app/diagnostics/ambient-touch.js` | leichtes Touch-Feedback fuer die Oberflaeche |
 | `app/app.css` | zentraler CSS-Bundle-Einstieg |
 | `app/styles/ui.css` | globale Buttons und UI-Grundmuster |
-| `app/styles/home.css` | Home-Screen-Praesentation, Titel und Aktionsbereich |
+| `app/styles/home.css` | Home-Screen-Praesentation, Intent-Karten und Utility-Einstieg |
 
 ---
 
@@ -53,7 +53,7 @@ Related docs:
 ### 4.2 User-Trigger
 - Klick auf `Schreiben` navigiert in den Capture-Flow.
 - Klick auf `Einkaufen` navigiert in den Shopping-Flow.
-- Klick auf `Dev` oeffnet das Touchlog-Panel.
+- Klick auf den kleinen Utility-Einstieg oeffnet `Darstellung & Diagnose`.
 
 ### 4.3 Verarbeitung
 - Home enthaelt keine Fachlogik fuer Listendaten.
@@ -63,16 +63,16 @@ Related docs:
 
 ## 5. UI-Integration
 
-- Home zeigt den Titel `H.E.S.T.I.A.` plus genau zwei grosse Aktionen.
+- Home zeigt den Titel `H.E.S.T.I.A.` plus genau zwei gestapelte Intent-Karten.
 - Der visuelle Charakter ist absichtlich atmosphaerisch statt informationsdicht.
-- Der `Dev`-Button ist derzeit bewusst geparkter Entwicklerzugang unterhalb der beiden Produktpfade.
+- Oben rechts sitzt ein kleiner Utility-Einstieg fuer `Darstellung & Diagnose`, ohne den Hero-Kern zu ueberholen.
 
 ---
 
 ## 6. Risiken
 
 - Home darf nicht schleichend zu einem Dashboard wachsen.
-- Dev-Helfer duerfen die zwei Produktpfade nicht optisch dominieren.
+- Utility- und Diagnosehelfer duerfen die zwei Produktpfade nicht optisch dominieren.
 
 ---
 
@@ -80,4 +80,4 @@ Related docs:
 
 - Home fuehrt ohne Erklaerung klar in `Schreiben` oder `Einkaufen`.
 - Die Ansicht wirkt ruhig und nicht wie ein Kontrollzentrum.
-- Diagnosezugang ist vorhanden, aber nicht der Produktkern.
+- Der Utility-Einstieg ist vorhanden, aber nicht der Produktkern.
