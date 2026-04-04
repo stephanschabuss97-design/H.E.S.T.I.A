@@ -1,4 +1,4 @@
-# HESTIA Dev Panel, Touchlog & Diagnostics Roadmap
+# HESTIA Dev Panel, Touchlog & Diagnostics Roadmap (DONE)
 
 ## Ziel (klar und pruefbar)
 Der bestehende HESTIA-Dev-Bereich soll so weiterentwickelt werden, dass Touchlog und Dev-Toggles im Alltag echte Diagnosearbeit erleichtern, ohne HESTIA in eine laute Werkbank zu verwandeln. HESTIA soll dabei bewusst vom MIDAS-Geist lernen, aber nur die wirklich noetigen Diagnose-Werkzeuge uebernehmen.

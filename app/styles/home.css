@@ -1,10 +1,18 @@
 .screen-home.is-active {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   min-height: calc(100vh - 88px);
-  gap: 24px;
+  padding: 84px 24px 52px;
+}
+
+.home-hero {
+  width: min(100%, 960px);
+  display: grid;
+  justify-items: center;
+  gap: 26px;
 }
 
 .home-title {
@@ -44,21 +52,182 @@ html[data-font-set="g"] .home-title {
 }
 
 .actions {
-  width: min(100%, 540px);
+  width: min(100%, 860px);
   margin: 0 auto;
   display: grid;
+  gap: 16px;
+}
+
+.home-intents {
+  width: 100%;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
 }
 
+.home-intent-card {
+  width: 100%;
+  min-height: 148px;
+  padding: 18px 18px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  text-align: left;
+  border-radius: 18px;
+  border: 1px solid var(--c-button-border);
+}
+
+.home-intent-card-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.home-intent-card-icon {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--c-accent-soft);
+}
+
+.home-intent-card-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.home-intent-card-title {
+  display: block;
+  font-size: clamp(1.6rem, 3vw, 2.45rem);
+  line-height: 1.04;
+}
+
+.home-intent-card-hint {
+  display: block;
+  margin-top: 14px;
+  max-width: 18ch;
+  font-family: var(--font-sans);
+  font-size: 0.94rem;
+  font-weight: 500;
+  line-height: 1.22;
+  letter-spacing: 0.01em;
+  color: var(--c-text-dim);
+}
+
 .home-utilities {
-  width: min(100%, 540px);
+  width: auto;
   display: grid;
   gap: 12px;
 }
 
+.home-utility-bar {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  justify-items: end;
+}
+
 .home-dev-toggle {
-  min-height: 50px;
-  font-size: 1.1rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  min-height: 46px;
+  min-width: 46px;
+  padding: 10px;
+  font-size: 1.35rem;
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.home-utility-toggle {
+  border-radius: 999px;
+  box-shadow:
+    0 10px 24px rgba(7, 10, 18, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+@media (min-width: 920px) {
+  .screen-home.is-active {
+    padding: 92px 32px 56px;
+  }
+
+  .home-hero {
+    gap: 30px;
+  }
+
+  .home-intents {
+    gap: 18px;
+  }
+
+  .home-intent-card {
+    min-height: 176px;
+    padding: 24px 28px;
+    justify-content: flex-start;
+  }
+
+  .home-intent-card-top {
+    margin-top: 4px;
+  }
+
+  .home-intent-card-title {
+    font-size: clamp(2rem, 3vw, 2.7rem);
+  }
+
+  .home-intent-card-hint {
+    margin-top: 14px;
+    max-width: 18ch;
+    font-size: 1rem;
+    line-height: 1.24;
+  }
+}
+
+@media (max-width: 640px) {
+  .screen-home.is-active {
+    padding: 80px 18px 36px;
+  }
+
+  .home-hero {
+    gap: 22px;
+  }
+
+  .home-title {
+    text-align: center;
+  }
+
+  .home-intent-card {
+    min-height: 132px;
+    padding: 14px 14px 14px;
+  }
+
+  .home-intent-card-top {
+    gap: 8px;
+  }
+
+  .home-intent-card-icon {
+    width: 18px;
+    height: 18px;
+    flex-basis: 18px;
+  }
+
+  .home-intent-card-title {
+    font-size: clamp(1.2rem, 5vw, 1.52rem);
+  }
+
+  .home-intent-card-hint {
+    margin-top: 12px;
+    max-width: 12ch;
+    font-size: 0.8rem;
+    line-height: 1.18;
+  }
+
+  .home-utility-bar {
+    top: 18px;
+    right: 18px;
+  }
 }

@@ -9,7 +9,7 @@ Related docs:
 - [Touchlog Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Touchlog%20Module%20Overview.md)
 - [PWA Install Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/PWA%20Install%20Module%20Overview.md)
 - [QA_CHECKS.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/QA_CHECKS.md)
-- [HESTIA Dev Panel, Touchlog & Diagnostics Roadmap.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/HESTIA%20Dev%20Panel,%20Touchlog%20%26%20Diagnostics%20Roadmap.md)
+- [HESTIA Dev Panel, Touchlog & Diagnostics Roadmap (DONE).md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/archive/HESTIA%20Dev%20Panel,%20Touchlog%20%26%20Diagnostics%20Roadmap%20(DONE).md)
 
 ---
 
