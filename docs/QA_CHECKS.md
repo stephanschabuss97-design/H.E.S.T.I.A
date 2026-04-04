@@ -56,19 +56,31 @@ Zweck:
 
 ---
 
-## 5. Sync-Vorbereitung
+## 5. CSS-Architektur-Smokes
+
+- App laedt Styling nur ueber `app/app.css`.
+- Home, Writing, Shopping, Devtools und Install-Banner sehen nach dem Refaktor nicht sichtbar zerbrochen aus.
+- Checkboxen in Shopping bleiben klein und proportional und werden nicht von globalen Textfeld-Regeln aufgeblasen.
+- `surface-button`, `inline-link`, `items` und `item-row` wirken konsistent ueber Writing und Shopping.
+- Mobile Home-, Writing- und Shopping-Ansicht brechen nicht sichtbar durch die neue Import-Reihenfolge.
+- Touchlog-Panel bleibt auf Desktop und Mobil oeffnend und lesbar.
+- Install-Banner bleibt in installierter PWA versteckt und im Browser-Kontext weiter korrekt steuerbar.
+
+---
+
+## 6. Sync-Vorbereitung
 
 Diese Checks sind relevant, sobald der erste Supabase-Schritt beginnt:
 
 - App funktioniert weiterhin ohne Supabase-Konfiguration.
-- Mit gültiger Runtime-Config erscheint in Writing der Button `Liste speichern`, sobald Items vorhanden sind.
+- Mit gueltiger Runtime-Config erscheint in Writing der Button `Liste speichern`, sobald Items vorhanden sind.
 - Household-Key wird sauber gesetzt.
 - Remote-Save bricht den lokalen Flow nicht.
 - Fehlerfall bei Supabase fuehrt nicht zu Datenverlust im lokalen Zustand.
 
 ---
 
-## 6. Realtime-Zusatzchecks
+## 7. Realtime-Zusatzchecks
 
 Diese Checks erst ausfuehren, wenn Realtime eingebaut ist:
 
@@ -79,7 +91,7 @@ Diese Checks erst ausfuehren, wenn Realtime eingebaut ist:
 
 ---
 
-## 7. Touchlog
+## 8. Touchlog
 
 - `Touchlog`-Button oeffnet das Panel.
 - `Shift + D` toggelt das Panel ebenfalls.
@@ -90,9 +102,9 @@ Diese Checks erst ausfuehren, wenn Realtime eingebaut ist:
 
 ---
 
-## 8. Definition of Done
+## 9. Definition of Done
 
-- Der lokale HESTIA-Kern besteht alle Checks aus Abschnitt 1 bis 4.
+- Der lokale HESTIA-Kern besteht alle Checks aus Abschnitt 1 bis 5.
 - Neue Features duerfen diese Baseline nicht verschlechtern.
-- Sync und Realtime werden erst als stabil betrachtet, wenn auch Abschnitt 5 und 6 reproduzierbar gruen sind.
+- Sync und Realtime werden erst als stabil betrachtet, wenn auch Abschnitt 6 und 7 reproduzierbar gruen sind.
 - Touchlog bleibt hilfreich und ruhig statt technisch laut zu werden.

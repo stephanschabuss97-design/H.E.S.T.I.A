@@ -188,10 +188,11 @@ HESTIA ist `fast in, fast out`:
 | Pfad | Zweck |
 |------|------|
 | `index.html` | zentrale HTML-Struktur |
+| `app/app.css` | zentraler CSS-Bundle-Einstieg |
 | `app/main.js` | Boot und Modulinitialisierung |
 | `app/core/` | Router, State, PWA-Install, Semantik |
 | `app/modules/` | Home-, Writing- und Shopping-Module |
-| `app/styles/` | Tokens, Komponenten und Screens |
+| `app/styles/` | Tokens, Base, Layout, globale UI und Feature-Styles |
 | `app/supabase/` | Supabase-Client-Grenze |
 | `assets/js/semantics.de.json` | lokale Semantikquelle |
 | `setup-supabase.md` | Supabase-Projekt- und Header-Setup |

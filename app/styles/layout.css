@@ -1,0 +1,63 @@
+.app-shell {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  padding: clamp(20px, 3vh, 36px) 16px 40px;
+  overflow: hidden;
+}
+
+.screen {
+  display: none;
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+.screen.is-active {
+  display: grid;
+  gap: 14px;
+  animation: screen-fade 340ms ease;
+}
+
+.panel {
+  background: var(--c-panel);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-soft), var(--shadow-engraved);
+  backdrop-filter: blur(3px);
+  padding: 16px;
+}
+
+.panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.panel-head-actions {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.row-actions {
+  margin-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@keyframes screen-fade {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 640px) {
+  .row-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+}

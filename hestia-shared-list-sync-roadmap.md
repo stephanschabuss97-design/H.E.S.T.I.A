@@ -37,7 +37,10 @@ Die Einkaufsliste kann manuell als Snapshot nach Supabase gespeichert werden und
 - `app/supabase/client.js`
 - `sql/01_setup-supabase.sql`
 - `index.html`
-- `app/styles/components.css`
+- `app/app.css`
+- `app/styles/ui.css`
+- `app/styles/writing.css`
+- `app/styles/shopping.css`
 
 ---
 
@@ -139,7 +142,7 @@ Status-Legende: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`
 
 #### S3 Ergebnisprotokoll
 - Button-Sichtbarkeit und Interaktion wie spezifiziert.
-- Dateien: `index.html`, `app/modules/writing.js`, `app/styles/components.css`
+- Dateien: `index.html`, `app/modules/writing.js`, `app/app.css`, `app/styles/ui.css`, `app/styles/writing.css`
 - Check-Ergebnis: Ohne Items kein Save-Button; mit Items sichtbar und klickbar.
 
 ---
@@ -163,7 +166,7 @@ Status-Legende: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`
 
 #### S5 Ergebnisprotokoll
 - Transparenter Sync-Status sichtbar.
-- Dateien: `index.html`, `app/modules/writing.js`, `app/styles/components.css`
+- Dateien: `index.html`, `app/modules/writing.js`, `app/app.css`, `app/styles/ui.css`, `app/styles/writing.css`
 - Check-Ergebnis: Erfolg/Fehler klar und reproduzierbar sichtbar.
 
 ---

@@ -29,7 +29,9 @@ Related docs:
 | `app/core/router.js` | einfacher Wechsel zwischen `home`, `writing` und `shopping` |
 | `app/modules/home-scene.js` | atmosphaerischer Hintergrund fuer die Startansicht |
 | `app/diagnostics/ambient-touch.js` | leichtes Touch-Feedback fuer die Oberflaeche |
-| `app/styles/components.css` | Layout, Buttons und Home-Screen-Praesentation |
+| `app/app.css` | zentraler CSS-Bundle-Einstieg |
+| `app/styles/ui.css` | globale Buttons und UI-Grundmuster |
+| `app/styles/home.css` | Home-Screen-Praesentation, Titel und Aktionsbereich |
 
 ---
 

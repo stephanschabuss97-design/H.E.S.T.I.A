@@ -82,6 +82,7 @@ Arbeitsregeln:
 - [setup-supabase.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/setup-supabase.md): Supabase-Setup und Household-Key-Header
 - [hestia-shared-list-sync-roadmap.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/hestia-shared-list-sync-roadmap.md): geplanter Sync-Ausbau
 - [QA_CHECKS.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/QA_CHECKS.md): manuelle Smokechecks und Regressionsbasis
+- [CSS Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/CSS%20Module%20Overview.md)
 - [docs/modules/Home Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Home%20Module%20Overview.md)
 - [docs/modules/Writing Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Writing%20Module%20Overview.md)
 - [docs/modules/Shopping Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Shopping%20Module%20Overview.md)

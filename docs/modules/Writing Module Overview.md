@@ -30,7 +30,9 @@ Related docs:
 | `app/supabase/list-sync.js` | Snapshot-Load/Save und Household-Resolve |
 | `assets/js/semantics.de.json` | kuratierte Produkt- und Aliasliste |
 | `index.html` | Writing-Form und offene Liste |
-| `app/styles/components.css` | Form-, Listen- und Popup-Styling |
+| `app/app.css` | zentraler CSS-Bundle-Einstieg |
+| `app/styles/ui.css` | globale Listen-, Link- und Statusmuster |
+| `app/styles/writing.css` | Form-, Listen- und Popup-Styling fuer Writing |
 
 ---
 

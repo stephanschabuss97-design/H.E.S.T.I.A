@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v24";
+const CACHE_VERSION = "v25";
 const STATIC_CACHE = `hestia-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `hestia-runtime-${CACHE_VERSION}`;
 const OFFLINE_URL = "./offline.html";
@@ -9,11 +9,17 @@ const APP_SHELL = [
   "./index.html",
   "./offline.html",
   "./manifest.webmanifest",
+  "./app/app.css",
   "./app/main.js",
   "./app/styles/tokens.css",
   "./app/styles/base.css",
-  "./app/styles/components.css",
-  "./app/styles/screens.css",
+  "./app/styles/layout.css",
+  "./app/styles/ui.css",
+  "./app/styles/home.css",
+  "./app/styles/writing.css",
+  "./app/styles/shopping.css",
+  "./app/styles/devtools.css",
+  "./app/styles/pwa.css",
   "./app/core/router.js",
   "./app/core/pwa-install-bootstrap.js",
   "./app/core/runtime-config.js",

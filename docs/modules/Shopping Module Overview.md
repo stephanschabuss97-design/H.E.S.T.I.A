@@ -28,7 +28,9 @@ Related docs:
 | `app/core/state.js` | toggelt `inCart` und loescht gekaufte Eintraege beim Abschluss |
 | `app/supabase/list-sync.js` | speichert geaenderte Einkaufs-Snapshots |
 | `index.html` | Shopping-Panel mit Liste und Abschlussaktionen |
-| `app/styles/components.css` | Listen- und Checkbox-Darstellung |
+| `app/app.css` | zentraler CSS-Bundle-Einstieg |
+| `app/styles/ui.css` | globale Listen- und Aktionsmuster |
+| `app/styles/shopping.css` | Papierliste, Checkboxen und mobile Shopping-Darstellung |
 
 ---
 

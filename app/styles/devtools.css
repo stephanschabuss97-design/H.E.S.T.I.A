@@ -1,0 +1,105 @@
+.font-switch {
+  display: grid;
+  gap: 6px;
+  width: min(100%, 540px);
+  margin: 0 auto;
+}
+
+.font-switch-label {
+  font-size: 0.76rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-text-dim);
+}
+
+.font-switch-buttons {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.touchlog-toggle {
+  justify-self: start;
+  margin-top: 4px;
+}
+
+.font-option {
+  min-width: 34px;
+  border: 1px solid var(--c-button-border);
+  border-radius: 8px;
+  padding: 4px 8px;
+  background: var(--c-switch-option-bg);
+  color: var(--c-text-main);
+  cursor: pointer;
+  font: inherit;
+}
+
+.font-option.is-active {
+  border-color: rgba(199, 169, 107, 0.7);
+  box-shadow: 0 0 12px rgba(199, 169, 107, 0.2);
+}
+
+.touch-lift .ambient-layer {
+  opacity: 0.55;
+  transition: opacity 420ms ease;
+}
+
+.touch-lift .scene-host {
+  filter: brightness(1.05);
+}
+
+.touchlog-panel {
+  position: fixed;
+  right: 14px;
+  bottom: 14px;
+  z-index: 18;
+  width: min(94vw, 920px);
+}
+
+.touchlog-layout {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.touchlog-sidebar {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--c-switch-bg);
+  box-shadow: var(--shadow-engraved);
+}
+
+.touchlog-log {
+  min-height: 260px;
+  max-height: min(52vh, 420px);
+  overflow: auto;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(14, 18, 30, 0.62);
+  border: 1px solid rgba(230, 227, 221, 0.14);
+  color: var(--c-text-main);
+  font: 0.9rem/1.45 "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  white-space: pre-wrap;
+}
+
+@media (max-width: 720px) {
+  .touchlog-panel {
+    left: 12px;
+    right: 12px;
+    width: auto;
+  }
+
+  .touchlog-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .font-switch {
+    padding: 10px 12px;
+  }
+}

@@ -47,7 +47,7 @@ export function initShopping(doc, store, listSync, touchlog) {
       row.innerHTML = `
         <label class="check-wrap">
           <input type="checkbox" data-toggle="${item.id}" ${item.inCart ? "checked" : ""}>
-          <span>${item.name}</span>
+          <span class="item-main">${item.name}</span>
         </label>
         <span class="item-meta">${item.quantity} ${item.unit}</span>
       `;

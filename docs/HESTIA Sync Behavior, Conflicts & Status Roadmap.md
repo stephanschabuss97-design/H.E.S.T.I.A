@@ -43,7 +43,10 @@ Pruefbare Zieldefinition:
 - `app/modules/shopping.js`
 - `app/supabase/list-sync.js`
 - `index.html`
-- `app/styles/components.css`
+- `app/app.css`
+- `app/styles/ui.css`
+- `app/styles/writing.css`
+- `app/styles/shopping.css`
 
 ## Relevante Referenzen (Doku)
 - `PRODUCT.md`
