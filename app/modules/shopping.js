@@ -34,7 +34,65 @@ export function initShopping(doc, store, listSync, touchlog) {
     return result;
   }
 
+  function toggleCartItem(itemId, checked) {
+    store.toggleInCart(itemId, checked);
+    touchlog?.add(
+      `[shopping] toggle cart id=${itemId} checked=${checked ? "yes" : "no"}`,
+      { eventId: `shopping-toggle-${itemId}-${checked ? "yes" : "no"}` }
+    );
+    doc.dispatchEvent(new CustomEvent("hestia:items-updated", { detail: { source: "local" } }));
+    persistSharedState("shopping-toggle").catch(() => {});
+  }
+
+  function hasCartItems() {
+    return store.state.items.some((item) => item.inCart);
+  }
+
+  function updateFinishButtonState() {
+    finishButton.disabled = !hasCartItems();
+  }
+
+  function createShoppingRow(item) {
+    const row = doc.createElement("li");
+    row.className = "item-row shopping-item-row";
+    row.classList.toggle("is-in-cart", Boolean(item.inCart));
+
+    const itemAction = doc.createElement("label");
+    itemAction.className = "shopping-item-action";
+
+    const checkWrap = doc.createElement("span");
+    checkWrap.className = "check-wrap";
+
+    const checkbox = doc.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.checked = Boolean(item.inCart);
+    checkbox.dataset.toggle = item.id;
+    checkbox.setAttribute("aria-label", `${item.name} Im Wagen`);
+
+    const itemName = doc.createElement("span");
+    itemName.className = "item-main";
+    itemName.textContent = item.name;
+
+    checkWrap.append(checkbox, itemName);
+    itemAction.appendChild(checkWrap);
+
+    const itemMeta = doc.createElement("span");
+    itemMeta.className = "item-meta";
+    itemMeta.textContent = `${item.quantity} ${item.unit}`;
+
+    itemAction.appendChild(itemMeta);
+    row.appendChild(itemAction);
+
+    checkbox.addEventListener("change", () => {
+      toggleCartItem(item.id, checkbox.checked);
+    });
+
+    return row;
+  }
+
   function render() {
+    updateFinishButtonState();
+
     if (store.state.items.length === 0) {
       listElement.innerHTML = "<li class=\"item-row muted\">Alles erledigt.</li>";
       return;
@@ -42,32 +100,15 @@ export function initShopping(doc, store, listSync, touchlog) {
 
     listElement.innerHTML = "";
     store.state.items.forEach((item) => {
-      const row = doc.createElement("li");
-      row.className = "item-row";
-      row.innerHTML = `
-        <label class="check-wrap">
-          <input type="checkbox" data-toggle="${item.id}" ${item.inCart ? "checked" : ""}>
-          <span class="item-main">${item.name}</span>
-        </label>
-        <span class="item-meta">${item.quantity} ${item.unit}</span>
-      `;
-      listElement.appendChild(row);
-    });
-
-    listElement.querySelectorAll("[data-toggle]").forEach((checkbox) => {
-      checkbox.addEventListener("change", () => {
-        store.toggleInCart(checkbox.dataset.toggle, checkbox.checked);
-        touchlog?.add(
-          `[shopping] toggle cart id=${checkbox.dataset.toggle} checked=${checkbox.checked ? "yes" : "no"}`,
-          { eventId: `shopping-toggle-${checkbox.dataset.toggle}-${checkbox.checked ? "yes" : "no"}` }
-        );
-        doc.dispatchEvent(new CustomEvent("hestia:items-updated", { detail: { source: "local" } }));
-        persistSharedState("shopping-toggle").catch(() => {});
-      });
+      listElement.appendChild(createShoppingRow(item));
     });
   }
 
   finishButton.addEventListener("click", () => {
+    if (!hasCartItems()) {
+      return;
+    }
+
     store.finishShopping();
     touchlog?.add("[shopping] finished shopping run", {
       eventId: "shopping-finish-run"
