@@ -83,8 +83,43 @@ async function initApp() {
   const state = createState();
   const listSync = createListSync();
   let initialRemoteSnapshot = null;
+  let hasLocalDirtyState = false;
+  let pendingRemoteSnapshot = null;
   const semanticsList = document.getElementById("semantics-list");
   const itemNameInput = document.getElementById("item-name");
+
+  document.addEventListener("hestia:items-updated", (event) => {
+    if (event.detail?.source === "local") {
+      hasLocalDirtyState = true;
+      return;
+    }
+
+    if (event.detail?.source === "remote") {
+      hasLocalDirtyState = false;
+      pendingRemoteSnapshot = null;
+    }
+  });
+
+  document.addEventListener("hestia:remote-apply-request", () => {
+    if (!pendingRemoteSnapshot?.ok) {
+      touchlog.add("[sync] pending remote apply requested without snapshot", {
+        severity: "warn",
+        eventId: "sync-pending-remote-apply-empty"
+      });
+      return;
+    }
+
+    state.setItems(pendingRemoteSnapshot.items);
+    hasLocalDirtyState = false;
+    touchlog.add(`[sync] pending remote snapshot applied items=${pendingRemoteSnapshot.items.length}`, {
+      eventId: "sync-pending-remote-applied"
+    });
+    emitItemsUpdated({
+      source: "remote",
+      syncedAt: pendingRemoteSnapshot.syncedAt
+    });
+    pendingRemoteSnapshot = null;
+  });
 
   if (listSync.isConfigured()) {
     const remoteSnapshot = await listSync.loadSnapshot();
@@ -130,6 +165,18 @@ async function initApp() {
         touchlog.add(`[sync] realtime refresh failed ${remoteSnapshot?.message || "unknown"}`, {
           severity: "warn",
           eventId: "sync-realtime-refresh-failed"
+        });
+        return;
+      }
+
+      if (hasLocalDirtyState) {
+        pendingRemoteSnapshot = remoteSnapshot;
+        touchlog.add(`[sync] remote update pending while local changes exist items=${remoteSnapshot.items.length}`, {
+          eventId: "sync-remote-update-pending"
+        });
+        emitItemsUpdated({
+          source: "pending-remote",
+          syncedAt: remoteSnapshot.syncedAt
         });
         return;
       }

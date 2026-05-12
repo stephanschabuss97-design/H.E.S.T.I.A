@@ -47,6 +47,7 @@ Related docs:
 - `createState()` baut den lokalen Listenstand aus `localStorage`.
 - `createListSync()` kapselt Household-Resolve, REST-Snapshot-Load/Save und Realtime-Start.
 - Wenn Supabase konfiguriert ist, wird zuerst ein initialer Remote-Snapshot geladen und in `state.items` gespiegelt.
+- `app/main.js` haelt ausserdem den lokalen Dirty-State und einen moeglichen pending Remote-Snapshot im App-Lifecycle.
 
 ### 3.5 Kernmodule binden
 - `initSemantics(...)`
@@ -62,6 +63,8 @@ Related docs:
 
 ### 3.7 Remote-Events und Service Worker
 - Nach erfolgreichem Initial-Load startet Realtime ueber `listSync.subscribeToSnapshots(...)`.
+- Eingehende Realtime-Snapshots werden nur automatisch angewendet, wenn kein lokaler Dirty-State besteht.
+- Bei lokalem Dirty-State wird der Remote-Snapshot als pending Remote gehalten und per UI zur bewussten Uebernahme angeboten.
 - Der Service Worker wird bei `window.load` registriert.
 - `controllerchange` fuehrt bei neuer Shell einmalig zu einem Reload.
 
@@ -73,6 +76,7 @@ Related docs:
 - Runtime Config
 - State
 - Supabase Initial-Load bei vorhandener Konfiguration
+- Dirty-State-/Pending-Remote-Schutz fuer eingehende Remote-Snapshots
 - Semantik
 - Router
 - Writing
@@ -93,6 +97,7 @@ Related docs:
 - Zu viele fruehe asynchrone Schritte koennen den kleinen Bootflow spaeter wieder unruhig machen.
 - Atmosphaerische Initialisierung darf den Shared-List-Kern nicht blockieren.
 - Realtime und kuenftige Offline-/Reconnect-Logik duerfen den Startpfad nicht sprunghaft oder mehrfach machen.
+- Reconnect-Refetches duerfen den Dirty-State-/Pending-Remote-Schutz nicht umgehen.
 
 ---
 
@@ -100,4 +105,5 @@ Related docs:
 
 - Ein neuer Chat versteht den aktuellen App-Start inklusive Remote-Initialisierung.
 - PWA, Sync und Listenkern sind als zusammenhaengender Bootflow lesbar.
+- Dirty-State-Schutz fuer Remote-Snapshots ist im Bootflow sichtbar.
 - Produktkritische und optionale Initialisierung bleiben klar getrennt.

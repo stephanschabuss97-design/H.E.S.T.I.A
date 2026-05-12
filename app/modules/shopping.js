@@ -1,3 +1,5 @@
+import { formatItemMeta } from "../core/item-display.js";
+
 export function initShopping(doc, store, listSync, touchlog) {
   const listElement = doc.getElementById("shopping-list");
   const finishButton = doc.getElementById("finish-shopping");
@@ -76,11 +78,13 @@ export function initShopping(doc, store, listSync, touchlog) {
     checkWrap.append(checkbox, itemName);
     itemAction.appendChild(checkWrap);
 
-    const itemMeta = doc.createElement("span");
-    itemMeta.className = "item-meta";
-    itemMeta.textContent = `${item.quantity} ${item.unit}`;
-
-    itemAction.appendChild(itemMeta);
+    const itemMetaText = formatItemMeta(item);
+    if (itemMetaText) {
+      const itemMeta = doc.createElement("span");
+      itemMeta.className = "item-meta";
+      itemMeta.textContent = itemMetaText;
+      itemAction.appendChild(itemMeta);
+    }
     row.appendChild(itemAction);
 
     checkbox.addEventListener("change", () => {
@@ -94,11 +98,15 @@ export function initShopping(doc, store, listSync, touchlog) {
     updateFinishButtonState();
 
     if (store.state.items.length === 0) {
-      listElement.innerHTML = "<li class=\"item-row muted\">Alles erledigt.</li>";
+      listElement.textContent = "";
+      const emptyRow = doc.createElement("li");
+      emptyRow.className = "item-row muted";
+      emptyRow.textContent = "Alles erledigt.";
+      listElement.appendChild(emptyRow);
       return;
     }
 
-    listElement.innerHTML = "";
+    listElement.textContent = "";
     store.state.items.forEach((item) => {
       listElement.appendChild(createShoppingRow(item));
     });

@@ -1,7 +1,85 @@
 .item-form {
   display: grid;
-  gap: 12px;
-  margin-top: 12px;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.writing-primary-field {
+  display: grid;
+  gap: 6px;
+}
+
+.writing-primary-field label {
+  color: var(--c-text-main);
+  font-family: var(--font-serif);
+  font-size: 1.08rem;
+}
+
+.writing-primary-field input {
+  min-height: 48px;
+  padding: 10px 12px;
+  font-size: 1.05rem;
+}
+
+.writing-support-fields {
+  align-items: end;
+}
+
+.writing-support-fields label {
+  font-size: 0.92rem;
+}
+
+.writing-support-fields input {
+  min-height: 38px;
+}
+
+.form-note {
+  margin: -4px 0 0;
+  color: var(--c-danger);
+  font-size: 0.92rem;
+}
+
+.item-form input[aria-invalid="true"] {
+  border-color: var(--c-danger);
+  box-shadow: 0 0 0 2px rgba(231, 169, 151, 0.14);
+}
+
+.writing-add-button {
+  justify-self: stretch;
+}
+
+#screen-writing .panel-head {
+  align-items: flex-start;
+}
+
+#screen-writing .panel-head-actions {
+  align-items: stretch;
+  justify-content: flex-end;
+}
+
+#screen-writing .panel-head-actions .inline-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#screen-writing .sync-status {
+  max-width: 34rem;
+  line-height: 1.35;
+}
+
+#screen-writing #save-list {
+  flex: 0 1 170px;
+}
+
+#screen-writing #accept-remote-list {
+  min-height: 42px;
+  padding: 8px 10px;
+  border: 1px solid rgba(222, 202, 160, 0.3);
+  border-radius: var(--radius-button);
+  background: rgba(255, 255, 255, 0.04);
+  text-align: center;
+  text-decoration: none;
 }
 
 .semantics-popup {
@@ -32,4 +110,26 @@
 .semantics-popup-item:hover,
 .semantics-popup-item.is-active {
   background: rgba(129, 146, 186, 0.28);
+}
+
+@media (max-width: 640px) {
+  .item-form {
+    gap: 12px;
+  }
+
+  .writing-primary-field input {
+    min-height: 46px;
+  }
+
+  #screen-writing .panel-head-actions {
+    width: 100%;
+  }
+
+  #screen-writing .panel-head-actions > * {
+    flex: 1 1 100%;
+  }
+
+  #screen-writing .sync-status {
+    max-width: none;
+  }
 }

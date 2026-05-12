@@ -32,6 +32,7 @@ Vorhanden:
 - Snapshot-Load beim App-Start
 - Snapshot-Save fuer manuellen Save, Loeschen, Liste leeren, Toggle und Shopping-Abschluss
 - Realtime-Abos fuer eingehende Aenderungen
+- Dirty-State-Schutz gegen stilles Ueberschreiben lokaler Writing-Aenderungen
 - Touchlog-Diagnostik fuer Sync- und PWA-Randfaelle
 
 ---
@@ -76,9 +77,12 @@ Der aktuelle Shared-Flow ist bewusst schmal:
 
 Wichtige Regeln:
 
-- Add bleibt lokal plus bewusster manueller Save
+- Add bleibt lokal plus bewusste Freigabe
 - destruktive und Shopping-relevante Aktionen schreiben den Shared-Zustand direkt nach
+- eingehende Remote-Snapshots werden bei lokalem Dirty-State nicht automatisch angewendet
+- ein Remote-Snapshot waehrend Dirty-State wird als pending Remote gehalten und kann bewusst uebernommen werden
 - Last-Write-Wins ist fuer den aktuellen Zuschnitt akzeptiert
+- der aktuelle Vertrag ist Snapshot-Sync, nicht robuste Live-Kollaboration fuer paralleles Einkaufen
 
 ---
 
@@ -90,7 +94,8 @@ Heute:
 
 Das heisst:
 - lokale Aenderungen werden zuerst im State wirksam
-- erfolgreiche Remote-Loads und Realtime-Refreshes spiegeln den Snapshot wieder in `state.items`
+- erfolgreiche Remote-Loads und Realtime-Refreshes spiegeln den Snapshot wieder in `state.items`, wenn kein lokaler Dirty-State geschuetzt werden muss
+- pending Remote wird im Boot-/Writing-Vertrag gehalten, nicht im Supabase-Modul selbst
 
 ---
 
@@ -98,11 +103,13 @@ Das heisst:
 
 Realtime soll fuer HESTIA nur bedeuten:
 - Aenderung auf Geraet A erscheint kurz darauf auf Geraet B
+- Falls Geraet B lokal unfreigegebene Writing-Aenderungen hat, wird der Remote-Stand nicht still angewendet.
 
 Nicht Ziel:
 - Eventflut
 - schwer lesbare Zwischenzustaende
 - tiefe Mehrbenutzer-Orchestrierung
+- garantierte parallele Einkaufskoordination mit Konfliktauflösung
 
 ---
 
@@ -114,6 +121,7 @@ Der Sync-Layer loggt heute im Touchlog:
 - Initial-Load-Erfolg oder Fehler
 - Realtime-Abo
 - Realtime-Refreshes
+- Pending-Remote-Faelle im Boot-/Writing-Vertrag
 - Save-Erfolg oder Fehler mit Grund
 
 ---
@@ -121,8 +129,9 @@ Der Sync-Layer loggt heute im Touchlog:
 ## 9. Risiken
 
 - falscher oder korrupter `householdKey` blockiert den Household-Kontext
-- Last-Write-Wins kann bei Parallelbearbeitung ueberschreiben
-- Echo-Events und spaetere Offline-Reconnects brauchen noch saubere Guardrails
+- Last-Write-Wins kann bei bewusst freigegebenen Snapshots weiterhin juengere Staende ersetzen
+- Pending Remote ist kein Merge und keine robuste Live-Collaboration
+- spaetere Offline-Reconnects duerfen den Dirty-State-Schutz nicht umgehen
 
 ---
 
@@ -130,4 +139,5 @@ Der Sync-Layer loggt heute im Touchlog:
 
 - Ein neuer Chat versteht sofort, was Supabase in HESTIA heute real leistet.
 - Household-Key, RLS, REST-Snapshot und Realtime sind als ein Vertrag beschrieben.
+- Dirty-State-Schutz ist als V1-Grenze beschrieben, ohne robuste Collaboration zu behaupten.
 - Die naechsten Roadmap-Schritte koennen darauf ohne begriffliche Unschaerfe aufbauen.

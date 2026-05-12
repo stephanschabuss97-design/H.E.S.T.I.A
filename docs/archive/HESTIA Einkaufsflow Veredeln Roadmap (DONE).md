@@ -1,4 +1,4 @@
-# HESTIA Roadmap 1 - Einkaufsflow veredeln
+# HESTIA Roadmap 1 - Einkaufsflow veredeln (DONE)
 
 ## Ziel (klar und pruefbar)
 
@@ -176,8 +176,8 @@ Korrektur:
 | S2 | Fachlicher/technischer Contract Review | DONE | Zielvertrag finalisiert: nur Interaktions-/Hierarchiearbeit, keine Daten-, Sync-, Home- oder Writing-Ausweitung. |
 | S3 | Bruchrisiko-, UI-/Copy- und Umsetzungsreview | DONE | Bruchrisiken, Copy-/Touch-Vertrag und konkrete S4-Pflichtpunkte finalisiert. |
 | S4 | Umsetzung | DONE | S4.1 bis S4.7 umgesetzt, reviewed und mit lokalen Checks abgenommen; Browser-/Touch-Smokes bleiben fuer S5. |
-| S5 | Tests, UI Review und Contract Review | IN_PROGRESS | Lokale Syntax-, Static-, Router-, Shopping-/Sync- und HTTP-Fetch-Smokes sind gruen; echte Browser-/Touch-Abnahme durch Stephan offen. |
-| S6 | Doku-Sync, QA-Update und Abschlussreview | TODO | Module Overviews, QA und Roadmap final synchronisieren. |
+| S5 | Tests, UI Review und Contract Review | DONE | Lokale Checks gruen; Desktop-/Mobile-Abnahme durch Stephan erfolgreich; Live-Sync-Smoke nicht anwendbar, da HESTIA aktuell bewusst keinen Live-Sync-Flow nutzt. |
+| S6 | Doku-Sync, QA-Update und Abschlussreview | DONE | Module Overviews, QA, Future-Roadmap und Roadmap-Abschluss synchronisiert. |
 
 Status-Legende: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`.
 
@@ -1042,34 +1042,31 @@ Contract Review gegen HESTIA-Guardrails:
 - Keine Undo-, Historien-, Dialog-, Push- oder Einkaufsapps-Logik.
 - Papierlisten-Charme bleibt erhalten; die S5-Restrisiken sind visuell/interaktiv und werden im echten Browser geprueft.
 
-Offene manuelle Tests fuer Stephan:
+Manuelle Tests durch Stephan:
 
 - Desktop/Laptop im Live Server:
-  - App oeffnet auf Home.
-  - Wechsel nach `Einkaufen` funktioniert.
-  - Zeilentap toggelt `Im Wagen` genau einmal.
-  - Checkbox selbst toggelt genau einmal.
-  - Kein Doppel-Toggle bei schnellem Klick auf Text, Checkbox und freie Zeilenflaeche.
-  - `Liste abschliessen` entfernt nur markierte Eintraege.
-  - Nicht markierte Eintraege bleiben sichtbar.
-  - `Liste abschliessen` wirkt ohne markierte Eintraege ruhig/deaktiviert, nicht wie Speichern/Busy.
-  - `Aendern` fuehrt nach `Schreiben` und bleibt optisch sekundar.
+  - Alle geplanten Desktop-Smokes wurden erfolgreich ausgefuehrt.
+  - Die Oberflaeche wirkt stimmiger und weniger schnell zusammengebaut.
+  - `Liste abschliessen` bleibt als UX-Frage offen: fachlich kann der Abschluss auch bedeuten, dass bewusst nur die gefundenen/bezahlten Eintraege abgeschlossen werden.
 - Mobile oder schmaler Browser:
-  - Trefferflaechen sind bequem.
-  - Lange Artikelnamen und Mengen ueberlappen nicht.
-  - Papierlisten-Aesthetik bleibt lesbar.
-  - Footer-Aktionen bleiben brauchbar und wirken nicht gequetscht.
-- Optionaler Sync-/Realtime-Smoke, falls Supabase gerade konfiguriert ist:
-  - Zwei Tabs oeffnen.
-  - In Tab A ein Item abhaken.
-  - Tab B zeigt den neuen `Im Wagen`-Zustand ohne doppelte Zeilen.
-  - In Tab A `Liste abschliessen`.
-  - Tab B zeigt nur die verbleibenden nicht gekauften Eintraege.
+  - Alle geplanten Mobile-Smokes wurden erfolgreich ausgefuehrt.
+  - Trefferflaechen reagieren sauber.
+  - `Liste abschliessen` ist auch mobil derselbe offene UX-Punkt wie im Desktop-Smoke.
+- Sync-/Realtime-Smoke:
+  - Nicht erfolgreich ausgefuehrt, weil der Test nicht zum aktuellen Produktvertrag passt.
+  - HESTIA arbeitet aktuell bewusst nicht mit Live-Sync als Einkaufsinteraktion, sondern mit expliziten Snapshots ueber Schreiben/Abschluss.
+  - S5 wertet das daher als nicht anwendbar, nicht als Produktregression.
+
+S5 Findings:
+
+- S5-F1: `Liste abschliessen` ist aktuell aktiv, sobald mindestens ein Eintrag `inCart = true` ist. Stephan hat im Live-Smoke die fachliche Frage aufgeworfen, ob die Aktion eventuell immer aktiv/abschliessbar sein sollte, weil nicht gefundene Artikel bewusst offen bleiben koennen und Abschluss eher "ich habe bezahlt, was ich gefunden habe" bedeutet. Entscheidung offen vor S6 oder als kleiner S4.3-Follow-up.
+- S5-F2: Der geplante Realtime-Smoke war als optionaler Supabase-/Zweitclient-Test formuliert, passt aber nicht zum aktuellen HESTIA-Alltagsflow ohne Live-Sync-Interaktion. Korrektur: in S5 als nicht anwendbar dokumentiert.
 
 S5 Zwischenstatus:
 
 - Alle lokal sinnvoll ausfuehrbaren Checks sind gruen.
-- S5 bleibt bis zur manuellen Browser-/Touch-Abnahme `IN_PROGRESS`.
+- Desktop- und Mobile-Abnahme durch Stephan erfolgreich.
+- S5 ist abgeschlossen; vor S6 bleibt nur die Produktentscheidung zu S5-F1 offen, falls sie noch in dieser Roadmap umgesetzt werden soll.
 
 ## S6 - Doku-Sync, QA-Update und finaler Abschlussreview
 
@@ -1104,6 +1101,111 @@ Output:
 Exit-Kriterium:
 
 - Roadmap ist commit- oder archivbereit.
+
+### S6 Ergebnisprotokoll 09.05.2026
+
+#### S6.1 Shopping Module Overview aktualisieren
+
+- Umsetzung/Review:
+  - `docs/modules/Shopping Module Overview.md` beschreibt jetzt tapbare Shopping-Zeilen, gemeinsamen Toggle-Pfad, ruhigen `Im Wagen`-Zustand, sekundares `Aendern` und den aktivierten Abschlussbutton ab mindestens einem `inCart`-Eintrag.
+  - Der Sync-Abschnitt wurde begrifflich geschaerft: Snapshot-Saves bleiben vorhanden, robuste Live-Kollaboration wird nicht behauptet.
+- Contract Review:
+  - Datenvertrag bleibt `id`, `name`, `quantity`, `unit`, `inCart`.
+  - `finishShopping()` bleibt Abschluss gekaufter Eintraege.
+
+#### S6.2 Home Module Overview pruefen
+
+- Umsetzung/Review:
+  - `docs/modules/Home Module Overview.md` musste nicht geaendert werden.
+  - Home zeigt weiter genau zwei primaere Intentionen und wurde durch S4 nicht faktisch umgebaut.
+- Contract Review:
+  - Kein Dashboard, keine neue Hauptnavigation, kein Home-Scope-Drift.
+
+#### S6.3 Writing Module Overview aktualisieren
+
+- Umsetzung/Review:
+  - `docs/modules/Writing Module Overview.md` erwaehnt jetzt, dass `Loeschen` und `Liste leeren` dasselbe destruktive Inline-Link-Muster nutzen.
+- Contract Review:
+  - Writing-Logik blieb unveraendert.
+  - Keine Undo-, Dialog- oder Historienlogik eingefuehrt.
+
+#### S6.4 State-/Sync-Verhalten bestaetigen
+
+- Umsetzung/Review:
+  - `docs/modules/Supabase Sync Module Overview.md` wurde um die Grenze "Snapshot-Sync, nicht robuste Live-Kollaboration" ergaenzt.
+  - Keine Code- oder Schemaaenderung an State oder Supabase.
+- Contract Review:
+  - HESTIA speichert weiterhin Snapshots fuer passende Aktionen.
+  - Echte parallele Einkaufskoordination wird als Future-Roadmap behandelt.
+
+#### S6.5 QA aktualisieren
+
+- Umsetzung/Review:
+  - `docs/QA_CHECKS.md` enthaelt jetzt die neuen Einkaufsflow-Smokes:
+    - Zeilentap
+    - Checkbox toggelt genau einmal
+    - kein Doppel-Toggle
+    - ruhiger `Im Wagen`-Zustand
+    - Abschlussbutton nur bei mindestens einem Wagen-Eintrag aktiv
+    - `Aendern` bleibt sekundar
+    - `Liste leeren` ist destruktiv, aber sekundar
+  - Realtime-Zusatzchecks wurden auf eine kuenftige Auto-Sync-/Collaboration-Roadmap eingegrenzt.
+- Contract Review:
+  - QA prueft den realen Stand und behauptet keine robuste Live-Kollaboration.
+
+#### S6.6 Future-Roadmap aktualisieren
+
+- Umsetzung/Review:
+  - `docs/future roadmaps.md` enthaelt jetzt eine eigene Roadmap `Realtime Shopping Collaboration`.
+  - Die Roadmap wurde nach Produktreview als Roadmap 5 und Premium-Future-Feature einsortiert, nicht als direkte Kernroadmap.
+  - Die Idee "einer geht links, einer geht rechts" ist als hoher Haushaltsnutzen dokumentiert.
+  - Gleichzeitig ist festgehalten, dass es eine eigene grosse Roadmap braucht: Toggles, Remote-Echos, Last-Write-Wins, Offline-Faelle und Abschlussregeln.
+- Contract Review:
+  - Auto-Sync wird nicht in Roadmap 1 hineingezogen.
+  - Premium-/Premium-Plus-Nummern wurden nach der neuen Roadmap korrigiert.
+
+#### S6.7 Finaler Contract Review
+
+- Roadmap vs. Code:
+  - Code setzt nur Einkaufsflow-Ergonomie, Aktionshierarchie und minimale destruktive UI-Markierung um.
+  - Keine neue Datenlogik, kein neuer Status und keine neue Navigation.
+- Roadmap vs. Module Overviews:
+  - Shopping, Writing, Supabase Sync und QA beschreiben jetzt denselben finalen Vertrag.
+  - Home musste nicht aktualisiert werden, weil es nicht faktisch betroffen ist.
+- Roadmap vs. README-/PRODUCT-Guardrails:
+  - HESTIA bleibt eine ruhige Haushalts-Einkaufsliste.
+  - Kein Organizer-, Dashboard-, Einkaufsapps-, Push- oder Premium-Scope wurde umgesetzt.
+- Roadmap vs. QA:
+  - Lokale Checks und Stephan-Live-Smokes sind dokumentiert.
+  - Realtime wurde korrekt als nicht anwendbar fuer diese Roadmap eingeordnet.
+
+#### S6.8 Abschluss-Abnahme
+
+- S1 bis S6 sind abgeschlossen.
+- Roadmap 1 ist fachlich abgeschlossen.
+- Bekannte Restrisiken:
+  - echte parallele Einkaufskoordination bleibt Future-Roadmap
+  - visuelle Balance kann spaeter weiter poliert werden, ist aber durch Stephan auf Desktop und Mobile abgenommen
+
+#### S6.9 Commit-Empfehlung
+
+- Empfohlener Commit:
+  - `feat(shopping): refine shopping flow ergonomics`
+- Umfang:
+  - `index.html`
+  - `app/modules/shopping.js`
+  - `app/styles/shopping.css`
+  - `docs/HESTIA Einkaufsflow Veredeln Roadmap.md`
+  - `docs/future roadmaps.md`
+  - `docs/modules/Shopping Module Overview.md`
+  - `docs/modules/Writing Module Overview.md`
+  - `docs/modules/Supabase Sync Module Overview.md`
+  - `docs/QA_CHECKS.md`
+
+#### S6.10 Archiv-Entscheidung
+
+- Noch nicht archivieren, solange der Commit nicht gesetzt ist.
+- Nach Commit kann diese Roadmap nach `docs/archive/` verschoben werden.
 
 ## Ergebnisprotokoll-Format
 

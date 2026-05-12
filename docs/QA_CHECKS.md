@@ -15,16 +15,24 @@ Zweck:
 - Semantik zeigt Vorschlaege nach wenigen Buchstaben.
 - Einheit wird sinnvoll vorgeschlagen, wenn das Einheitenfeld leer ist.
 - Item mit gueltiger Menge laesst sich hinzufuegen.
+- Ungueltige Eingaben zeigen eine ruhige Inline-Notiz und erzeugen kein kaputtes Item.
 - Item erscheint sofort in der offenen Liste.
+- Natuerliche Mengen im Produktnamen erzeugen keine stoerende doppelte Default-Meta, z. B. `24 Stueck AA und AAA Batterien`.
+- Dezimalmengen werden deutschsprachig angezeigt, z. B. `1,5 l`.
 - Einzelnes Item laesst sich loeschen.
 - `Liste leeren` entfernt alle Eintraege.
 
 ### Shopping
 - Wechsel nach `Einkaufen` funktioniert.
 - Offene Liste wird dort korrekt angezeigt.
-- `Im Wagen` laesst sich pro Eintrag toggeln.
+- `Im Wagen` laesst sich per Zeilentap toggeln.
+- Die Checkbox selbst toggelt genau einmal.
+- Zeilentap und Checkbox erzeugen keine doppelten Toggle-Events.
+- Gekaufte Zeilen bleiben lesbar und sind ruhig als `Im Wagen` erkennbar.
 - `Liste abschliessen` entfernt nur markierte Eintraege.
+- `Liste abschliessen` ist nur aktiv, wenn mindestens ein Eintrag im Wagen ist.
 - Nicht markierte Eintraege bleiben erhalten.
+- `Aendern` fuehrt direkt nach `Schreiben` und bleibt optisch sekundar.
 - Leere Einkaufsliste zeigt `Alles erledigt.`.
 
 ---
@@ -43,6 +51,7 @@ Zweck:
 - Install-Banner erscheint nur, wenn der Browser installierbar meldet.
 - App laesst sich offline erneut oeffnen, wenn sie vorher einmal geladen wurde.
 - Offline-Fallback erscheint bei Navigationsausfall verstaendlich.
+- Offline-Fallback verspricht kein automatisches Wieder-Synchronisieren.
 
 ---
 
@@ -57,6 +66,11 @@ Zweck:
 - Writing bleibt schneller als ein Formular.
 - Shopping bleibt klar und reduziert.
 - Navigation zwischen Home, Writing und Shopping funktioniert ohne Haken.
+- Shopping-Zeilen haben unterwegs brauchbare Trefferflaechen.
+- Lange Artikelnamen und Mengen ueberlappen nicht.
+- Writing-Status spricht von Haushaltsfreigabe, nicht von technischem Sync.
+- `Liste freigeben`, `Anderen Stand uebernehmen` und `Liste leeren` ueberlappen auf Mobile nicht.
+- `Liste leeren` ist als destruktiv erkennbar, bleibt aber sekundar.
 - Mobile Layout bleibt brauchbar.
 
 ---
@@ -78,21 +92,25 @@ Zweck:
 Diese Checks sind relevant, sobald der erste Supabase-Schritt beginnt:
 
 - App funktioniert weiterhin ohne Supabase-Konfiguration.
-- Mit gueltiger Runtime-Config erscheint in Writing der Button `Liste speichern`, sobald Items vorhanden sind.
+- Mit gueltiger Runtime-Config erscheint in Writing der Button `Liste freigeben`, sobald Items vorhanden sind.
 - Household-Key wird sauber gesetzt.
 - Remote-Save bricht den lokalen Flow nicht.
 - Fehlerfall bei Supabase fuehrt nicht zu Datenverlust im lokalen Zustand.
+- Save-Fehler zeigt alltagssprachlich, dass die Liste lokal bleibt.
 
 ---
 
 ## 7. Realtime-Zusatzchecks
 
-Diese Checks erst ausfuehren, wenn Realtime eingebaut ist:
+Diese Checks pruefen den aktuellen Snapshot-/Realtime-Vertrag. Robuste parallele Einkaufskoordination bleibt eine eigene Roadmap:
 
 - Aenderung auf Geraet A erscheint auf Geraet B.
 - Eigenes Save erzeugt keine doppelte UI-Aktualisierung.
 - Shopping-Abschluss auf Geraet A spiegelt sich auf Geraet B korrekt.
 - Offline/Reconnect fuehrt nicht zu unklaren Zwischenzustaenden.
+- Lokale unfreigegebene Writing-Aenderungen auf Geraet B werden durch einen Remote-Snapshot von Geraet A nicht still ueberschrieben.
+- Pending Remote zeigt den Hinweis `Anderer Listenstand verfuegbar...`.
+- `Anderen Stand uebernehmen` uebernimmt den Remote-Stand bewusst destruktiv.
 
 ---
 
@@ -102,7 +120,7 @@ Diese Checks erst ausfuehren, wenn Realtime eingebaut ist:
 - `Shift + D` toggelt das Panel ebenfalls.
 - Das Panel zeigt `Darstellung` vor `Entwickler`.
 - Boot zeigt einen knappen, nachvollziehbaren Start-Trace.
-- `Item hinzufuegen`, `Loeschen`, `Liste leeren`, `Liste speichern` und Shopping-Aktionen erscheinen als hochwertige Eintraege.
+- `Item hinzufuegen`, `Loeschen`, `Liste leeren`, `Liste freigeben`, Pending-Remote und Shopping-Aktionen erscheinen als hochwertige Eintraege.
 - Realtime-Ereignisse erscheinen als eigene Sync-Eintraege.
 - Wiederholte identische Ereignisse werden aggregiert statt gespammt.
 - Auf Mobile bleibt das Panel viewport-begrenzt und intern scrollbar; der obere Bereich darf nicht aus dem sichtbaren Fenster herausragen.

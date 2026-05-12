@@ -25,12 +25,13 @@ Related docs:
 | Datei | Zweck |
 |------|------|
 | `app/modules/shopping.js` | Rendern der Einkaufsliste, Checkbox-Handling, Abschlusslogik und Sync-Persist |
+| `app/core/item-display.js` | rein praesentative Mengen-/Einheitenanzeige fuer Shopping und Writing |
 | `app/core/state.js` | toggelt `inCart` und loescht gekaufte Eintraege beim Abschluss |
 | `app/supabase/list-sync.js` | speichert geaenderte Einkaufs-Snapshots |
 | `index.html` | Shopping-Panel mit Liste und Abschlussaktionen |
 | `app/app.css` | zentraler CSS-Bundle-Einstieg |
 | `app/styles/ui.css` | globale Listen- und Aktionsmuster |
-| `app/styles/shopping.css` | Papierliste, Checkboxen und mobile Shopping-Darstellung |
+| `app/styles/shopping.css` | Papierliste, tapbare Zeilen, Checkboxen und mobile Shopping-Darstellung |
 
 ---
 
@@ -55,26 +56,30 @@ Related docs:
 - Das Modul hoert auf `hestia:items-updated`.
 
 ### 4.2 User-Trigger
-- Checkbox fuer `Im Wagen` setzen oder entfernen
+- Shopping-Zeile oder Checkbox fuer `Im Wagen` setzen oder entfernen
 - `Liste abschliessen`
 - optional zurueck nach `Schreiben`
 
 ### 4.3 Verarbeitung
-- Jede Checkbox-Aenderung aktualisiert `inCart` im Store.
+- Zeilentap und Checkbox laufen ueber denselben lokalen Toggle-Pfad und aktualisieren `inCart` im Store.
 - Beim Abschluss werden alle Items mit `inCart = true` hart entfernt.
 - Nicht markierte Eintraege bleiben bestehen.
+- `Liste abschliessen` ist nur aktiv, wenn mindestens ein Eintrag `inCart = true` ist.
 
 ### 4.4 Persistenz heute
 - Checkbox-Aenderungen und `Liste abschliessen` schreiben den veraenderten Snapshot heute direkt in den Shared State nach, wenn Sync konfiguriert ist.
-- Dadurch spiegelt Realtime den Einkaufsfortschritt auf andere Geraete.
+- Realtime kann eingehende Snapshot-Aenderungen spiegeln, ist aber noch kein robuster paralleler Einkaufsmodus fuer zwei Personen.
 
 ---
 
 ## 5. UI-Integration
 
-- Shopping zeigt die offene Liste als einfache Zeilen mit Checkbox und Mengeninfo.
+- Shopping zeigt die offene Liste als Papierliste mit tapbaren Zeilen, sichtbarer Checkbox und praesentativer Mengeninfo.
+- Default-Meta wie `1 stk` kann ausgeblendet werden, wenn der Produktname bereits eine klare Mengenangabe enthaelt.
+- Gekaufte Zeilen werden ruhig als `Im Wagen` markiert, ohne einen zweiten fachlichen Status einzufuehren.
 - Leerer Zustand zeigt `Alles erledigt.`.
-- `Aendern` fuehrt zurueck in Writing.
+- `Liste abschliessen` ist die primaere Abschlussaktion und wirkt im Leerzustand nicht wie ein aktiver Speichervorgang.
+- `Aendern` fuehrt zurueck in Writing und bleibt eine sekundare Aktion.
 
 ---
 
@@ -88,7 +93,9 @@ Related docs:
 
 ## 7. Risiken
 
-- Last-Write-Wins bleibt fuer parallele Einkaufsaenderungen die aktuelle Vereinfachung.
+- Last-Write-Wins bleibt fuer bewusst gespeicherte parallele Einkaufsaenderungen die aktuelle Vereinfachung.
+- Eingehende Remote-Snapshots duerfen lokale Writing-Arbeit nicht still ueberschreiben; das wird im Boot-/Writing-Vertrag behandelt.
+- Echte Parallel-Kollaboration im Markt braucht eine eigene Roadmap, weil Konflikte, Remote-Echos und Abschlussregeln bewusst gestaltet werden muessen.
 - Abschluss loescht hart und bietet keine Undo-Ebene.
 - kuenftige Offline-/Reconnect-Faelle duerfen den einfachen Einkaufsfluss nicht aufblaehen.
 
@@ -99,4 +106,4 @@ Related docs:
 - Offene Eintraege sind klar und schnell abhakbar.
 - `Im Wagen` fuehlt sich wie ein einfacher Einkaufsstatus an.
 - Abschluss entfernt nur gekaufte Dinge und laesst offene Reste stehen.
-- Shopping-Aenderungen werden auf anderen Geraeten sichtbar.
+- Snapshot-Aenderungen bleiben mit konfiguriertem Sync teilbar, ohne einen vollwertigen Live-Collaboration-Vertrag zu behaupten.

@@ -1,4 +1,5 @@
 import { inferUnit } from "../core/semantics.js";
+import { formatItemMeta } from "../core/item-display.js";
 
 function formatTime(isoString) {
   return new Intl.DateTimeFormat("de-AT", {
@@ -12,17 +13,54 @@ export function initWriting(doc, store, listSync, touchlog) {
   const form = doc.getElementById("item-form");
   const clearButton = doc.getElementById("clear-list");
   const saveButton = doc.getElementById("save-list");
+  const acceptRemoteButton = doc.getElementById("accept-remote-list");
   const syncStatus = doc.getElementById("writing-sync-status");
   const nameInput = doc.getElementById("item-name");
   const qtyInput = doc.getElementById("item-qty");
   const unitInput = doc.getElementById("item-unit");
+  const formNote = doc.getElementById("item-form-note");
 
   let syncMode = listSync?.isConfigured() ? "idle" : "local-only";
   let lastSavedAt = "";
-  let lastError = "";
+  let hasPendingRemote = false;
 
   function hasItems() {
     return store.state.items.length > 0;
+  }
+
+  function clearFormNote() {
+    if (!formNote) {
+      return;
+    }
+
+    formNote.textContent = "";
+    formNote.hidden = true;
+    nameInput.removeAttribute("aria-invalid");
+    qtyInput.removeAttribute("aria-invalid");
+  }
+
+  function clearFieldNote(targetInput) {
+    targetInput.removeAttribute("aria-invalid");
+    if (nameInput.hasAttribute("aria-invalid") || qtyInput.hasAttribute("aria-invalid")) {
+      return;
+    }
+
+    if (!formNote) {
+      return;
+    }
+
+    formNote.textContent = "";
+    formNote.hidden = true;
+  }
+
+  function showFormNote(message, targetInput = nameInput) {
+    if (formNote) {
+      formNote.textContent = message;
+      formNote.hidden = false;
+    }
+
+    targetInput.setAttribute("aria-invalid", "true");
+    targetInput.focus();
   }
 
   function markDirty() {
@@ -31,8 +69,7 @@ export function initWriting(doc, store, listSync, touchlog) {
       return;
     }
 
-    syncMode = hasItems() ? "dirty" : "idle";
-    lastError = "";
+    syncMode = hasPendingRemote ? "pending-remote" : hasItems() ? "dirty" : "idle";
   }
 
   function renderSyncState() {
@@ -42,39 +79,50 @@ export function initWriting(doc, store, listSync, touchlog) {
 
     saveButton.hidden = !listSync?.isConfigured() || !hasItems();
     saveButton.disabled = syncMode === "saving";
+    if (acceptRemoteButton) {
+      acceptRemoteButton.hidden = !hasPendingRemote;
+    }
+    syncStatus.hidden = false;
 
     if (!listSync?.isConfigured()) {
-      syncStatus.textContent = "Nur lokal gespeichert.";
+      syncStatus.textContent = "Nur auf diesem Geraet.";
       syncStatus.dataset.syncState = "local-only";
       return;
     }
 
     if (syncMode === "saving") {
-      syncStatus.textContent = "Speichere Liste ...";
+      syncStatus.textContent = "Gebe Liste frei ...";
       syncStatus.dataset.syncState = "saving";
       return;
     }
 
     if (syncMode === "error") {
-      syncStatus.textContent = lastError || "Sync fehlgeschlagen.";
+      syncStatus.textContent = "Freigabe nicht moeglich. Liste bleibt lokal.";
       syncStatus.dataset.syncState = "error";
       return;
     }
 
+    if (hasPendingRemote) {
+      syncStatus.textContent = "Anderer Listenstand verfuegbar. Erst lokale Aenderungen freigeben oder verwerfen.";
+      syncStatus.dataset.syncState = "pending-remote";
+      return;
+    }
+
     if (syncMode === "saved" && lastSavedAt) {
-      syncStatus.textContent = `Gespeichert um ${formatTime(lastSavedAt)}.`;
+      syncStatus.textContent = `Fuer den Haushalt freigegeben um ${formatTime(lastSavedAt)}.`;
       syncStatus.dataset.syncState = "saved";
       return;
     }
 
     if (hasItems()) {
-      syncStatus.textContent = "Nicht gespeichert.";
+      syncStatus.textContent = "Noch nicht fuer den Haushalt freigegeben.";
       syncStatus.dataset.syncState = "dirty";
       return;
     }
 
-    syncStatus.textContent = "Sync bereit.";
+    syncStatus.textContent = "";
     syncStatus.dataset.syncState = "idle";
+    syncStatus.hidden = true;
   }
 
   async function persistSharedState(reason) {
@@ -87,7 +135,6 @@ export function initWriting(doc, store, listSync, touchlog) {
       eventId: `sync-save-start-${reason}`
     });
     syncMode = "saving";
-    lastError = "";
     renderSyncState();
 
     const result = await listSync.saveSnapshot(store.state.items);
@@ -97,7 +144,6 @@ export function initWriting(doc, store, listSync, touchlog) {
         eventId: `sync-save-failed-${reason}`
       });
       syncMode = "error";
-      lastError = result.message || "Sync fehlgeschlagen.";
       renderSyncState();
       return result;
     }
@@ -107,7 +153,6 @@ export function initWriting(doc, store, listSync, touchlog) {
     });
     syncMode = hasItems() ? "saved" : "idle";
     lastSavedAt = result.savedAt || new Date().toISOString();
-    lastError = "";
     renderSyncState();
     doc.dispatchEvent(
       new CustomEvent("hestia:items-updated", {
@@ -122,20 +167,41 @@ export function initWriting(doc, store, listSync, touchlog) {
 
   function render() {
     if (store.state.items.length === 0) {
-      listElement.innerHTML = "<li class=\"item-row muted\">Noch keine Eintraege.</li>";
+      listElement.textContent = "";
+      const emptyRow = doc.createElement("li");
+      emptyRow.className = "item-row muted";
+      emptyRow.textContent = "Noch keine Eintraege.";
+      listElement.appendChild(emptyRow);
       renderSyncState();
       return;
     }
 
-    listElement.innerHTML = "";
+    listElement.textContent = "";
     store.state.items.forEach((item) => {
       const row = doc.createElement("li");
       row.className = "item-row";
-      row.innerHTML = `
-        <span class="item-main">${item.name}</span>
-        <span class="item-meta">${item.quantity} ${item.unit}</span>
-        <button class="inline-link destructive" type="button" data-remove="${item.id}" data-item-name="${item.name}">Loeschen</button>
-      `;
+
+      const itemMain = doc.createElement("span");
+      itemMain.className = "item-main";
+      itemMain.textContent = item.name;
+
+      const itemMetaText = formatItemMeta(item);
+      if (itemMetaText) {
+        const itemMeta = doc.createElement("span");
+        itemMeta.className = "item-meta";
+        itemMeta.textContent = itemMetaText;
+        row.appendChild(itemMeta);
+      }
+
+      const removeButton = doc.createElement("button");
+      removeButton.className = "inline-link destructive";
+      removeButton.type = "button";
+      removeButton.dataset.remove = item.id;
+      removeButton.dataset.itemName = item.name;
+      removeButton.textContent = "Loeschen";
+
+      row.prepend(itemMain);
+      row.appendChild(removeButton);
       listElement.appendChild(row);
     });
 
@@ -157,11 +223,17 @@ export function initWriting(doc, store, listSync, touchlog) {
 
   doc.addEventListener("hestia:items-updated", (event) => {
     if (event.detail?.source === "remote") {
+      hasPendingRemote = false;
       syncMode = hasItems() ? "saved" : "idle";
       lastSavedAt = event.detail?.syncedAt || new Date().toISOString();
-      lastError = "";
       touchlog?.add(`[writing] remote state visible items=${store.state.items.length}`, {
         eventId: "writing-remote-state-visible"
+      });
+    } else if (event.detail?.source === "pending-remote") {
+      hasPendingRemote = true;
+      syncMode = "pending-remote";
+      touchlog?.add("[writing] remote state pending while local changes exist", {
+        eventId: "writing-remote-state-pending"
       });
     } else if (event.detail?.source === "local") {
       markDirty();
@@ -176,12 +248,25 @@ export function initWriting(doc, store, listSync, touchlog) {
     }
   });
 
+  nameInput.addEventListener("input", () => {
+    clearFieldNote(nameInput);
+  });
+  qtyInput.addEventListener("input", () => {
+    clearFieldNote(qtyInput);
+  });
+
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     const name = nameInput.value.trim();
     const quantity = Number(qtyInput.value);
     const unit = unitInput.value.trim() || inferUnit(name);
-    if (!name || Number.isNaN(quantity) || quantity <= 0) {
+    if (!name) {
+      showFormNote("Bitte ein Produkt eintragen.", nameInput);
+      return;
+    }
+
+    if (Number.isNaN(quantity) || quantity <= 0) {
+      showFormNote("Bitte eine gueltige Menge eintragen.", qtyInput);
       return;
     }
 
@@ -197,6 +282,7 @@ export function initWriting(doc, store, listSync, touchlog) {
     });
     form.reset();
     qtyInput.value = "1";
+    clearFormNote();
     markDirty();
     render();
     doc.dispatchEvent(new CustomEvent("hestia:items-updated", { detail: { source: "local" } }));
@@ -213,6 +299,10 @@ export function initWriting(doc, store, listSync, touchlog) {
 
   saveButton?.addEventListener("click", async () => {
     await persistSharedState("manual-save");
+  });
+
+  acceptRemoteButton?.addEventListener("click", () => {
+    doc.dispatchEvent(new CustomEvent("hestia:remote-apply-request"));
   });
 
   render();
