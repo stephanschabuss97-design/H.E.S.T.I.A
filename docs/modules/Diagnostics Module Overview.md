@@ -24,7 +24,7 @@ Related docs:
 ## 2. Aktueller Zuschnitt
 
 Bestandteile:
-- kleiner Utility-Einstieg auf Home
+- kleiner, sekundaerer Utility-Einstieg auf Home
 - linke Sidebar mit zwei Bereichen:
   - `Darstellung`
     - aktuelle Stilwahl
@@ -51,6 +51,7 @@ Wichtige Dateien:
 
 - Dev-Hebel bleiben lokal.
 - Dev-Hebel sind sichtbar und reversibel.
+- Der Home-Utility-Einstieg bleibt erreichbar, darf aber nicht wie ein dritter Hauptpfad neben `Schreiben` und `Einkaufen` wirken.
 - Stilwahl ist lokal und lebt bewusst ausserhalb des Household-Syncs.
 - `No Cache Assets` betrifft nur lokale App-Shell-/Asset-Diagnose.
 - Diagnostics greift nicht in Household-, Sync- oder Produktdatenwahrheit ein.

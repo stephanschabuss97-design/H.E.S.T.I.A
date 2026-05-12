@@ -186,7 +186,7 @@ HESTIA ist `fast in, fast out`:
 ## Repo-Karte
 
 | Pfad | Zweck |
-|------|------|
+| --- | --- |
 | `index.html` | zentrale HTML-Struktur |
 | `app/app.css` | zentraler CSS-Bundle-Einstieg |
 | `app/main.js` | Boot und Modulinitialisierung |

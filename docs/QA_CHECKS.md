@@ -58,10 +58,12 @@ Zweck:
 ## 4. UI / Grundverhalten
 
 - Home wirkt ruhig und nicht wie ein Dashboard.
+- Home wirkt wertig und absichtsvoll, nicht wie schnell zusammengestellte Web-Karten.
 - Home zeigt genau zwei primaere Intent-Flaechen:
   - `Schreiben`
   - `Einkaufen`
 - `Schreiben` steht auf Home oberhalb von `Einkaufen`.
+- Die grosse Home-Flaeche wirkt bewusst ruhig und nicht unfertig.
 - Der kleine Utility-Einstieg ist auffindbar, aber nicht gleichrangig mit den zwei Kernpfaden.
 - Writing bleibt schneller als ein Formular.
 - Shopping bleibt klar und reduziert.
@@ -72,6 +74,8 @@ Zweck:
 - `Liste freigeben`, `Anderen Stand uebernehmen` und `Liste leeren` ueberlappen auf Mobile nicht.
 - `Liste leeren` ist als destruktiv erkennbar, bleibt aber sekundar.
 - Mobile Layout bleibt brauchbar.
+- Mobile Home hat keine Titel-, Karten- oder Hint-Ueberlappung.
+- Home bleibt mit den relevanten Schrift- und Artstilen lesbar.
 
 ---
 
@@ -82,6 +86,7 @@ Zweck:
 - Checkboxen in Shopping bleiben klein und proportional und werden nicht von globalen Textfeld-Regeln aufgeblasen.
 - `surface-button`, `inline-link`, `items` und `item-row` wirken konsistent ueber Writing und Shopping.
 - Mobile Home-, Writing- und Shopping-Ansicht brechen nicht sichtbar durch die neue Import-Reihenfolge.
+- Home-spezifische Veredelung bleibt in `app/styles/home.css` verortet und erzeugt keine globalen Button-/Token-Seiteneffekte.
 - Touchlog-Panel bleibt auf Desktop und Mobil oeffnend und lesbar.
 - Install-Banner bleibt in installierter PWA versteckt und im Browser-Kontext weiter korrekt steuerbar.
 

@@ -53,7 +53,7 @@ Begruendung:
 ## 3. Verantwortungen pro Datei
 
 | Datei | Verantwortung |
-|------|------|
+| --- | --- |
 | `app/app.css` | einziger Bundle-Einstieg |
 | `app/styles/tokens.css` | Farben, Fonts, Radius, Schatten, Style-Varianten |
 | `app/styles/base.css` | Reset, Body, `[hidden]`, Ambient, globale Form-Control-Grundregeln |
@@ -71,6 +71,7 @@ Begruendung:
 
 - Neue globale Patterns gehoeren nach `ui.css`, nicht in Feature-Dateien.
 - Feature-Dateien duerfen globale Patterns verfeinern, aber nicht still neue globale Owner bauen.
+- Home-spezifische Materialitaet, Intent-Karten-Feinschliff und Home-Komposition gehoeren nach `home.css`, solange sie keine globalen Button-/Token-Vertraege aendern.
 - Checkboxen, Radios und Texteingaben bleiben foundation-seitig getrennt.
 - Mobile Regeln gehoeren zum Owner der betroffenen Komponente oder des betroffenen globalen Patterns.
 - Keine Rueckkehr zu Sammeldateien wie `components.css` oder `screens.css`.

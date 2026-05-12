@@ -24,7 +24,7 @@ Related docs:
 ## 2. Kernkomponenten & Dateien
 
 | Datei | Zweck |
-|------|------|
+| --- | --- |
 | `index.html` | Screen-Struktur, Titel, zwei Intent-Karten und kleiner Utility-Einstieg |
 | `app/core/router.js` | einfacher Wechsel zwischen `home`, `writing` und `shopping` |
 | `app/modules/home-scene.js` | atmosphaerischer Hintergrund fuer die Startansicht |
@@ -65,6 +65,8 @@ Related docs:
 
 - Home zeigt den Titel `H.E.S.T.I.A.` plus genau zwei gestapelte Intent-Karten.
 - Der visuelle Charakter ist absichtlich atmosphaerisch statt informationsdicht.
+- Die Intent-Karten duerfen wie eine wertige HESTIA-Einstiegstafel wirken, bleiben aber reine Navigation in die zwei Kernfluesse.
+- Die grosse Ruheflaeche ist bewusst Teil der Home-Komposition und wird nicht automatisch mit Status-, Listen- oder Haushaltsinformationen befuellt.
 - Oben rechts sitzt ein kleiner Utility-Einstieg fuer `Darstellung & Diagnose`, ohne den Hero-Kern zu ueberholen.
 
 ---
@@ -73,6 +75,7 @@ Related docs:
 
 - Home darf nicht schleichend zu einem Dashboard wachsen.
 - Utility- und Diagnosehelfer duerfen die zwei Produktpfade nicht optisch dominieren.
+- Kleine dekorative Veredelungen duerfen keine neuen fachlichen Zustandsversprechen erzeugen.
 
 ---
 
@@ -80,4 +83,5 @@ Related docs:
 
 - Home fuehrt ohne Erklaerung klar in `Schreiben` oder `Einkaufen`.
 - Die Ansicht wirkt ruhig und nicht wie ein Kontrollzentrum.
+- Die Home-Karten wirken wertig, ohne wie ein App-Portal oder Dashboard zu werden.
 - Der Utility-Einstieg ist vorhanden, aber nicht der Produktkern.

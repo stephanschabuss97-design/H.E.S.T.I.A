@@ -38,6 +38,7 @@ Aktionen wie `Loeschen`, `Liste leeren` und `Liste abschliessen` haben unterschi
 Status:
 
 - abgeschlossen am 12.05.2026
+- DONE bestaetigt: Umsetzung, S5-Abnahme, Doku-Sync und Archivierung sind abgeschlossen.
 - abgelegte Detailroadmap: [HESTIA Schreiben Speichern Listenvertrauen Roadmap (DONE).md](archive/HESTIA%20Schreiben%20Speichern%20Listenvertrauen%20Roadmap%20(DONE).md)
 
 ### 4. Writing weniger formularig machen
@@ -60,15 +61,21 @@ Quelle fuer diese Integration ist die archivierte Legacy-Roadmap [HESTIA Offline
 
 Strukturierte Felder und natuerliche Sprache konnten sich sichtbar widersprechen, etwa wenn im Produktnamen bereits eine Menge steht und rechts zusaetzlich `1 stk` erschien. Das war kein grosser Architekturfehler, aber ein Alltagsdetail, das Vertrauen in die Liste mindern konnte. Roadmap 2 hat diese Darstellung praesentativ geglaettet: offensichtliche Default-Stueck-Metadaten koennen ausgeblendet werden, wenn der Name bereits eine klare Mengenangabe enthaelt. Ziel bleibt eine ehrliche, lesbare Einkaufsliste, nicht perfekte Datenbereinigung.
 
-## Roadmap 3 - Home und Stil veredeln
+## Roadmap 3 - Home und Stil veredeln (DONE)
+
+Status:
+
+- abgeschlossen am 12.05.2026
+- DONE bestaetigt: Umsetzung, S5-Abnahme, Doku-Sync und Archivierung sind abgeschlossen.
+- abgelegte Detailroadmap: [HESTIA Home Stil Veredeln Roadmap (DONE).md](archive/HESTIA%20Home%20Stil%20Veredeln%20Roadmap%20(DONE).md)
 
 ### 8. Home-Kacheln veredeln
 
-Der Home-Hub ist atmosphaerisch stark und soll weiterhin genau zwei primaere Intentionen zeigen: `Schreiben` und `Einkaufen`. Trotzdem koennen die Kacheln noch weniger nach Web-Card und mehr nach wertiger HESTIA-Einstiegstafel wirken. Kleine Zustandsinformationen wie "1 Eintrag offen" koennten spaeter helfen, muessen aber sehr leise bleiben. Sobald Home nach Dashboard riecht, ist die Grenze dieser Roadmap ueberschritten.
+Der Home-Hub ist atmosphaerisch stark und soll weiterhin genau zwei primaere Intentionen zeigen: `Schreiben` und `Einkaufen`. Trotzdem konnten die Kacheln noch weniger nach Web-Card und mehr nach wertiger HESTIA-Einstiegstafel wirken. Roadmap 3 hat diese Veredelung CSS-only umgesetzt: mehr Materialitaet, bessere Komposition, leiserer Utility-Einstieg und Mobile-/Font-Preset-Schutz. Kleine Zustandsinformationen wurden bewusst nicht umgesetzt, weil Home nicht nach Dashboard riechen darf.
 
 ### 9. Grosse Leere bewusst nutzen
 
-Die grosse Leere ist nicht automatisch ein Problem, sondern Teil der Ruhe und des gewaehlten Stils. Sie sollte nur dort gefuellt werden, wo ein echter Alltagsmoment besser wird. Fuer den Home-Hub bedeutet das: Flaeche darf ruhig bleiben, solange sie den Einstieg wertiger und nicht leer oder unfertig wirken laesst. Home selbst sollte nicht aus dem Wunsch nach Flaechennutzung heraus mit allgemeinen Haushaltsinformationen vollgestellt werden.
+Die grosse Leere ist nicht automatisch ein Problem, sondern Teil der Ruhe und des gewaehlten Stils. Sie sollte nur dort gefuellt werden, wo ein echter Alltagsmoment besser wird. Roadmap 3 hat die Flaeche deshalb nicht befuellt, sondern ueber Rhythmus, Abstaende und eine dezente optische Fuehrung bewusster gemacht. Home selbst wurde nicht aus dem Wunsch nach Flaechennutzung heraus mit allgemeinen Haushaltsinformationen vollgestellt.
 
 ## Roadmap 4 - Einkaufsapps und Shopping-Begleiter
 
