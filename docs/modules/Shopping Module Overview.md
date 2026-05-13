@@ -8,6 +8,7 @@ Kurze Einordnung:
 Related docs:
 - [PRODUCT.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/PRODUCT.md)
 - [Writing Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Writing%20Module%20Overview.md)
+- [Kassa Carousel Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Kassa%20Carousel%20Module%20Overview.md)
 - [Supabase Sync Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Supabase%20Sync%20Module%20Overview.md)
 
 ---
@@ -25,13 +26,14 @@ Related docs:
 | Datei | Zweck |
 |------|------|
 | `app/modules/shopping.js` | Rendern der Einkaufsliste, Checkbox-Handling, Abschlusslogik und Sync-Persist |
+| `app/modules/kassa-carousel.js` | isolierte Bedienlogik fuer das kleine Kassa-Karussell unterhalb der Shopping-Actions |
 | `app/core/item-display.js` | rein praesentative Mengen-/Einheitenanzeige fuer Shopping und Writing |
 | `app/core/state.js` | toggelt `inCart` und loescht gekaufte Eintraege beim Abschluss |
 | `app/supabase/list-sync.js` | speichert geaenderte Einkaufs-Snapshots |
-| `index.html` | Shopping-Panel mit Liste und Abschlussaktionen |
+| `index.html` | Shopping-Panel mit Liste, Abschlussaktionen und statischem Kassa-Karussell-Markup |
 | `app/app.css` | zentraler CSS-Bundle-Einstieg |
 | `app/styles/ui.css` | globale Listen- und Aktionsmuster |
-| `app/styles/shopping.css` | Papierliste, tapbare Zeilen, Checkboxen und mobile Shopping-Darstellung |
+| `app/styles/shopping.css` | Papierliste, tapbare Zeilen, Checkboxen, Kassa-Karussell und mobile Shopping-Darstellung |
 
 ---
 
@@ -59,6 +61,8 @@ Related docs:
 - Shopping-Zeile oder Checkbox fuer `Im Wagen` setzen oder entfernen
 - `Liste abschliessen`
 - optional zurueck nach `Schreiben`
+- Kassa-Karussell per Zurueck/Weiter, Pfeiltasten oder Swipe wechseln
+- aktive Kassa-Karte per Linksklick in Google Play oeffnen
 
 ### 4.3 Verarbeitung
 - Zeilentap und Checkbox laufen ueber denselben lokalen Toggle-Pfad und aktualisieren `inCart` im Store.
@@ -80,6 +84,9 @@ Related docs:
 - Leerer Zustand zeigt `Alles erledigt.`.
 - `Liste abschliessen` ist die primaere Abschlussaktion und wirkt im Leerzustand nicht wie ein aktiver Speichervorgang.
 - `Aendern` fuehrt zurueck in Writing und bleibt eine sekundare Aktion.
+- Unterhalb der Shopping-Actions sitzt das Kassa-Karussell als kleine Kassahilfe.
+- Das Karussell zeigt genau vier feste Eintraege: `jö`, `MPREIS`, `HOFER`, `SPAR`.
+- Das Karussell bleibt sekundar und darf nicht wie ein dritter Shopping-Status oder App-Launcher wirken.
 
 ---
 
@@ -98,6 +105,7 @@ Related docs:
 - Echte Parallel-Kollaboration im Markt braucht eine eigene Roadmap, weil Konflikte, Remote-Echos und Abschlussregeln bewusst gestaltet werden muessen.
 - Abschluss loescht hart und bietet keine Undo-Ebene.
 - kuenftige Offline-/Reconnect-Faelle duerfen den einfachen Einkaufsfluss nicht aufblaehen.
+- Externe Google-Play-Links im Kassa-Karussell bleiben Plattformverhalten und duerfen keinen Installationsstatus vortaeuschen.
 
 ---
 
@@ -107,3 +115,4 @@ Related docs:
 - `Im Wagen` fuehlt sich wie ein einfacher Einkaufsstatus an.
 - Abschluss entfernt nur gekaufte Dinge und laesst offene Reste stehen.
 - Snapshot-Aenderungen bleiben mit konfiguriertem Sync teilbar, ohne einen vollwertigen Live-Collaboration-Vertrag zu behaupten.
+- Kassa-Karussell bleibt eine kleine externe Linkhilfe ohne Einfluss auf Listen-State oder Abschlusslogik.

@@ -77,19 +77,27 @@ Der Home-Hub ist atmosphaerisch stark und soll weiterhin genau zwei primaere Int
 
 Die grosse Leere ist nicht automatisch ein Problem, sondern Teil der Ruhe und des gewaehlten Stils. Sie sollte nur dort gefuellt werden, wo ein echter Alltagsmoment besser wird. Roadmap 3 hat die Flaeche deshalb nicht befuellt, sondern ueber Rhythmus, Abstaende und eine dezente optische Fuehrung bewusster gemacht. Home selbst wurde nicht aus dem Wunsch nach Flaechennutzung heraus mit allgemeinen Haushaltsinformationen vollgestellt.
 
-## Roadmap 4 - Einkaufsapps und Shopping-Begleiter
+## Roadmap 4 - Einkaufsapps und Shopping-Begleiter (DONE)
+
+Status:
+
+- abgeschlossen am 13.05.2026
+- DONE bestaetigt: Umsetzung, S5-Abnahme, Doku-Sync und Archivierung sind abgeschlossen.
+- abgelegte Detailroadmap: [HESTIA Kassa Karussell Roadmap (DONE).md](archive/HESTIA%20Kassa%20Karussell%20Roadmap%20(DONE).md)
 
 ### 10. Einkaufsapps als eigenes Shopping-Modul
 
-Loyalty- und Einkaufsapps passen sehr gut zu HESTIA, weil sie direkt im Moment des Einkaufens gebraucht werden. Ein dezentes Modul im Einkaufsfenster koennte Kacheln fuer Hofer, MPreis, Joe, Lidl Plus oder aehnliche Apps anbieten. In einer ersten Version waeren einfache Oeffnen-/Installieren-Links ausreichend; Statuslogik kann spaeter folgen. Wichtig ist, dass dieses Modul den Einkaufsmodus begleitet und nicht den Home-Hub in ein App-Portal verwandelt.
+Loyalty- und Einkaufsapps passen sehr gut zu HESTIA, weil sie direkt im Moment vor dem Bezahlen gebraucht werden. Roadmap 4 hat deshalb kein App-Portal und keine Home-Erweiterung gebaut, sondern ein kleines Kassa-Karussell im Einkaufsmodus. Es sitzt unterhalb von `Liste abschliessen` und `Aendern`, also nach den eigentlichen Listenaktionen, und zeigt nur vier feste, leise Symbole: `jö`, `MPREIS`, `HOFER` und `SPAR`. Die MIDAS-Carousel-Idee aus dem MIDAS Hub Module Overview diente als technische/visuelle Referenz, wurde fuer HESTIA aber bewusst kleiner uebersetzt: kein zentraler Hub, keine Panel-Orchestrierung, keine erklaerende Kachelsektion.
+
+Fuer V1 oeffnen die Symbole robuste Google-Play-Links statt installierte Apps zu erkennen oder fragile Android-Deep-Links zu erzwingen. Das ist ein Klick mehr, aber deutlich wartbarer und ehrlicher: keine App-Scan-Magie, kein `installiert`-Status, kein `+`, kein `i`, keine Konfiguration und keine Deep-Link-Pflege fuer vier Apps. Falls spaeter fuer einzelne Apps stabile App-Links belegbar sind, koennen sie als Bonus geprueft werden; sie sind aber nicht Kern dieser Roadmap.
 
 ### 11. "Beim Einkaufen"-Kontext staerken
 
-Der Einkaufsmodus koennte langfristig mehr sein als nur Abhaken, ohne gleich ein dritter Kernmodus zu werden. Gemeint ist ein ruhiger Companion-Bereich: Liste oben, darunter kontextnahe Hilfen wie Loyalty-Apps oder spaeter marktnahe Hinweise. Diese Idee passt, weil sie den realen Einkaufsfluss direkt unterstuetzt. Sie darf aber nicht zu einem allgemeinen Marktplatz, Angebotsfeed oder Produktvergleich werden.
+Der Einkaufsmodus koennte langfristig mehr sein als nur Abhaken, ohne gleich ein dritter Kernmodus zu werden. Gemeint ist ein ruhiger Companion-Bereich, der zuerst nur aus dem kleinen Kassa-Karussell besteht: Liste oben, Listenaktionen darunter, dann die vier Kassasymbole als leise Hilfe fuer den Moment vor dem Zahlen. Diese Idee passt, weil sie den realen Einkaufsfluss direkt unterstuetzt. Sie darf aber nicht zu einem allgemeinen Marktplatz, Angebotsfeed, Produktvergleich oder App-Launcher werden.
 
 ### 12. Shopping-Leerflaeche sinnvoll nutzen
 
-Die grosse Flaeche im Einkaufsmodus kann spaeter gezielt fuer Einkaufskontext genutzt werden, wenn die eigentliche Liste dadurch nicht schwerer wird. Dieser Punkt gehoert bewusst nicht in die Home-Roadmap, sondern in den Shopping-Begleiter: dort koennen Einkaufsapps, leise Hinweise oder ein spaeter Companion-Bereich sitzen. Die Flaeche soll keinen Selbstzweck erfuellen und nicht zu Dashboard, Angebotsfeed oder allgemeinem Portal werden. Sie ist nur dann wertvoll, wenn sie den realen Einkauf im Geschaeft ruhiger oder schneller macht.
+Die grosse Flaeche im Einkaufsmodus kann spaeter gezielt fuer Einkaufskontext genutzt werden, wenn die eigentliche Liste dadurch nicht schwerer wird. Fuer Roadmap 4 ist der erste sinnvolle Schritt nicht eine grosse Flaechenfuellung, sondern eine sehr kleine Karussell-Zeile direkt unter den Einkaufsaktionen. Damit bleibt die Flaeche ruhig, waehrend die Kassa-Hilfe genau dort liegt, wo man sie im Ablauf erwartet. Die Flaeche soll keinen Selbstzweck erfuellen und nicht zu Dashboard, Angebotsfeed oder allgemeinem Portal werden; sie ist nur dann wertvoll, wenn sie den realen Einkauf im Geschaeft ruhiger oder schneller macht.
 
 ## Roadmap 5 - Push Awareness als Premium Feature
 

@@ -61,7 +61,7 @@ Begruendung:
 | `app/styles/ui.css` | Buttons, Inline-Links, Sync-Status, Listen-Grundmuster, globale mobile UI-Overrides |
 | `app/styles/home.css` | Home-Titel, Intent-Karten, Utility-Einstieg, Home-Praesentation |
 | `app/styles/writing.css` | Writing-Form und Semantik-Popup |
-| `app/styles/shopping.css` | Papierliste, Checkbox-/Meta-Layout, mobile Shopping-Regeln |
+| `app/styles/shopping.css` | Papierliste, Checkbox-/Meta-Layout, Kassa-Karussell und mobile Shopping-Regeln |
 | `app/styles/devtools.css` | Touchlog, Stilumschalter, Devtools-Panel |
 | `app/styles/pwa.css` | Install-Banner und kuenftige PWA-Banner |
 
@@ -72,6 +72,7 @@ Begruendung:
 - Neue globale Patterns gehoeren nach `ui.css`, nicht in Feature-Dateien.
 - Feature-Dateien duerfen globale Patterns verfeinern, aber nicht still neue globale Owner bauen.
 - Home-spezifische Materialitaet, Intent-Karten-Feinschliff und Home-Komposition gehoeren nach `home.css`, solange sie keine globalen Button-/Token-Vertraege aendern.
+- Das Kassa-Karussell bleibt Shopping-spezifisch und gehoert nach `shopping.css`, solange es nicht in anderen Screens wiederverwendet wird.
 - Checkboxen, Radios und Texteingaben bleiben foundation-seitig getrennt.
 - Mobile Regeln gehoeren zum Owner der betroffenen Komponente oder des betroffenen globalen Patterns.
 - Keine Rueckkehr zu Sammeldateien wie `components.css` oder `screens.css`.
@@ -87,6 +88,7 @@ Wenn du etwas aendern willst:
 - Startseite -> `app/styles/home.css`
 - Schreiben-Flow -> `app/styles/writing.css`
 - Einkaufen-Flow -> `app/styles/shopping.css`
+- Kassa-Karussell im Einkaufsmodus -> `app/styles/shopping.css`
 - Touchlog, Utility-/Diagnostics-Panel oder Stilwahl -> `app/styles/devtools.css`
 - Install-/PWA-Hinweise -> `app/styles/pwa.css`
 - Theme/Farbe/Font -> `app/styles/tokens.css`

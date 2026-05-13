@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v28";
+const CACHE_VERSION = "v29";
 const STATIC_CACHE = `hestia-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `hestia-runtime-${CACHE_VERSION}`;
 const OFFLINE_URL = "./offline.html";
@@ -29,6 +29,7 @@ const APP_SHELL = [
   "./app/core/state.js",
   "./app/core/semantics.js",
   "./app/modules/home-scene.js",
+  "./app/modules/kassa-carousel.js",
   "./app/modules/writing.js",
   "./app/modules/shopping.js",
   "./app/diagnostics/ambient-touch.js",

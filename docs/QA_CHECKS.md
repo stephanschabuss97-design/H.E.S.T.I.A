@@ -34,6 +34,14 @@ Zweck:
 - Nicht markierte Eintraege bleiben erhalten.
 - `Aendern` fuehrt direkt nach `Schreiben` und bleibt optisch sekundar.
 - Leere Einkaufsliste zeigt `Alles erledigt.`.
+- Kassa-Karussell sitzt unterhalb von `Liste abschliessen` und `Aendern`.
+- Kassa-Karussell zeigt genau `jö`, `MPREIS`, `HOFER`, `SPAR`.
+- Zurueck-/Weiter-Buttons wechseln den aktiven Kassa-Eintrag.
+- Pfeiltasten wechseln den aktiven Kassa-Eintrag, wenn der Fokus im Karussell liegt.
+- Swipe/Drag wechselt den aktiven Kassa-Eintrag auf Touch/Mobile.
+- Nur die aktive Kassa-Karte ist im normalen Tabfluss.
+- Normaler Linksklick auf die aktive Kassa-Karte oeffnet Google Play in einem neuen Ziel.
+- Kassa-Karussell behauptet keinen Installationsstatus und zeigt keine App-Erkennung.
 
 ---
 
@@ -67,6 +75,7 @@ Zweck:
 - Der kleine Utility-Einstieg ist auffindbar, aber nicht gleichrangig mit den zwei Kernpfaden.
 - Writing bleibt schneller als ein Formular.
 - Shopping bleibt klar und reduziert.
+- Kassa-Karussell bleibt sichtbar sekundar und wirkt nicht wie ein App-Launcher.
 - Navigation zwischen Home, Writing und Shopping funktioniert ohne Haken.
 - Shopping-Zeilen haben unterwegs brauchbare Trefferflaechen.
 - Lange Artikelnamen und Mengen ueberlappen nicht.
@@ -89,6 +98,7 @@ Zweck:
 - Home-spezifische Veredelung bleibt in `app/styles/home.css` verortet und erzeugt keine globalen Button-/Token-Seiteneffekte.
 - Touchlog-Panel bleibt auf Desktop und Mobil oeffnend und lesbar.
 - Install-Banner bleibt in installierter PWA versteckt und im Browser-Kontext weiter korrekt steuerbar.
+- Neue ES-Module wie das Kassa-Karussell sind im Service-Worker-App-Shell-Cache enthalten.
 
 ---
 
@@ -126,6 +136,7 @@ Diese Checks pruefen den aktuellen Snapshot-/Realtime-Vertrag. Robuste parallele
 - Das Panel zeigt `Darstellung` vor `Entwickler`.
 - Boot zeigt einen knappen, nachvollziehbaren Start-Trace.
 - `Item hinzufuegen`, `Loeschen`, `Liste leeren`, `Liste freigeben`, Pending-Remote und Shopping-Aktionen erscheinen als hochwertige Eintraege.
+- Kassa-Karussell-Wechsel duerfen als ruhige `[kassa]`-Eintraege erscheinen, aber keine Pointer-/Gesture-Details loggen.
 - Realtime-Ereignisse erscheinen als eigene Sync-Eintraege.
 - Wiederholte identische Ereignisse werden aggregiert statt gespammt.
 - Auf Mobile bleibt das Panel viewport-begrenzt und intern scrollbar; der obere Bereich darf nicht aus dem sichtbaren Fenster herausragen.

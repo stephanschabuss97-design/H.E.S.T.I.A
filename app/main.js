@@ -7,6 +7,7 @@ import { bindSemanticsAutocomplete, initSemantics } from "./core/semantics.js";
 import { initWriting } from "./modules/writing.js";
 import { initShopping } from "./modules/shopping.js";
 import { initHomeScene } from "./modules/home-scene.js";
+import { initKassaCarousel } from "./modules/kassa-carousel.js";
 import { initAmbientTouch } from "./diagnostics/ambient-touch.js";
 import { initFontPresets } from "./diagnostics/font-presets.js";
 import { initArtStylePresets } from "./diagnostics/art-style-presets.js";
@@ -147,6 +148,7 @@ async function initApp() {
   initRouter(document);
   initWriting(document, state, listSync, touchlog);
   initShopping(document, state, listSync, touchlog);
+  initKassaCarousel(document, touchlog);
   initArtStylePresets(document);
   initHomeScene(document);
   initAmbientTouch(document);

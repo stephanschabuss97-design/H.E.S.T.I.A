@@ -79,6 +79,7 @@ Typische Zeilen sind heute:
 - `[writing] added item ...`
 - `[writing] remote state pending while local changes exist`
 - `[shopping] finished shopping run`
+- `[kassa] carousel active=...`
 
 Neu wichtig:
 - PWA-Kontextdiagnostik
@@ -92,6 +93,7 @@ Kategorienvertrag:
 - `sync`
 - `writing`
 - `shopping`
+- `kassa`
 - `dev`
 
 Der Touchlog fuehrt bewusst keine breitere technische Kategorienliste ein.
@@ -110,6 +112,7 @@ Der Touchlog fuehrt bewusst keine breitere technische Kategorienliste ein.
 - Der Touchlog bleibt Event-Trace; aktive Sonderzustaende gehoeren primaer in die linke Sidebar.
 - `No Cache Assets` ist ein lokaler Shell-/Asset-Hebel und kein Daten-/Sync-Modus.
 - `Touchlog leeren` und `Dev State zuruecksetzen` bleiben lokale Diagnosehilfen ohne Einfluss auf Produktdaten.
+- Kassa-Karussell darf nur aktive Wechsel loggen, keine Pointer-/Swipe-Details.
 
 ---
 

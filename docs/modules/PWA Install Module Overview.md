@@ -84,6 +84,8 @@ Das war noetig, weil der Install-Pfad auf GitHub Pages und in der installierten 
 - Browserkontext und installierter PWA-Kontext koennen unterschiedliche Signale liefern
 - spaete Prompt-Bindung fuehrt zu totem Banner-Button
 - CSS darf `hidden` nicht visuell ueberstimmen
+- neue ES-Module muessen im App-Shell-Cache referenziert und per Cache-Version ausgeliefert werden
+- externe Links wie Google Play bleiben normale Cross-Origin-Navigation und werden vom Service Worker nicht abgefangen
 
 ---
 
