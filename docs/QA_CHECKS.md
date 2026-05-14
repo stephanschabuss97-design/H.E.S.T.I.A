@@ -157,7 +157,61 @@ Diese Checks pruefen den aktuellen Snapshot-/Realtime-Vertrag. Robuste parallele
 
 ---
 
-## 10. Definition of Done
+## 10. Entsorgungsdaten-Pipeline
+
+Diese Checks pruefen nur das Datenfundament. Sichtbare Entsorgungs-UI und Erinnerungen sind eigene Roadmaps.
+
+- Script-Syntax ist gueltig:
+  - `node --check scripts/update-waste-calendar.mjs`
+- Discovery gegen Axams liefert fuer alle drei Collections Seite `200`, iCal `200` und aktuell keinen Fallback:
+  - `node scripts/update-waste-calendar.mjs --check-discovery`
+- Live-JSON ist parsebar und enthaelt genau drei Collections:
+  - `bio-west`
+  - `rest-axams-dorf`
+  - `gelber-sack-axams-dorf`
+- `assets/data/waste-calendar.axams.json` enthaelt:
+  - `schemaVersion: 1`
+  - `municipality: "Axams"`
+  - `source.type: "axams-ical"`
+  - `source.pages[]` mit `collectionId`, `pageUrl`, `icalUrl`
+  - `collections[].dates[]` mit `date`, `title`, `sourceUid`
+- Das JSON enthaelt keine Laufzeit- oder Diagnosefelder:
+  - kein `generatedAt`
+  - kein `fetchedAt`
+  - kein `validUntil`
+  - kein `warnings`
+  - kein `diagnostics`
+  - kein `description`
+  - kein `endDate`
+- Termine sind je Collection stabil sortiert.
+- Doppelte `sourceUid`-Werte oder doppelte Datum/Titel-Paare je Collection treten im erzeugten JSON nicht auf.
+- Zweiter `node scripts/update-waste-calendar.mjs --write-json`-Lauf erzeugt keine inhaltliche Aenderung, wenn die Quellen unveraendert sind.
+- Fehlerfall-Smokes pruefen:
+  - leerer Feed failt hart
+  - fehlender Feed failt hart
+  - ungueltiges Datum failt hart
+- Workflow-Contract ist statisch erfuellt:
+  - `workflow_dispatch`
+  - beide Cron-Zeilen
+  - `contents: write`
+  - `concurrency`
+  - `node scripts/update-waste-calendar.mjs --write-json`
+  - Diff-Guard auf `assets/data/waste-calendar.axams.json`
+  - keine Secrets
+  - keine Dependency-Installation
+- Keine `.ics`-Rohdaten werden versioniert.
+- Home, Writing, Shopping, Supabase und Service Worker bleiben durch Roadmap 5A unberuehrt.
+
+Nur auf GitHub pruefbar:
+
+- echter geplanter Schedule-Lauf
+- manueller `workflow_dispatch`-Lauf
+- Bot-Commit und Bot-Push
+- moegliche Branch-Protection- oder Repository-Permission-Blockaden
+
+---
+
+## 11. Definition of Done
 
 - Der lokale HESTIA-Kern besteht alle Checks aus Abschnitt 1 bis 5.
 - Neue Features duerfen diese Baseline nicht verschlechtern.
@@ -165,3 +219,4 @@ Diese Checks pruefen den aktuellen Snapshot-/Realtime-Vertrag. Robuste parallele
 - Touchlog bleibt hilfreich und ruhig statt technisch laut zu werden.
 - Der Home-Hub bleibt bei genau zwei primaeren Intentionen; Utilities duerfen diese Hierarchie nicht aufweichen.
 - Dev-/Diagnostics-Hebel bleiben klein, lokal und ohne Eingriff in Produktwahrheit.
+- Entsorgungsdaten bleiben ein lokales Datenfundament, bis eine eigene UI-Roadmap sie bewusst anbindet.

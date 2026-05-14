@@ -1,0 +1,336 @@
+{
+  "schemaVersion": 1,
+  "municipality": "Axams",
+  "area": "Axams Dorf; Biomuell westlich Axamer Bach",
+  "source": {
+    "type": "axams-ical",
+    "pages": [
+      {
+        "collectionId": "bio-west",
+        "pageUrl": "https://www.axams.gv.at/Biomuell_Objekte_westlich_Axamer_Bach_13",
+        "icalUrl": "https://www.axams.gv.at/system/web/CalendarService.ashx?aqn=UmlTS29tbXVuYWwuT2JqZWN0cy5LYWxlbmRlciwgUklTQ29tcG9uZW50cywgVmVyc2lvbj0xLjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPW51bGw%3D&do=MjI1ODQ2Nzcz&gnr=297&sprache=1"
+      },
+      {
+        "collectionId": "rest-axams-dorf",
+        "pageUrl": "https://www.axams.gv.at/Restmuell_Axams_Dorf",
+        "icalUrl": "https://www.axams.gv.at/system/web/CalendarService.ashx?aqn=UmlTS29tbXVuYWwuT2JqZWN0cy5LYWxlbmRlciwgUklTQ29tcG9uZW50cywgVmVyc2lvbj0xLjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPW51bGw%3D&do=MjI1ODQ2ODUw&gnr=297&sprache=1"
+      },
+      {
+        "collectionId": "gelber-sack-axams-dorf",
+        "pageUrl": "https://www.axams.gv.at/Gelber_Sack_-_Axams_Dorf",
+        "icalUrl": "https://www.axams.gv.at/system/web/CalendarService.ashx?aqn=UmlTS29tbXVuYWwuT2JqZWN0cy5LYWxlbmRlciwgUklTQ29tcG9uZW50cywgVmVyc2lvbj0xLjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPW51bGw%3D&do=MjI1ODQ2ODU2&gnr=297&sprache=1"
+      }
+    ]
+  },
+  "collections": [
+    {
+      "id": "bio-west",
+      "label": "Biomuell",
+      "area": "westlich Axamer Bach",
+      "hint": "Ab 7:00 bereitstellen",
+      "dates": [
+        {
+          "date": "2026-05-19",
+          "title": "Biomüll (Objekte westlich Axamer Bach)",
+          "sourceUid": "RFCALITEM300628f5-bae0-07f9-2e94-cc10e331a7d420260518T220000Z"
+        },
+        {
+          "date": "2026-05-27",
+          "title": "Biomüll (Objekte westlich Axamer Bach)",
+          "sourceUid": "RFCALITEM300628f5-bae0-07f9-2e94-cc10e331a7d420260526T220000Z"
+        },
+        {
+          "date": "2026-06-02",
+          "title": "Biomüll (Objekte westlich Axamer Bach)",
+          "sourceUid": "RFCALITEM300628f5-bae0-07f9-2e94-cc10e331a7d420260601T220000Z"
+        },
+        {
+          "date": "2026-06-09",
+          "title": "Biomüll (Objekte westlich Axamer Bach)",
+          "sourceUid": "RFCALITEM300628f5-bae0-07f9-2e94-cc10e331a7d420260608T220000Z"
+        },
+        {
+          "date": "2026-06-16",
+          "title": "Biomüll (Objekte westlich Axamer Bach)",
+          "sourceUid": "RFCALITEM300628f5-bae0-07f9-2e94-cc10e331a7d420260615T220000Z"
+        },
+        {
+          "date": "2026-06-23",
+          "title": "Biomüll (Objekte westlich Axamer Bach)",
+          "sourceUid": "RFCALITEM300628f5-bae0-07f9-2e94-cc10e331a7d420260622T220000Z"
+        },
+        {
+          "date": "2026-06-30",
+          "title": "Biomüll (Objekte westlich Axamer Bach)",
+          "sourceUid": "RFCALITEM300628f5-bae0-07f9-2e94-cc10e331a7d420260629T220000Z"
+        },
+        {
+          "date": "2026-07-07",
+          "title": "Biomüll (Objekte westlich Axamer Bach)",
+          "sourceUid": "RFCALITEM300628f5-bae0-07f9-2e94-cc10e331a7d420260706T220000Z"
+        },
+        {
+          "date": "2026-07-14",
+          "title": "Biomüll (Objekte westlich Axamer Bach)",
+          "sourceUid": "RFCALITEM300628f5-bae0-07f9-2e94-cc10e331a7d420260713T220000Z"
+        },
+        {
+          "date": "2026-07-21",
+          "title": "Biomüll (Objekte westlich Axamer Bach)",
+          "sourceUid": "RFCALITEM300628f5-bae0-07f9-2e94-cc10e331a7d420260720T220000Z"
+        },
+        {
+          "date": "2026-07-28",
+          "title": "Biomüll (Objekte westlich Axamer Bach)",
+          "sourceUid": "RFCALITEM300628f5-bae0-07f9-2e94-cc10e331a7d420260727T220000Z"
+        },
+        {
+          "date": "2026-08-04",
+          "title": "Biomüll (Objekte westlich Axamer Bach)",
+          "sourceUid": "RFCALITEM300628f5-bae0-07f9-2e94-cc10e331a7d420260803T220000Z"
+        },
+        {
+          "date": "2026-08-11",
+          "title": "Biomüll (Objekte westlich Axamer Bach)",
+          "sourceUid": "RFCALITEM300628f5-bae0-07f9-2e94-cc10e331a7d420260810T220000Z"
+        },
+        {
+          "date": "2026-08-18",
+          "title": "Biomüll (Objekte westlich Axamer Bach)",
+          "sourceUid": "RFCALITEM300628f5-bae0-07f9-2e94-cc10e331a7d420260817T220000Z"
+        },
+        {
+          "date": "2026-08-25",
+          "title": "Biomüll (Objekte westlich Axamer Bach)",
+          "sourceUid": "RFCALITEM300628f5-bae0-07f9-2e94-cc10e331a7d420260824T220000Z"
+        },
+        {
+          "date": "2026-09-01",
+          "title": "Biomüll (Objekte westlich Axamer Bach)",
+          "sourceUid": "RFCALITEM300628f5-bae0-07f9-2e94-cc10e331a7d420260831T220000Z"
+        },
+        {
+          "date": "2026-09-08",
+          "title": "Biomüll (Objekte westlich Axamer Bach)",
+          "sourceUid": "RFCALITEM300628f5-bae0-07f9-2e94-cc10e331a7d420260907T220000Z"
+        },
+        {
+          "date": "2026-09-15",
+          "title": "Biomüll (Objekte westlich Axamer Bach)",
+          "sourceUid": "RFCALITEM300628f5-bae0-07f9-2e94-cc10e331a7d420260914T220000Z"
+        },
+        {
+          "date": "2026-09-22",
+          "title": "Biomüll (Objekte westlich Axamer Bach)",
+          "sourceUid": "RFCALITEM300628f5-bae0-07f9-2e94-cc10e331a7d420260921T220000Z"
+        },
+        {
+          "date": "2026-09-29",
+          "title": "Biomüll (Objekte westlich Axamer Bach)",
+          "sourceUid": "RFCALITEM300628f5-bae0-07f9-2e94-cc10e331a7d420260928T220000Z"
+        },
+        {
+          "date": "2026-10-06",
+          "title": "Biomüll (Objekte westlich Axamer Bach)",
+          "sourceUid": "RFCALITEM300628f5-bae0-07f9-2e94-cc10e331a7d420261005T220000Z"
+        },
+        {
+          "date": "2026-10-13",
+          "title": "Biomüll (Objekte westlich Axamer Bach)",
+          "sourceUid": "RFCALITEM300628f5-bae0-07f9-2e94-cc10e331a7d420261012T220000Z"
+        },
+        {
+          "date": "2026-10-20",
+          "title": "Biomüll (Objekte westlich Axamer Bach)",
+          "sourceUid": "RFCALITEM300628f5-bae0-07f9-2e94-cc10e331a7d420261019T220000Z"
+        },
+        {
+          "date": "2026-10-28",
+          "title": "Biomüll (Objekte westlich Axamer Bach)",
+          "sourceUid": "RFCALITEM300628f5-bae0-07f9-2e94-cc10e331a7d420261027T230000Z"
+        },
+        {
+          "date": "2026-11-03",
+          "title": "Biomüll (Objekte westlich Axamer Bach)",
+          "sourceUid": "RFCALITEM300628f5-bae0-07f9-2e94-cc10e331a7d420261102T230000Z"
+        },
+        {
+          "date": "2026-11-10",
+          "title": "Biomüll (Objekte westlich Axamer Bach)",
+          "sourceUid": "RFCALITEM300628f5-bae0-07f9-2e94-cc10e331a7d420261109T230000Z"
+        },
+        {
+          "date": "2026-11-17",
+          "title": "Biomüll (Objekte westlich Axamer Bach)",
+          "sourceUid": "RFCALITEM300628f5-bae0-07f9-2e94-cc10e331a7d420261116T230000Z"
+        },
+        {
+          "date": "2026-11-24",
+          "title": "Biomüll (Objekte westlich Axamer Bach)",
+          "sourceUid": "RFCALITEM300628f5-bae0-07f9-2e94-cc10e331a7d420261123T230000Z"
+        },
+        {
+          "date": "2026-12-01",
+          "title": "Biomüll (Objekte westlich Axamer Bach)",
+          "sourceUid": "RFCALITEM300628f5-bae0-07f9-2e94-cc10e331a7d420261130T230000Z"
+        },
+        {
+          "date": "2026-12-09",
+          "title": "Biomüll (Objekte westlich Axamer Bach)",
+          "sourceUid": "RFCALITEM300628f5-bae0-07f9-2e94-cc10e331a7d420261208T230000Z"
+        },
+        {
+          "date": "2026-12-15",
+          "title": "Biomüll (Objekte westlich Axamer Bach)",
+          "sourceUid": "RFCALITEM300628f5-bae0-07f9-2e94-cc10e331a7d420261214T230000Z"
+        },
+        {
+          "date": "2026-12-22",
+          "title": "Biomüll (Objekte westlich Axamer Bach)",
+          "sourceUid": "RFCALITEM300628f5-bae0-07f9-2e94-cc10e331a7d420261221T230000Z"
+        },
+        {
+          "date": "2026-12-29",
+          "title": "Biomüll (Objekte westlich Axamer Bach)",
+          "sourceUid": "RFCALITEM300628f5-bae0-07f9-2e94-cc10e331a7d420261228T230000Z"
+        }
+      ]
+    },
+    {
+      "id": "rest-axams-dorf",
+      "label": "Restmuell",
+      "area": "Axams Dorf",
+      "hint": "Ab 7:00 bereitstellen",
+      "dates": [
+        {
+          "date": "2026-05-28",
+          "title": "Restmüll Axams Dorf",
+          "sourceUid": "RFCALITEM5ac19901-4410-9d9f-5c69-948376e649da20260527T220000Z"
+        },
+        {
+          "date": "2026-06-11",
+          "title": "Restmüll Axams Dorf",
+          "sourceUid": "RFCALITEM5ac19901-4410-9d9f-5c69-948376e649da20260610T220000Z"
+        },
+        {
+          "date": "2026-06-25",
+          "title": "Restmüll Axams Dorf",
+          "sourceUid": "RFCALITEM5ac19901-4410-9d9f-5c69-948376e649da20260624T220000Z"
+        },
+        {
+          "date": "2026-07-09",
+          "title": "Restmüll Axams Dorf",
+          "sourceUid": "RFCALITEM5ac19901-4410-9d9f-5c69-948376e649da20260708T220000Z"
+        },
+        {
+          "date": "2026-07-23",
+          "title": "Restmüll Axams Dorf",
+          "sourceUid": "RFCALITEM5ac19901-4410-9d9f-5c69-948376e649da20260722T220000Z"
+        },
+        {
+          "date": "2026-08-06",
+          "title": "Restmüll Axams Dorf",
+          "sourceUid": "RFCALITEM5ac19901-4410-9d9f-5c69-948376e649da20260805T220000Z"
+        },
+        {
+          "date": "2026-08-20",
+          "title": "Restmüll Axams Dorf",
+          "sourceUid": "RFCALITEM5ac19901-4410-9d9f-5c69-948376e649da20260819T220000Z"
+        },
+        {
+          "date": "2026-09-03",
+          "title": "Restmüll Axams Dorf",
+          "sourceUid": "RFCALITEM5ac19901-4410-9d9f-5c69-948376e649da20260902T220000Z"
+        },
+        {
+          "date": "2026-09-17",
+          "title": "Restmüll Axams Dorf",
+          "sourceUid": "RFCALITEM5ac19901-4410-9d9f-5c69-948376e649da20260916T220000Z"
+        },
+        {
+          "date": "2026-10-01",
+          "title": "Restmüll Axams Dorf",
+          "sourceUid": "RFCALITEM5ac19901-4410-9d9f-5c69-948376e649da20260930T220000Z"
+        },
+        {
+          "date": "2026-10-15",
+          "title": "Restmüll Axams Dorf",
+          "sourceUid": "RFCALITEM5ac19901-4410-9d9f-5c69-948376e649da20261014T220000Z"
+        },
+        {
+          "date": "2026-10-29",
+          "title": "Restmüll Axams Dorf",
+          "sourceUid": "RFCALITEM5ac19901-4410-9d9f-5c69-948376e649da20261028T230000Z"
+        },
+        {
+          "date": "2026-11-12",
+          "title": "Restmüll Axams Dorf",
+          "sourceUid": "RFCALITEM5ac19901-4410-9d9f-5c69-948376e649da20261111T230000Z"
+        },
+        {
+          "date": "2026-11-26",
+          "title": "Restmüll Axams Dorf",
+          "sourceUid": "RFCALITEM5ac19901-4410-9d9f-5c69-948376e649da20261125T230000Z"
+        },
+        {
+          "date": "2026-12-10",
+          "title": "Restmüll Axams Dorf",
+          "sourceUid": "RFCALITEM5ac19901-4410-9d9f-5c69-948376e649da20261209T230000Z"
+        },
+        {
+          "date": "2026-12-23",
+          "title": "Restmüll Axams Dorf",
+          "sourceUid": "RFCALITEM5ac19901-4410-9d9f-5c69-948376e649da20261222T230000Z"
+        }
+      ]
+    },
+    {
+      "id": "gelber-sack-axams-dorf",
+      "label": "Gelber Sack",
+      "area": "Axams Dorf",
+      "hint": "Ab 7:00 bereitstellen",
+      "dates": [
+        {
+          "date": "2026-06-02",
+          "title": "Gelber Sack (Kunststoff + Metall) - Axams Dorf",
+          "sourceUid": "RFCALITEM3c3664e7-6a21-36de-f6f6-eceaa27812da20260601T220000Z"
+        },
+        {
+          "date": "2026-06-30",
+          "title": "Gelber Sack (Kunststoff + Metall) - Axams Dorf",
+          "sourceUid": "RFCALITEM3c3664e7-6a21-36de-f6f6-eceaa27812da20260629T220000Z"
+        },
+        {
+          "date": "2026-07-28",
+          "title": "Gelber Sack (Kunststoff + Metall) - Axams Dorf",
+          "sourceUid": "RFCALITEM3c3664e7-6a21-36de-f6f6-eceaa27812da20260727T220000Z"
+        },
+        {
+          "date": "2026-08-25",
+          "title": "Gelber Sack (Kunststoff + Metall) - Axams Dorf",
+          "sourceUid": "RFCALITEM3c3664e7-6a21-36de-f6f6-eceaa27812da20260824T220000Z"
+        },
+        {
+          "date": "2026-09-22",
+          "title": "Gelber Sack (Kunststoff + Metall) - Axams Dorf",
+          "sourceUid": "RFCALITEM3c3664e7-6a21-36de-f6f6-eceaa27812da20260921T220000Z"
+        },
+        {
+          "date": "2026-10-20",
+          "title": "Gelber Sack (Kunststoff + Metall) - Axams Dorf",
+          "sourceUid": "RFCALITEM3c3664e7-6a21-36de-f6f6-eceaa27812da20261019T220000Z"
+        },
+        {
+          "date": "2026-11-17",
+          "title": "Gelber Sack (Kunststoff + Metall) - Axams Dorf",
+          "sourceUid": "RFCALITEM3c3664e7-6a21-36de-f6f6-eceaa27812da20261116T230000Z"
+        },
+        {
+          "date": "2026-12-15",
+          "title": "Gelber Sack (Kunststoff + Metall) - Axams Dorf",
+          "sourceUid": "RFCALITEM3c3664e7-6a21-36de-f6f6-eceaa27812da20261214T230000Z"
+        }
+      ]
+    }
+  ]
+}
