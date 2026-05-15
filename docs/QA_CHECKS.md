@@ -10,6 +10,7 @@ Zweck:
 
 ### Writing
 - App oeffnet auf Home und zeigt `Schreiben` und `Einkaufen`.
+- Home zeigt zusaetzlich eine leisere `Muell`-Kachel mit kurzer Tickerzeile.
 - Wechsel nach `Schreiben` funktioniert.
 - Produktname kann frei eingegeben werden.
 - Semantik zeigt Vorschlaege nach wenigen Buchstaben.
@@ -70,13 +71,16 @@ Zweck:
 - Home zeigt genau zwei primaere Intent-Flaechen:
   - `Schreiben`
   - `Einkaufen`
+- Home darf darunter eine leisere dritte `Muell`-Kachel zeigen; sie darf nicht wie eine dritte Kernintention wirken.
 - `Schreiben` steht auf Home oberhalb von `Einkaufen`.
+- `Muell` steht unterhalb von `Schreiben` und `Einkaufen`.
+- Der Muell-Ticker ersetzt statischen Erklaertext und zeigt entweder den naechsten Termin oder einen ruhigen Fallback.
 - Die grosse Home-Flaeche wirkt bewusst ruhig und nicht unfertig.
 - Der kleine Utility-Einstieg ist auffindbar, aber nicht gleichrangig mit den zwei Kernpfaden.
 - Writing bleibt schneller als ein Formular.
 - Shopping bleibt klar und reduziert.
 - Kassa-Karussell bleibt sichtbar sekundar und wirkt nicht wie ein App-Launcher.
-- Navigation zwischen Home, Writing und Shopping funktioniert ohne Haken.
+- Navigation zwischen Home, Writing, Shopping und Muelluebersicht funktioniert ohne Haken.
 - Shopping-Zeilen haben unterwegs brauchbare Trefferflaechen.
 - Lange Artikelnamen und Mengen ueberlappen nicht.
 - Writing-Status spricht von Haushaltsfreigabe, nicht von technischem Sync.
@@ -98,7 +102,7 @@ Zweck:
 - Home-spezifische Veredelung bleibt in `app/styles/home.css` verortet und erzeugt keine globalen Button-/Token-Seiteneffekte.
 - Touchlog-Panel bleibt auf Desktop und Mobil oeffnend und lesbar.
 - Install-Banner bleibt in installierter PWA versteckt und im Browser-Kontext weiter korrekt steuerbar.
-- Neue ES-Module wie das Kassa-Karussell sind im Service-Worker-App-Shell-Cache enthalten.
+- Neue ES-Module wie das Kassa-Karussell und das Waste-Modul sind im Service-Worker-App-Shell-Cache enthalten.
 
 ---
 
@@ -137,6 +141,10 @@ Diese Checks pruefen den aktuellen Snapshot-/Realtime-Vertrag. Robuste parallele
 - Boot zeigt einen knappen, nachvollziehbaren Start-Trace.
 - `Item hinzufuegen`, `Loeschen`, `Liste leeren`, `Liste freigeben`, Pending-Remote und Shopping-Aktionen erscheinen als hochwertige Eintraege.
 - Kassa-Karussell-Wechsel duerfen als ruhige `[kassa]`-Eintraege erscheinen, aber keine Pointer-/Gesture-Details loggen.
+- Waste-Kalenderladung darf als ruhiger `[waste]`-Eintrag erscheinen:
+  - erfolgreich: `[waste] calendar loaded collections=...`
+  - Fehler: `[waste] calendar load failed ...`
+- Waste darf keine einzelnen Termine, Collections oder Recyclinghof-Minutenstatus ins Touchlog schreiben.
 - Realtime-Ereignisse erscheinen als eigene Sync-Eintraege.
 - Wiederholte identische Ereignisse werden aggregiert statt gespammt.
 - Auf Mobile bleibt das Panel viewport-begrenzt und intern scrollbar; der obere Bereich darf nicht aus dem sichtbaren Fenster herausragen.
@@ -159,7 +167,7 @@ Diese Checks pruefen den aktuellen Snapshot-/Realtime-Vertrag. Robuste parallele
 
 ## 10. Entsorgungsdaten-Pipeline
 
-Diese Checks pruefen nur das Datenfundament. Sichtbare Entsorgungs-UI und Erinnerungen sind eigene Roadmaps.
+Diese Checks pruefen nur das Datenfundament. Sichtbare Entsorgungs-UI steht in Abschnitt 11; Erinnerungen bleiben eine eigene Future-Roadmap.
 
 - Script-Syntax ist gueltig:
   - `node --check scripts/update-waste-calendar.mjs`
@@ -211,7 +219,73 @@ Nur auf GitHub pruefbar:
 
 ---
 
-## 11. Definition of Done
+## 11. Entsorgungs-UI
+
+Diese Checks pruefen die sichtbare Muelluebersicht auf Basis des lokalen JSON.
+
+Home:
+
+- Home zeigt `Schreiben`, `Einkaufen` und darunter `Muell`.
+- `Schreiben` und `Einkaufen` bleiben optisch die zwei Kernintentionen.
+- Die `Muell`-Kachel wirkt leiser und nicht wie ein Dashboard-Widget.
+- Der Home-Ticker zeigt den naechsten relevanten Termin, z. B. `In 4 Tagen Biomuell`.
+- Bei fehlendem JSON bleibt der Ticker ruhig, z. B. `Termine gerade nicht verfuegbar`.
+
+Navigation:
+
+- Klick auf `Muell` oeffnet `Muelluebersicht`.
+- `Zur Startseite` fuehrt zurueck nach Home.
+- Ein unbekanntes Router-Ziel deaktiviert keinen aktiven Screen.
+
+Muelluebersicht:
+
+- Titel `Muelluebersicht` ist sichtbar.
+- Der naechste Termin ist schnell erfassbar.
+- Fraktionen werden angezeigt:
+  - Biomuell
+  - Restmuell
+  - Gelber Sack
+- Wohngebietsdetails wie `westlich Axamer Bach` oder `Axams Dorf` erscheinen nicht als dauerhafte Familien-UI-Copy.
+- Fraktionskarten zeigen Label, naechstes Datum und Hinweis.
+- Datumsdetail:
+  - heute: volles Datum plus `Heute`
+  - morgen: volles Datum plus `Morgen`
+  - 2 bis 6 Tage: volles Datum plus `In X Tagen`
+  - ab 7 Tage: nur volles Datum
+
+Recyclinghof:
+
+- Status zeigt offen/geschlossen plausibel.
+- Montag 13:00-18:00 ist offen.
+- Mittwoch 08:00-12:00 und 13:00-17:00 ist offen.
+- Mittwoch 12:00-13:00 ist geschlossen.
+- Samstag 07:00-12:00 ist offen.
+- Nach Fensterschluss wird die naechste regulaere Oeffnung angezeigt.
+- Details zeigen nur regulaere Wochenfenster, keine Adresse und keinen dauerhaften Sonder-Schliessungen-Hinweis.
+
+Fallbacks:
+
+- Fehlendes oder blockiertes JSON zeigt ruhige Fallbacks.
+- Leeres JSON zeigt `Keine Abholtermine im lokalen Kalender.`
+- Vergangenes/altes JSON zeigt `Keine kommenden Termine`.
+- Knappes JSON zeigt `Daten reichen nur bis ...`.
+- Recyclinghof-Status bleibt auch sichtbar, wenn das Termin-JSON nicht geladen werden kann.
+
+PWA/Offline:
+
+- `app/styles/waste.css`, `app/modules/waste.js` und `assets/data/waste-calendar.axams.json` sind im Service-Worker-App-Shell-Cache.
+- Nach Erstladung bleibt die Muelluebersicht offline plausibel, soweit der Service Worker aktiv ist.
+- Die App fragt im Browser keine Axams- oder iCal-Live-Quelle ab.
+
+Nichtziele:
+
+- Keine Push-, Reminder- oder Kalenderlogik.
+- Keine Supabase-, Auth-, RLS- oder Household-Key-Aenderung.
+- Keine selbst erfundenen Termine.
+
+---
+
+## 12. Definition of Done
 
 - Der lokale HESTIA-Kern besteht alle Checks aus Abschnitt 1 bis 5.
 - Neue Features duerfen diese Baseline nicht verschlechtern.
@@ -219,4 +293,4 @@ Nur auf GitHub pruefbar:
 - Touchlog bleibt hilfreich und ruhig statt technisch laut zu werden.
 - Der Home-Hub bleibt bei genau zwei primaeren Intentionen; Utilities duerfen diese Hierarchie nicht aufweichen.
 - Dev-/Diagnostics-Hebel bleiben klein, lokal und ohne Eingriff in Produktwahrheit.
-- Entsorgungsdaten bleiben ein lokales Datenfundament, bis eine eigene UI-Roadmap sie bewusst anbindet.
+- Entsorgungsdaten und Entsorgungs-UI bleiben eine ruhige Haushaltsperipherie auf Basis des lokalen JSON.

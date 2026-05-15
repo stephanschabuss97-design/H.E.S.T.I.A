@@ -2,29 +2,31 @@
 
 Kurze Einordnung:
 
-- Zweck: beschreibt das Entsorgungsdaten-Fundament fuer Axams.
-- Rolle innerhalb von HESTIA: stellt ein stabiles lokales JSON fuer spaetere Entsorgungs-UI bereit.
-- Abgrenzung: keine UI, keine Push-Reminder, kein Kalender, keine Supabase-Anbindung.
+- Zweck: beschreibt Entsorgungsdaten und Entsorgungs-UI fuer Axams.
+- Rolle innerhalb von HESTIA: zeigt die naechsten Muelltermine und den Recyclinghof-Status als ruhige Haushaltsperipherie.
+- Abgrenzung: kein Amtsportal, kein Kalender, keine Push-Reminder, keine Supabase-Anbindung und keine Live-Abfrage im Browser.
 
 Related docs:
 
 - [README.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/README.md)
 - [PRODUCT.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/PRODUCT.md)
 - [Deployment Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Deployment%20Module%20Overview.md)
+- [PWA Install Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/PWA%20Install%20Module%20Overview.md)
+- [Home Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Home%20Module%20Overview.md)
 - [QA_CHECKS.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/QA_CHECKS.md)
 - [HESTIA Entsorgung Datenfundament Roadmap (DONE).md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/archive/HESTIA%20Entsorgung%20Datenfundament%20Roadmap%20(DONE).md)
-- [HESTIA Entsorgung UI Roadmap.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/HESTIA%20Entsorgung%20UI%20Roadmap.md)
+- [HESTIA Entsorgung UI Roadmap (DONE).md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/archive/HESTIA%20Entsorgung%20UI%20Roadmap%20(DONE).md)
 - [HESTIA Entsorgung Erinnerungen Future Sketch.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/HESTIA%20Entsorgung%20Erinnerungen%20Future%20Sketch.md)
 
 ---
 
 ## 1. Zielsetzung
 
-- HESTIA soll offizielle Axams-Entsorgungstermine als kleines lokales JSON bereitstellen.
-- Die Gemeinde Axams bleibt Source of Truth.
+- HESTIA soll schnell beantworten, was als Naechstes raus muss.
+- HESTIA soll zeigen, ob der Recyclinghof gerade offen ist oder wann er regulaer wieder oeffnet.
+- Die Datenwahrheit fuer Muelltermine kommt aus offiziellen Axams-iCal-Quellen, aber der Browser nutzt nur ein lokales JSON.
+- Die UI bleibt leise und sekundar zu `Schreiben` und `Einkaufen`.
 - Feiertage, Verschiebungen und Sonderfaelle werden nicht geraten.
-- Die Pipeline darf den Einkaufskern nicht schwerer machen.
-- Roadmap 5A baut nur das Datenfundament; sichtbare Entsorgungs-UI folgt spaeter.
 
 ---
 
@@ -32,19 +34,25 @@ Related docs:
 
 Dieses Modul ist erlaubt:
 
-- offizielle Axams-Quellen laden
-- iCal parsen
-- Termine validieren
+- offizielle Axams-Quellen ueber das Update-Script laden
+- iCal parsen und validieren
 - deterministisches JSON erzeugen
 - GitHub Action fuer seltene Aktualisierung nutzen
+- lokales JSON im Browser laden
+- Home-Ticker fuer den naechsten relevanten Termin anzeigen
+- Muelluebersicht als eigenen Modus oeffnen
+- Recyclinghof-Status aus statischen Wochenfenstern berechnen
+- ruhige Fallbacks zeigen
+- genau zwei Waste-Touchlog-Ereignisse schreiben: Laden erfolgreich oder Laden fehlgeschlagen
 
 Dieses Modul ist nicht erlaubt:
 
-- UI bauen
-- Home, Writing oder Shopping veraendern
 - Push, Reminder oder Kalenderlogik einfuehren
 - Supabase, Auth, RLS oder Household-Key anfassen
+- Browser-Live-Fetch auf Axams, iCal oder Gemeinde-Seiten
 - eigene Termine erfinden
+- Sonder-Schliessungen des Recyclinghofs raten
+- Home zu einem allgemeinen Dashboard umbauen
 - `.ics`-Rohdaten versionieren
 
 ---
@@ -54,13 +62,19 @@ Dieses Modul ist nicht erlaubt:
 | Datei | Zweck |
 |------|------|
 | `scripts/update-waste-calendar.mjs` | Discovery, iCal-Parser, Validierung, JSON-Generator und CLI |
-| `assets/data/waste-calendar.axams.json` | stabiles App-JSON fuer spaetere Entsorgungs-UI |
+| `assets/data/waste-calendar.axams.json` | stabiles App-JSON fuer Browser und PWA-Cache |
 | `.github/workflows/update-axams-waste-calendar.yml` | geplanter und manueller Aktualisierungslauf |
+| `app/modules/waste.js` | Browser-Modul fuer JSON-Laden, Datumslogik, Ticker, Recyclinghof und Fallbacks |
+| `app/styles/waste.css` | Waste-spezifische Home-Kachel- und Muelluebersicht-Styles |
+| `index.html` | Home-Waste-Kachel und `screen-waste` |
+| `app/main.js` | startet `initWaste(document, touchlog)` |
+| `app/app.css` | importiert `app/styles/waste.css` |
+| `sw.js` | nimmt Waste-Assets und JSON in den App-Shell-Cache auf |
 | `scripts/fixtures/waste-calendar/.gitkeep` | reservierter Ort fuer spaetere Fixture-Dateien |
 
 ---
 
-## 4. Offizielle Quellen
+## 4. Offizielle Quellen und JSON-Vertrag
 
 Zielgebiet:
 
@@ -75,76 +89,7 @@ Collections:
 | `rest-axams-dorf` | `Restmuell` | `Axams Dorf` | `https://www.axams.gv.at/Restmuell_Axams_Dorf` |
 | `gelber-sack-axams-dorf` | `Gelber Sack` | `Axams Dorf` | `https://www.axams.gv.at/Gelber_Sack_-_Axams_Dorf` |
 
-Discovery-Vertrag:
-
-- Die HTML-Seite ist der primaere Pfad.
-- Der iCal-Link wird aus `CalendarService.ashx`-Ankern extrahiert.
-- HTML-Entities in hrefs werden dekodiert.
-- Dokumentierte Fallback-iCal-URLs sind erlaubt, wenn Seite oder Link-Extraktion fehlschlagen.
-- Fallback-Nutzung bleibt Log-Ausgabe, kein JSON-Feld.
-
----
-
-## 5. Parser-Vertrag
-
-Der Parser ist ein enger iCal-Parser fuer die beobachteten Axams-Feeds, kein allgemeiner RFC-5545-Parser.
-
-Er behandelt:
-
-- CRLF/CR/LF-Normalisierung
-- iCal-Zeilenfaltung
-- `VEVENT`-Bloecke
-- verschachtelte `VALARM`-Bloecke
-- `DTSTART`
-- `DTEND`
-- `SUMMARY`
-- `UID`
-- `DESCRIPTION`
-
-Regeln:
-
-- `DTSTART` muss `VALUE=DATE` verwenden.
-- `DTEND` muss `VALUE=DATE` verwenden.
-- `DTEND` ist der Folgetag des Ganztagstermins, nicht ein zweiter Abholtag.
-- `VALARM`-`DESCRIPTION:Reminder` darf die fachliche Terminbeschreibung nicht ueberschreiben.
-- `DESCRIPTION` wird nur fuer Parser-/Testzwecke normalisiert und nicht ins App-JSON geschrieben.
-- ungueltige Kalenderdaten failen hart.
-
----
-
-## 6. Validierungsvertrag
-
-Hard Fail:
-
-- eine erwartete Collection fehlt
-- unerwartete oder doppelte Source-Ergebnisse
-- Feed nicht erreichbar
-- Feed enthaelt kein `BEGIN:VCALENDAR`
-- Feed enthaelt keine `VEVENT`s
-- `UID` fehlt
-- `DTEND` fehlt
-- `DTEND` ist nicht exakt der Folgetag von `DTSTART`
-- gleiche `UID` mit anderem Datum oder Titel
-- gleiches Datum und gleicher Titel mit anderer `UID`
-- keine Zukunftstermine nach Laufdatum
-- letztes Zukunftsdatum unter 30 Tagen
-- ungueltige Datumswerte
-
-Warnung, aber erlaubt:
-
-- letztes Zukunftsdatum liegt 30 bis 59 Tage nach Laufdatum
-
-OK:
-
-- letztes Zukunftsdatum liegt mindestens 60 Tage nach Laufdatum
-- identische Dublette mit gleicher `UID`, gleichem Datum und gleichem Titel innerhalb einer Collection; sie wird einmal ausgegeben
-- gleicher Kalendertag in verschiedenen Collections
-
----
-
-## 7. JSON-Vertrag
-
-Pfad:
+JSON-Pfad:
 
 ```text
 assets/data/waste-calendar.axams.json
@@ -198,7 +143,149 @@ Bewusst nicht enthalten:
 
 ---
 
-## 8. GitHub Action
+## 5. Datenpipeline
+
+Discovery-Vertrag:
+
+- Die HTML-Seite ist der primaere Pfad.
+- Der iCal-Link wird aus `CalendarService.ashx`-Ankern extrahiert.
+- HTML-Entities in hrefs werden dekodiert.
+- Dokumentierte Fallback-iCal-URLs sind erlaubt, wenn Seite oder Link-Extraktion fehlschlagen.
+- Fallback-Nutzung bleibt Log-Ausgabe, kein JSON-Feld.
+
+Parser-Vertrag:
+
+- enger iCal-Parser fuer die beobachteten Axams-Feeds, kein allgemeiner RFC-5545-Parser
+- CRLF/CR/LF-Normalisierung
+- iCal-Zeilenfaltung
+- `VEVENT`-Bloecke
+- verschachtelte `VALARM`-Bloecke
+- `DTSTART`, `DTEND`, `SUMMARY`, `UID`, `DESCRIPTION`
+- `DTSTART` und `DTEND` muessen `VALUE=DATE` verwenden
+- `DTEND` ist der Folgetag des Ganztagstermins, nicht ein zweiter Abholtag
+- `VALARM`-`DESCRIPTION:Reminder` darf die fachliche Terminbeschreibung nicht ueberschreiben
+- ungueltige Kalenderdaten failen hart
+
+Validierungsvertrag:
+
+- erwartete Collection fehlt: Hard Fail
+- unerwartete oder doppelte Source-Ergebnisse: Hard Fail
+- Feed nicht erreichbar oder kein `BEGIN:VCALENDAR`: Hard Fail
+- Feed ohne `VEVENT`: Hard Fail
+- fehlende `UID` oder `DTEND`: Hard Fail
+- `DTEND` nicht exakt Folgetag von `DTSTART`: Hard Fail
+- widerspruechliche Dubletten: Hard Fail
+- keine Zukunftstermine: Hard Fail
+- letztes Zukunftsdatum unter 30 Tagen: Hard Fail
+- letztes Zukunftsdatum 30 bis 59 Tage: Warnung, aber erlaubt
+- letztes Zukunftsdatum mindestens 60 Tage: OK
+
+---
+
+## 6. Browser-UI-Vertrag
+
+Home:
+
+- Home zeigt weiterhin zwei Kernintentionen:
+  - `Schreiben`
+  - `Einkaufen`
+- Darunter darf eine dritte, leisere Kachel `Muell` stehen.
+- Diese Kachel ist Haushaltsperipherie, nicht dritter Kernmodus.
+- Die Kachel enthaelt den dynamischen Ticker `home-waste-ticker`.
+- Der Ticker ersetzt statische Erklaercopy.
+- Klick auf die Kachel navigiert zu `screen-waste`.
+
+Muelluebersicht:
+
+- eigener Screen mit `data-screen="waste"`.
+- Titel: `Muelluebersicht`.
+- Bereiche:
+  - naechster relevanter Termin
+  - Abholtermine je Fraktion
+  - Recyclinghof
+  - Rueckweg zur Startseite
+- Die UI zeigt keine Wohngebietsdetails wie `westlich Axamer Bach` oder `Axams Dorf`, weil der Haushalt seinen Standort kennt.
+- Fraktionskarten zeigen Label, naechstes Datum und kurzen Hinweis.
+- Bei leerer Collection-Liste steht `Keine Abholtermine im lokalen Kalender.`
+
+Datumslogik:
+
+- ISO-Datum `YYYY-MM-DD` wird lokal geparst, nicht per UTC-String.
+- Home-Ticker nutzt kurze relative Form:
+  - `Heute ...`
+  - `Morgen ...`
+  - `In X Tagen ...` fuer 2 bis 6 Tage
+  - ab 7 Tagen kurzes Absolutdatum
+- Fraktionskarten nutzen `formatDateDetail`:
+  - 0 bis 6 Tage: volles Datum plus relative Naehe, z. B. `Dienstag, 19.05.2026 · In 4 Tagen`
+  - ab 7 Tagen: nur volles Datum, z. B. `Donnerstag, 28.05.2026`
+
+Fallbacks:
+
+- fehlendes oder fehlerhaftes JSON:
+  - Home-Ticker: `Termine gerade nicht verfuegbar`
+  - Summary/List: ruhige Fallback-Copy
+  - Touchlog: `waste-calendar-load-failed`
+- leeres oder vergangenes JSON:
+  - `Keine kommenden Termine`
+  - keine geratenen Termine
+- knappes JSON:
+  - `Daten reichen nur bis ...`
+
+---
+
+## 7. Recyclinghof-Vertrag
+
+Recyclinghof V1 nutzt statische Wochenfenster:
+
+- Montag: `13:00-18:00`
+- Mittwoch: `08:00-12:00`, `13:00-17:00`
+- Samstag: `07:00-12:00`
+
+Statuslogik:
+
+- innerhalb eines Fensters: `Recyclinghof offen bis HH:MM`
+- ausserhalb eines Fensters: `Recyclinghof geschlossen`
+- wenn moeglich, naechste regulaere Oeffnung anzeigen
+- Mittwoch 12:00-13:00 ist geschlossen
+- exakter Fensterschluss zaehlt als geschlossen
+
+Bewusste Grenze:
+
+- keine Sonder-Schliessungen
+- keine Feiertagslogik
+- keine Live-Abfrage
+- keine Adresse in der Familien-UI
+- kein dauerhafter Sonder-Schliessungen-Hinweis in der UI
+
+---
+
+## 8. PWA-, Cache- und Touchlog-Vertrag
+
+PWA:
+
+- `app/styles/waste.css`, `app/modules/waste.js` und `assets/data/waste-calendar.axams.json` stehen im App-Shell-Cache.
+- Cache-Version wurde fuer die UI-Einfuehrung erhoeht.
+- Offline nach Erstladung soll den Waste-Screen mit gecachtem JSON zeigen, soweit der Browser den Service Worker bereits aktiviert hat.
+- Kein Runtime-Live-Fetch auf Gemeindequellen.
+
+Touchlog:
+
+- Erfolg beim JSON-Laden:
+  - `[waste] calendar loaded collections=...`
+  - `eventId: waste-calendar-loaded`
+- Fehler beim JSON-Laden:
+  - `[waste] calendar load failed ...`
+  - `eventId: waste-calendar-load-failed`
+  - `severity: warn`
+- Kein Logging pro Collection.
+- Kein Logging pro Datum.
+- Kein Recyclinghof-Minutenstatus.
+- Keine neue Diagnose-UI und kein neuer Dev-Schalter fuer Waste V1.
+
+---
+
+## 9. GitHub Action
 
 Workflow:
 
@@ -228,54 +315,58 @@ Vertrag:
 
 ---
 
-## 9. Lokale Checks
+## 10. Lokale Checks
 
-Syntax:
+Datenpipeline:
 
 ```powershell
 node --check scripts/update-waste-calendar.mjs
-```
-
-Discovery:
-
-```powershell
 node scripts/update-waste-calendar.mjs --check-discovery
-```
-
-JSON live drucken und parsen:
-
-```powershell
 node scripts/update-waste-calendar.mjs --print-json
-```
-
-JSON schreiben:
-
-```powershell
 node scripts/update-waste-calendar.mjs --write-json
 ```
 
-Diff-Hygiene:
+UI/PWA:
 
 ```powershell
-git diff --check -- .github/workflows/update-axams-waste-calendar.yml scripts/update-waste-calendar.mjs assets/data/waste-calendar.axams.json
+node --check app/modules/waste.js
+node --check app/main.js
+node --check app/core/router.js
+node --check sw.js
+git diff --check -- index.html app/app.css app/core/router.js app/main.js app/modules/waste.js app/styles/waste.css sw.js assets/data/waste-calendar.axams.json scripts/update-waste-calendar.mjs
 ```
+
+Manuelle Smokes:
+
+- Home zeigt `Schreiben`, `Einkaufen`, `Muell`.
+- `Muell` oeffnet die Muelluebersicht.
+- Home-Ticker zeigt den naechsten Termin.
+- Abholtermine zeigen Biomuell, Restmuell und Gelber Sack.
+- Recyclinghof-Status ist plausibel.
+- Rueckweg zur Startseite funktioniert.
+- Offline nach Erstladung bleibt plausibel.
 
 ---
 
-## 10. Bekannte Restpruefungen
+## 11. Bekannte Restpruefungen
 
-Nur auf GitHub pruefbar:
+Nur extern oder manuell vollstaendig pruefbar:
 
-- echter geplanter Schedule-Lauf
+- echter geplanter GitHub-Actions-Schedule-Lauf
 - manueller `workflow_dispatch`-Lauf
 - Bot-Commit und Bot-Push
 - Branch-Protection- oder Repository-Permission-Effekte
+- echte Desktop-/Mobile-Darstellung im Browser
+- echte installierte-PWA-Aktualisierung nach Deploy
+- Service-Worker-Updateverhalten auf Zielgeraeten
 
 ---
 
-## 11. Definition of Done
+## 12. Definition of Done
 
-- Ein neuer Chat versteht Datenquelle, Parser, JSON, Action und Fehlerstrategie.
+- Ein neuer Chat versteht Datenquelle, Parser, JSON, Action, UI, Recyclinghof und Fehlerstrategie.
 - App-JSON ist stabil, klein und ohne Laufzeitrauschen.
-- HESTIA-App bleibt unberuehrt, bis eine eigene UI-Roadmap das JSON bewusst nutzt.
-- Roadmap 5B kann auf dem JSON aufbauen, ohne iCal oder GitHub Actions verstehen zu muessen.
+- Browser nutzt nur das lokale JSON.
+- Muelluebersicht hilft im Alltag, ohne Home oder Einkaufskern zu ueberladen.
+- Fallbacks sind ruhig und ehrlich.
+- Keine Push-, Reminder-, Kalender- oder Supabase-Logik wurde eingefuehrt.

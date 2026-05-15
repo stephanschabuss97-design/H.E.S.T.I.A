@@ -9,6 +9,7 @@ Related docs:
 - [Bootflow Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Bootflow%20Module%20Overview.md)
 - [Deployment Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Deployment%20Module%20Overview.md)
 - [Touchlog Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Touchlog%20Module%20Overview.md)
+- [Waste Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Waste%20Module%20Overview.md)
 
 ---
 
@@ -89,8 +90,23 @@ Das war noetig, weil der Install-Pfad auf GitHub Pages und in der installierten 
 
 ---
 
-## 7. Definition of Done
+## 7. App-Shell-Cache-Erweiterungen
+
+Neue Browser-Module, Styles und lokale Daten muessen bewusst in `APP_SHELL` aufgenommen werden.
+
+Aktueller Waste-Vertrag:
+
+- `./app/styles/waste.css`
+- `./app/modules/waste.js`
+- `./assets/data/waste-calendar.axams.json`
+
+Dieser Vertrag ist wichtig, damit die Muelluebersicht nach einer Erstladung auch offline plausibel bleibt. Der Browser darf fuer Muelltermine keine Live-Axams- oder iCal-Quelle abfragen.
+
+---
+
+## 8. Definition of Done
 
 - Der Banner erscheint nur im installierbaren Browser-Kontext.
 - Der Banner verschwindet in der installierten PWA.
 - Ein neuer Chat versteht, warum Manifest, Bootstrap und Touchlog hier zusammengehoeren.
+- Neue App-Shell-Assets sind im Service Worker versioniert und gecacht.

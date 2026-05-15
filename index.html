@@ -61,6 +61,21 @@
             </span>
             <small class="home-intent-card-hint">Liste mitnehmen und abhaken</small>
           </button>
+          <button class="surface-button home-intent-card home-waste-card" data-nav="waste" type="button">
+            <span class="home-intent-card-top">
+              <span class="home-intent-card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <path d="M7 8.2h10" />
+                  <path d="M9 8.2l.7 10h4.6l.7-10" />
+                  <path d="M10 6.1h4" />
+                  <path d="M11 11v4.5" />
+                  <path d="M13 11v4.5" />
+                </svg>
+              </span>
+              <span class="home-intent-card-title">Müll</span>
+            </span>
+            <small class="home-intent-card-hint home-intent-card-ticker" id="home-waste-ticker">Termine gerade nicht verfügbar</small>
+          </button>
         </div>
       </div>
       <div class="home-utilities home-utility-bar">
@@ -75,6 +90,42 @@
         >
           &#9881;
         </button>
+      </div>
+    </section>
+
+    <section id="screen-waste" class="screen screen-waste" data-screen="waste" aria-labelledby="waste-title">
+      <div class="panel waste-overview-panel">
+        <div class="panel-head">
+          <div>
+            <h2 id="waste-title">Müllübersicht</h2>
+            <p id="waste-status-note" class="sync-status" aria-live="polite">Termine gerade nicht verfügbar.</p>
+          </div>
+          <button class="inline-link" data-nav="home" type="button">Zur Startseite</button>
+        </div>
+        <div class="waste-summary" id="waste-next-summary" aria-live="polite">
+          <p class="waste-empty-note">Lokale Entsorgungsdaten werden vorbereitet.</p>
+        </div>
+      </div>
+
+      <div class="panel waste-collections-panel">
+        <div class="panel-head">
+          <h3>Abholtermine</h3>
+        </div>
+        <div class="waste-collection-list" id="waste-collection-list">
+          <p class="waste-empty-note">Noch keine Termine geladen.</p>
+        </div>
+      </div>
+
+      <div class="panel waste-recycling-panel">
+        <div class="panel-head">
+          <div>
+            <h3>Recyclinghof</h3>
+            <p id="waste-recycling-status" class="sync-status" aria-live="polite">Status wird vorbereitet.</p>
+          </div>
+        </div>
+        <div class="waste-recycling-details" id="waste-recycling-details">
+          <p class="waste-empty-note">Öffnungszeiten werden vorbereitet.</p>
+        </div>
       </div>
     </section>
 

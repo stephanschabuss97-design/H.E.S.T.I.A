@@ -5,6 +5,10 @@ export function initRouter(doc) {
   const navButtons = Array.from(doc.querySelectorAll("[data-nav]"));
 
   function goTo(screenName) {
+    if (!screens.some((screen) => screen.dataset.screen === screenName)) {
+      return;
+    }
+
     screens.forEach((screen) => {
       screen.classList.toggle(ACTIVE_CLASS, screen.dataset.screen === screenName);
     });

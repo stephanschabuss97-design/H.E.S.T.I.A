@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "municipality": "Axams",
-  "area": "Axams Dorf; Biomuell westlich Axamer Bach",
+  "area": "Axams Dorf; Biomüll westlich Axamer Bach",
   "source": {
     "type": "axams-ical",
     "pages": [
@@ -25,9 +25,9 @@
   "collections": [
     {
       "id": "bio-west",
-      "label": "Biomuell",
+      "label": "Biomüll",
       "area": "westlich Axamer Bach",
-      "hint": "Ab 7:00 bereitstellen",
+      "hint": "Ab 6:00 bereitstellen",
       "dates": [
         {
           "date": "2026-05-19",
@@ -198,7 +198,7 @@
     },
     {
       "id": "rest-axams-dorf",
-      "label": "Restmuell",
+      "label": "Restmüll",
       "area": "Axams Dorf",
       "hint": "Ab 7:00 bereitstellen",
       "dates": [

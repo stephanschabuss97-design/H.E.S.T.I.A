@@ -104,7 +104,7 @@ Die grosse Flaeche im Einkaufsmodus kann spaeter gezielt fuer Einkaufskontext ge
 Detailroadmaps:
 
 - [HESTIA Entsorgung Datenfundament Roadmap (DONE).md](archive/HESTIA%20Entsorgung%20Datenfundament%20Roadmap%20(DONE).md)
-- [HESTIA Entsorgung UI Roadmap.md](HESTIA%20Entsorgung%20UI%20Roadmap.md)
+- [HESTIA Entsorgung UI Roadmap (DONE).md](archive/HESTIA%20Entsorgung%20UI%20Roadmap%20(DONE).md)
 - [HESTIA Entsorgung Erinnerungen Future Sketch.md](HESTIA%20Entsorgung%20Erinnerungen%20Future%20Sketch.md)
 
 ### 13. Entsorgung Datenfundament
@@ -113,7 +113,7 @@ Status:
 
 - Datenfundament umgesetzt am 14.05.2026.
 - Script, JSON, Plausibilitaetschecks, GitHub Action, QA-Doku und [Waste Module Overview.md](modules/Waste%20Module%20Overview.md) sind angelegt.
-- Offene externe Restpruefung: echter GitHub-Actions-Lauf mit Bot-Commit.
+- GitHub-Actions-Test lief nach Node-24-Action-Update gruen.
 
 Recyclinghof und Muelltermine sind naeher am echten Haushalt als Geburtstage oder allgemeine Familienhinweise. Gleichzeitig ist die Terminlogik fuer Axams nicht trivial: Biomuell gilt fuer Stephan westlich des Axamer Baches, Restmuell und Gelber Sack folgen eigenen offiziellen Terminlisten, und Feiertage duerfen nicht geraten werden. Deshalb bekommt Entsorgung zuerst ein Datenfundament statt sofort eine UI: GitHub Action laedt selten die offiziellen Axams-iCal-Quellen, ein Parser erzeugt ein stabiles lokales JSON, und HESTIA nutzt nur diesen App-Vertrag. Die Action soll nur bei echten Datenaenderungen committen und damit zugleich einen sinnvollen Repo-Aktivitaetslauf liefern, ohne monatliche oder jaehrliche Handarbeit am JSON zu erzwingen.
 
@@ -121,7 +121,15 @@ Dieser Schnitt braucht eine eigene `Waste Module Overview`, weil Datenquelle, Pa
 
 ### 14. Entsorgung UI
 
-Auf dem Datenfundament kann ein kleiner Entsorgungsmodus entstehen. Er soll beantworten: Was kommt als Naechstes, was muss ab 7:00 bereitstehen, und hat der Recyclinghof gerade offen? Die UI bleibt informativ und ruhig: keine Alarmfarbe fuer normale Termine, keine Push-Logik, kein Kalender, kein Amtsportal und kein allgemeines Dashboard. Home darf einen leisen Einstieg bekommen, aber `Schreiben` und `Einkaufen` bleiben die zwei Kernintentionen.
+Status:
+
+- umgesetzt am 15.05.2026.
+- abgelegte Detailroadmap: [HESTIA Entsorgung UI Roadmap (DONE).md](archive/HESTIA%20Entsorgung%20UI%20Roadmap%20(DONE).md)
+- Home hat eine leise `Muell`-Kachel mit Ticker.
+- Die Muelluebersicht zeigt naechste Abholtermine und Recyclinghof-Status aus lokalen Daten.
+- Keine Push-, Reminder-, Kalender-, Supabase- oder Live-Axams-Logik wurde eingefuehrt.
+
+Auf dem Datenfundament ist ein kleiner Entsorgungsmodus entstanden. Er beantwortet: Was kommt als Naechstes, was muss ab 7:00 bereitstehen, und hat der Recyclinghof gerade regulaer offen? Die UI bleibt informativ und ruhig: keine Alarmfarbe fuer normale Termine, keine Push-Logik, kein Kalender, kein Amtsportal und kein allgemeines Dashboard. Home hat einen leisen Einstieg bekommen, aber `Schreiben` und `Einkaufen` bleiben die zwei Kernintentionen.
 
 Die sichtbare Entsorgung erweitert dieselbe `Waste Module Overview`, weil Home-Einstieg, Screen, Datumslogik, Recyclinghof-Status, Offline-Fallbacks und QA zum selben fachlichen Modul gehoeren.
 

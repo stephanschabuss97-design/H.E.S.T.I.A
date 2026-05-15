@@ -11,16 +11,16 @@ const ALLOWED_ARGS = new Set(["--help", "--check-discovery", "--print-json", "--
 export const COLLECTIONS = Object.freeze([
   {
     id: "bio-west",
-    label: "Biomuell",
+    label: "Biomüll",
     area: "westlich Axamer Bach",
-    hint: "Ab 7:00 bereitstellen",
+    hint: "Ab 6:00 bereitstellen",
     pageUrl: "https://www.axams.gv.at/Biomuell_Objekte_westlich_Axamer_Bach_13",
     fallbackIcalUrl:
       "https://www.axams.gv.at/system/web/CalendarService.ashx?aqn=UmlTS29tbXVuYWwuT2JqZWN0cy5LYWxlbmRlciwgUklTQ29tcG9uZW50cywgVmVyc2lvbj0xLjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPW51bGw%3D&do=MjI1ODQ2Nzcz&gnr=297&sprache=1",
   },
   {
     id: "rest-axams-dorf",
-    label: "Restmuell",
+    label: "Restmüll",
     area: "Axams Dorf",
     hint: "Ab 7:00 bereitstellen",
     pageUrl: "https://www.axams.gv.at/Restmuell_Axams_Dorf",
@@ -356,7 +356,7 @@ export function buildWasteCalendarReport(sourceResults, collections = COLLECTION
   const calendar = {
     schemaVersion: 1,
     municipality: "Axams",
-    area: "Axams Dorf; Biomuell westlich Axamer Bach",
+    area: "Axams Dorf; Biomüll westlich Axamer Bach",
     source: {
       type: "axams-ical",
       pages: parsedCollections.map(({ collection, result }) => {

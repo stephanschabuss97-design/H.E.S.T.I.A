@@ -11,6 +11,7 @@ Related docs:
 - [HESTIA Sync Behavior, Conflicts & Status Roadmap (Legacy).md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/archive/HESTIA%20Sync%20Behavior,%20Conflicts%20%26%20Status%20Roadmap%20(Legacy).md)
 - [HESTIA Dev Panel, Touchlog & Diagnostics Roadmap (DONE).md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/archive/HESTIA%20Dev%20Panel,%20Touchlog%20%26%20Diagnostics%20Roadmap%20(DONE).md)
 - [PWA Install Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/PWA%20Install%20Module%20Overview.md)
+- [Waste Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Waste%20Module%20Overview.md)
 
 ---
 
@@ -23,6 +24,7 @@ Related docs:
   - Runtime-Config
   - Save / Load / Realtime
   - Writing-/Shopping-Aktionen
+  - Waste-JSON-Ladezustand
 
 ---
 
@@ -43,6 +45,7 @@ Vorhanden:
 - persistenter Snapshot in `localStorage`
 - Dedupe-Fenster fuer Wiederholungen
 - Hooking an Boot, PWA, Sync, Writing und Shopping
+- Hooking an Waste-JSON-Laden
 - eigene Listen fuer:
   - aktuelle Darstellungswahl
   - aktive Diagnosemodi
@@ -80,6 +83,8 @@ Typische Zeilen sind heute:
 - `[writing] remote state pending while local changes exist`
 - `[shopping] finished shopping run`
 - `[kassa] carousel active=...`
+- `[waste] calendar loaded collections=...`
+- `[waste] calendar load failed ...`
 
 Neu wichtig:
 - PWA-Kontextdiagnostik
@@ -94,6 +99,7 @@ Kategorienvertrag:
 - `writing`
 - `shopping`
 - `kassa`
+- `waste`
 - `dev`
 
 Der Touchlog fuehrt bewusst keine breitere technische Kategorienliste ein.
@@ -113,6 +119,7 @@ Der Touchlog fuehrt bewusst keine breitere technische Kategorienliste ein.
 - `No Cache Assets` ist ein lokaler Shell-/Asset-Hebel und kein Daten-/Sync-Modus.
 - `Touchlog leeren` und `Dev State zuruecksetzen` bleiben lokale Diagnosehilfen ohne Einfluss auf Produktdaten.
 - Kassa-Karussell darf nur aktive Wechsel loggen, keine Pointer-/Swipe-Details.
+- Waste darf nur erfolgreiche oder fehlgeschlagene Kalenderladung loggen, keine einzelnen Termine, Collections oder Recyclinghof-Minutenstatus.
 
 ---
 

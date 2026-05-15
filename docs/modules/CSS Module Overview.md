@@ -12,6 +12,7 @@ Related docs:
 - [Home Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Home%20Module%20Overview.md)
 - [Writing Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Writing%20Module%20Overview.md)
 - [Shopping Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Shopping%20Module%20Overview.md)
+- [Waste Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Waste%20Module%20Overview.md)
 
 ---
 
@@ -37,10 +38,11 @@ Die verbindliche Import-Reihenfolge ist:
 3. `app/styles/layout.css`
 4. `app/styles/ui.css`
 5. `app/styles/home.css`
-6. `app/styles/writing.css`
-7. `app/styles/shopping.css`
-8. `app/styles/devtools.css`
-9. `app/styles/pwa.css`
+6. `app/styles/waste.css`
+7. `app/styles/writing.css`
+8. `app/styles/shopping.css`
+9. `app/styles/devtools.css`
+10. `app/styles/pwa.css`
 
 Begruendung:
 - erst Theme und Foundation
@@ -60,6 +62,7 @@ Begruendung:
 | `app/styles/layout.css` | `app-shell`, `screen`, `panel`, `panel-head`, `row-actions` |
 | `app/styles/ui.css` | Buttons, Inline-Links, Sync-Status, Listen-Grundmuster, globale mobile UI-Overrides |
 | `app/styles/home.css` | Home-Titel, Intent-Karten, Utility-Einstieg, Home-Praesentation |
+| `app/styles/waste.css` | Home-Muell-Kachel, Muelluebersicht, Fraktionskarten, Recyclinghofdetails und mobile Waste-Regeln |
 | `app/styles/writing.css` | Writing-Form und Semantik-Popup |
 | `app/styles/shopping.css` | Papierliste, Checkbox-/Meta-Layout, Kassa-Karussell und mobile Shopping-Regeln |
 | `app/styles/devtools.css` | Touchlog, Stilumschalter, Devtools-Panel |
@@ -72,6 +75,7 @@ Begruendung:
 - Neue globale Patterns gehoeren nach `ui.css`, nicht in Feature-Dateien.
 - Feature-Dateien duerfen globale Patterns verfeinern, aber nicht still neue globale Owner bauen.
 - Home-spezifische Materialitaet, Intent-Karten-Feinschliff und Home-Komposition gehoeren nach `home.css`, solange sie keine globalen Button-/Token-Vertraege aendern.
+- Waste-spezifische Kachelverfeinerung und Muelluebersicht gehoeren nach `waste.css`; Selektoren muessen an `.home-waste-card` oder `.screen-waste` gebunden bleiben.
 - Das Kassa-Karussell bleibt Shopping-spezifisch und gehoert nach `shopping.css`, solange es nicht in anderen Screens wiederverwendet wird.
 - Checkboxen, Radios und Texteingaben bleiben foundation-seitig getrennt.
 - Mobile Regeln gehoeren zum Owner der betroffenen Komponente oder des betroffenen globalen Patterns.
@@ -86,6 +90,7 @@ Wenn du etwas aendern willst:
 - Button-, Link- oder Listen-Grundstil -> `app/styles/ui.css`
 - Panel- oder Screen-Struktur -> `app/styles/layout.css`
 - Startseite -> `app/styles/home.css`
+- Muell-Kachel, Muelluebersicht, Recyclinghofdetails -> `app/styles/waste.css`
 - Schreiben-Flow -> `app/styles/writing.css`
 - Einkaufen-Flow -> `app/styles/shopping.css`
 - Kassa-Karussell im Einkaufsmodus -> `app/styles/shopping.css`

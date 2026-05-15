@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v29";
+const CACHE_VERSION = "v30";
 const STATIC_CACHE = `hestia-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `hestia-runtime-${CACHE_VERSION}`;
 const OFFLINE_URL = "./offline.html";
@@ -17,6 +17,7 @@ const APP_SHELL = [
   "./app/styles/layout.css",
   "./app/styles/ui.css",
   "./app/styles/home.css",
+  "./app/styles/waste.css",
   "./app/styles/writing.css",
   "./app/styles/shopping.css",
   "./app/styles/devtools.css",
@@ -30,6 +31,7 @@ const APP_SHELL = [
   "./app/core/semantics.js",
   "./app/modules/home-scene.js",
   "./app/modules/kassa-carousel.js",
+  "./app/modules/waste.js",
   "./app/modules/writing.js",
   "./app/modules/shopping.js",
   "./app/diagnostics/ambient-touch.js",
@@ -38,6 +40,7 @@ const APP_SHELL = [
   "./app/diagnostics/font-presets.js",
   "./app/supabase/client.js",
   "./app/supabase/list-sync.js",
+  "./assets/data/waste-calendar.axams.json",
   "./assets/js/semantics.de.json",
   "./public/runtime-config.json",
   "./public/icon.svg",
