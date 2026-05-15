@@ -2549,8 +2549,12 @@ Commit-Empfehlung:
 
 Archiv-Entscheidung:
 
-- Noch nicht archivieren, solange der Commit und der erste echte GitHub-Actions-Lauf nicht bestaetigt sind.
-- Nach Commit plus erfolgreichem GitHub-Run kann diese Roadmap in `docs/archive/` als DONE abgelegt werden.
+- Am 15.05.2026 nach expliziter Freigabe als DONE archiviert.
+- Externe Restpruefungen bleiben auch nach Archivierung offen:
+  - echter GitHub-Schedule-Lauf.
+  - manueller `workflow_dispatch`-Lauf.
+  - Bot-Commit/Bot-Push im echten Repository.
+  - Branch-Protection- oder Repository-Permission-Wirkung.
 
 ## Smokechecks / Regression
 

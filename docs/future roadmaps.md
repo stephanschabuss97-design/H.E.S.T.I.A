@@ -103,7 +103,7 @@ Die grosse Flaeche im Einkaufsmodus kann spaeter gezielt fuer Einkaufskontext ge
 
 Detailroadmaps:
 
-- [HESTIA Entsorgung Datenfundament Roadmap.md](HESTIA%20Entsorgung%20Datenfundament%20Roadmap.md)
+- [HESTIA Entsorgung Datenfundament Roadmap (DONE).md](archive/HESTIA%20Entsorgung%20Datenfundament%20Roadmap%20(DONE).md)
 - [HESTIA Entsorgung UI Roadmap.md](HESTIA%20Entsorgung%20UI%20Roadmap.md)
 - [HESTIA Entsorgung Erinnerungen Future Sketch.md](HESTIA%20Entsorgung%20Erinnerungen%20Future%20Sketch.md)
 

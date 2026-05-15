@@ -127,7 +127,7 @@ Betriebsvertrag:
 
 - `contents: write` ist noetig, damit `GITHUB_TOKEN` committen kann.
 - `concurrency` verhindert unnoetige parallele Laeufe fuer denselben Branch.
-- Der Workflow verwendet Node 24 und keine Dependency-Installation.
+- Der Workflow verwendet `actions/checkout@v6`, `actions/setup-node@v6`, Node 24 und keine Dependency-Installation.
 - Der Commit ist auf `assets/data/waste-calendar.axams.json` begrenzt.
 - Fehlerhafte oder unplausible Quellen brechen im Script ab und duerfen keinen Teilstand committen.
 

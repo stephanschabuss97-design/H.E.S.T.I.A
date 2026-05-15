@@ -12,7 +12,7 @@ Related docs:
 - [PRODUCT.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/PRODUCT.md)
 - [Deployment Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Deployment%20Module%20Overview.md)
 - [QA_CHECKS.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/QA_CHECKS.md)
-- [HESTIA Entsorgung Datenfundament Roadmap.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/HESTIA%20Entsorgung%20Datenfundament%20Roadmap.md)
+- [HESTIA Entsorgung Datenfundament Roadmap (DONE).md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/archive/HESTIA%20Entsorgung%20Datenfundament%20Roadmap%20(DONE).md)
 - [HESTIA Entsorgung UI Roadmap.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/HESTIA%20Entsorgung%20UI%20Roadmap.md)
 - [HESTIA Entsorgung Erinnerungen Future Sketch.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/HESTIA%20Entsorgung%20Erinnerungen%20Future%20Sketch.md)
 
@@ -217,6 +217,7 @@ Vertrag:
 - GitHub Actions Cron laeuft in UTC.
 - `contents: write` ist gesetzt.
 - `concurrency` ist gesetzt.
+- `actions/checkout@v6` und `actions/setup-node@v6` laufen auf der Node-24-Action-Runtime.
 - Node 24 wird verwendet.
 - Workflow fuehrt `node --check scripts/update-waste-calendar.mjs` aus.
 - Workflow fuehrt `node scripts/update-waste-calendar.mjs --write-json` aus.

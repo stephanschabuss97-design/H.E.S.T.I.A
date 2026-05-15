@@ -89,7 +89,7 @@ Die UI darf nicht wie ein Dashboard riechen und darf die Kernintentionen `Schrei
 - `docs/future roadmaps.md`
 - `docs/DEV_ENVIRONMENT.md`
 - `docs/QA_CHECKS.md`
-- `docs/HESTIA Entsorgung Datenfundament Roadmap.md`
+- `docs/archive/HESTIA Entsorgung Datenfundament Roadmap (DONE).md`
 - `docs/modules/Waste Module Overview.md`, aus Roadmap 5A, in S6 verpflichtend zu erweitern
 - `docs/modules/Home Module Overview.md`
 - `docs/modules/CSS Module Overview.md`
