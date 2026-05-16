@@ -1,7 +1,6 @@
 .home-waste-card {
-  min-height: 88px;
-  padding-top: 16px;
-  padding-bottom: 15px;
+  min-height: 104px;
+  padding: 20px 26px 18px;
   border-color: rgba(238, 232, 218, 0.24);
   background:
     linear-gradient(90deg, rgba(232, 211, 161, 0.1), transparent 34%),
@@ -13,20 +12,20 @@
 }
 
 .home-waste-card .home-intent-card-title {
-  font-size: clamp(1.56rem, 3.2vw, 2rem);
+  font-size: clamp(1.9rem, 4vw, 2.45rem);
 }
 
 .home-waste-card .home-intent-card-icon {
-  width: 30px;
-  height: 30px;
-  flex-basis: 30px;
+  width: 34px;
+  height: 34px;
+  flex-basis: 34px;
 }
 
 .home-waste-card .home-intent-card-ticker {
-  max-width: calc(100% - 44px);
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: rgba(239, 231, 213, 0.88);
+  max-width: calc(100% - 48px);
+  font-size: 0.98rem;
+  font-weight: 500;
+  color: var(--c-text-dim);
   overflow-wrap: anywhere;
 }
 
@@ -141,12 +140,11 @@
 
 @media (max-width: 640px) {
   .home-waste-card {
-    min-height: 84px;
+    min-height: 94px;
   }
 
   .home-waste-card .home-intent-card-ticker {
     max-width: 100%;
-    font-size: 0.82rem;
   }
 
   .screen-waste.is-active {

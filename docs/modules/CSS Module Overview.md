@@ -10,8 +10,8 @@ Related docs:
 - [PRODUCT.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/PRODUCT.md)
 - [HESTIA CSS Separation & Style Architecture Roadmap (DONE).md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/archive/HESTIA%20CSS%20Separation%20%26%20Style%20Architecture%20Roadmap%20(DONE).md)
 - [Home Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Home%20Module%20Overview.md)
-- [Writing Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Writing%20Module%20Overview.md)
 - [Shopping Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Shopping%20Module%20Overview.md)
+- [Amazon Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Amazon%20Module%20Overview.md)
 - [Waste Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Waste%20Module%20Overview.md)
 
 ---
@@ -63,8 +63,8 @@ Begruendung:
 | `app/styles/ui.css` | Buttons, Inline-Links, Sync-Status, Listen-Grundmuster, globale mobile UI-Overrides |
 | `app/styles/home.css` | Home-Titel, Intent-Karten, Utility-Einstieg, Home-Praesentation |
 | `app/styles/waste.css` | Home-Muell-Kachel, Muelluebersicht, Fraktionskarten, Recyclinghofdetails und mobile Waste-Regeln |
-| `app/styles/writing.css` | Writing-Form und Semantik-Popup |
-| `app/styles/shopping.css` | Papierliste, Checkbox-/Meta-Layout, Kassa-Karussell und mobile Shopping-Regeln |
+| `app/styles/writing.css` | technische Writing-Form, sichtbarer Einkauf-Formbereich und Semantik-Popup |
+| `app/styles/shopping.css` | wiederverwendbare Papierliste, Checkbox-/Meta-Layout, Abschlussbutton, Kassa-Karussell und mobile Einkaufsregeln |
 | `app/styles/devtools.css` | Touchlog, Stilumschalter, Devtools-Panel |
 | `app/styles/pwa.css` | Install-Banner und kuenftige PWA-Banner |
 
@@ -76,7 +76,9 @@ Begruendung:
 - Feature-Dateien duerfen globale Patterns verfeinern, aber nicht still neue globale Owner bauen.
 - Home-spezifische Materialitaet, Intent-Karten-Feinschliff und Home-Komposition gehoeren nach `home.css`, solange sie keine globalen Button-/Token-Vertraege aendern.
 - Waste-spezifische Kachelverfeinerung und Muelluebersicht gehoeren nach `waste.css`; Selektoren muessen an `.home-waste-card` oder `.screen-waste` gebunden bleiben.
-- Das Kassa-Karussell bleibt Shopping-spezifisch und gehoert nach `shopping.css`, solange es nicht in anderen Screens wiederverwendet wird.
+- Waste darf die Home-Muell-Kachel verfeinern, soll aber die gemeinsame Home-Kartenhoehe nicht mehr kleiner machen als `Einkauf` und `Amazon`.
+- Papierliste, Checkbox-/Meta-Layout, Abschlussbutton und Kassa-Karussell liegen in `shopping.css`, weil diese Muster nach Roadmap 6A sowohl im sichtbaren `Einkauf` als auch im alten Shopping-Screen verwendet werden.
+- Kassa-Regeln in `shopping.css` muessen an `.kassa-carousel` gebunden bleiben und duerfen keinen Listen-State oder Amazon-Vertrag erzeugen.
 - Checkboxen, Radios und Texteingaben bleiben foundation-seitig getrennt.
 - Mobile Regeln gehoeren zum Owner der betroffenen Komponente oder des betroffenen globalen Patterns.
 - Keine Rueckkehr zu Sammeldateien wie `components.css` oder `screens.css`.
@@ -91,9 +93,9 @@ Wenn du etwas aendern willst:
 - Panel- oder Screen-Struktur -> `app/styles/layout.css`
 - Startseite -> `app/styles/home.css`
 - Muell-Kachel, Muelluebersicht, Recyclinghofdetails -> `app/styles/waste.css`
-- Schreiben-Flow -> `app/styles/writing.css`
-- Einkaufen-Flow -> `app/styles/shopping.css`
-- Kassa-Karussell im Einkaufsmodus -> `app/styles/shopping.css`
+- technischer Writing-/sichtbarer Einkauf-Formbereich -> `app/styles/writing.css`
+- Papierliste, Checkboxen, Abschlussbutton im Einkauf oder alten Shopping-Screen -> `app/styles/shopping.css`
+- Kassa-Karussell im Einkauf oder alten Shopping-Screen -> `app/styles/shopping.css`
 - Touchlog, Utility-/Diagnostics-Panel oder Stilwahl -> `app/styles/devtools.css`
 - Install-/PWA-Hinweise -> `app/styles/pwa.css`
 - Theme/Farbe/Font -> `app/styles/tokens.css`

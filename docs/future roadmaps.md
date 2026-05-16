@@ -12,7 +12,7 @@ Diese Datei ist keine Umsetzungszusage. Sie ist ein Parkplatz fuer spaetere Road
 
 HESTIA wird bereits im Alltag verwendet und wird als "fein" wahrgenommen. Die naechste Produktfrage ist deshalb nicht, wie moeglichst viele Features eingebaut werden koennen, sondern wie aus einer funktionierenden App ein noch reibungsaermeres und wertigeres Haushaltswerkzeug wird. Der bewusst gewaehlte Bridgerton-/Downton-Abbey-Charakter, besonders die charmante Einkaufsliste, ist Teil der Akzeptanz und soll nicht zugunsten eines generischen SaaS-Looks weggeglattet werden.
 
-Die folgenden Roadmaps sortieren gefundene Verbesserungen von kernnah bis sehr spaet. Roadmap 5 ist die naechste sinnvoll greifbare Haushaltsperipherie, weil Entsorgung echten Alltagsnutzen bringt und technisch sauber schneidbar ist. Roadmap 6, Roadmap 7 und Roadmap 8 bleiben Premium-Future-Features, die wahrscheinlich nicht oder erst deutlich spaeter umgesetzt werden. Roadmap 9 ist Premium Plus und wird wahrscheinlich eher nicht verwendet, solange kein sehr klarer Alltagsnutzen entsteht.
+Die folgenden Roadmaps sortieren gefundene Verbesserungen von kernnah bis sehr spaet. Roadmap 5 war die naechste sinnvoll greifbare Haushaltsperipherie, weil Entsorgung echten Alltagsnutzen bringt und technisch sauber schneidbar ist. Roadmap 6 ist das letzte fixe Kernfeature-Paket, wird aber bewusst in zwei Schritte geschnitten: zuerst wurde im technisch bestehenden Schreibbereich das Panel `Offene Liste` zu einer echten Einkaufsliste erweitert und sichtbar in `Einkauf` umbenannt, danach kann die kleine Amazon-Liste als zweiter Beschaffungskanal sauber darauf aufsetzen. Roadmap 7, Roadmap 8 und Roadmap 9 bleiben Premium-Future-Features, die wahrscheinlich nicht oder erst deutlich spaeter umgesetzt werden. Roadmap 10 ist Premium Plus und wird wahrscheinlich eher nicht verwendet, solange kein sehr klarer Alltagsnutzen entsteht.
 
 ## Roadmap 1 - Einkaufsflow veredeln (DONE)
 
@@ -137,33 +137,63 @@ Die sichtbare Entsorgung erweitert dieselbe `Waste Module Overview`, weil Home-E
 
 Erinnerungen sind bewusst nur skizziert. Eine spaetere Roadmap koennte Home-Badges wie `Morgen Biomuell` oder optionalen Push am Vorabend pruefen, aber erst wenn Datenfundament und UI im Alltag funktionieren. HESTIA darf daraus kein allgemeines Reminder-System machen. Wenn der sichtbare Entsorgungsbereich reicht, wird diese Schicht nicht umgesetzt.
 
-## Roadmap 6 - Push Awareness als Premium Feature
+## Roadmap 6A - Einkaufsbereich konsolidieren
+
+Detailroadmap: [HESTIA Einkaufsbereich Konsolidieren Roadmap (DONE).md](archive/HESTIA%20Einkaufsbereich%20Konsolidieren%20Roadmap%20(DONE).md)
+
+### 16. Offene Liste im Schreibbereich zur Einkaufsliste erweitern
+
+Status:
+
+- umgesetzt am 16.05.2026.
+- sichtbarer Bereich heisst jetzt `Einkauf`.
+- technische Route und Modulgrenzen bleiben vorerst `writing`.
+- das Panel `Offene Liste` enthaelt Papierliste, `Im Wagen`, `Loeschen`, Auto-Freigabe nach Add, `Liste freigeben` als Retry/Fallback, `Liste abschliessen` und Kassa-Karussell.
+- der alte separate `Einkaufen`-Screen bleibt technisch erreichbar und dient als Uebergangs-/Vergleichsflaeche.
+
+`Schreiben` und `Einkaufen` waren zwei Hauptbereiche fuer denselben Kernprozess: Dinge auf die Einkaufsliste setzen und sie spaeter abhaken. Technisch teilen sie sich denselben State, produktseitig fuehlte sich `Schreiben` zunehmend wie ein Modus des Einkaufsbereichs an. Roadmap 6A hat deshalb im technisch bestehenden Schreibbereich das Panel `Offene Liste` zur echten Einkaufsliste gemacht: oben bleibt das vertraute Schreibformular, darunter sitzt die charmante Papierliste mit `Im Wagen`, `Loeschen`, `Liste freigeben`, `Liste abschliessen` und Kassa-Karussell.
+
+Der Schnitt ist bewusst risikoarm: Der bestehende separate `Einkaufen`-Screen wird in dieser Roadmap noch nicht geloescht. Er bleibt Vergleichs- und Rueckfallflaeche, bis der erweiterte Bereich `Einkauf` bewiesen hat, dass er den Alltag besser traegt. Es gibt keine Amazon-, SQL-, Supabase-Schema- oder Datenvertragsaenderung in Roadmap 6A. Home zeigt bereits eine sichtbare `Amazon`-Kachel, diese ist aber bis Roadmap 6B nur ein Platzhalter auf dem alten Shopping-Ziel.
+
+## Roadmap 6B - Amazon-Liste als zweiter Beschaffungskanal
+
+Detailroadmap: [HESTIA Amazon Liste Roadmap.md](HESTIA%20Amazon%20Liste%20Roadmap.md)
+
+### 17. Amazon-Liste als zweiter Einkaufsbereich
+
+Die Amazon-Liste ist als letztes fixes groesseres HESTIA-Feature geplant, weil sie direkt am bestehenden Kern haengt: schnell Dinge aufschreiben und spaeter erledigen. Der Haushalt braucht neben der normalen Einkaufsliste eine kleine Merkliste fuer Dinge, die irgendwann bei Amazon bestellt werden sollen. Das soll kein Shop-Portal, keine Produktsuche, kein Preisvergleich, keine Amazon-API und kein Bestelltracking werden. Es bleibt eine Haushaltsliste.
+
+Nach der Konsolidierung soll Amazon als eigene Home-Kachel und eigener Bereich auf demselben Muster entstehen: `Einkauf`, `Amazon`, `Muell`. Die Kachel ist bereits sichtbar, aber noch ein Platzhalter ohne Amazon-Listenlogik. Technisch soll ein Feld wie `list_type` zwischen `grocery` und `amazon` unterscheiden. Die Amazon-Ansicht nutzt die gleiche ruhige Grundmechanik, aber passende Copy wie `Bestellt` statt `Im Wagen`. Die bestehende Amazon-Roadmap wurde nach Roadmap 6A als Folgeplanung markiert und muss vor Umsetzung erneut gegen den neuen `Einkauf`-Bereich gereviewt werden.
+
+Der kritische Punkt ist nicht die UI, sondern der Datenvertrag: bestehende lokale und Supabase-Items ohne Typ muessen defensiv als `grocery` gelten. Die SQL-Migration muss deshalb sauber geplant werden, auch wenn das aktuelle Bestandsdatenrisiko niedrig ist.
+
+## Roadmap 7 - Push Awareness als Premium Feature
 
 Detailroadmap: [HESTIA Push Awareness Roadmap.md](HESTIA%20Push%20Awareness%20Roadmap.md)
 
-### 16. Manuellen Awareness-Push vorbereiten
+### 17. Manuellen Awareness-Push vorbereiten
 
 Ein spaeter manueller Push fuer `Einkaufsliste fertig` kann einen echten Haushaltsmoment ersetzen: die kurze Nachricht, dass die Liste bereit ist. Das Feature passt zu HESTIA, wenn es Awareness bleibt und nicht zu Reminder, Chat, Aufgabenlogik oder allgemeinem Notification-System wird. Der besprochene Outcome ist trotzdem: Push klingt kleiner, als es fachlich ist. Es braucht Trigger, Opt-in, Sender-Ausschluss, Delivery-Pfad, Fehlerfaelle und Device-Smokes. Weil der aktuelle manuelle Listenfluss gut funktioniert und WhatsApp/Zuruf diesen Moment bereits abdecken, wird diese Roadmap als Premium-Future-Feature geparkt und vermutlich nicht kurzfristig angegangen.
 
-## Roadmap 7 - Realtime Shopping Collaboration als Premium Feature
+## Roadmap 8 - Realtime Shopping Collaboration als Premium Feature
 
-### 17. Parallel einkaufen koennen
+### 18. Parallel einkaufen koennen
 
 Der Gedanke, dass zwei Personen im selben Markt unterschiedliche Gaenge uebernehmen und live sehen, was der andere bereits gefunden hat, passt sehr gut zum realen HESTIA-Alltag. Das waere echter Haushaltsnutzen: weniger Zurufen, weniger doppelte Wege, weniger "hast du das schon?" im Geschaeft. Der besprochene Outcome ist aber: Dieser Fall ist vermutlich zu selten, um die hohe mentale und technische Last jetzt zu rechtfertigen. Realtime wuerde Konfliktregeln, Remote-Status, Offline-/Reconnect-Verhalten, Abschluss-Schutz und Zwei-Geraete-QA brauchen. Deshalb bleibt diese Roadmap Premium-Future und wird vermutlich nicht angegangen, solange kein echter Alltagsdruck entsteht.
 
-### 18. Abschlussregeln fuer paralleles Einkaufen haerten
+### 19. Abschlussregeln fuer paralleles Einkaufen haerten
 
 Bei einem gemeinsamen Einkauf ist `Liste abschliessen` nicht mehr nur eine lokale Abschlussgeste. Wenn Person A abschliesst, waehrend Person B gerade einen anderen Gang bearbeitet, muss HESTIA eindeutig und ruhig bleiben. Eine spaetere Realtime-Roadmap muesste klaeren, ob Abschluss sofort remote wirkt, ob es Schutz gegen veraltete Snapshots braucht und wie sichtbar Remote-Aenderungen im Papierlistenstil sein sollen. Genau diese Abschluss- und Konfliktfragen sind der Grund, warum die Roadmap nicht als schneller Sync-Fix behandelt wird.
 
-## Roadmap 8 - Sanfte Haushaltsperipherie als Premium Feature
+## Roadmap 9 - Sanfte Haushaltsperipherie als Premium Feature
 
-### 19. Familienhinweise und Geburtstage
+### 20. Familienhinweise und Geburtstage
 
 Familienhinweise und Geburtstage sind im Haushalt nuetzlich, aber sie liegen deutlich ausserhalb des aktuellen Einkaufsflusses und auch weiter weg vom praktischen Haushaltsnutzen als Entsorgung. Deshalb werden sie als Premium-Future-Feature behandelt und nicht in die naechsten Kernroadmaps gezogen. Falls sie spaeter kommen, sollten sie charmant, selten und sekundar bleiben, etwa als ruhiger Hinweisbereich statt als Aufgaben- oder Kalenderlogik. Diese Idee ist bewusst geparkt, damit HESTIA nicht unbemerkt zur Familienzentrale wird.
 
-## Roadmap 9 - Kontextautomation als Premium Plus
+## Roadmap 10 - Kontextautomation als Premium Plus
 
-### 20. Standortbasierte Sortierung
+### 21. Standortbasierte Sortierung
 
 Die Idee "du bist bei Hofer, also rueckt Hofer nach vorne" ist nachvollziehbar, aber technisch und produktseitig schwerer als der unmittelbare Nutzen vermuten laesst. Geolocation bringt Berechtigungen, Datenschutz, Fehlpositionierungen und neue Diagnosefaelle in eine App, deren Kern bewusst ruhig ist. Deshalb wird dieser Punkt als Premium Plus gefuehrt und wahrscheinlich nicht verwendet, solange der Einkaufsapp-Launcher nicht nachweislich im Alltag gebraucht wird. Falls er je umgesetzt wird, muss er optional, lokal verstaendlich und ohne Abhaengigkeit fuer den Kernfluss bleiben.
 
@@ -176,9 +206,11 @@ Naechste sinnvolle Arbeit bleibt kernnah:
 3. Home und Stil veredeln.
 4. Einkaufsapps und Shopping-Begleiter als Shopping-nahe Erweiterung.
 5. Entsorgung als Haushaltsperipherie zuerst in Datenfundament und UI schneiden; Erinnerungen nur als Future Sketch.
-6. Push Awareness bleibt Premium-Future und wird vermutlich nicht kurzfristig angegangen.
-7. Realtime Shopping Collaboration bleibt Premium-Future und wird vermutlich nicht angegangen, solange kein echter Alltagsdruck entsteht.
-8. Sanfte Haushaltsperipherie wie Familienhinweise/Geburtstage bleibt geparkt.
-9. Kontextautomation nur als Premium Plus und eher nicht.
+6. Einkaufsbereich konsolidieren: im technisch bestehenden Schreibbereich das Panel `Offene Liste` zur echten Einkaufsliste erweitern, sichtbar `Einkauf` nennen und den alten Einkaufsbereich noch nicht loeschen.
+6B. Amazon-Liste als zweiter Beschaffungskanal danach bauen, streng als Merkliste ohne Amazon-Integration; die sichtbare Home-Kachel ist bis dahin nur Platzhalter.
+7. Push Awareness bleibt Premium-Future und wird vermutlich nicht kurzfristig angegangen.
+8. Realtime Shopping Collaboration bleibt Premium-Future und wird vermutlich nicht angegangen, solange kein echter Alltagsdruck entsteht.
+9. Sanfte Haushaltsperipherie wie Familienhinweise/Geburtstage bleibt geparkt.
+10. Kontextautomation nur als Premium Plus und eher nicht.
 
-Roadmap 1 bis 4 sind bereits abgeschlossen. Diese Reihenfolge schuetzt HESTIA weiterhin davor, durch interessante Ideen schwerer zu werden, bevor der vorhandene Alltagsfluss wirklich poliert ist.
+Roadmap 1 bis 5B sind bereits abgeschlossen. Diese Reihenfolge schuetzt HESTIA weiterhin davor, durch interessante Ideen schwerer zu werden, bevor der vorhandene Alltagsfluss wirklich poliert ist.

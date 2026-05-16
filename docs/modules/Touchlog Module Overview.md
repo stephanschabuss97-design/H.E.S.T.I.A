@@ -80,6 +80,8 @@ Typische Zeilen sind heute:
 - `[sync] remote update pending while local changes exist ...`
 - `[sync] pending remote snapshot applied ...`
 - `[writing] added item ...`
+- `[writing] toggle cart ...`
+- `[writing] finished shopping run`
 - `[writing] remote state pending while local changes exist`
 - `[shopping] finished shopping run`
 - `[kassa] carousel active=...`
@@ -89,7 +91,7 @@ Typische Zeilen sind heute:
 Neu wichtig:
 - PWA-Kontextdiagnostik
 - Sync-Konfig-Zusammenfassung
-- Save-Gruende wie `manual-save`, `remove-item` oder `shopping-finish`
+- Save-Gruende wie `add-item`, `manual-save`, `remove-item`, `writing-toggle`, `writing-finish` oder `shopping-finish`
 - Dev-Gruende wie `no-cache assets enabled`, `touchlog cleared` oder `dev state reset`
 
 Kategorienvertrag:

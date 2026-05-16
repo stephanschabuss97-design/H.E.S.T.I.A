@@ -30,7 +30,7 @@ Vorhanden:
 - Household-Key-Validierung und lokale Household-Key-Persistenz
 - Household-Resolve gegen `public.households`
 - Snapshot-Load beim App-Start
-- Snapshot-Save fuer manuellen Save, Loeschen, Liste leeren, Toggle und Shopping-Abschluss
+- Snapshot-Save fuer Add nach bewusstem Submit, manuellen Retry/Fallback, Loeschen, Liste leeren, Toggle und Abschluss
 - Realtime-Abos fuer eingehende Aenderungen
 - Dirty-State-Schutz gegen stilles Ueberschreiben lokaler Writing-Aenderungen
 - Touchlog-Diagnostik fuer Sync- und PWA-Randfaelle
@@ -77,8 +77,9 @@ Der aktuelle Shared-Flow ist bewusst schmal:
 
 Wichtige Regeln:
 
-- Add bleibt lokal plus bewusste Freigabe
-- destruktive und Shopping-relevante Aktionen schreiben den Shared-Zustand direkt nach
+- Add schreibt nach bewusstem Submit einen Shared Snapshot, wenn Sync konfiguriert ist.
+- `Liste freigeben` bleibt als manueller Retry/Fallback fuer Dirty-, Error- oder Pending-Remote-Zustaende.
+- destruktive und einkaufsrelevante Aktionen schreiben den Shared-Zustand direkt nach
 - eingehende Remote-Snapshots werden bei lokalem Dirty-State nicht automatisch angewendet
 - ein Remote-Snapshot waehrend Dirty-State wird als pending Remote gehalten und kann bewusst uebernommen werden
 - Last-Write-Wins ist fuer den aktuellen Zuschnitt akzeptiert

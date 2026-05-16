@@ -14,6 +14,7 @@ export function initWriting(doc, store, listSync, touchlog) {
   const clearButton = doc.getElementById("clear-list");
   const saveButton = doc.getElementById("save-list");
   const acceptRemoteButton = doc.getElementById("accept-remote-list");
+  const finishButton = doc.getElementById("finish-writing-list");
   const syncStatus = doc.getElementById("writing-sync-status");
   const nameInput = doc.getElementById("item-name");
   const qtyInput = doc.getElementById("item-qty");
@@ -26,6 +27,10 @@ export function initWriting(doc, store, listSync, touchlog) {
 
   function hasItems() {
     return store.state.items.length > 0;
+  }
+
+  function hasCartItems() {
+    return store.state.items.some((item) => item.inCart);
   }
 
   function clearFormNote() {
@@ -77,7 +82,10 @@ export function initWriting(doc, store, listSync, touchlog) {
       return;
     }
 
-    saveButton.hidden = !listSync?.isConfigured() || !hasItems();
+    const canRetrySharedSave =
+      syncMode === "dirty" || syncMode === "error" || syncMode === "pending-remote";
+
+    saveButton.hidden = !listSync?.isConfigured() || !hasItems() || !canRetrySharedSave;
     saveButton.disabled = syncMode === "saving";
     if (acceptRemoteButton) {
       acceptRemoteButton.hidden = !hasPendingRemote;
@@ -165,11 +173,31 @@ export function initWriting(doc, store, listSync, touchlog) {
     return result;
   }
 
+  function toggleCartItem(itemId, checked) {
+    store.toggleInCart(itemId, checked);
+    touchlog?.add(
+      `[writing] toggle cart id=${itemId} checked=${checked ? "yes" : "no"}`,
+      { eventId: `writing-toggle-${itemId}-${checked ? "yes" : "no"}` }
+    );
+    markDirty();
+    render();
+    doc.dispatchEvent(new CustomEvent("hestia:items-updated", { detail: { source: "local" } }));
+    persistSharedState("writing-toggle").catch(() => {});
+  }
+
+  function updateFinishButtonState() {
+    if (finishButton) {
+      finishButton.disabled = !hasCartItems();
+    }
+  }
+
   function render() {
+    updateFinishButtonState();
+
     if (store.state.items.length === 0) {
       listElement.textContent = "";
       const emptyRow = doc.createElement("li");
-      emptyRow.className = "item-row muted";
+      emptyRow.className = "item-row writing-paper-row muted";
       emptyRow.textContent = "Noch keine Eintraege.";
       listElement.appendChild(emptyRow);
       renderSyncState();
@@ -179,34 +207,56 @@ export function initWriting(doc, store, listSync, touchlog) {
     listElement.textContent = "";
     store.state.items.forEach((item) => {
       const row = doc.createElement("li");
-      row.className = "item-row";
+      row.className = "item-row shopping-item-row writing-paper-row";
+      row.classList.toggle("is-in-cart", Boolean(item.inCart));
+
+      const itemAction = doc.createElement("label");
+      itemAction.className = "shopping-item-action";
+
+      const checkWrap = doc.createElement("span");
+      checkWrap.className = "check-wrap";
+
+      const checkbox = doc.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.checked = Boolean(item.inCart);
+      checkbox.dataset.toggle = item.id;
+      checkbox.setAttribute("aria-label", `${item.name} Im Wagen`);
 
       const itemMain = doc.createElement("span");
       itemMain.className = "item-main";
       itemMain.textContent = item.name;
+
+      checkWrap.append(checkbox, itemMain);
+      itemAction.appendChild(checkWrap);
 
       const itemMetaText = formatItemMeta(item);
       if (itemMetaText) {
         const itemMeta = doc.createElement("span");
         itemMeta.className = "item-meta";
         itemMeta.textContent = itemMetaText;
-        row.appendChild(itemMeta);
+        itemAction.appendChild(itemMeta);
       }
 
       const removeButton = doc.createElement("button");
-      removeButton.className = "inline-link destructive";
+      removeButton.className = "inline-link destructive writing-row-remove";
       removeButton.type = "button";
       removeButton.dataset.remove = item.id;
       removeButton.dataset.itemName = item.name;
       removeButton.textContent = "Loeschen";
 
-      row.prepend(itemMain);
+      checkbox.addEventListener("change", () => {
+        toggleCartItem(item.id, checkbox.checked);
+      });
+
+      row.appendChild(itemAction);
       row.appendChild(removeButton);
       listElement.appendChild(row);
     });
 
     listElement.querySelectorAll("[data-remove]").forEach((button) => {
-      button.addEventListener("click", () => {
+      button.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
         store.removeItem(button.dataset.remove);
         touchlog?.add(`[writing] removed item ${button.dataset.itemName || button.dataset.remove}`, {
           eventId: `writing-remove-${button.dataset.remove}`
@@ -286,6 +336,7 @@ export function initWriting(doc, store, listSync, touchlog) {
     markDirty();
     render();
     doc.dispatchEvent(new CustomEvent("hestia:items-updated", { detail: { source: "local" } }));
+    persistSharedState("add-item").catch(() => {});
   });
 
   clearButton.addEventListener("click", () => {
@@ -295,6 +346,21 @@ export function initWriting(doc, store, listSync, touchlog) {
     render();
     doc.dispatchEvent(new CustomEvent("hestia:items-updated", { detail: { source: "local" } }));
     persistSharedState("clear-list").catch(() => {});
+  });
+
+  finishButton?.addEventListener("click", () => {
+    if (!hasCartItems()) {
+      return;
+    }
+
+    store.finishShopping();
+    touchlog?.add("[writing] finished shopping run", {
+      eventId: "writing-finish-run"
+    });
+    markDirty();
+    render();
+    doc.dispatchEvent(new CustomEvent("hestia:items-updated", { detail: { source: "local" } }));
+    persistSharedState("writing-finish").catch(() => {});
   });
 
   saveButton?.addEventListener("click", async () => {

@@ -41,7 +41,7 @@ Der Push ist spaeter nur ein Ersatz fuer die kurze WhatsApp-Nachricht. Er ist ke
 ## Nicht verhandelbarer Produktvertrag
 
 1. HESTIA bleibt ein Haushaltswerkzeug, kein Haushaltsbetriebssystem.
-2. `Schreiben` und `Einkaufen` sind die zwei Kernintentionen.
+2. `Einkauf` ist der kombinierte Kernfluss fuer Aufschreiben, Abhaken und Abschliessen; technisch bleibt die Route vorerst `writing`.
 3. Freitext bleibt immer erlaubt.
 4. Semantik, Mengen und Einheiten helfen, sperren aber nicht.
 5. Der Listenstatus muss ehrlich bleiben: offen ist offen, gekauftes verschwindet, Unerledigtes bleibt sichtbar.
@@ -68,9 +68,9 @@ Heute ist HESTIA ein fruehes PWA-Scaffold mit klaren Grenzen:
 
 - browser-first App ohne Build-Step
 - statisches HTML, CSS und JS
-- ruhiger Home-Einstieg mit `Schreiben` und `Einkaufen`
-- Writing-Flow zum schnellen Erfassen und Entfernen von Eintraegen
-- Shopping-Flow zum Abarbeiten offener Eintraege ueber `Im Wagen`
+- ruhiger Home-Einstieg mit `Einkauf`, sichtbarem `Amazon`-Platzhalter und `Muell`
+- sichtbarer `Einkauf`-Flow zum schnellen Erfassen, Entfernen, Abhaken und Abschliessen von Eintraegen
+- alter Shopping-Flow bleibt technisch erreichbar, ist aber nur noch Vergleichs- und Uebergangsflaeche
 - Hard Delete der gekauften Eintraege beim Abschluss
 - lokale Semantik-Hilfe fuer Autocomplete und Einheitshinweise
 - lokaler Zustand ueber `localStorage`
@@ -104,7 +104,7 @@ Heute:
 
 - die aktive Liste lebt lokal in `localStorage`
 - der Frontend-Vertrag ist `name`, `quantity`, `unit`, `inCart`
-- Schreiben und Einkaufen muessen ohne Supabase-Credentials weiter funktionieren
+- Einkauf und der alte Shopping-Screen muessen ohne Supabase-Credentials weiter funktionieren
 
 Ziel:
 
@@ -145,7 +145,7 @@ Das passt zum Threat-Model: wenig Reibung, aber trotzdem kein voellig offener Zu
 Wichtige Langfrist-Regel:
 
 - Auch bei spaeter mehr beteiligten Personen bleibt HESTIA haushaltsbasiert statt identity-first.
-- Schreiben soll nicht an persoenliche Konten oder individuelle Login-Huerden gebunden werden.
+- Einkauf soll nicht an persoenliche Konten oder individuelle Login-Huerden gebunden werden.
 - Der schnellste Weg zum Eintrag ist wichtiger als saubere Nutzerverwaltung.
 - Personalisierung ist hoechstens optional und weich, nie Voraussetzung fuer den Kernfluss.
 
@@ -235,7 +235,7 @@ Arbeitsregeln:
 Bevor du eine Idee oder Aenderung akzeptierst, stelle drei Fragen:
 
 1. Hilft sie dem gemeinsamen Einkaufsfluss?
-2. Macht sie Schreiben oder Einkaufen ruhiger, schneller oder klarer?
+2. Macht sie Einkauf ruhiger, schneller oder klarer?
 3. Reduziert sie Abstimmung statt neue Verwaltung zu erzeugen?
 
 Wenn die Antwort darauf nicht klar `ja` ist, ist die Idee fuer HESTIA wahrscheinlich falsch.

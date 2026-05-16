@@ -1,7 +1,7 @@
 # Kassa Carousel Module - Functional Overview
 
 Kurze Einordnung:
-- Zweck: kleine Kassahilfe im Einkaufsmodus fuer vier feste Haendler-/Loyalty-Links.
+- Zweck: kleine Kassahilfe fuer den Einkaufsabschluss mit vier festen Haendler-/Loyalty-Links.
 - Rolle innerhalb von HESTIA: unterstuetzt den Moment vor dem Bezahlen, ohne Shopping in einen App-Launcher umzubauen.
 - Abgrenzung: keine App-Erkennung, keine Deep Links, keine Installationserkennung, keine Konfiguration.
 
@@ -15,7 +15,8 @@ Related docs:
 
 ## 1. Zielsetzung
 
-- Im Einkaufsmodus nach den Listenaktionen eine kleine Kassahilfe anbieten.
+- Im sichtbaren Bereich `Einkauf` nach den Listenaktionen eine kleine Kassahilfe anbieten.
+- Den alten `screen-shopping` weiter regressionsfrei unterstuetzen, solange er existiert.
 - Vier kuratierte Links bereitstellen:
   - `jö`
   - `MPREIS`
@@ -39,10 +40,10 @@ Nichtziel:
 
 | Datei | Zweck |
 | --- | --- |
-| `index.html` | statisches Karussell-Markup und vier Google-Play-Links |
-| `app/modules/kassa-carousel.js` | fluechtiger aktiver Index, Button-/Keyboard-/Swipe-Handling und ARIA-/Tab-Sync |
-| `app/main.js` | Initialisierung via `initKassaCarousel(document, touchlog)` |
-| `app/styles/shopping.css` | Mini-Fokus-Karussell-Optik im Shopping-Owner |
+| `index.html` | statisches Karussell-Markup im sichtbaren `Einkauf`-Bereich und im alten Shopping-Screen |
+| `app/modules/kassa-carousel.js` | Mehrinstanz-Initialisierung, fluechtiger aktiver Index je Instanz, Button-/Keyboard-/Swipe-Handling und ARIA-/Tab-Sync |
+| `app/main.js` | Initialisierung aller Instanzen via `initKassaCarousel(document, touchlog)` |
+| `app/styles/shopping.css` | wiederverwendbare Mini-Fokus-Karussell-Optik |
 | `sw.js` | App-Shell-Cache fuer das neue ES-Modul |
 
 ---
@@ -59,14 +60,16 @@ Nichtziel:
 
 ## 4. UI- und Bedienvertrag
 
-- Das Karussell sitzt unterhalb von `Liste abschliessen` und `Aendern`.
-- `Liste abschliessen` und `Aendern` bleiben fachlich wichtiger.
+- Im sichtbaren `Einkauf` sitzt das Karussell unterhalb von `Liste abschliessen`.
+- Im alten Shopping-Screen sitzt das Karussell weiterhin unterhalb von `Liste abschliessen` und `Aendern`.
+- Die Listenaktionen bleiben fachlich wichtiger.
 - Genau eine Karte ist aktiv und im normalen Tabfluss.
 - Inaktive Karten sind `aria-hidden` und per `tabindex="-1"` aus dem Tabfluss genommen.
 - Zurueck-/Weiter-Buttons wechseln zyklisch.
 - Pfeiltasten, `Home` und `End` funktionieren, wenn der Fokus im Karussell liegt.
 - Swipe/Drag wechselt erst bei klar horizontaler Bewegung.
 - Pointer-Capture wird erst nach echter horizontaler Bewegung gesetzt, damit normale Linksklicks nicht blockiert werden.
+- Mehrere Karussell-Instanzen duerfen gleichzeitig im DOM existieren; jede Instanz haelt ihren eigenen aktiven Index und eigene ARIA-/Tab-Zustaende.
 
 ---
 
@@ -81,7 +84,8 @@ Nichtziel:
   - `unit`
   - `inCart`
 - Keine Supabase- oder Household-Sync-Beruehrung.
-- `shopping.js` bleibt Owner fuer Listenrendering, Toggle und Abschluss.
+- `writing.js` und `shopping.js` bleiben Owner fuer Listenrendering, Toggle und Abschluss. Das Karussell beruehrt keinen Listen-State.
+- Amazon uebernimmt das Kassa-Karussell nicht, solange Amazon nur als Merkliste geplant ist.
 
 ---
 
@@ -100,6 +104,8 @@ Nichtziel:
 - Android, Browser und installierte PWA koennen Links unterschiedlich oeffnen.
 - Zu starke visuelle Praesenz wuerde Shopping Richtung App-Portal verschieben.
 - Pointer-/Swipe-Handling darf normale Linksklicks nicht blockieren.
+- Doppelte DOM-Instanzen duerfen sich nicht gegenseitig Fokus, Tab-Status oder aktiven Index ueberschreiben.
+- Die sichtbare Amazon-Kachel darf nicht bedeuten, dass Kassa fuer Amazon gilt.
 
 ---
 
@@ -110,4 +116,5 @@ Nichtziel:
 - Buttons, Pfeiltasten und Swipe wechseln den aktiven Eintrag.
 - Genau eine Karte ist im Tabfluss.
 - Karussell bleibt kleiner als Liste und Shopping-Actions.
+- Mehrere Instanzen funktionieren unabhaengig voneinander.
 - Keine App-Erkennung, kein Installationsstatus und keine Konfiguration sind eingefuehrt.

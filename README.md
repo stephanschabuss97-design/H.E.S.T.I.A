@@ -72,6 +72,8 @@ Arbeitsregeln:
 
 - Freitext bleibt erlaubt.
 - Der Datenvertrag `name`, `quantity`, `unit`, `inCart` bleibt stabil, solange nichts anderes bewusst beschlossen wurde.
+- Der sichtbare Kernbereich heisst aktuell `Einkauf`; die technische Route und das Modul heissen weiterhin `writing`.
+- Die Home-Kachel `Amazon` ist bis zur Amazon-Roadmap nur ein sichtbarer Platzhalter, keine fertige Amazon-Liste.
 - Push ist spaeter Awareness, nicht Reminder-Logik.
 - Household-Sync soll leichtgewichtig bleiben.
 - Keine stillschweigende Ausweitung zu einer grossen Familien-App.
@@ -87,8 +89,8 @@ Arbeitsregeln:
 - [CSS Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/CSS%20Module%20Overview.md)
 - [Diagnostics Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Diagnostics%20Module%20Overview.md)
 - [docs/modules/Home Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Home%20Module%20Overview.md)
-- [docs/modules/Writing Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Writing%20Module%20Overview.md)
 - [docs/modules/Shopping Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Shopping%20Module%20Overview.md)
+- [docs/modules/Amazon Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Amazon%20Module%20Overview.md)
 - [Bootflow Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Bootflow%20Module%20Overview.md)
 - [State Layer Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/State%20Layer%20Module%20Overview.md)
 - [Supabase Sync Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Supabase%20Sync%20Module%20Overview.md)

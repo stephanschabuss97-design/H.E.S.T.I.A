@@ -51,7 +51,7 @@ Wichtige Dateien:
 
 - Dev-Hebel bleiben lokal.
 - Dev-Hebel sind sichtbar und reversibel.
-- Der Home-Utility-Einstieg bleibt erreichbar, darf aber nicht wie ein dritter Hauptpfad neben `Schreiben` und `Einkaufen` wirken.
+- Der Home-Utility-Einstieg bleibt erreichbar, darf aber nicht wie ein Hauptpfad neben `Einkauf`, `Amazon` und `Muell` wirken.
 - Stilwahl ist lokal und lebt bewusst ausserhalb des Household-Syncs.
 - `No Cache Assets` betrifft nur lokale App-Shell-/Asset-Diagnose.
 - Diagnostics greift nicht in Household-, Sync- oder Produktdatenwahrheit ein.

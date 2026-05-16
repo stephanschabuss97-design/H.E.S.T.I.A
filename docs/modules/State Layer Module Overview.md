@@ -8,8 +8,8 @@ Kurze Einordnung:
 Related docs:
 - [PRODUCT.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/PRODUCT.md)
 - [Bootflow Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Bootflow%20Module%20Overview.md)
-- [Writing Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Writing%20Module%20Overview.md)
 - [Shopping Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Shopping%20Module%20Overview.md)
+- [Amazon Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Amazon%20Module%20Overview.md)
 - [Supabase Sync Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Supabase%20Sync%20Module%20Overview.md)
 
 ---
@@ -64,8 +64,8 @@ Der Remote-Vertrag in Supabase wird in `app/supabase/list-sync.js` nach `in_cart
 
 ## 5. Beziehung zu Writing, Shopping und Sync
 
-- Writing erzeugt, entfernt und leert Eintraege.
-- Shopping toggelt `inCart` und schliesst die Liste ab.
+- Der sichtbare Bereich `Einkauf`/technisch `writing` erzeugt, entfernt, leert, toggelt `inCart` und schliesst die Liste ab.
+- Der alte Shopping-Screen toggelt `inCart` und schliesst die Liste weiterhin ab, solange er als Vergleichs- und Rueckfallflaeche existiert.
 - Der Sync-Layer spiegelt erfolgreiche Remote-Loads wieder in `state.items`.
 
 Heute gilt:

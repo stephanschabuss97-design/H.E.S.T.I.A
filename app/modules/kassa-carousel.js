@@ -37,8 +37,7 @@ function setLinkTabStop(link, isActive) {
   link.setAttribute("tabindex", "-1");
 }
 
-export function initKassaCarousel(doc = document, touchlog = null) {
-  const root = doc.querySelector("[data-kassa-carousel]");
+function initKassaCarouselInstance(root, doc, touchlog) {
   if (!root) {
     return null;
   }
@@ -238,4 +237,21 @@ export function initKassaCarousel(doc = document, touchlog = null) {
       sync(index);
     }
   };
+}
+
+export function initKassaCarousel(doc = document, touchlog = null) {
+  const roots = Array.from(doc.querySelectorAll("[data-kassa-carousel]"));
+  if (!roots.length) {
+    return null;
+  }
+
+  const instances = roots
+    .map((root) => initKassaCarouselInstance(root, doc, touchlog))
+    .filter(Boolean);
+
+  if (instances.length === 1) {
+    return instances[0];
+  }
+
+  return instances;
 }

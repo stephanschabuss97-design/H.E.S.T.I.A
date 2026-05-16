@@ -25,7 +25,7 @@ Related docs:
 - HESTIA soll schnell beantworten, was als Naechstes raus muss.
 - HESTIA soll zeigen, ob der Recyclinghof gerade offen ist oder wann er regulaer wieder oeffnet.
 - Die Datenwahrheit fuer Muelltermine kommt aus offiziellen Axams-iCal-Quellen, aber der Browser nutzt nur ein lokales JSON.
-- Die UI bleibt leise und sekundar zu `Schreiben` und `Einkaufen`.
+- Die UI bleibt leise und sekundar zum Einkaufsfluss.
 - Feiertage, Verschiebungen und Sonderfaelle werden nicht geraten.
 
 ---
@@ -186,11 +186,12 @@ Validierungsvertrag:
 
 Home:
 
-- Home zeigt weiterhin zwei Kernintentionen:
-  - `Schreiben`
-  - `Einkaufen`
-- Darunter darf eine dritte, leisere Kachel `Muell` stehen.
-- Diese Kachel ist Haushaltsperipherie, nicht dritter Kernmodus.
+- Home zeigt nach Roadmap 6A die Kacheln:
+  - `Einkauf`
+  - `Amazon`
+  - `Muell`
+- Die Muell-Kachel ist Haushaltsperipherie, nicht Einkaufs- oder Amazon-Kernmodus.
+- Die Muell-Kachel nutzt dieselbe Grundhoehe wie die anderen Home-Karten, bleibt aber fachlich leise.
 - Die Kachel enthaelt den dynamischen Ticker `home-waste-ticker`.
 - Der Ticker ersetzt statische Erklaercopy.
 - Klick auf die Kachel navigiert zu `screen-waste`.
@@ -338,7 +339,7 @@ git diff --check -- index.html app/app.css app/core/router.js app/main.js app/mo
 
 Manuelle Smokes:
 
-- Home zeigt `Schreiben`, `Einkaufen`, `Muell`.
+- Home zeigt `Einkauf`, `Amazon`, `Muell`.
 - `Muell` oeffnet die Muelluebersicht.
 - Home-Ticker zeigt den naechsten Termin.
 - Abholtermine zeigen Biomuell, Restmuell und Gelber Sack.

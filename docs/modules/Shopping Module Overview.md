@@ -1,23 +1,23 @@
 # Shopping Module - Functional Overview
 
 Kurze Einordnung:
-- Zweck: Ausfuehrungsmodus fuer die offene Einkaufsliste.
-- Rolle innerhalb von HESTIA: macht aus einer geschriebenen Liste einen ehrlichen, alltagstauglichen Einkaufsflow.
-- Abgrenzung: kein komplexes Aufgabenboard, keine Historie, keine Mehrstatus-Maschine.
+- Zweck: schnelle, friktionsarme Erfassung, Pflege und Einkaufsbearbeitung der aktuellen Einkaufsliste.
+- Rolle innerhalb von HESTIA: technisch bleibt das Modul `writing`, sichtbar ist es nach Roadmap 6A der Bereich `Einkauf`.
+- Abgrenzung: kein Formularmonster, keine Pflichtkategorien, keine komplizierte Produktverwaltung.
 
 Related docs:
 - [PRODUCT.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/PRODUCT.md)
-- [Writing Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Writing%20Module%20Overview.md)
-- [Kassa Carousel Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Kassa%20Carousel%20Module%20Overview.md)
+- [Amazon Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Amazon%20Module%20Overview.md)
 - [Supabase Sync Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Supabase%20Sync%20Module%20Overview.md)
 
 ---
 
 ## 1. Zielsetzung
 
-- Offene Eintraege muessen klar sichtbar und schnell abhakbar sein.
-- `Im Wagen` soll als einfacher operativer Status waehrend des Einkaufs dienen.
-- Nichtziel: Einkaufsanalyse, Teilstatus-Orchester oder Nachbearbeitungsprozess.
+- Listeneintraege sollen schneller erfassbar sein als auf Papier mit nachtraeglicher Abstimmung.
+- Derselbe Bereich soll die Liste danach auch als Papierliste abhakbar machen.
+- Freitext muss immer funktionieren, auch wenn Semantik nichts Passendes kennt.
+- Nichtziel: harte Datendisziplin, Kategorienpflicht, komplexe Editierdialoge oder Amazon-Listenlogik.
 
 ---
 
@@ -25,94 +25,120 @@ Related docs:
 
 | Datei | Zweck |
 |------|------|
-| `app/modules/shopping.js` | Rendern der Einkaufsliste, Checkbox-Handling, Abschlusslogik und Sync-Persist |
-| `app/modules/kassa-carousel.js` | isolierte Bedienlogik fuer das kleine Kassa-Karussell unterhalb der Shopping-Actions |
-| `app/core/item-display.js` | rein praesentative Mengen-/Einheitenanzeige fuer Shopping und Writing |
-| `app/core/state.js` | toggelt `inCart` und loescht gekaufte Eintraege beim Abschluss |
-| `app/supabase/list-sync.js` | speichert geaenderte Einkaufs-Snapshots |
-| `index.html` | Shopping-Panel mit Liste, Abschlussaktionen und statischem Kassa-Karussell-Markup |
+| `app/modules/writing.js` | Formularlogik, Auto-Freigabe nach Add, Rendern der offenen Papierliste, Checkbox-/Remove-/Abschlusslogik und Sync-Status |
+| `app/core/item-display.js` | rein praesentative Mengen-/Einheitenanzeige fuer Writing und Shopping |
+| `app/core/semantics.js` | Semantik-Load, Autocomplete-Ranking, Unit-Inferenz |
+| `app/core/state.js` | lokaler Item-State, `inCart`-Toggle, Clear und Einkaufsabschluss |
+| `app/supabase/list-sync.js` | Snapshot-Load/Save und Household-Resolve |
+| `assets/js/semantics.de.json` | kuratierte Produkt- und Aliasliste |
+| `app/modules/kassa-carousel.js` | initialisiert das Kassa-Karussell auch im sichtbaren `Einkauf`-Bereich |
+| `index.html` | technischer `screen-writing`, sichtbar als `Einkauf`, mit Formular, offener Papierliste und Kassa-Karussell |
 | `app/app.css` | zentraler CSS-Bundle-Einstieg |
-| `app/styles/ui.css` | globale Listen- und Aktionsmuster |
-| `app/styles/shopping.css` | Papierliste, tapbare Zeilen, Checkboxen, Kassa-Karussell und mobile Shopping-Darstellung |
+| `app/styles/ui.css` | globale Listen-, Link- und Statusmuster |
+| `app/styles/writing.css` | Form-, Listen- und Popup-Styling fuer Writing |
+| `app/styles/shopping.css` | wiederverwendbare Papierlisten-, Checkbox-, Abschluss- und Kassa-Regeln |
 
 ---
 
 ## 3. Datenmodell / Storage
 
-- Shopping arbeitet auf denselben Items wie Writing.
-- Relevante Felder:
+- operative UI-Wahrheit: `state.items`
+- lokales Storage: `hestia.v1.items`
+- relevanter Eintragsvertrag:
   - `id`
   - `name`
   - `quantity`
   - `unit`
   - `inCart`
-- Es gibt keinen separaten Shopping-State ausser dem gesetzten `inCart`-Flag.
+
+Semantik-Entries liefern nur Hilfe und keine Pflichtstruktur.
 
 ---
 
 ## 4. Ablauf / Logikfluss
 
 ### 4.1 Initialisierung
-- `initShopping()` bindet Liste und Abschlussbutton.
-- Der Screen rendert initial aus dem aktuellen Store.
-- Das Modul hoert auf `hestia:items-updated`.
+- `initSemantics()` laedt `assets/js/semantics.de.json`.
+- `bindSemanticsAutocomplete()` verbindet das Produktfeld mit dem Suggestion-Popup.
+- `initWriting()` bindet Formular, Papierliste, Checkboxen, Loeschaktionen, Abschluss, Freigabe-Status, Freigabe-Button und Pending-Remote-Uebernahme.
+- Das Kassa-Karussell wird nicht von `writing.js`, sondern zentral ueber `initKassaCarousel()` initialisiert.
 
 ### 4.2 User-Trigger
-- Shopping-Zeile oder Checkbox fuer `Im Wagen` setzen oder entfernen
+- Produktname eingeben
+- optional Menge und Einheit anpassen
+- Formular absenden
+- einzelne Eintraege als `Im Wagen` markieren oder wieder oeffnen
+- einzelne Eintraege loeschen
+- ganze Liste leeren
 - `Liste abschliessen`
-- optional zurueck nach `Schreiben`
-- Kassa-Karussell per Zurueck/Weiter, Pfeiltasten oder Swipe wechseln
-- aktive Kassa-Karte per Linksklick in Google Play oeffnen
+- `Liste freigeben`
+- `Anderen Stand uebernehmen`, falls ein Remote-Stand waehrend lokaler Aenderungen verfuegbar wurde
+- Kassa-Karussell bedienen und aktive Kassa-App als externen Google-Play-Link oeffnen
 
 ### 4.3 Verarbeitung
-- Zeilentap und Checkbox laufen ueber denselben lokalen Toggle-Pfad und aktualisieren `inCart` im Store.
-- Beim Abschluss werden alle Items mit `inCart = true` hart entfernt.
-- Nicht markierte Eintraege bleiben bestehen.
-- `Liste abschliessen` ist nur aktiv, wenn mindestens ein Eintrag `inCart = true` ist.
+- Beim `change` des Namensfelds wird eine Einheit vorgeschlagen, falls das Einheitenfeld noch leer ist.
+- Beim Submit wird validiert:
+  - Name darf nicht leer sein
+  - Menge muss groesser `0` sein
+- Ungueltige Eingaben zeigen eine kleine Inline-Notiz am Formular und fokussieren das betroffene Feld.
+- Danach wird ein Item mit `crypto.randomUUID()` erzeugt, in den lokalen Store geschrieben und nach bewusstem Submit per Snapshot freigegeben, wenn Sync konfiguriert ist.
+- Checkboxen toggeln `inCart`.
+- `Loeschen` entfernt genau den betroffenen Eintrag und stoppt das Zeilen-/Checkbox-Event.
+- `Liste abschliessen` entfernt nur Eintraege mit `inCart === true`; offene Eintraege bleiben bestehen.
 
 ### 4.4 Persistenz heute
-- Checkbox-Aenderungen und `Liste abschliessen` schreiben den veraenderten Snapshot heute direkt in den Shared State nach, wenn Sync konfiguriert ist.
-- Realtime kann eingehende Snapshot-Aenderungen spiegeln, ist aber noch kein robuster paralleler Einkaufsmodus fuer zwei Personen.
+- Add speichert nach bewusstem Submit automatisch einen Shared Snapshot, wenn Sync konfiguriert ist.
+- `Liste freigeben` bleibt als Retry/Fallback sichtbar, wenn ein Dirty-, Error- oder Pending-Remote-Zustand besteht.
+- Checkbox-Aenderungen, `Loeschen`, `Liste leeren` und `Liste abschliessen` schreiben den veraenderten Snapshot direkt in den Shared State nach, wenn Sync konfiguriert ist.
+- Erfolgreiche Remote-Saves spiegeln den Zustand wieder als `source: "remote"` zurueck.
+- Wenn waehrend lokaler Aenderungen ein anderer Remote-Stand eintrifft, wird dieser nicht automatisch angewendet. Writing zeigt einen Pending-Hinweis und bietet die bewusste Uebernahme des anderen Stands an.
 
 ---
 
 ## 5. UI-Integration
 
-- Shopping zeigt die offene Liste als Papierliste mit tapbaren Zeilen, sichtbarer Checkbox und praesentativer Mengeninfo.
-- Default-Meta wie `1 stk` kann ausgeblendet werden, wenn der Produktname bereits eine klare Mengenangabe enthaelt.
-- Gekaufte Zeilen werden ruhig als `Im Wagen` markiert, ohne einen zweiten fachlichen Status einzufuehren.
-- Leerer Zustand zeigt `Alles erledigt.`.
-- `Liste abschliessen` ist die primaere Abschlussaktion und wirkt im Leerzustand nicht wie ein aktiver Speichervorgang.
-- `Aendern` fuehrt zurueck in Writing und bleibt eine sekundare Aktion.
-- Unterhalb der Shopping-Actions sitzt das Kassa-Karussell als kleine Kassahilfe.
-- Das Karussell zeigt genau vier feste Eintraege: `jö`, `MPREIS`, `HOFER`, `SPAR`.
-- Das Karussell bleibt sekundar und darf nicht wie ein dritter Shopping-Status oder App-Launcher wirken.
+- Sichtbar heisst der Bereich `Einkauf`; technisch bleibt der Screen `screen-writing` und die Route `writing`.
+- Der Bereich besteht aus zwei Panels:
+  - Erfassung oben
+  - offene Papierliste darunter
+- Das Produktfeld ist visuell als Hauptaktion gewichtet; Menge und Einheit bleiben sichtbar, aber sekundar.
+- Das Produktfeld nutzt ein eigenes Popup statt nur rohes `datalist`-Verhalten.
+- Leerer Zustand zeigt `Noch keine Eintraege.`.
+- Das Listenpanel zeigt einen Haushaltsfreigabe-Status und bei aktiver Runtime-Config den Button `Liste freigeben`.
+- Bei Pending Remote erscheint `Anderen Stand uebernehmen` als bewusste destruktive V1-Aktion.
+- Die offene Liste nutzt die Papierlisten-Aesthetik aus dem Einkaufsmodus mit Checkbox, Produktname, Mengeninfo und `Loeschen`.
+- `Liste abschliessen` sitzt unterhalb der Papierliste und ist deaktiviert, solange nichts `Im Wagen` ist.
+- Das Kassa-Karussell sitzt unterhalb der Listenaktionen als kleine Kassahilfe.
+- `Loeschen` und `Liste leeren` nutzen destruktive Inline-Link-Muster, ohne Dialog-, Undo- oder Historienlogik einzufuehren.
 
 ---
 
 ## 6. Fehler- & Diagnoseverhalten
 
-- Es gibt noch keine eigene Nutzer-Fehlermeldung im Shopping-Screen.
-- Save-Fehler landen heute im Touchlog und ueber die gemeinsamen Sync-Mechanismen.
-- Der Shopping-Flow bleibt absichtlich klein und verzichtet auf Undo oder Historie.
+- Ungueltige Submit-Werte erzeugen keine kaputten Items und werden leise inline erklaert.
+- Freigabe-Fehler werden im Status alltagssprachlich sichtbar: Die Liste bleibt lokal.
+- Technische Sync-Fehlerdetails bleiben im Touchlog.
+- Household-Key- und Runtime-Config-Probleme sind heute expliziter diagnostizierbar als frueher.
 
 ---
 
 ## 7. Risiken
 
-- Last-Write-Wins bleibt fuer bewusst gespeicherte parallele Einkaufsaenderungen die aktuelle Vereinfachung.
-- Eingehende Remote-Snapshots duerfen lokale Writing-Arbeit nicht still ueberschreiben; das wird im Boot-/Writing-Vertrag behandelt.
-- Echte Parallel-Kollaboration im Markt braucht eine eigene Roadmap, weil Konflikte, Remote-Echos und Abschlussregeln bewusst gestaltet werden muessen.
-- Abschluss loescht hart und bietet keine Undo-Ebene.
-- kuenftige Offline-/Reconnect-Faelle duerfen den einfachen Einkaufsfluss nicht aufblaehen.
-- Externe Google-Play-Links im Kassa-Karussell bleiben Plattformverhalten und duerfen keinen Installationsstatus vortaeuschen.
+- Add ist nach bewusstem Submit auto-synced, wenn Sync konfiguriert ist; Save-Fehler duerfen das lokale Item nicht verlieren.
+- Last-Write-Wins bleibt fuer bewusst freigegebene Snapshots die aktuelle Vereinfachung.
+- Pending Remote ist kein Merge: `Anderen Stand uebernehmen` verwirft lokale Aenderungen bewusst.
+- Reload/Hard-Refresh folgt weiter der lokalen Persistenzrealitaet.
+- Die technische Bezeichnung `writing` bleibt im Code stabil, obwohl die UI sichtbar `Einkauf` sagt.
+- Die sichtbare Amazon-Kachel ist noch keine Amazon-Listenlogik; dieses Modul bleibt in Roadmap 6A grocery-only.
 
 ---
 
 ## 8. Definition of Done
 
-- Offene Eintraege sind klar und schnell abhakbar.
-- `Im Wagen` fuehlt sich wie ein einfacher Einkaufsstatus an.
-- Abschluss entfernt nur gekaufte Dinge und laesst offene Reste stehen.
-- Snapshot-Aenderungen bleiben mit konfiguriertem Sync teilbar, ohne einen vollwertigen Live-Collaboration-Vertrag zu behaupten.
-- Kassa-Karussell bleibt eine kleine externe Linkhilfe ohne Einfluss auf Listen-State oder Abschlusslogik.
+- Nutzer koennen Produkte schnell und ohne Denkbruch eintragen.
+- Nutzer koennen dieselbe Liste im Bereich `Einkauf` abhaken, loeschen und abschliessen.
+- Freitext bleibt immer moeglich.
+- Semantik beschleunigt, ohne zu kontrollieren.
+- Destruktive Aenderungen sind lokal und im Shared State konsistent sichtbar.
+- Lokale Schreibarbeit wird nicht still durch eingehende Remote-Snapshots ersetzt.
+- Kassa bleibt eine kleine externe Linkhilfe ohne Einfluss auf Listen-State oder Abschlusslogik.

@@ -8,23 +8,29 @@ Zweck:
 
 ## 1. Lokaler Kernflow
 
-### Writing
-- App oeffnet auf Home und zeigt `Schreiben` und `Einkaufen`.
+### Einkauf
+- App oeffnet auf Home und zeigt `Einkauf`, `Amazon` und `Muell`.
 - Home zeigt zusaetzlich eine leisere `Muell`-Kachel mit kurzer Tickerzeile.
-- Wechsel nach `Schreiben` funktioniert.
+- Wechsel nach `Einkauf` funktioniert und oeffnet den technischen `writing`-Screen.
 - Produktname kann frei eingegeben werden.
 - Semantik zeigt Vorschlaege nach wenigen Buchstaben.
 - Einheit wird sinnvoll vorgeschlagen, wenn das Einheitenfeld leer ist.
 - Item mit gueltiger Menge laesst sich hinzufuegen.
+- Item wird nach bewusstem Submit automatisch freigegeben, wenn Sync konfiguriert ist.
 - Ungueltige Eingaben zeigen eine ruhige Inline-Notiz und erzeugen kein kaputtes Item.
 - Item erscheint sofort in der offenen Liste.
 - Natuerliche Mengen im Produktnamen erzeugen keine stoerende doppelte Default-Meta, z. B. `24 Stueck AA und AAA Batterien`.
 - Dezimalmengen werden deutschsprachig angezeigt, z. B. `1,5 l`.
+- `Im Wagen` laesst sich in der offenen Papierliste per Checkbox toggeln.
 - Einzelnes Item laesst sich loeschen.
+- `Loeschen` toggelt die Checkbox nicht mit.
+- `Liste abschliessen` entfernt nur markierte Eintraege.
+- `Liste abschliessen` ist nur aktiv, wenn mindestens ein Eintrag im Wagen ist.
 - `Liste leeren` entfernt alle Eintraege.
+- Kassa-Karussell sitzt unterhalb der Listenaktionen.
 
-### Shopping
-- Wechsel nach `Einkaufen` funktioniert.
+### Alter Shopping-Screen / Amazon-Platzhalter
+- Wechsel nach `Amazon` funktioniert aktuell als Platzhalter auf das technische `shopping`-Ziel.
 - Offene Liste wird dort korrekt angezeigt.
 - `Im Wagen` laesst sich per Zeilentap toggeln.
 - Die Checkbox selbst toggelt genau einmal.
@@ -33,7 +39,7 @@ Zweck:
 - `Liste abschliessen` entfernt nur markierte Eintraege.
 - `Liste abschliessen` ist nur aktiv, wenn mindestens ein Eintrag im Wagen ist.
 - Nicht markierte Eintraege bleiben erhalten.
-- `Aendern` fuehrt direkt nach `Schreiben` und bleibt optisch sekundar.
+- `Aendern` fuehrt direkt nach `Einkauf` und bleibt optisch sekundar.
 - Leere Einkaufsliste zeigt `Alles erledigt.`.
 - Kassa-Karussell sitzt unterhalb von `Liste abschliessen` und `Aendern`.
 - Kassa-Karussell zeigt genau `jö`, `MPREIS`, `HOFER`, `SPAR`.
@@ -43,6 +49,7 @@ Zweck:
 - Nur die aktive Kassa-Karte ist im normalen Tabfluss.
 - Normaler Linksklick auf die aktive Kassa-Karte oeffnet Google Play in einem neuen Ziel.
 - Kassa-Karussell behauptet keinen Installationsstatus und zeigt keine App-Erkennung.
+- Es gibt noch keine Amazon-Listenlogik, keine Amazon-API und keine Amazon-Produktlinks.
 
 ---
 
@@ -68,22 +75,24 @@ Zweck:
 
 - Home wirkt ruhig und nicht wie ein Dashboard.
 - Home wirkt wertig und absichtsvoll, nicht wie schnell zusammengestellte Web-Karten.
-- Home zeigt genau zwei primaere Intent-Flaechen:
-  - `Schreiben`
-  - `Einkaufen`
-- Home darf darunter eine leisere dritte `Muell`-Kachel zeigen; sie darf nicht wie eine dritte Kernintention wirken.
-- `Schreiben` steht auf Home oberhalb von `Einkaufen`.
-- `Muell` steht unterhalb von `Schreiben` und `Einkaufen`.
+- Home zeigt drei ruhige Kacheln:
+  - `Einkauf`
+  - `Amazon`
+  - `Muell`
+- `Einkauf` ist der echte kombinierte Einkaufsfluss.
+- `Amazon` ist sichtbar vorbereitet, bleibt aber bis zur Amazon-Roadmap ein Platzhalter.
+- `Muell` bleibt Haushaltsperipherie und darf nicht wie eine allgemeine Haushaltszentrale wirken.
+- Alle drei Home-Kacheln haben dieselbe Grundhoehe.
 - Der Muell-Ticker ersetzt statischen Erklaertext und zeigt entweder den naechsten Termin oder einen ruhigen Fallback.
 - Die grosse Home-Flaeche wirkt bewusst ruhig und nicht unfertig.
 - Der kleine Utility-Einstieg ist auffindbar, aber nicht gleichrangig mit den zwei Kernpfaden.
-- Writing bleibt schneller als ein Formular.
-- Shopping bleibt klar und reduziert.
+- Einkauf bleibt schneller als ein Formular.
+- Der alte Shopping-Screen bleibt klar und reduziert, solange er erreichbar ist.
 - Kassa-Karussell bleibt sichtbar sekundar und wirkt nicht wie ein App-Launcher.
-- Navigation zwischen Home, Writing, Shopping und Muelluebersicht funktioniert ohne Haken.
+- Navigation zwischen Home, Einkauf, Amazon-Platzhalter/altem Shopping-Screen und Muelluebersicht funktioniert ohne Haken.
 - Shopping-Zeilen haben unterwegs brauchbare Trefferflaechen.
 - Lange Artikelnamen und Mengen ueberlappen nicht.
-- Writing-Status spricht von Haushaltsfreigabe, nicht von technischem Sync.
+- Einkauf-Status spricht von Haushaltsfreigabe, nicht von technischem Sync.
 - `Liste freigeben`, `Anderen Stand uebernehmen` und `Liste leeren` ueberlappen auf Mobile nicht.
 - `Liste leeren` ist als destruktiv erkennbar, bleibt aber sekundar.
 - Mobile Layout bleibt brauchbar.
@@ -95,10 +104,10 @@ Zweck:
 ## 5. CSS-Architektur-Smokes
 
 - App laedt Styling nur ueber `app/app.css`.
-- Home, Writing, Shopping, Devtools und Install-Banner sehen nach dem Refaktor nicht sichtbar zerbrochen aus.
-- Checkboxen in Shopping bleiben klein und proportional und werden nicht von globalen Textfeld-Regeln aufgeblasen.
-- `surface-button`, `inline-link`, `items` und `item-row` wirken konsistent ueber Writing und Shopping.
-- Mobile Home-, Writing- und Shopping-Ansicht brechen nicht sichtbar durch die neue Import-Reihenfolge.
+- Home, Einkauf, alter Shopping-Screen, Devtools und Install-Banner sehen nach dem Refaktor nicht sichtbar zerbrochen aus.
+- Checkboxen in Einkauf und altem Shopping-Screen bleiben klein und proportional und werden nicht von globalen Textfeld-Regeln aufgeblasen.
+- `surface-button`, `inline-link`, `items` und `item-row` wirken konsistent ueber Einkauf und alten Shopping-Screen.
+- Mobile Home-, Einkauf- und Shopping-Ansicht brechen nicht sichtbar durch die neue Import-Reihenfolge.
 - Home-spezifische Veredelung bleibt in `app/styles/home.css` verortet und erzeugt keine globalen Button-/Token-Seiteneffekte.
 - Touchlog-Panel bleibt auf Desktop und Mobil oeffnend und lesbar.
 - Install-Banner bleibt in installierter PWA versteckt und im Browser-Kontext weiter korrekt steuerbar.
@@ -111,7 +120,7 @@ Zweck:
 Diese Checks sind relevant, sobald der erste Supabase-Schritt beginnt:
 
 - App funktioniert weiterhin ohne Supabase-Konfiguration.
-- Mit gueltiger Runtime-Config erscheint in Writing der Button `Liste freigeben`, sobald Items vorhanden sind.
+- Mit gueltiger Runtime-Config erscheint `Liste freigeben` als Retry/Fallback, wenn ein Dirty-, Error- oder Pending-Remote-Zustand besteht.
 - Household-Key wird sauber gesetzt.
 - Remote-Save bricht den lokalen Flow nicht.
 - Fehlerfall bei Supabase fuehrt nicht zu Datenverlust im lokalen Zustand.
@@ -125,7 +134,7 @@ Diese Checks pruefen den aktuellen Snapshot-/Realtime-Vertrag. Robuste parallele
 
 - Aenderung auf Geraet A erscheint auf Geraet B.
 - Eigenes Save erzeugt keine doppelte UI-Aktualisierung.
-- Shopping-Abschluss auf Geraet A spiegelt sich auf Geraet B korrekt.
+- Einkauf-/Shopping-Abschluss auf Geraet A spiegelt sich auf Geraet B korrekt.
 - Offline/Reconnect fuehrt nicht zu unklaren Zwischenzustaenden.
 - Lokale unfreigegebene Writing-Aenderungen auf Geraet B werden durch einen Remote-Snapshot von Geraet A nicht still ueberschrieben.
 - Pending Remote zeigt den Hinweis `Anderer Listenstand verfuegbar...`.
@@ -139,7 +148,7 @@ Diese Checks pruefen den aktuellen Snapshot-/Realtime-Vertrag. Robuste parallele
 - `Shift + D` toggelt das Panel ebenfalls.
 - Das Panel zeigt `Darstellung` vor `Entwickler`.
 - Boot zeigt einen knappen, nachvollziehbaren Start-Trace.
-- `Item hinzufuegen`, `Loeschen`, `Liste leeren`, `Liste freigeben`, Pending-Remote und Shopping-Aktionen erscheinen als hochwertige Eintraege.
+- `Item hinzufuegen`, `Loeschen`, `Liste leeren`, `Liste freigeben`, Pending-Remote, Einkauf- und Shopping-Aktionen erscheinen als hochwertige Eintraege.
 - Kassa-Karussell-Wechsel duerfen als ruhige `[kassa]`-Eintraege erscheinen, aber keine Pointer-/Gesture-Details loggen.
 - Waste-Kalenderladung darf als ruhiger `[waste]`-Eintrag erscheinen:
   - erfolgreich: `[waste] calendar loaded collections=...`
@@ -208,7 +217,7 @@ Diese Checks pruefen nur das Datenfundament. Sichtbare Entsorgungs-UI steht in A
   - keine Secrets
   - keine Dependency-Installation
 - Keine `.ics`-Rohdaten werden versioniert.
-- Home, Writing, Shopping, Supabase und Service Worker bleiben durch Roadmap 5A unberuehrt.
+- Home, Einkauf/Writing, Shopping, Supabase und Service Worker bleiben durch Roadmap 5A unberuehrt.
 
 Nur auf GitHub pruefbar:
 
@@ -225,9 +234,10 @@ Diese Checks pruefen die sichtbare Muelluebersicht auf Basis des lokalen JSON.
 
 Home:
 
-- Home zeigt `Schreiben`, `Einkaufen` und darunter `Muell`.
-- `Schreiben` und `Einkaufen` bleiben optisch die zwei Kernintentionen.
-- Die `Muell`-Kachel wirkt leiser und nicht wie ein Dashboard-Widget.
+- Home zeigt `Einkauf`, `Amazon` und `Muell`.
+- `Einkauf` ist der echte Einkaufsfluss.
+- `Amazon` ist sichtbar vorbereitet, bleibt aber bis Roadmap 6B ein Platzhalter.
+- Die `Muell`-Kachel wirkt wie Haushaltsperipherie und nicht wie ein Dashboard-Widget.
 - Der Home-Ticker zeigt den naechsten relevanten Termin, z. B. `In 4 Tagen Biomuell`.
 - Bei fehlendem JSON bleibt der Ticker ruhig, z. B. `Termine gerade nicht verfuegbar`.
 

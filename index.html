@@ -38,28 +38,29 @@
             <span class="home-intent-card-top">
               <span class="home-intent-card-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" focusable="false">
-                  <path d="M6 17.8l3-.7 7.5-7.5-2.3-2.3-7.5 7.5z" />
-                  <path d="M13.6 7.3l2.3 2.3" />
-                  <path d="M5.8 18.2h3.4" />
-                </svg>
-              </span>
-              <span class="home-intent-card-title">Schreiben</span>
-            </span>
-            <small class="home-intent-card-hint">Schnell etwas notieren</small>
-          </button>
-          <button class="surface-button home-intent-card" data-nav="shopping" type="button">
-            <span class="home-intent-card-top">
-              <span class="home-intent-card-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" focusable="false">
                   <path d="M4 6h2.4l1.2 2.5h8.7l-1.3 5.2H8.7" />
                   <path d="M9 17.5h5.6" />
                   <circle cx="10" cy="19.3" r="1.2" />
                   <circle cx="15.2" cy="19.3" r="1.2" />
                 </svg>
               </span>
-              <span class="home-intent-card-title">Einkaufen</span>
+              <span class="home-intent-card-title">Einkauf</span>
             </span>
-            <small class="home-intent-card-hint">Liste mitnehmen und abhaken</small>
+            <small class="home-intent-card-hint">Liste schreiben und abhaken</small>
+          </button>
+          <button class="surface-button home-intent-card" data-nav="shopping" type="button">
+            <span class="home-intent-card-top">
+              <span class="home-intent-card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <path d="M5.5 8.2L12 4.8l6.5 3.4v7.6L12 19.2l-6.5-3.4z" />
+                  <path d="M5.8 8.4L12 11.7l6.2-3.3" />
+                  <path d="M12 11.8v7.1" />
+                  <path d="M9 6.6l6.4 3.4" />
+                </svg>
+              </span>
+              <span class="home-intent-card-title">Amazon</span>
+            </span>
+            <small class="home-intent-card-hint">Merkliste für später</small>
           </button>
           <button class="surface-button home-intent-card home-waste-card" data-nav="waste" type="button">
             <span class="home-intent-card-top">
@@ -132,7 +133,7 @@
     <section id="screen-writing" class="screen" data-screen="writing">
       <div class="panel">
         <div class="panel-head">
-          <h2>Schreiben</h2>
+          <h2>Einkauf</h2>
           <button class="inline-link" data-nav="home" type="button">Zur Startseite</button>
         </div>
         <form id="item-form" class="item-form" novalidate>
@@ -155,10 +156,10 @@
           <button class="surface-button compact writing-add-button" type="submit">Item hinzufügen</button>
         </form>
       </div>
-      <div class="panel">
+      <div class="panel writing-list-panel" aria-labelledby="writing-list-title">
         <div class="panel-head">
           <div>
-            <h3>Offene Liste</h3>
+            <h3 id="writing-list-title">Offene Liste</h3>
             <p id="writing-sync-status" class="sync-status" aria-live="polite">Nur auf diesem Geraet.</p>
           </div>
           <div class="panel-head-actions">
@@ -167,7 +168,104 @@
             <button class="inline-link destructive" id="clear-list" type="button">Liste leeren</button>
           </div>
         </div>
-        <ul id="writing-list" class="items"></ul>
+        <ul id="writing-list" class="items paper-list writing-paper-list"></ul>
+        <div class="row-actions writing-list-actions">
+          <button class="surface-button compact shopping-finish-button" id="finish-writing-list" type="button">Liste abschließen</button>
+        </div>
+        <nav
+          class="kassa-carousel"
+          aria-label="Kassa-Apps in Google Play öffnen"
+          data-kassa-carousel
+        >
+          <button
+            class="kassa-carousel-control kassa-carousel-control-prev"
+            type="button"
+            aria-label="Vorherige Kassa-App anzeigen"
+            data-kassa-carousel-prev
+          >‹</button>
+          <div class="kassa-carousel-stage" data-kassa-carousel-stage>
+            <ul class="kassa-carousel-track">
+              <li
+                class="kassa-carousel-item is-active"
+                data-kassa-carousel-item
+                data-kassa-carousel-index="0"
+              >
+                <a
+                  class="kassa-carousel-link kassa-carousel-link-joe"
+                  href="https://play.google.com/store/apps/details?id=at.joeclub.app.joecard"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="jö Bonus Club in Google Play öffnen"
+                  title="jö Bonus Club in Google Play öffnen"
+                  data-kassa-carousel-link
+                >jö</a>
+              </li>
+              <li
+                class="kassa-carousel-item"
+                data-kassa-carousel-item
+                data-kassa-carousel-index="1"
+                aria-hidden="true"
+              >
+                <a
+                  class="kassa-carousel-link kassa-carousel-link-mpreis"
+                  href="https://play.google.com/store/apps/details?id=at.mpreis.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="MPREIS in Google Play öffnen"
+                  title="MPREIS in Google Play öffnen"
+                  tabindex="-1"
+                  data-kassa-carousel-link
+                >MPREIS</a>
+              </li>
+              <li
+                class="kassa-carousel-item"
+                data-kassa-carousel-item
+                data-kassa-carousel-index="2"
+                aria-hidden="true"
+              >
+                <a
+                  class="kassa-carousel-link kassa-carousel-link-hofer"
+                  href="https://play.google.com/store/apps/details?id=de.apptiv.business.android.aldi_at"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="HOFER in Google Play öffnen"
+                  title="HOFER in Google Play öffnen"
+                  tabindex="-1"
+                  data-kassa-carousel-link
+                >HOFER</a>
+              </li>
+              <li
+                class="kassa-carousel-item"
+                data-kassa-carousel-item
+                data-kassa-carousel-index="3"
+                aria-hidden="true"
+              >
+                <a
+                  class="kassa-carousel-link kassa-carousel-link-spar"
+                  href="https://play.google.com/store/apps/details?id=at.spar.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="SPAR in Google Play öffnen"
+                  title="SPAR in Google Play öffnen"
+                  tabindex="-1"
+                  data-kassa-carousel-link
+                >SPAR</a>
+              </li>
+            </ul>
+            <p
+              class="kassa-carousel-position"
+              aria-live="polite"
+              aria-atomic="true"
+              data-kassa-carousel-position
+            >1 / 4</p>
+          </div>
+          <button
+            class="kassa-carousel-control kassa-carousel-control-next"
+            type="button"
+            aria-label="Nächste Kassa-App anzeigen"
+            data-kassa-carousel-next
+          >›</button>
+        </nav>
       </div>
     </section>
 
@@ -177,9 +275,9 @@
           <h2>Einkaufen</h2>
           <button class="inline-link" data-nav="home" type="button">Zur Startseite</button>
         </div>
-        <ul id="shopping-list" class="items"></ul>
+        <ul id="shopping-list" class="items paper-list shopping-paper-list"></ul>
         <div class="row-actions shopping-actions">
-          <button class="surface-button compact" id="finish-shopping" type="button">Liste abschließen</button>
+          <button class="surface-button compact shopping-finish-button" id="finish-shopping" type="button">Liste abschließen</button>
           <button class="inline-link shopping-edit-action" data-nav="writing" type="button" aria-label="Liste ändern">Ändern</button>
         </div>
         <nav
