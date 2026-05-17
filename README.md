@@ -71,9 +71,9 @@ Bevor du groessere Entscheidungen triffst oder Code aenderst:
 Arbeitsregeln:
 
 - Freitext bleibt erlaubt.
-- Der Datenvertrag `name`, `quantity`, `unit`, `inCart` bleibt stabil, solange nichts anderes bewusst beschlossen wurde.
+- Der Datenvertrag `name`, `quantity`, `unit`, `inCart`, `listType` bleibt stabil, solange nichts anderes bewusst beschlossen wurde.
 - Der sichtbare Kernbereich heisst aktuell `Einkauf`; die technische Route und das Modul heissen weiterhin `writing`.
-- Die Home-Kachel `Amazon` ist bis zur Amazon-Roadmap nur ein sichtbarer Platzhalter, keine fertige Amazon-Liste.
+- Die Home-Kachel `Amazon` oeffnet eine kleine typgetrennte Merkliste fuer spaetere Amazon-Bestellungen.
 - Push ist spaeter Awareness, nicht Reminder-Logik.
 - Household-Sync soll leichtgewichtig bleiben.
 - Keine stillschweigende Ausweitung zu einer grossen Familien-App.

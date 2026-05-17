@@ -53,6 +53,7 @@ Related docs:
 - `initSemantics(...)`
 - `initRouter(document)`
 - `initWriting(document, state, listSync, touchlog)`
+- `initAmazon(document, state, listSync, touchlog)`
 - `initShopping(document, state, listSync, touchlog)`
 
 ### 3.6 Atmosphaere und Diagnose
@@ -80,6 +81,7 @@ Related docs:
 - Semantik
 - Router
 - Writing
+- Amazon
 - Shopping
 
 ### Optional / degradierbar

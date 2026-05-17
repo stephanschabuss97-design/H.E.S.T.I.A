@@ -3,7 +3,7 @@
 Kurze Einordnung:
 - Zweck: schnelle, friktionsarme Erfassung, Pflege und Einkaufsbearbeitung der aktuellen Einkaufsliste.
 - Rolle innerhalb von HESTIA: technisch bleibt das Modul `writing`, sichtbar ist es nach Roadmap 6A der Bereich `Einkauf`.
-- Abgrenzung: kein Formularmonster, keine Pflichtkategorien, keine komplizierte Produktverwaltung.
+- Abgrenzung: kein Formularmonster, keine Pflichtkategorien, keine komplizierte Produktverwaltung und keine Amazon-Logik.
 
 Related docs:
 - [PRODUCT.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/PRODUCT.md)
@@ -50,6 +50,13 @@ Related docs:
   - `quantity`
   - `unit`
   - `inCart`
+  - `listType`
+
+Fuer dieses Modul gilt:
+
+- neue Eintraege werden mit `listType: "grocery"` erzeugt.
+- gerendert werden nur `grocery`-Eintraege.
+- fehlende Typen aus Altbestand gelten ueber den State-Layer als `grocery`.
 
 Semantik-Entries liefern nur Hilfe und keine Pflichtstruktur.
 
@@ -81,15 +88,17 @@ Semantik-Entries liefern nur Hilfe und keine Pflichtstruktur.
   - Name darf nicht leer sein
   - Menge muss groesser `0` sein
 - Ungueltige Eingaben zeigen eine kleine Inline-Notiz am Formular und fokussieren das betroffene Feld.
-- Danach wird ein Item mit `crypto.randomUUID()` erzeugt, in den lokalen Store geschrieben und nach bewusstem Submit per Snapshot freigegeben, wenn Sync konfiguriert ist.
+- Danach wird ein Item mit `crypto.randomUUID()` und `listType: "grocery"` erzeugt, in den lokalen Store geschrieben und nach bewusstem Submit per Snapshot freigegeben, wenn Sync konfiguriert ist.
 - Checkboxen toggeln `inCart`.
 - `Loeschen` entfernt genau den betroffenen Eintrag und stoppt das Zeilen-/Checkbox-Event.
-- `Liste abschliessen` entfernt nur Eintraege mit `inCart === true`; offene Eintraege bleiben bestehen.
+- `Liste leeren` entfernt nur `grocery`-Eintraege.
+- `Liste abschliessen` entfernt nur `grocery`-Eintraege mit `inCart === true`; offene Eintraege und Amazon-Eintraege bleiben bestehen.
 
 ### 4.4 Persistenz heute
 - Add speichert nach bewusstem Submit automatisch einen Shared Snapshot, wenn Sync konfiguriert ist.
 - `Liste freigeben` bleibt als Retry/Fallback sichtbar, wenn ein Dirty-, Error- oder Pending-Remote-Zustand besteht.
 - Checkbox-Aenderungen, `Loeschen`, `Liste leeren` und `Liste abschliessen` schreiben den veraenderten Snapshot direkt in den Shared State nach, wenn Sync konfiguriert ist.
+- Gespeichert wird weiterhin der vollstaendige `store.state.items`-Snapshot, nicht nur der gefilterte Grocery-Ausschnitt.
 - Erfolgreiche Remote-Saves spiegeln den Zustand wieder als `source: "remote"` zurueck.
 - Wenn waehrend lokaler Aenderungen ein anderer Remote-Stand eintrifft, wird dieser nicht automatisch angewendet. Writing zeigt einen Pending-Hinweis und bietet die bewusste Uebernahme des anderen Stands an.
 
@@ -129,7 +138,7 @@ Semantik-Entries liefern nur Hilfe und keine Pflichtstruktur.
 - Pending Remote ist kein Merge: `Anderen Stand uebernehmen` verwirft lokale Aenderungen bewusst.
 - Reload/Hard-Refresh folgt weiter der lokalen Persistenzrealitaet.
 - Die technische Bezeichnung `writing` bleibt im Code stabil, obwohl die UI sichtbar `Einkauf` sagt.
-- Die sichtbare Amazon-Kachel ist noch keine Amazon-Listenlogik; dieses Modul bleibt in Roadmap 6A grocery-only.
+- Amazon ist ein eigenes Modul und teilt sich nur State-, Sync- und Papierlistenmuster. Dieses Modul bleibt grocery-only.
 
 ---
 
@@ -142,3 +151,4 @@ Semantik-Entries liefern nur Hilfe und keine Pflichtstruktur.
 - Destruktive Aenderungen sind lokal und im Shared State konsistent sichtbar.
 - Lokale Schreibarbeit wird nicht still durch eingehende Remote-Snapshots ersetzt.
 - Kassa bleibt eine kleine externe Linkhilfe ohne Einfluss auf Listen-State oder Abschlusslogik.
+- Amazon-Eintraege stoeren den Grocery-Einkauf nicht und werden hier nicht gerendert.

@@ -9,6 +9,11 @@ const TRANSIENT_ERROR_PATTERNS = [
   "the network connection was lost",
   "something went wrong"
 ];
+const LIST_TYPES = new Set(["grocery", "amazon"]);
+
+function normalizeListType(listType) {
+  return LIST_TYPES.has(listType) ? listType : "grocery";
+}
 
 function delay(ms) {
   return new Promise((resolve) => {
@@ -63,7 +68,8 @@ function toRow(item, householdId) {
     name: item.name,
     quantity: item.quantity,
     unit: item.unit,
-    in_cart: Boolean(item.inCart)
+    in_cart: Boolean(item.inCart),
+    list_type: normalizeListType(item.listType)
   };
 }
 
@@ -73,9 +79,15 @@ function toItem(row) {
     name: row.name,
     quantity: Number(row.quantity) || 1,
     unit: row.unit || "Stk",
-    inCart: Boolean(row.in_cart)
+    inCart: Boolean(row.in_cart),
+    listType: normalizeListType(row.list_type)
   };
 }
+
+export const __listSyncTestHooks = {
+  toRow,
+  toItem
+};
 
 function normalizeHeaderValue(value) {
   if (typeof value !== "string") {
@@ -252,7 +264,7 @@ export function createListSync() {
 
   async function loadItemsForHousehold(householdId) {
     const restResult = await restRequest(
-      `shopping_items?select=id,name,quantity,unit,in_cart,created_at&household_id=eq.${encodeURIComponent(householdId)}&order=created_at.asc`,
+      `shopping_items?select=id,name,quantity,unit,in_cart,list_type,created_at&household_id=eq.${encodeURIComponent(householdId)}&order=created_at.asc`,
       {
         retries: 2,
         retryDelayMs: 220,

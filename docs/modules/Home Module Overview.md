@@ -1,7 +1,7 @@
 # Home Module - Functional Overview
 
 Kurze Einordnung:
-- Zweck: ruhiger Einstieg in `Einkauf`, den sichtbaren `Amazon`-Platzhalter und `Muell` als leise Haushaltsperipherie.
+- Zweck: ruhiger Einstieg in `Einkauf`, `Amazon` und `Muell` als klare Haushaltsintentionen.
 - Rolle innerhalb von HESTIA: orientiert den Nutzer sofort, ohne Dashboard-Logik oder Listenverwaltung auf dem Startscreen.
 - Abgrenzung: kein Status-Cockpit, kein Activity-Feed, keine dichte Haushaltsuebersicht.
 
@@ -19,7 +19,7 @@ Related docs:
 - Nutzer sollen HESTIA sofort als ruhiges Werkzeug fuer klare Haushaltsabsichten verstehen.
 - Der Homescreen soll direkt in den passenden Flow fuehren.
 - Nach Roadmap 6A ist der bevorzugte Einkaufsfluss sichtbar `Einkauf`.
-- `Amazon` ist sichtbar vorbereitet, aber bis Roadmap 6B nur ein Platzhalter auf dem alten Shopping-Ziel.
+- Nach Roadmap 6B ist `Amazon` ein eigener kleiner Merkliste-Bereich.
 - Nichtziel: Metriken, Verlauf, offene Aufgabenstapel oder Statuslaerm.
 
 ---
@@ -29,7 +29,7 @@ Related docs:
 | Datei | Zweck |
 | --- | --- |
 | `index.html` | Screen-Struktur, Titel, Intent-Karten `Einkauf`, `Amazon`, `Muell` und kleiner Utility-Einstieg |
-| `app/core/router.js` | einfacher Wechsel zwischen `home`, `writing`, `shopping` und `waste`; unbekannte Ziele werden ignoriert |
+| `app/core/router.js` | einfacher Wechsel zwischen `home`, `writing`, `amazon`, `shopping` und `waste`; unbekannte Ziele werden ignoriert |
 | `app/modules/home-scene.js` | atmosphaerischer Hintergrund fuer die Startansicht |
 | `app/diagnostics/ambient-touch.js` | leichtes Touch-Feedback fuer die Oberflaeche |
 | `app/app.css` | zentraler CSS-Bundle-Einstieg |
@@ -58,7 +58,7 @@ Related docs:
 
 ### 4.2 User-Trigger
 - Klick auf `Einkauf` navigiert in den technischen `writing`-Screen, sichtbar den kombinierten Einkaufsbereich.
-- Klick auf `Amazon` navigiert bis Roadmap 6B noch in den alten technischen `shopping`-Screen. Das ist ein Platzhalter, keine Amazon-Listenlogik.
+- Klick auf `Amazon` navigiert in den eigenen technischen `amazon`-Screen.
 - Klick auf `Muell` navigiert in die Muelluebersicht.
 - Klick auf den kleinen Utility-Einstieg oeffnet `Darstellung & Diagnose`.
 
@@ -76,7 +76,7 @@ Related docs:
   - `Amazon`
   - `Muell`
 - `Einkauf` ist der echte kombinierte Einkaufsfluss.
-- `Amazon` ist ein sichtbarer Platzhalter fuer Roadmap 6B und nutzt ein neutrales Paket-Icon.
+- `Amazon` ist eine kleine Merkliste fuer spaetere Amazon-Bestellungen und nutzt ein neutrales Paket-Icon.
 - `Muell` ist Haushaltsperipherie, nicht Einkaufskern.
 - Die Muell-Kachel zeigt eine kurze dynamische Tickerzeile wie `In 4 Tagen Biomuell`; bei Fehlern bleibt sie ruhig.
 - Der visuelle Charakter ist absichtlich atmosphaerisch statt informationsdicht.
@@ -91,7 +91,7 @@ Related docs:
 
 - Home darf nicht schleichend zu einem Dashboard wachsen.
 - Die Muell-Kachel darf nicht als Einladung fuer beliebige weitere Home-Statuskacheln verstanden werden.
-- Die Amazon-Kachel darf vor Roadmap 6B keine fertige Amazon-Funktion versprechen.
+- Die Amazon-Kachel darf keine Commerce-, Preis- oder Tracking-Funktion versprechen.
 - Utility- und Diagnosehelfer duerfen die Produktpfade nicht optisch dominieren.
 - Kleine dekorative Veredelungen duerfen keine neuen fachlichen Zustandsversprechen erzeugen.
 
@@ -103,5 +103,5 @@ Related docs:
 - Die Ansicht wirkt ruhig und nicht wie ein Kontrollzentrum.
 - Die Home-Karten wirken wertig, ohne wie ein App-Portal oder Dashboard zu werden.
 - Die Muell-Kachel fuehrt nur in die Muelluebersicht und behauptet keine allgemeine Haushaltszentrale.
-- Die Amazon-Kachel bleibt bis Roadmap 6B als Platzhalter dokumentiert.
+- Die Amazon-Kachel fuehrt in die Amazon-Merkliste, ohne Commerce-Funktion zu behaupten.
 - Der Utility-Einstieg ist vorhanden, aber nicht der Produktkern.

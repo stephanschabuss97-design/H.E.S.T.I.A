@@ -26,30 +26,47 @@ Zweck:
 - `Loeschen` toggelt die Checkbox nicht mit.
 - `Liste abschliessen` entfernt nur markierte Eintraege.
 - `Liste abschliessen` ist nur aktiv, wenn mindestens ein Eintrag im Wagen ist.
-- `Liste leeren` entfernt alle Eintraege.
+- `Liste leeren` entfernt alle Grocery-Eintraege.
 - Kassa-Karussell sitzt unterhalb der Listenaktionen.
 
-### Alter Shopping-Screen / Amazon-Platzhalter
-- Wechsel nach `Amazon` funktioniert aktuell als Platzhalter auf das technische `shopping`-Ziel.
-- Offene Liste wird dort korrekt angezeigt.
+### Amazon
+- Wechsel nach `Amazon` funktioniert und oeffnet den technischen `amazon`-Screen.
+- Produktname kann frei eingegeben werden.
+- Item mit gueltiger Menge laesst sich hinzufuegen.
+- Amazon-Item erscheint sofort in der Amazon-Liste.
+- Amazon-Items erscheinen nicht im normalen Einkauf.
+- Grocery-Items erscheinen nicht in Amazon.
+- `Bestellt` laesst sich per Checkbox toggeln.
+- Einzelnes Amazon-Item laesst sich loeschen.
+- `Loeschen` toggelt die Checkbox nicht mit.
+- `Bestellte entfernen` entfernt nur als `Bestellt` markierte Amazon-Eintraege.
+- `Bestellte entfernen` ist nur aktiv, wenn mindestens ein Amazon-Item bestellt markiert ist.
+- `Liste leeren` entfernt nur Amazon-Eintraege.
+- Leere Amazon-Liste zeigt `Keine Amazon-Eintraege.`.
+- Amazon enthaelt kein Kassa-Karussell.
+- Es gibt keine Amazon-API, keine Amazon-Produktlinks, keine Preise und kein Bestelltracking.
+
+### Alter Shopping-Screen
+- Der alte technische `shopping`-Screen bleibt erreichbar, ist aber nicht Home-Amazon-Ziel.
+- Offene Grocery-Liste wird dort korrekt angezeigt.
+- Amazon-Items erscheinen dort nicht.
 - `Im Wagen` laesst sich per Zeilentap toggeln.
 - Die Checkbox selbst toggelt genau einmal.
 - Zeilentap und Checkbox erzeugen keine doppelten Toggle-Events.
 - Gekaufte Zeilen bleiben lesbar und sind ruhig als `Im Wagen` erkennbar.
-- `Liste abschliessen` entfernt nur markierte Eintraege.
-- `Liste abschliessen` ist nur aktiv, wenn mindestens ein Eintrag im Wagen ist.
-- Nicht markierte Eintraege bleiben erhalten.
+- `Liste abschliessen` entfernt nur markierte Grocery-Eintraege.
+- Nicht markierte Grocery-Eintraege bleiben erhalten.
+- Amazon-Eintraege bleiben vom alten Shopping-Abschluss unberuehrt.
 - `Aendern` fuehrt direkt nach `Einkauf` und bleibt optisch sekundar.
-- Leere Einkaufsliste zeigt `Alles erledigt.`.
+- Leere Grocery-Liste zeigt `Alles erledigt.`.
 - Kassa-Karussell sitzt unterhalb von `Liste abschliessen` und `Aendern`.
-- Kassa-Karussell zeigt genau `jö`, `MPREIS`, `HOFER`, `SPAR`.
+- Kassa-Karussell zeigt genau `joe`, `MPREIS`, `HOFER`, `SPAR`.
 - Zurueck-/Weiter-Buttons wechseln den aktiven Kassa-Eintrag.
 - Pfeiltasten wechseln den aktiven Kassa-Eintrag, wenn der Fokus im Karussell liegt.
 - Swipe/Drag wechselt den aktiven Kassa-Eintrag auf Touch/Mobile.
 - Nur die aktive Kassa-Karte ist im normalen Tabfluss.
 - Normaler Linksklick auf die aktive Kassa-Karte oeffnet Google Play in einem neuen Ziel.
 - Kassa-Karussell behauptet keinen Installationsstatus und zeigt keine App-Erkennung.
-- Es gibt noch keine Amazon-Listenlogik, keine Amazon-API und keine Amazon-Produktlinks.
 
 ---
 
@@ -80,7 +97,7 @@ Zweck:
   - `Amazon`
   - `Muell`
 - `Einkauf` ist der echte kombinierte Einkaufsfluss.
-- `Amazon` ist sichtbar vorbereitet, bleibt aber bis zur Amazon-Roadmap ein Platzhalter.
+- `Amazon` ist die echte Amazon-Merkliste.
 - `Muell` bleibt Haushaltsperipherie und darf nicht wie eine allgemeine Haushaltszentrale wirken.
 - Alle drei Home-Kacheln haben dieselbe Grundhoehe.
 - Der Muell-Ticker ersetzt statischen Erklaertext und zeigt entweder den naechsten Termin oder einen ruhigen Fallback.
@@ -89,7 +106,7 @@ Zweck:
 - Einkauf bleibt schneller als ein Formular.
 - Der alte Shopping-Screen bleibt klar und reduziert, solange er erreichbar ist.
 - Kassa-Karussell bleibt sichtbar sekundar und wirkt nicht wie ein App-Launcher.
-- Navigation zwischen Home, Einkauf, Amazon-Platzhalter/altem Shopping-Screen und Muelluebersicht funktioniert ohne Haken.
+- Navigation zwischen Home, Einkauf, Amazon, altem Shopping-Screen und Muelluebersicht funktioniert ohne Haken.
 - Shopping-Zeilen haben unterwegs brauchbare Trefferflaechen.
 - Lange Artikelnamen und Mengen ueberlappen nicht.
 - Einkauf-Status spricht von Haushaltsfreigabe, nicht von technischem Sync.
@@ -104,14 +121,14 @@ Zweck:
 ## 5. CSS-Architektur-Smokes
 
 - App laedt Styling nur ueber `app/app.css`.
-- Home, Einkauf, alter Shopping-Screen, Devtools und Install-Banner sehen nach dem Refaktor nicht sichtbar zerbrochen aus.
-- Checkboxen in Einkauf und altem Shopping-Screen bleiben klein und proportional und werden nicht von globalen Textfeld-Regeln aufgeblasen.
-- `surface-button`, `inline-link`, `items` und `item-row` wirken konsistent ueber Einkauf und alten Shopping-Screen.
-- Mobile Home-, Einkauf- und Shopping-Ansicht brechen nicht sichtbar durch die neue Import-Reihenfolge.
+- Home, Einkauf, Amazon, alter Shopping-Screen, Devtools und Install-Banner sehen nach dem Refaktor nicht sichtbar zerbrochen aus.
+- Checkboxen in Einkauf, Amazon und altem Shopping-Screen bleiben klein und proportional und werden nicht von globalen Textfeld-Regeln aufgeblasen.
+- `surface-button`, `inline-link`, `items` und `item-row` wirken konsistent ueber Einkauf, Amazon und alten Shopping-Screen.
+- Mobile Home-, Einkauf-, Amazon- und Shopping-Ansicht brechen nicht sichtbar durch die neue Import-Reihenfolge.
 - Home-spezifische Veredelung bleibt in `app/styles/home.css` verortet und erzeugt keine globalen Button-/Token-Seiteneffekte.
 - Touchlog-Panel bleibt auf Desktop und Mobil oeffnend und lesbar.
 - Install-Banner bleibt in installierter PWA versteckt und im Browser-Kontext weiter korrekt steuerbar.
-- Neue ES-Module wie das Kassa-Karussell und das Waste-Modul sind im Service-Worker-App-Shell-Cache enthalten.
+- Neue ES-Module wie das Kassa-Karussell, das Waste-Modul und das Amazon-Modul sind im Service-Worker-App-Shell-Cache enthalten.
 
 ---
 
@@ -125,6 +142,8 @@ Diese Checks sind relevant, sobald der erste Supabase-Schritt beginnt:
 - Remote-Save bricht den lokalen Flow nicht.
 - Fehlerfall bei Supabase fuehrt nicht zu Datenverlust im lokalen Zustand.
 - Save-Fehler zeigt alltagssprachlich, dass die Liste lokal bleibt.
+- `list_type` wird fuer Grocery und Amazon gespeichert und geladen.
+- Alte oder fehlende `list_type`-Werte erscheinen defensiv als `grocery`.
 
 ---
 
@@ -134,11 +153,12 @@ Diese Checks pruefen den aktuellen Snapshot-/Realtime-Vertrag. Robuste parallele
 
 - Aenderung auf Geraet A erscheint auf Geraet B.
 - Eigenes Save erzeugt keine doppelte UI-Aktualisierung.
-- Einkauf-/Shopping-Abschluss auf Geraet A spiegelt sich auf Geraet B korrekt.
+- Einkauf-, Amazon- und alter Shopping-Abschluss auf Geraet A spiegeln sich auf Geraet B korrekt.
 - Offline/Reconnect fuehrt nicht zu unklaren Zwischenzustaenden.
-- Lokale unfreigegebene Writing-Aenderungen auf Geraet B werden durch einen Remote-Snapshot von Geraet A nicht still ueberschrieben.
-- Pending Remote zeigt den Hinweis `Anderer Listenstand verfuegbar...`.
-- `Anderen Stand uebernehmen` uebernimmt den Remote-Stand bewusst destruktiv.
+- Lokale unfreigegebene Einkaufs-Aenderungen auf Geraet B werden durch einen Remote-Snapshot von Geraet A nicht still ueberschrieben.
+- Lokale unfreigegebene Amazon-Aenderungen auf Geraet B werden durch einen Remote-Snapshot von Geraet A nicht still ueberschrieben.
+- Pending Remote zeigt in Einkauf und Amazon den Hinweis `Anderer Listenstand verfuegbar...`.
+- `Anderen Stand uebernehmen` uebernimmt in Einkauf und Amazon den Remote-Stand bewusst destruktiv.
 
 ---
 
@@ -148,7 +168,7 @@ Diese Checks pruefen den aktuellen Snapshot-/Realtime-Vertrag. Robuste parallele
 - `Shift + D` toggelt das Panel ebenfalls.
 - Das Panel zeigt `Darstellung` vor `Entwickler`.
 - Boot zeigt einen knappen, nachvollziehbaren Start-Trace.
-- `Item hinzufuegen`, `Loeschen`, `Liste leeren`, `Liste freigeben`, Pending-Remote, Einkauf- und Shopping-Aktionen erscheinen als hochwertige Eintraege.
+- `Item hinzufuegen`, `Loeschen`, `Liste leeren`, `Liste freigeben`, Pending-Remote, Einkauf-, Amazon- und Shopping-Aktionen erscheinen als hochwertige Eintraege.
 - Kassa-Karussell-Wechsel duerfen als ruhige `[kassa]`-Eintraege erscheinen, aber keine Pointer-/Gesture-Details loggen.
 - Waste-Kalenderladung darf als ruhiger `[waste]`-Eintrag erscheinen:
   - erfolgreich: `[waste] calendar loaded collections=...`
@@ -236,7 +256,7 @@ Home:
 
 - Home zeigt `Einkauf`, `Amazon` und `Muell`.
 - `Einkauf` ist der echte Einkaufsfluss.
-- `Amazon` ist sichtbar vorbereitet, bleibt aber bis Roadmap 6B ein Platzhalter.
+- `Amazon` ist die echte Amazon-Merkliste.
 - Die `Muell`-Kachel wirkt wie Haushaltsperipherie und nicht wie ein Dashboard-Widget.
 - Der Home-Ticker zeigt den naechsten relevanten Termin, z. B. `In 4 Tagen Biomuell`.
 - Bei fehlendem JSON bleibt der Ticker ruhig, z. B. `Termine gerade nicht verfuegbar`.

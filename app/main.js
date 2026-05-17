@@ -6,6 +6,7 @@ import { createTouchlog } from "./core/touchlog.js";
 import { bindSemanticsAutocomplete, initSemantics } from "./core/semantics.js";
 import { initWriting } from "./modules/writing.js";
 import { initShopping } from "./modules/shopping.js";
+import { initAmazon } from "./modules/amazon.js";
 import { initWaste } from "./modules/waste.js";
 import { initHomeScene } from "./modules/home-scene.js";
 import { initKassaCarousel } from "./modules/kassa-carousel.js";
@@ -148,6 +149,7 @@ async function initApp() {
   });
   initRouter(document);
   initWriting(document, state, listSync, touchlog);
+  initAmazon(document, state, listSync, touchlog);
   initShopping(document, state, listSync, touchlog);
   initWaste(document, touchlog);
   initKassaCarousel(document, touchlog);

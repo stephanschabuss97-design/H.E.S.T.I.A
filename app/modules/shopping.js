@@ -1,8 +1,14 @@
 import { formatItemMeta } from "../core/item-display.js";
 
+const GROCERY_LIST_TYPE = "grocery";
+
 export function initShopping(doc, store, listSync, touchlog) {
   const listElement = doc.getElementById("shopping-list");
   const finishButton = doc.getElementById("finish-shopping");
+
+  function getGroceryItems() {
+    return store.state.items.filter((item) => item.listType === GROCERY_LIST_TYPE);
+  }
 
   async function persistSharedState(reason) {
     if (!listSync?.isConfigured()) {
@@ -47,7 +53,7 @@ export function initShopping(doc, store, listSync, touchlog) {
   }
 
   function hasCartItems() {
-    return store.state.items.some((item) => item.inCart);
+    return getGroceryItems().some((item) => item.inCart);
   }
 
   function updateFinishButtonState() {
@@ -97,7 +103,8 @@ export function initShopping(doc, store, listSync, touchlog) {
   function render() {
     updateFinishButtonState();
 
-    if (store.state.items.length === 0) {
+    const groceryItems = getGroceryItems();
+    if (groceryItems.length === 0) {
       listElement.textContent = "";
       const emptyRow = doc.createElement("li");
       emptyRow.className = "item-row muted";
@@ -107,7 +114,7 @@ export function initShopping(doc, store, listSync, touchlog) {
     }
 
     listElement.textContent = "";
-    store.state.items.forEach((item) => {
+    groceryItems.forEach((item) => {
       listElement.appendChild(createShoppingRow(item));
     });
   }
@@ -117,7 +124,7 @@ export function initShopping(doc, store, listSync, touchlog) {
       return;
     }
 
-    store.finishShopping();
+    store.finishByType(GROCERY_LIST_TYPE);
     touchlog?.add("[shopping] finished shopping run", {
       eventId: "shopping-finish-run"
     });

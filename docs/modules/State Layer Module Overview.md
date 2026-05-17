@@ -25,7 +25,7 @@ Related docs:
 ## 2. Source of Truth heute
 
 - `app/core/state.js` ist die operative UI-Wahrheit fuer die Liste.
-- `state.items` enthaelt die aktuelle offene Einkaufsliste.
+- `state.items` enthaelt die aktuelle offene Haushaltsliste mit `grocery`- und `amazon`-Eintraegen.
 - Persistenz erfolgt lokal ueber `localStorage`.
 
 Storage-Key:
@@ -46,8 +46,18 @@ Jeder Listeneintrag folgt aktuell diesem Frontend-Vertrag:
 - `quantity`
 - `unit`
 - `inCart`
+- `listType`
 
-Der Remote-Vertrag in Supabase wird in `app/supabase/list-sync.js` nach `in_cart` gespiegelt und wieder zurueck normalisiert.
+`listType` trennt die aktiven Listenbereiche:
+
+- `grocery`: normaler Einkauf
+- `amazon`: Amazon-Merkliste
+
+Fallback-Regel:
+
+- fehlendes oder unbekanntes `listType` wird defensiv zu `grocery`.
+
+Der Remote-Vertrag in Supabase wird in `app/supabase/list-sync.js` nach `in_cart` und `list_type` gespiegelt und wieder zurueck normalisiert.
 
 ---
 
@@ -59,20 +69,28 @@ Der Remote-Vertrag in Supabase wird in `app/supabase/list-sync.js` nach `in_cart
 - `toggleInCart(id, inCart)`
 - `clearAll()`
 - `finishShopping()`
+- `clearByType(listType)`
+- `finishByType(listType)`
+
+Einordnung:
+
+- `clearAll()` und `finishShopping()` bleiben nur als Kompatibilitaetsoperationen vorhanden.
+- Aktive UI-Flows fuer Einkauf und Amazon verwenden typbewusst `clearByType(...)` und `finishByType(...)`.
 
 ---
 
 ## 5. Beziehung zu Writing, Shopping und Sync
 
-- Der sichtbare Bereich `Einkauf`/technisch `writing` erzeugt, entfernt, leert, toggelt `inCart` und schliesst die Liste ab.
-- Der alte Shopping-Screen toggelt `inCart` und schliesst die Liste weiterhin ab, solange er als Vergleichs- und Rueckfallflaeche existiert.
+- Der sichtbare Bereich `Einkauf`/technisch `writing` erzeugt, entfernt, leert, toggelt `inCart` und schliesst nur `grocery` ab.
+- Der Amazon-Bereich erzeugt, entfernt, leert, toggelt `inCart` als sichtbar `Bestellt` und schliesst nur `amazon` ab.
+- Der alte Shopping-Screen toggelt und schliesst nur `grocery`, solange er als Vergleichs- und Rueckfallflaeche existiert.
 - Der Sync-Layer spiegelt erfolgreiche Remote-Loads wieder in `state.items`.
 
 Heute gilt:
 - lokale Aenderung schreibt zuerst in den State
 - danach wird, wenn konfiguriert, der gemeinsame Snapshot gespeichert
 - eingehende Realtime-Aenderungen ersetzen den lokalen operativen Stand nur, wenn kein lokaler Dirty-State geschuetzt werden muss
-- Remote-Snapshots waehrend lokaler Writing-Aenderungen werden im Boot-/Writing-Vertrag als pending Remote gehalten
+- Remote-Snapshots waehrend lokaler Einkaufs- oder Amazon-Aenderungen werden im Boot-/UI-Modulvertrag als pending Remote gehalten
 
 ---
 

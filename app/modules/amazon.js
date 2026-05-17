@@ -1,7 +1,6 @@
-import { inferUnit } from "../core/semantics.js";
 import { formatItemMeta } from "../core/item-display.js";
 
-const GROCERY_LIST_TYPE = "grocery";
+const AMAZON_LIST_TYPE = "amazon";
 
 function formatTime(isoString) {
   return new Intl.DateTimeFormat("de-AT", {
@@ -10,33 +9,33 @@ function formatTime(isoString) {
   }).format(new Date(isoString));
 }
 
-export function initWriting(doc, store, listSync, touchlog) {
-  const listElement = doc.getElementById("writing-list");
-  const form = doc.getElementById("item-form");
-  const clearButton = doc.getElementById("clear-list");
-  const saveButton = doc.getElementById("save-list");
-  const acceptRemoteButton = doc.getElementById("accept-remote-list");
-  const finishButton = doc.getElementById("finish-writing-list");
-  const syncStatus = doc.getElementById("writing-sync-status");
-  const nameInput = doc.getElementById("item-name");
-  const qtyInput = doc.getElementById("item-qty");
-  const unitInput = doc.getElementById("item-unit");
-  const formNote = doc.getElementById("item-form-note");
+export function initAmazon(doc, store, listSync, touchlog) {
+  const form = doc.getElementById("amazon-item-form");
+  const listElement = doc.getElementById("amazon-list");
+  const clearButton = doc.getElementById("amazon-clear-list");
+  const finishButton = doc.getElementById("finish-amazon-list");
+  const saveButton = doc.getElementById("amazon-save-list");
+  const acceptRemoteButton = doc.getElementById("amazon-accept-remote-list");
+  const syncStatus = doc.getElementById("amazon-sync-status");
+  const nameInput = doc.getElementById("amazon-item-name");
+  const qtyInput = doc.getElementById("amazon-item-qty");
+  const unitInput = doc.getElementById("amazon-item-unit");
+  const formNote = doc.getElementById("amazon-item-form-note");
 
   let syncMode = listSync?.isConfigured() ? "idle" : "local-only";
   let lastSavedAt = "";
   let hasPendingRemote = false;
 
-  function getGroceryItems() {
-    return store.state.items.filter((item) => item.listType === GROCERY_LIST_TYPE);
+  function getAmazonItems() {
+    return store.state.items.filter((item) => item.listType === AMAZON_LIST_TYPE);
   }
 
   function hasItems() {
-    return getGroceryItems().length > 0;
+    return getAmazonItems().length > 0;
   }
 
-  function hasCartItems() {
-    return getGroceryItems().some((item) => item.inCart);
+  function hasOrderedItems() {
+    return getAmazonItems().some((item) => item.inCart);
   }
 
   function clearFormNote() {
@@ -117,7 +116,8 @@ export function initWriting(doc, store, listSync, touchlog) {
     }
 
     if (hasPendingRemote) {
-      syncStatus.textContent = "Anderer Listenstand verfuegbar. Erst lokale Aenderungen freigeben oder verwerfen.";
+      syncStatus.textContent =
+        "Anderer Listenstand verfuegbar. Erst lokale Aenderungen freigeben oder verwerfen.";
       syncStatus.dataset.syncState = "pending-remote";
       return;
     }
@@ -179,40 +179,44 @@ export function initWriting(doc, store, listSync, touchlog) {
     return result;
   }
 
-  function toggleCartItem(itemId, checked) {
+  function toggleOrderedItem(itemId, checked) {
     store.toggleInCart(itemId, checked);
     touchlog?.add(
-      `[writing] toggle cart id=${itemId} checked=${checked ? "yes" : "no"}`,
-      { eventId: `writing-toggle-${itemId}-${checked ? "yes" : "no"}` }
+      `[amazon] toggle ordered id=${itemId} checked=${checked ? "yes" : "no"}`,
+      { eventId: `amazon-toggle-${itemId}-${checked ? "yes" : "no"}` }
     );
     markDirty();
     render();
     doc.dispatchEvent(new CustomEvent("hestia:items-updated", { detail: { source: "local" } }));
-    persistSharedState("writing-toggle").catch(() => {});
+    persistSharedState("amazon-toggle").catch(() => {});
   }
 
   function updateFinishButtonState() {
     if (finishButton) {
-      finishButton.disabled = !hasCartItems();
+      finishButton.disabled = !hasOrderedItems();
     }
   }
 
   function render() {
+    if (!listElement) {
+      return;
+    }
+
     updateFinishButtonState();
 
-    const groceryItems = getGroceryItems();
-    if (groceryItems.length === 0) {
+    const amazonItems = getAmazonItems();
+    if (amazonItems.length === 0) {
       listElement.textContent = "";
       const emptyRow = doc.createElement("li");
       emptyRow.className = "item-row writing-paper-row muted";
-      emptyRow.textContent = "Noch keine Eintraege.";
+      emptyRow.textContent = "Keine Amazon-Eintraege.";
       listElement.appendChild(emptyRow);
       renderSyncState();
       return;
     }
 
     listElement.textContent = "";
-    groceryItems.forEach((item) => {
+    amazonItems.forEach((item) => {
       const row = doc.createElement("li");
       row.className = "item-row shopping-item-row writing-paper-row";
       row.classList.toggle("is-in-cart", Boolean(item.inCart));
@@ -227,7 +231,7 @@ export function initWriting(doc, store, listSync, touchlog) {
       checkbox.type = "checkbox";
       checkbox.checked = Boolean(item.inCart);
       checkbox.dataset.toggle = item.id;
-      checkbox.setAttribute("aria-label", `${item.name} Im Wagen`);
+      checkbox.setAttribute("aria-label", `${item.name} Bestellt`);
 
       const itemMain = doc.createElement("span");
       itemMain.className = "item-main";
@@ -252,7 +256,7 @@ export function initWriting(doc, store, listSync, touchlog) {
       removeButton.textContent = "Loeschen";
 
       checkbox.addEventListener("change", () => {
-        toggleCartItem(item.id, checkbox.checked);
+        toggleOrderedItem(item.id, checkbox.checked);
       });
 
       row.appendChild(itemAction);
@@ -265,13 +269,13 @@ export function initWriting(doc, store, listSync, touchlog) {
         event.preventDefault();
         event.stopPropagation();
         store.removeItem(button.dataset.remove);
-        touchlog?.add(`[writing] removed item ${button.dataset.itemName || button.dataset.remove}`, {
-          eventId: `writing-remove-${button.dataset.remove}`
+        touchlog?.add(`[amazon] removed item ${button.dataset.itemName || button.dataset.remove}`, {
+          eventId: `amazon-remove-${button.dataset.remove}`
         });
         markDirty();
         render();
         doc.dispatchEvent(new CustomEvent("hestia:items-updated", { detail: { source: "local" } }));
-        persistSharedState("remove-item").catch(() => {});
+        persistSharedState("amazon-remove-item").catch(() => {});
       });
     });
 
@@ -283,14 +287,11 @@ export function initWriting(doc, store, listSync, touchlog) {
       hasPendingRemote = false;
       syncMode = hasItems() ? "saved" : "idle";
       lastSavedAt = event.detail?.syncedAt || new Date().toISOString();
-      touchlog?.add(`[writing] remote state visible items=${store.state.items.length}`, {
-        eventId: "writing-remote-state-visible"
-      });
     } else if (event.detail?.source === "pending-remote") {
       hasPendingRemote = true;
       syncMode = "pending-remote";
-      touchlog?.add("[writing] remote state pending while local changes exist", {
-        eventId: "writing-remote-state-pending"
+      touchlog?.add("[amazon] remote state pending while local changes exist", {
+        eventId: "amazon-remote-state-pending"
       });
     } else if (event.detail?.source === "local") {
       markDirty();
@@ -299,24 +300,19 @@ export function initWriting(doc, store, listSync, touchlog) {
     render();
   });
 
-  nameInput.addEventListener("change", () => {
-    if (!unitInput.value.trim()) {
-      unitInput.value = inferUnit(nameInput.value);
-    }
-  });
-
-  nameInput.addEventListener("input", () => {
+  nameInput?.addEventListener("input", () => {
     clearFieldNote(nameInput);
   });
-  qtyInput.addEventListener("input", () => {
+  qtyInput?.addEventListener("input", () => {
     clearFieldNote(qtyInput);
   });
 
-  form.addEventListener("submit", (event) => {
+  form?.addEventListener("submit", (event) => {
     event.preventDefault();
     const name = nameInput.value.trim();
     const quantity = Number(qtyInput.value);
-    const unit = unitInput.value.trim() || inferUnit(name);
+    const unit = unitInput.value.trim() || "Stk";
+
     if (!name) {
       showFormNote("Bitte ein Produkt eintragen.", nameInput);
       return;
@@ -333,10 +329,10 @@ export function initWriting(doc, store, listSync, touchlog) {
       quantity,
       unit,
       inCart: false,
-      listType: GROCERY_LIST_TYPE
+      listType: AMAZON_LIST_TYPE
     });
-    touchlog?.add(`[writing] added item ${name} qty=${quantity} unit=${unit}`, {
-      eventId: `writing-add-${name}-${quantity}-${unit}`
+    touchlog?.add(`[amazon] added item ${name} qty=${quantity} unit=${unit}`, {
+      eventId: `amazon-add-${name}-${quantity}-${unit}`
     });
     form.reset();
     qtyInput.value = "1";
@@ -344,39 +340,39 @@ export function initWriting(doc, store, listSync, touchlog) {
     markDirty();
     render();
     doc.dispatchEvent(new CustomEvent("hestia:items-updated", { detail: { source: "local" } }));
-    persistSharedState("add-item").catch(() => {});
-  });
-
-  clearButton.addEventListener("click", () => {
-    store.clearByType(GROCERY_LIST_TYPE);
-    touchlog?.add("[writing] cleared list", { eventId: "writing-clear-list" });
-    markDirty();
-    render();
-    doc.dispatchEvent(new CustomEvent("hestia:items-updated", { detail: { source: "local" } }));
-    persistSharedState("clear-list").catch(() => {});
-  });
-
-  finishButton?.addEventListener("click", () => {
-    if (!hasCartItems()) {
-      return;
-    }
-
-    store.finishByType(GROCERY_LIST_TYPE);
-    touchlog?.add("[writing] finished shopping run", {
-      eventId: "writing-finish-run"
-    });
-    markDirty();
-    render();
-    doc.dispatchEvent(new CustomEvent("hestia:items-updated", { detail: { source: "local" } }));
-    persistSharedState("writing-finish").catch(() => {});
+    persistSharedState("amazon-add-item").catch(() => {});
   });
 
   saveButton?.addEventListener("click", async () => {
-    await persistSharedState("manual-save");
+    await persistSharedState("amazon-manual-save");
   });
 
   acceptRemoteButton?.addEventListener("click", () => {
     doc.dispatchEvent(new CustomEvent("hestia:remote-apply-request"));
+  });
+
+  clearButton?.addEventListener("click", () => {
+    store.clearByType(AMAZON_LIST_TYPE);
+    touchlog?.add("[amazon] cleared list", { eventId: "amazon-clear-list" });
+    markDirty();
+    render();
+    doc.dispatchEvent(new CustomEvent("hestia:items-updated", { detail: { source: "local" } }));
+    persistSharedState("amazon-clear-list").catch(() => {});
+  });
+
+  finishButton?.addEventListener("click", () => {
+    if (!hasOrderedItems()) {
+      return;
+    }
+
+    store.finishByType(AMAZON_LIST_TYPE);
+    touchlog?.add("[amazon] removed ordered items", {
+      eventId: "amazon-finish-run"
+    });
+    markDirty();
+    render();
+    doc.dispatchEvent(new CustomEvent("hestia:items-updated", { detail: { source: "local" } }));
+    persistSharedState("amazon-finish").catch(() => {});
   });
 
   render();

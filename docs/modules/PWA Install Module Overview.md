@@ -102,6 +102,12 @@ Aktueller Waste-Vertrag:
 
 Dieser Vertrag ist wichtig, damit die Muelluebersicht nach einer Erstladung auch offline plausibel bleibt. Der Browser darf fuer Muelltermine keine Live-Axams- oder iCal-Quelle abfragen.
 
+Aktueller Amazon-Vertrag:
+
+- `./app/modules/amazon.js`
+
+Dieser Eintrag ist wichtig, weil `app/main.js` das Amazon-Modul als ES-Modul importiert. Neue App-Shell-Module brauchen ausserdem eine neue `CACHE_VERSION`, damit installierte PWAs nicht auf einem alten statischen Cache bleiben.
+
 ---
 
 ## 8. Definition of Done

@@ -23,7 +23,7 @@ Related docs:
   - PWA-Kontext
   - Runtime-Config
   - Save / Load / Realtime
-  - Writing-/Shopping-Aktionen
+  - Einkaufs-, Amazon- und Shopping-Aktionen
   - Waste-JSON-Ladezustand
 
 ---
@@ -44,7 +44,7 @@ Vorhanden:
 - Core-Logger in `app/core/touchlog.js`
 - persistenter Snapshot in `localStorage`
 - Dedupe-Fenster fuer Wiederholungen
-- Hooking an Boot, PWA, Sync, Writing und Shopping
+- Hooking an Boot, PWA, Sync, Einkauf, Amazon und Shopping
 - Hooking an Waste-JSON-Laden
 - eigene Listen fuer:
   - aktuelle Darstellungswahl
@@ -83,6 +83,10 @@ Typische Zeilen sind heute:
 - `[writing] toggle cart ...`
 - `[writing] finished shopping run`
 - `[writing] remote state pending while local changes exist`
+- `[amazon] added item ...`
+- `[amazon] toggle ordered ...`
+- `[amazon] removed ordered items`
+- `[amazon] remote state pending while local changes exist`
 - `[shopping] finished shopping run`
 - `[kassa] carousel active=...`
 - `[waste] calendar loaded collections=...`
@@ -91,7 +95,7 @@ Typische Zeilen sind heute:
 Neu wichtig:
 - PWA-Kontextdiagnostik
 - Sync-Konfig-Zusammenfassung
-- Save-Gruende wie `add-item`, `manual-save`, `remove-item`, `writing-toggle`, `writing-finish` oder `shopping-finish`
+- Save-Gruende wie `add-item`, `manual-save`, `remove-item`, `writing-toggle`, `writing-finish`, `amazon-add-item`, `amazon-finish` oder `shopping-finish`
 - Dev-Gruende wie `no-cache assets enabled`, `touchlog cleared` oder `dev state reset`
 
 Kategorienvertrag:

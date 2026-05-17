@@ -12,7 +12,7 @@ Diese Datei ist keine Umsetzungszusage. Sie ist ein Parkplatz fuer spaetere Road
 
 HESTIA wird bereits im Alltag verwendet und wird als "fein" wahrgenommen. Die naechste Produktfrage ist deshalb nicht, wie moeglichst viele Features eingebaut werden koennen, sondern wie aus einer funktionierenden App ein noch reibungsaermeres und wertigeres Haushaltswerkzeug wird. Der bewusst gewaehlte Bridgerton-/Downton-Abbey-Charakter, besonders die charmante Einkaufsliste, ist Teil der Akzeptanz und soll nicht zugunsten eines generischen SaaS-Looks weggeglattet werden.
 
-Die folgenden Roadmaps sortieren gefundene Verbesserungen von kernnah bis sehr spaet. Roadmap 5 war die naechste sinnvoll greifbare Haushaltsperipherie, weil Entsorgung echten Alltagsnutzen bringt und technisch sauber schneidbar ist. Roadmap 6 ist das letzte fixe Kernfeature-Paket, wird aber bewusst in zwei Schritte geschnitten: zuerst wurde im technisch bestehenden Schreibbereich das Panel `Offene Liste` zu einer echten Einkaufsliste erweitert und sichtbar in `Einkauf` umbenannt, danach kann die kleine Amazon-Liste als zweiter Beschaffungskanal sauber darauf aufsetzen. Roadmap 7, Roadmap 8 und Roadmap 9 bleiben Premium-Future-Features, die wahrscheinlich nicht oder erst deutlich spaeter umgesetzt werden. Roadmap 10 ist Premium Plus und wird wahrscheinlich eher nicht verwendet, solange kein sehr klarer Alltagsnutzen entsteht.
+Die folgenden Roadmaps sortieren gefundene Verbesserungen von kernnah bis sehr spaet. Roadmap 5 war die naechste sinnvoll greifbare Haushaltsperipherie, weil Entsorgung echten Alltagsnutzen bringt und technisch sauber schneidbar ist. Roadmap 6 war das letzte fixe Kernfeature-Paket und wurde bewusst in zwei Schritte geschnitten: zuerst wurde im technisch bestehenden Schreibbereich das Panel `Offene Liste` zu einer echten Einkaufsliste erweitert und sichtbar in `Einkauf` umbenannt, danach wurde die kleine Amazon-Liste als zweiter Beschaffungskanal sauber darauf aufgesetzt. Roadmap 7, Roadmap 8 und Roadmap 9 bleiben Premium-Future-Features, die wahrscheinlich nicht oder erst deutlich spaeter umgesetzt werden. Roadmap 10 ist Premium Plus und wird wahrscheinlich eher nicht verwendet, solange kein sehr klarer Alltagsnutzen entsteht.
 
 ## Roadmap 1 - Einkaufsflow veredeln (DONE)
 
@@ -87,7 +87,7 @@ Status:
 
 ### 10. Einkaufsapps als eigenes Shopping-Modul
 
-Loyalty- und Einkaufsapps passen sehr gut zu HESTIA, weil sie direkt im Moment vor dem Bezahlen gebraucht werden. Roadmap 4 hat deshalb kein App-Portal und keine Home-Erweiterung gebaut, sondern ein kleines Kassa-Karussell im Einkaufsmodus. Es sitzt unterhalb von `Liste abschliessen` und `Aendern`, also nach den eigentlichen Listenaktionen, und zeigt nur vier feste, leise Symbole: `jö`, `MPREIS`, `HOFER` und `SPAR`. Die MIDAS-Carousel-Idee aus dem MIDAS Hub Module Overview diente als technische/visuelle Referenz, wurde fuer HESTIA aber bewusst kleiner uebersetzt: kein zentraler Hub, keine Panel-Orchestrierung, keine erklaerende Kachelsektion.
+Loyalty- und Einkaufsapps passen sehr gut zu HESTIA, weil sie direkt im Moment vor dem Bezahlen gebraucht werden. Roadmap 4 hat deshalb kein App-Portal und keine Home-Erweiterung gebaut, sondern ein kleines Kassa-Karussell im Einkaufsmodus. Es sitzt unterhalb von `Liste abschliessen` und `Aendern`, also nach den eigentlichen Listenaktionen, und zeigt nur vier feste, leise Symbole: `joe`, `MPREIS`, `HOFER` und `SPAR`. Die MIDAS-Carousel-Idee aus dem MIDAS Hub Module Overview diente als technische/visuelle Referenz, wurde fuer HESTIA aber bewusst kleiner uebersetzt: kein zentraler Hub, keine Panel-Orchestrierung, keine erklaerende Kachelsektion.
 
 Fuer V1 oeffnen die Symbole robuste Google-Play-Links statt installierte Apps zu erkennen oder fragile Android-Deep-Links zu erzwingen. Das ist ein Klick mehr, aber deutlich wartbarer und ehrlicher: keine App-Scan-Magie, kein `installiert`-Status, kein `+`, kein `i`, keine Konfiguration und keine Deep-Link-Pflege fuer vier Apps. Falls spaeter fuer einzelne Apps stabile App-Links belegbar sind, koennen sie als Bonus geprueft werden; sie sind aber nicht Kern dieser Roadmap.
 
@@ -157,15 +157,24 @@ Der Schnitt ist bewusst risikoarm: Der bestehende separate `Einkaufen`-Screen wi
 
 ## Roadmap 6B - Amazon-Liste als zweiter Beschaffungskanal
 
-Detailroadmap: [HESTIA Amazon Liste Roadmap.md](HESTIA%20Amazon%20Liste%20Roadmap.md)
+Detailroadmap: [HESTIA Amazon Liste Roadmap (DONE).md](archive/HESTIA%20Amazon%20Liste%20Roadmap%20(DONE).md)
 
 ### 17. Amazon-Liste als zweiter Einkaufsbereich
 
-Die Amazon-Liste ist als letztes fixes groesseres HESTIA-Feature geplant, weil sie direkt am bestehenden Kern haengt: schnell Dinge aufschreiben und spaeter erledigen. Der Haushalt braucht neben der normalen Einkaufsliste eine kleine Merkliste fuer Dinge, die irgendwann bei Amazon bestellt werden sollen. Das soll kein Shop-Portal, keine Produktsuche, kein Preisvergleich, keine Amazon-API und kein Bestelltracking werden. Es bleibt eine Haushaltsliste.
+Status:
 
-Nach der Konsolidierung soll Amazon als eigene Home-Kachel und eigener Bereich auf demselben Muster entstehen: `Einkauf`, `Amazon`, `Muell`. Die Kachel ist bereits sichtbar, aber noch ein Platzhalter ohne Amazon-Listenlogik. Technisch soll ein Feld wie `list_type` zwischen `grocery` und `amazon` unterscheiden. Die Amazon-Ansicht nutzt die gleiche ruhige Grundmechanik, aber passende Copy wie `Bestellt` statt `Im Wagen`. Die bestehende Amazon-Roadmap wurde nach Roadmap 6A als Folgeplanung markiert und muss vor Umsetzung erneut gegen den neuen `Einkauf`-Bereich gereviewt werden.
+- umgesetzt am 17.05.2026.
+- Home oeffnet `Amazon` als echten eigenen Bereich.
+- `Einkauf` bleibt `grocery`, `Amazon` ist `amazon`.
+- SQL, State und Supabase-Sync kennen `list_type`/`listType`.
+- Amazon nutzt `Bestellt` statt `Im Wagen`.
+- Keine Amazon-API, Preise, Produktlinks, Affiliate- oder Tracking-Logik wurde eingefuehrt.
 
-Der kritische Punkt ist nicht die UI, sondern der Datenvertrag: bestehende lokale und Supabase-Items ohne Typ muessen defensiv als `grocery` gelten. Die SQL-Migration muss deshalb sauber geplant werden, auch wenn das aktuelle Bestandsdatenrisiko niedrig ist.
+Die Amazon-Liste war als letztes fixes groesseres HESTIA-Feature geplant, weil sie direkt am bestehenden Kern haengt: schnell Dinge aufschreiben und spaeter erledigen. Der Haushalt braucht neben der normalen Einkaufsliste eine kleine Merkliste fuer Dinge, die irgendwann bei Amazon bestellt werden sollen. Das ist kein Shop-Portal, keine Produktsuche, kein Preisvergleich, keine Amazon-API und kein Bestelltracking. Es bleibt eine Haushaltsliste.
+
+Nach der Konsolidierung ist Amazon als eigene Home-Kachel und eigener Bereich auf demselben Muster entstanden: `Einkauf`, `Amazon`, `Muell`. Technisch trennt `list_type` zwischen `grocery` und `amazon`. Die Amazon-Ansicht nutzt die gleiche ruhige Grundmechanik, aber passende Copy wie `Bestellt` statt `Im Wagen`.
+
+Der kritische Punkt war nicht die UI, sondern der Datenvertrag: bestehende lokale und Supabase-Items ohne Typ muessen defensiv als `grocery` gelten. Das ist jetzt ueber State-Normalisierung, Supabase-Mapping und SQL-Migration abgedeckt.
 
 ## Roadmap 7 - Push Awareness als Premium Feature
 
@@ -207,10 +216,10 @@ Naechste sinnvolle Arbeit bleibt kernnah:
 4. Einkaufsapps und Shopping-Begleiter als Shopping-nahe Erweiterung.
 5. Entsorgung als Haushaltsperipherie zuerst in Datenfundament und UI schneiden; Erinnerungen nur als Future Sketch.
 6. Einkaufsbereich konsolidieren: im technisch bestehenden Schreibbereich das Panel `Offene Liste` zur echten Einkaufsliste erweitern, sichtbar `Einkauf` nennen und den alten Einkaufsbereich noch nicht loeschen.
-6B. Amazon-Liste als zweiter Beschaffungskanal danach bauen, streng als Merkliste ohne Amazon-Integration; die sichtbare Home-Kachel ist bis dahin nur Platzhalter.
+6B. Amazon-Liste als zweiter Beschaffungskanal bauen, streng als Merkliste ohne Amazon-Integration. DONE am 17.05.2026.
 7. Push Awareness bleibt Premium-Future und wird vermutlich nicht kurzfristig angegangen.
 8. Realtime Shopping Collaboration bleibt Premium-Future und wird vermutlich nicht angegangen, solange kein echter Alltagsdruck entsteht.
 9. Sanfte Haushaltsperipherie wie Familienhinweise/Geburtstage bleibt geparkt.
 10. Kontextautomation nur als Premium Plus und eher nicht.
 
-Roadmap 1 bis 5B sind bereits abgeschlossen. Diese Reihenfolge schuetzt HESTIA weiterhin davor, durch interessante Ideen schwerer zu werden, bevor der vorhandene Alltagsfluss wirklich poliert ist.
+Roadmap 1 bis 6B sind bereits abgeschlossen. Diese Reihenfolge schuetzt HESTIA weiterhin davor, durch interessante Ideen schwerer zu werden, bevor der vorhandene Alltagsfluss wirklich poliert ist.

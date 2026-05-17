@@ -1,4 +1,9 @@
 const STORAGE_KEY = "hestia.v1.items";
+const LIST_TYPES = new Set(["grocery", "amazon"]);
+
+function normalizeListType(listType) {
+  return LIST_TYPES.has(listType) ? listType : "grocery";
+}
 
 function loadItems() {
   try {
@@ -26,7 +31,8 @@ function normalizeItem(rawItem) {
     name: String(rawItem?.name || "").trim(),
     quantity: Number(rawItem?.quantity) || 1,
     unit: String(rawItem?.unit || "Stk").trim() || "Stk",
-    inCart: Boolean(rawItem?.inCart)
+    inCart: Boolean(rawItem?.inCart),
+    listType: normalizeListType(rawItem?.listType)
   };
 }
 
@@ -67,6 +73,23 @@ export function createState() {
     setItems(state.items.filter((item) => !item.inCart));
   }
 
+  function clearByType(listType) {
+    const normalizedListType = normalizeListType(listType);
+    setItems(state.items.filter((item) => item.listType !== normalizedListType));
+  }
+
+  function finishByType(listType) {
+    const normalizedListType = normalizeListType(listType);
+    setItems(
+      state.items.filter((item) => {
+        if (item.listType !== normalizedListType) {
+          return true;
+        }
+        return !item.inCart;
+      })
+    );
+  }
+
   return {
     state,
     setItems,
@@ -74,6 +97,8 @@ export function createState() {
     removeItem,
     toggleInCart,
     clearAll,
-    finishShopping
+    finishShopping,
+    clearByType,
+    finishByType
   };
 }

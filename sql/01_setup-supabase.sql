@@ -1,5 +1,5 @@
 -- ============================================
--- 01_setup-supabase.sql  (v1.0.1)
+-- 01_setup-supabase.sql  (v1.1.0)
 -- PostgreSQL 15 | Supabase-kompatibel
 -- Ziel: HESTIA Basis-Setup fuer Household-Listen, RLS und Realtime
 -- Hinweis: idempotent, sicher mehrfach ausfuehrbar
@@ -25,8 +25,11 @@ create table if not exists public.shopping_items (
   quantity numeric(10,2) not null default 1,
   unit text not null default 'Stk',
   in_cart boolean not null default false,
+  list_type text not null default 'grocery',
   created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now()
+  updated_at timestamptz not null default now(),
+  constraint shopping_items_list_type_check
+    check (list_type in ('grocery', 'amazon'))
 );
 
 -- (C) Indizes
@@ -35,6 +38,9 @@ create index if not exists shopping_items_household_idx
 
 create index if not exists shopping_items_open_idx
   on public.shopping_items (household_id, in_cart);
+
+create index if not exists shopping_items_household_type_idx
+  on public.shopping_items (household_id, list_type, in_cart);
 
 -- (D) Helper-Funktion fuer updated_at
 create or replace function public.set_current_timestamp_updated_at()
@@ -123,6 +129,7 @@ $$;
 -- (H) Doku-Kommentare
 comment on table public.households is 'Bekannter Haushalt fuer HESTIA mit gemeinsamem household_key.';
 comment on table public.shopping_items is 'Aktuelle gemeinsame Einkaufsliste eines Haushalts. Kein Langzeitarchiv.';
+comment on column public.shopping_items.list_type is 'HESTIA list channel: grocery for normal Einkauf, amazon for Amazon-Merkliste.';
 comment on function public.current_household_id() is 'Leitet den Household-Kontext aus dem Request-Header x-household-key ab.';
 
 commit;

@@ -22,6 +22,12 @@ Die Produktwahrheit lautet:
 
 HESTIA ist damit ein `fast in, fast out`-Werkzeug fuer den gemeinsamen Einkaufsfluss.
 
+Zusatz zum Einkaufsfluss:
+
+- `Einkauf` ist der Grocery-Fluss fuer Dinge aus dem Markt.
+- `Amazon` ist eine kleine Merkliste fuer Dinge, die spaeter bei Amazon bestellt werden sollen.
+- Amazon bleibt dabei nur ein zweiter Beschaffungskanal, kein Shop-Portal.
+
 ## Reales Alltagsbild
 
 Typischer Ablauf:
@@ -42,12 +48,13 @@ Der Push ist spaeter nur ein Ersatz fuer die kurze WhatsApp-Nachricht. Er ist ke
 
 1. HESTIA bleibt ein Haushaltswerkzeug, kein Haushaltsbetriebssystem.
 2. `Einkauf` ist der kombinierte Kernfluss fuer Aufschreiben, Abhaken und Abschliessen; technisch bleibt die Route vorerst `writing`.
-3. Freitext bleibt immer erlaubt.
-4. Semantik, Mengen und Einheiten helfen, sperren aber nicht.
-5. Der Listenstatus muss ehrlich bleiben: offen ist offen, gekauftes verschwindet, Unerledigtes bleibt sichtbar.
-6. Schreibende Aktionen brauchen klaren Nutzerimpuls.
-7. Push bleibt spaeter Awareness, nicht Druck.
-8. Mehr Features sind nur dann gut, wenn sie den gemeinsamen Einkaufsfluss ruhiger, schneller oder klarer machen.
+3. `Amazon` ist ein eigener kleiner Merkliste-Bereich fuer spaetere Bestellungen, ohne Amazon-Integration.
+4. Freitext bleibt immer erlaubt.
+5. Semantik, Mengen und Einheiten helfen, sperren aber nicht.
+6. Der Listenstatus muss ehrlich bleiben: offen ist offen, gekauftes oder bestelltes verschwindet, Unerledigtes bleibt sichtbar.
+7. Schreibende Aktionen brauchen klaren Nutzerimpuls.
+8. Push bleibt spaeter Awareness, nicht Druck.
+9. Mehr Features sind nur dann gut, wenn sie den gemeinsamen Einkaufsfluss ruhiger, schneller oder klarer machen.
 
 ## Was HESTIA bewusst nicht ist
 
@@ -68,10 +75,11 @@ Heute ist HESTIA ein fruehes PWA-Scaffold mit klaren Grenzen:
 
 - browser-first App ohne Build-Step
 - statisches HTML, CSS und JS
-- ruhiger Home-Einstieg mit `Einkauf`, sichtbarem `Amazon`-Platzhalter und `Muell`
+- ruhiger Home-Einstieg mit `Einkauf`, `Amazon` und `Muell`
 - sichtbarer `Einkauf`-Flow zum schnellen Erfassen, Entfernen, Abhaken und Abschliessen von Eintraegen
+- sichtbarer `Amazon`-Flow zum schnellen Erfassen, Entfernen, Bestellen-Markieren und Entfernen bestellter Eintraege
 - alter Shopping-Flow bleibt technisch erreichbar, ist aber nur noch Vergleichs- und Uebergangsflaeche
-- Hard Delete der gekauften Eintraege beim Abschluss
+- Hard Delete der gekauften bzw. bestellten Eintraege beim jeweiligen Abschluss
 - lokale Semantik-Hilfe fuer Autocomplete und Einheitshinweise
 - lokaler Zustand ueber `localStorage`
 - PWA-Basis mit Manifest, Service Worker und Offline-Fallback
@@ -103,18 +111,18 @@ Wenn die App zu viel Aufmerksamkeit fordert, ist sie zu laut.
 Heute:
 
 - die aktive Liste lebt lokal in `localStorage`
-- der Frontend-Vertrag ist `name`, `quantity`, `unit`, `inCart`
-- Einkauf und der alte Shopping-Screen muessen ohne Supabase-Credentials weiter funktionieren
+- der Frontend-Vertrag ist `name`, `quantity`, `unit`, `inCart`, `listType`
+- Einkauf, Amazon und der alte Shopping-Screen muessen ohne Supabase-Credentials weiter funktionieren
 
 Ziel:
 
 - Supabase wird die gemeinsame Listenoberflaeche zwischen den Geraeten
 - das Backend speichert den aktuellen Listenstand, keine Langzeithistorie
-- nach abgeschlossenem Einkauf ist der entfernte Remote-Stand wieder leer bzw. nur mit offenen Restposten befuellt
+- nach abgeschlossenem Einkauf oder entfernten bestellten Amazon-Eintraegen ist der Remote-Stand wieder leer bzw. nur mit offenen Restposten befuellt
 
 ### Datenmodell
 
-Geplantes Supabase-Zielmodell in `shopping_items`:
+Aktuelles Supabase-Zielmodell in `shopping_items`:
 
 - `id` (UUID)
 - `household_id`
@@ -122,12 +130,15 @@ Geplantes Supabase-Zielmodell in `shopping_items`:
 - `quantity`
 - `unit`
 - `in_cart`
+- `list_type`
 - `created_at`
 - `updated_at`
 
 Wichtige Vertragsregel:
 
-- der UI-Vertrag `name`, `quantity`, `unit`, `inCart` bleibt stabil, solange keine bewusste Vertragsaenderung beschlossen wird
+- der UI-Vertrag `name`, `quantity`, `unit`, `inCart`, `listType` bleibt stabil, solange keine bewusste Vertragsaenderung beschlossen wird
+- `listType` trennt `grocery` und `amazon`
+- alte oder ungueltige Typen fallen defensiv auf `grocery` zurueck
 
 ### Zugriffsmodell
 
@@ -164,7 +175,9 @@ Der geplante Shared-Sync bleibt absichtlich schmal:
 HESTIA ist `fast in, fast out`:
 
 - `Im Wagen` ist operativer Einkaufsstatus
+- `Bestellt` ist operativer Amazon-Status
 - Abschluss loescht gekaufte Eintraege hart
+- Amazon-Abschluss loescht bestellte Eintraege hart
 - nicht erledigte Eintraege bleiben sichtbar
 - die Systemwahrheit ist die aktuelle offene Liste, nicht eine Historie
 
@@ -173,7 +186,7 @@ HESTIA ist `fast in, fast out`:
 1. `index.html`
    statische Einstiegshuelle und Screen-Struktur
 2. `app/modules/*`
-   UI-Module fuer Home, Writing und Shopping
+   UI-Module fuer Home, Writing/Einkauf, Amazon, altes Shopping, Waste und Kassa
 3. `app/core/*`
    Router, State, PWA-Install, Semantik
 4. `app/supabase/*`
@@ -191,7 +204,7 @@ HESTIA ist `fast in, fast out`:
 | `app/app.css` | zentraler CSS-Bundle-Einstieg |
 | `app/main.js` | Boot und Modulinitialisierung |
 | `app/core/` | Router, State, PWA-Install, Semantik |
-| `app/modules/` | Home-, Writing- und Shopping-Module |
+| `app/modules/` | Home-, Writing/Einkauf-, Amazon-, Shopping-, Waste- und Kassa-Module |
 | `app/styles/` | Tokens, Base, Layout, globale UI und Feature-Styles |
 | `app/supabase/` | Supabase-Client-Grenze |
 | `assets/js/semantics.de.json` | lokale Semantikquelle |
@@ -228,7 +241,7 @@ Arbeitsregeln:
 - Behandle HESTIA nicht als Familien-Organizer fuer beliebige Lebensbereiche.
 - Behandle HESTIA nicht als SaaS-Vorstufe mit komplexem User-Management.
 - Priorisiere Ruhe, Klarheit und Reibungsarmut vor Feature-Breite.
-- Halte den Datenvertrag `name`, `quantity`, `unit`, `inCart` stabil.
+- Halte den Datenvertrag `name`, `quantity`, `unit`, `inCart`, `listType` stabil.
 - Denke lokale Persistenz, Supabase-Sync und PWA-Verhalten als zusammenhaengende Betriebsrealitaet.
 - Wenn ein zentraler Flow geaendert wird, aktualisiere auch die passende Doku.
 
