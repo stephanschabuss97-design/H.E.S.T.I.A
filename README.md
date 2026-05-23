@@ -21,15 +21,13 @@ H.E.S.T.I.A ist fuer mich kein Showcase-Projekt, sondern ein Werkzeug fuer den e
 
 ## Was ist HESTIA?
 
-HESTIA ist ein ruhiges Haushaltswerkzeug fuer gemeinsame Einkaufslisten.
+HESTIA ist ein ruhiges Haushaltswerkzeug fuer den echten Alltag eines kleinen, bekannten Haushalts.
 
-Der Kern ist einfach:
+Der aktuelle Feature-Kern ist bewusst klein:
 
-- jemand schreibt Dinge auf
-- die Liste ist fuer den Haushalt verfuegbar
-- jemand anderes uebernimmt den Einkauf
-- Dinge werden abgehakt
-- am Ende wird die Liste wieder leer
+- `Einkauf`: Dinge fuer den Markt schnell aufschreiben, teilen, abhaken und abschliessen
+- `Amazon`: Dinge fuer spaetere Amazon-Bestellungen getrennt merken, als `Bestellt` markieren und entfernen
+- `Muell`: naechste Entsorgungstermine sichtbar machen, ohne daraus ein Dashboard zu bauen
 
 HESTIA ist kein Familien-Organizer, kein Aufgaben-System und kein Feature-Sammelbecken.
 
@@ -43,7 +41,7 @@ Die ausfuehrliche Produkt- und Systembeschreibung steht in [PRODUCT.md](/c:/User
 - Reibung reduzieren ist wichtiger als Funktionsvielfalt.
 - Ruhe, Klarheit und Alltagstauglichkeit sind wichtiger als technische Beeindruckung.
 
-Wenn eine Idee den gemeinsamen Einkaufsfluss nicht ruhiger, schneller oder klarer macht, ist sie wahrscheinlich kein guter HESTIA-Change.
+Wenn eine Idee Einkauf, Amazon-Merkliste oder Muelluebersicht nicht ruhiger, schneller oder klarer macht, ist sie wahrscheinlich kein guter HESTIA-Change.
 
 ## Deine Rolle als Chat oder Coding-Agent
 
@@ -76,6 +74,7 @@ Arbeitsregeln:
 - Die Home-Kachel `Amazon` oeffnet eine kleine typgetrennte Merkliste fuer spaetere Amazon-Bestellungen.
 - Push ist spaeter Awareness, nicht Reminder-Logik.
 - Household-Sync soll leichtgewichtig bleiben.
+- Roadmap 1 bis 6B bilden den abgeschlossenen Feature-Kern; neue Ideen muessen ab jetzt besonders streng gegen Alltagsnutzen und Wartungskosten geprueft werden.
 - Keine stillschweigende Ausweitung zu einer grossen Familien-App.
 
 ## Relevante Zusatzdokumente
@@ -91,13 +90,14 @@ Arbeitsregeln:
 - [docs/modules/Home Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Home%20Module%20Overview.md)
 - [docs/modules/Shopping Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Shopping%20Module%20Overview.md)
 - [docs/modules/Amazon Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Amazon%20Module%20Overview.md)
+- [docs/modules/Waste Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Waste%20Module%20Overview.md)
 - [Bootflow Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Bootflow%20Module%20Overview.md)
 - [State Layer Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/State%20Layer%20Module%20Overview.md)
 - [Supabase Sync Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Supabase%20Sync%20Module%20Overview.md)
 - [Runtime Config Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Runtime%20Config%20Module%20Overview.md)
 - [Deployment Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Deployment%20Module%20Overview.md)
-- [Waste Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Waste%20Module%20Overview.md)
+- [future roadmaps.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/future%20roadmaps.md): abgeschlossene Roadmaps und bewusst geparkte Folgeideen
 
 ## Kurzfassung fuer neue Chats
 
-Stephan baut mit KI-Unterstuetzung eine ruhige, alltagstaugliche Einkaufslisten-App fuer seinen eigenen Haushalt. Deine Rolle ist pragmische, seniorige Produkt- und Technikunterstuetzung ohne Feature-Drift. Verstehe zuerst den Produktkern und arbeite dann klar innerhalb dieser Grenzen.
+Stephan baut mit KI-Unterstuetzung eine ruhige, alltagstaugliche Haushaltsapp fuer seinen eigenen Haushalt. Der Feature-Kern ist `Einkauf`, `Amazon` und `Muell`. Deine Rolle ist pragmatische, seniorige Produkt- und Technikunterstuetzung ohne Feature-Drift. Verstehe zuerst den Produktkern und arbeite dann klar innerhalb dieser Grenzen.

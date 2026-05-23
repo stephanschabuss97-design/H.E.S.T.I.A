@@ -98,7 +98,7 @@ export function initAmazon(doc, store, listSync, touchlog) {
     syncStatus.hidden = false;
 
     if (!listSync?.isConfigured()) {
-      syncStatus.textContent = "Nur auf diesem Geraet.";
+      syncStatus.textContent = "Nur auf diesem Gerät.";
       syncStatus.dataset.syncState = "local-only";
       return;
     }
@@ -110,26 +110,26 @@ export function initAmazon(doc, store, listSync, touchlog) {
     }
 
     if (syncMode === "error") {
-      syncStatus.textContent = "Freigabe nicht moeglich. Liste bleibt lokal.";
+      syncStatus.textContent = "Freigabe nicht möglich. Liste bleibt lokal.";
       syncStatus.dataset.syncState = "error";
       return;
     }
 
     if (hasPendingRemote) {
       syncStatus.textContent =
-        "Anderer Listenstand verfuegbar. Erst lokale Aenderungen freigeben oder verwerfen.";
+        "Anderer Listenstand verfügbar. Erst lokale Änderungen freigeben oder verwerfen.";
       syncStatus.dataset.syncState = "pending-remote";
       return;
     }
 
     if (syncMode === "saved" && lastSavedAt) {
-      syncStatus.textContent = `Fuer den Haushalt freigegeben um ${formatTime(lastSavedAt)}.`;
+      syncStatus.textContent = `Für den Haushalt freigegeben um ${formatTime(lastSavedAt)}.`;
       syncStatus.dataset.syncState = "saved";
       return;
     }
 
     if (hasItems()) {
-      syncStatus.textContent = "Noch nicht fuer den Haushalt freigegeben.";
+      syncStatus.textContent = "Noch nicht für den Haushalt freigegeben.";
       syncStatus.dataset.syncState = "dirty";
       return;
     }
@@ -253,7 +253,17 @@ export function initAmazon(doc, store, listSync, touchlog) {
       removeButton.type = "button";
       removeButton.dataset.remove = item.id;
       removeButton.dataset.itemName = item.name;
-      removeButton.textContent = "Loeschen";
+      removeButton.setAttribute("aria-label", `${item.name} löschen`);
+      removeButton.title = "Löschen";
+      removeButton.innerHTML = `
+        <svg class="writing-row-remove-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M3 6h18"></path>
+          <path d="M8 6V4h8v2"></path>
+          <path d="M19 6l-1 14H6L5 6"></path>
+          <path d="M10 11v5"></path>
+          <path d="M14 11v5"></path>
+        </svg>
+      `;
 
       checkbox.addEventListener("change", () => {
         toggleOrderedItem(item.id, checkbox.checked);
@@ -319,7 +329,7 @@ export function initAmazon(doc, store, listSync, touchlog) {
     }
 
     if (Number.isNaN(quantity) || quantity <= 0) {
-      showFormNote("Bitte eine gueltige Menge eintragen.", qtyInput);
+      showFormNote("Bitte eine gültige Menge eintragen.", qtyInput);
       return;
     }
 
