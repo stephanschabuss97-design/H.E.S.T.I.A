@@ -61,10 +61,11 @@ Du sollst pragmatisch, direkt und technisch sauber mitdenken.
 
 Bevor du groessere Entscheidungen triffst oder Code aenderst:
 
-1. Lies diese `README.md`.
-2. Lies [PRODUCT.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/PRODUCT.md).
-3. Lies bei Bedarf nur die fuer die Aufgabe relevanten Zusatzdokumente.
-4. Lies dann erst den Code.
+1. Beachte [AGENTS.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/AGENTS.md).
+2. Lies diese `README.md`.
+3. Lies [PRODUCT.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/PRODUCT.md).
+4. Lies bei Bedarf nur die fuer die Aufgabe relevanten Zusatzdokumente.
+5. Lies dann erst den Code.
 
 Arbeitsregeln:
 
@@ -79,10 +80,12 @@ Arbeitsregeln:
 
 ## Relevante Zusatzdokumente
 
+- [AGENTS.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/AGENTS.md): stabiler Agenten-, Scope- und Reviewvertrag
 - [PRODUCT.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/PRODUCT.md): kanonische Produkt- und Systembeschreibung
 - [setup-supabase.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/setup-supabase.md): Supabase-Setup und Household-Key-Header
 - [hestia-shared-list-sync-roadmap.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/hestia-shared-list-sync-roadmap.md): geplanter Sync-Ausbau
 - [DEV_ENVIRONMENT.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/DEV_ENVIRONMENT.md): lokale Tools, Checks und Smoke-Test-Grenzen
+- [docs/templates/README.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/templates/README.md): Einstieg fuer neue HESTIA-Roadmaps
 - [HESTIA Dev Panel, Touchlog & Diagnostics Roadmap (DONE).md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/archive/HESTIA%20Dev%20Panel,%20Touchlog%20%26%20Diagnostics%20Roadmap%20(DONE).md)
 - [QA_CHECKS.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/QA_CHECKS.md): manuelle Smokechecks und Regressionsbasis
 - [CSS Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/CSS%20Module%20Overview.md)

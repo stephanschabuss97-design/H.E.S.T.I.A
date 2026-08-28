@@ -1,52 +1,77 @@
 # HESTIA Dev Environment
 
-Dieses Dokument beschreibt die lokale Entwicklungsumgebung fuer HESTIA. Es ist bewusst fuer Stephan und fuer kuenftige LLM-/Coding-Agent-Chats geschrieben: Ein neuer Chat soll schnell erkennen, welche lokalen Werkzeuge vorhanden sind, welche Checks moeglich sind und welche Grenzen gelten.
+Dieses Dokument beschreibt die lokale Entwicklungsumgebung für HESTIA. Es ist
+für Stephan und für neue LLM-/Coding-Agent-Chats geschrieben: Ein neuer Chat
+soll schnell erkennen, welche Werkzeuge vorhanden sind, welche Checks sinnvoll
+sind und welche Grenzen gelten.
 
-## Ziel
-
-- Schnell klaeren, welche Tools lokal verfuegbar sind.
-- Wiederholbare Checks fuer die statische PWA, Supabase-Listen-Sync, Doku und Browser-Smokes ermoeglichen.
-- Secret-, Deploy- und Scope-Grenzen eindeutig halten.
-- Neue Chats davor schuetzen, falsche Annahmen ueber Build-Step, Backend, Push oder Testtooling zu treffen.
+Letzter verifizierter Toolchain-Abgleich: `2026-08-28`.
 
 ## Grundvertrag
 
-- HESTIA-Repo: `C:\Users\steph\Projekte\H.E.S.T.I.A`
-- HESTIA ist eine browser-first PWA ohne Web-Build-Step.
-- Produktiver Kern ist die gemeinsame Einkaufsliste fuer einen kleinen Haushalt.
-- Runtime Config: `public/runtime-config.json`
-- Lokale Secrets koennen in `.env.supabase.local` liegen.
-- `.env.supabase.local` ist lokal und darf nicht committet werden.
-- Keine Secret-Werte in Doku, Logs, Commits oder Antworten ausgeben.
-- Kein Supabase-Schema-/RLS-/Deploy-Eingriff ohne ausdrueckliche Freigabe.
+- Repository: `C:\Users\steph\Projekte\H.E.S.T.I.A`
+- HESTIA ist eine browser-first PWA aus statischem HTML, CSS und JavaScript.
+- Es gibt keinen Root-Build-Step und kein Root-`package.json`.
+- Der Produktvertrag steht in `README.md` und `PRODUCT.md`.
+- Der Agentenvertrag steht in `AGENTS.md`.
+- Roadmap-Prozess: `docs/templates/README.md` und
+  `docs/templates/HESTIA Roadmap Workflow Contract.md`.
+- Runtime Config: `public/runtime-config.json`.
+- Lokale Supabase-Secrets dürfen in `.env.supabase.local` liegen; die Datei ist
+  ignoriert und ihre Werte dürfen nie ausgegeben oder committet werden.
+- Kein produktives SQL, RLS, Supabase-Write, Deploy, Workflow, Push oder andere
+  externe Wirkung ohne ausdrückliche Freigabe.
 
-## Installierte Kernwerkzeuge
+## Verifizierte Toolchain
 
-### Git
+| Werkzeug | Stand | Rolle in HESTIA |
+| --- | --- | --- |
+| Git | `2.55.0.windows.2` | Status, Diff, Historie, Commit |
+| Node.js | `24.18.0` | JS-Syntaxchecks und lokale Testskripte |
+| npm | `11.18.0` | nur bei bewusstem Toolbedarf; kein Projekt-Build |
+| ripgrep | `15.2.0` | schnelle, gezielte Quellensuche |
+| Python | `3.14.6` | lokaler statischer HTTP-Server |
+| VS Code | `1.135.0` | Entwicklungsumgebung |
+| Playwright | `1.61.1` | gebündelte Browser-/Responsive-/PWA-Smokes |
+| Deno | `2.9.5` | optional für TypeScript-Tools; derzeit keine Runtimepflicht |
+| Supabase CLI | `2.109.1` | nur bei bewusstem lokalen/Remote-Supabase-Auftrag |
+| Docker CLI | `29.7.2` | optional für disposable Datenbanktests |
+| WSL | `2.6.1.0` | Toolbrücke, insbesondere CodeRabbit |
+| GitHub CLI | `2.96.0` | Workflow-/Run-Inspektion und GitHub-Aktionen |
+| CodeRabbit CLI | `0.7.5` | externer S5-Code-Review |
 
-Vorhanden:
+Aktueller Betriebszustand beim Abgleich:
+
+- Docker Desktop/Engine war nicht gestartet. Die CLI ist vorhanden, aber der
+  Server war nicht erreichbar. Das blockiert normale HESTIA-Frontendarbeit
+  nicht.
+- `psql` ist nicht global im Windows-PATH. PostgreSQL-Prüfungen verwenden bei
+  bewusstem Bedarf einen disposable Docker-Container oder eine dokumentierte
+  Supabase-Schnittstelle.
+- Playwright ist global installiert und keine HESTIA-Projektdependency.
+
+## Standardshell und Suche
+
+Standardshell ist PowerShell. Vor jeder Änderung:
 
 ```powershell
-git --version
+git status --short --branch
 ```
 
-Verwendung:
-
-- Status-/Diff-Checks
-- Roadmap-/Doku-Archivierung
-- Commit-/Branch-Arbeit
-
-Typische Checks:
+Für Text- und Dateisuche zuerst `rg` verwenden:
 
 ```powershell
-git status --short
-git diff --check
-git diff --stat
+rg -n "Suchbegriff" app docs
+rg --files app docs
 ```
 
-### Node.js / npm / npx
+Große Quellen zuerst nach Abschnitt, Symbol, Producer oder Consumer
+eingrenzen. Unveränderte Dateien und bereits gültige Nachweise nicht aus
+Gewohnheit erneut vollständig lesen.
 
-Vorhanden:
+## Node.js, npm und Syntaxchecks
+
+PowerShell kann `npm.ps1` über die Execution Policy blockieren. Deshalb:
 
 ```powershell
 node --version
@@ -54,110 +79,97 @@ npm.cmd --version
 cmd /c npx --version
 ```
 
-Hinweis:
-
-- `node` funktioniert direkt.
-- `npm` ist installiert, aber PowerShell kann `npm.ps1` wegen Execution Policy blocken.
-- Sicherer Aufruf in PowerShell:
-
-```powershell
-npm.cmd --version
-cmd /c npm --version
-cmd /c npx --version
-```
-
-HESTIA hat aktuell kein zentrales `package.json` im Repo-Root. Node wird primaer fuer Syntaxchecks einzelner JS-Dateien genutzt.
-
-Beispiele:
+Typische Syntaxchecks:
 
 ```powershell
 node --check app/main.js
 node --check app/modules/writing.js
+node --check app/modules/amazon.js
 node --check app/modules/shopping.js
 node --check app/supabase/list-sync.js
 node --check sw.js
 ```
 
-### Python
+Bei Änderungen nur tatsächlich betroffene JavaScript-Dateien plus relevante
+Producer/Consumer prüfen. HESTIA erhält nicht allein für Tests ein
+`package.json` oder einen Bundler.
 
-Vorhanden:
+## Lokaler Server und Browser
 
-```powershell
-python --version
-```
-
-Verwendung:
-
-- Lokaler Static Server fuer Browser-/PWA-Smokes.
-- Kleine lokale Hilfsskripte nur bei Bedarf.
-- Fuer einfache Dateioperationen bevorzugt PowerShell/Repo-Tools verwenden.
-
-Lokaler Start:
+Für PWA-, Service-Worker- und Browserverhalten HESTIA über HTTP starten:
 
 ```powershell
-python -m http.server 8765
+python -m http.server 8766
 ```
 
 Danach:
 
 ```text
-http://127.0.0.1:8765
+http://127.0.0.1:8766
 ```
 
-### Playwright
+Ist Port `8766` belegt, einen freien Port wählen und ihn im Testnachweis
+angeben. `file://` ist kein belastbarer PWA-Test.
 
-Global installiert, bewusst nicht als HESTIA-Projektdependency:
+Browserprüfung:
+
+1. Wenn verfügbar, zuerst den dokumentierten In-App-Browser verwenden.
+2. Andernfalls den globalen Playwright-Fallback verwenden und den Grund kurz
+   dokumentieren.
+3. Desktop und relevante Mobile-Viewports in einer gebündelten Session prüfen.
+4. Nur durch Korrekturen invalidierte Browserfälle wiederholen.
+
+Playwright-Version:
 
 ```powershell
 playwright.cmd --version
 ```
 
-Aktueller Stand:
-
-- `playwright@1.60.0`
-- Chromium ist installiert.
-- Globaler Node-Modulpfad:
-
-```text
-C:\Users\steph\AppData\Roaming\npm\node_modules
-```
-
-Wichtig:
-
-- Playwright ist als repo-uebergreifendes Smoke-Test-Werkzeug fuer HESTIA und MIDAS gedacht.
-- Keine Playwright-Dateien, `package.json`-Aenderungen oder Test-Dependencies automatisch ins Repo schreiben.
-- Playwright erst fest einbauen, wenn bewusst Browser-Screenshot-/Regressionstests aufgebaut werden.
-- Fuer CLI-Aufrufe reicht:
-
-```powershell
-playwright.cmd --version
-```
-
-- Fuer Node-Skripte mit `require('playwright')` muss in PowerShell ggf. `NODE_PATH` auf den globalen npm-Root gesetzt werden:
+Für temporäre Node-Skripte mit globalem Playwright kann nötig sein:
 
 ```powershell
 $env:NODE_PATH = npm.cmd root -g
 ```
 
-Minimaler Smoke-Vertrag:
+Keine Playwright-Dateien oder Dependencies automatisch ins Repository
+schreiben. Service Worker bei reinen UI-Smokes bewusst behandeln; bei echten
+PWA-Smokes muss er dagegen Teil des Tests sein.
 
-- Vor Playwright-Smokes HESTIA per lokalem HTTP-Server starten.
-- Service Worker/PWA-Verhalten bei Bedarf bewusst testen.
-- Fuer reine UI-Smokes kann es sinnvoll sein, Service Worker im Playwright-Kontext zu blockieren.
+## Browser-/PWA-Smokevertrag
 
-### Supabase
+Je nach betroffenem Scope prüfen:
 
-HESTIA nutzt Supabase fuer den optionalen gemeinsamen Listen-Snapshot.
+- Home startet und bleibt ruhig.
+- `Einkauf`, `Amazon` und `Muell` öffnen korrekt.
+- Freitext kann erfasst werden; Menge und Einheit bleiben optional.
+- Grocery- und Amazon-Einträge bleiben typgetrennt.
+- Abhaken, Bestellt-Markieren und jeweiliger Abschluss wirken nur im richtigen
+  Bereich.
+- Lokale Nutzung funktioniert ohne Supabase-Konfiguration.
+- Shared-Snapshot-Status und Fehlercopy bleiben ehrlich.
+- Mobile Layouts überlappen nicht und besitzen ausreichende Touchziele.
+- Service Worker, Offline-Fallback und Cacheänderung entsprechen dem Scope.
+
+`docs/QA_CHECKS.md` ist die aktuelle manuelle Regressionsbasis. Nur relevante
+Abschnitte lesen und ausführen.
+
+## Supabase
+
+HESTIA nutzt Supabase optional für den gemeinsamen Listen-Snapshot eines
+bekannten Haushalts.
 
 Relevante Dateien:
 
 - `public/runtime-config.json`
+- `.env.supabase.local`
 - `setup-supabase.md`
 - `sql/01_setup-supabase.sql`
+- `sql/02_add-shopping-list-type.sql`
 - `app/supabase/client.js`
 - `app/supabase/list-sync.js`
+- `docs/modules/Supabase Sync Module Overview.md`
 
-Runtime Config Shape:
+Runtime-Config-Vertrag:
 
 ```json
 {
@@ -170,157 +182,228 @@ Runtime Config Shape:
 
 Regeln:
 
-- `service_role` oder andere Secret-Keys gehoeren niemals in `public/runtime-config.json`.
-- `householdKey` darf leer bleiben und wird lokal abgefragt.
-- Keine RLS-/SQL-/Schema-Aenderung ohne ausdrueckliche Roadmap- oder Nutzerfreigabe.
-- Kein Deploy-/Remote-Eingriff ohne Freigabe.
+- `service_role`, Secret Keys und private Tokens gehören niemals in
+  `public/runtime-config.json`.
+- `householdKey` bleibt in der committed und öffentlich ausgelieferten
+  `public/runtime-config.json` leer. Der reale Key wird bei Bedarf lokal
+  abgefragt und darf nicht ins Repository gelangen.
+- HESTIA muss ohne Runtime-Credentials lokal nutzbar bleiben.
+- Household-Sync bleibt haushaltsbasiert und wird nicht still auf individuelle
+  Accounts oder Multi-Tenancy umgestellt.
+- SQL, RLS, Schema, Remote-Reads mit sensibler Wirkung und Remote-Writes sind
+  owner-gated.
+- Keine Secret-Werte in Logs, Roadmaps, Evidence oder Antworten ausgeben.
 
-Falls Supabase CLI genutzt wird:
+CLI-Prüfung:
 
 ```powershell
 supabase --version
 ```
 
-## Browser / PWA
+Docker oder ein lokaler Supabase-Stack werden nur gestartet, wenn eine
+Roadmap disposable Datenbank- oder RLS-Nachweise verlangt. Für normale UI- und
+Sync-JavaScript-Arbeit sind sie keine Voraussetzung.
 
-HESTIA ist eine statische PWA ohne Root-Build-Step.
+## GitHub CLI und Workflow
 
-Relevante Dateien:
+HESTIA besitzt einen Workflow für den Axams-Müllkalender. GitHub CLI darf für
+read-only Status- und Run-Inspektion genutzt werden:
 
-- `index.html`
-- `sw.js`
-- `manifest.webmanifest`
-- `offline.html`
-- `public/runtime-config.json`
-- `app/**/*.js`
-- `app/styles/*.css`
+```powershell
+gh --version
+gh workflow list
+gh run list --limit 10
+```
 
-Browser-/PWA-Smokes sind fuer HESTIA weiterhin wichtig, weil Layout, Service Worker, Offline-Fallback und Touch-Verhalten nicht vollstaendig durch Syntaxchecks abgedeckt werden.
+Workflow-Ausführung, Secretänderung, Push oder andere externe Wirkung bleibt
+owner-gated.
 
-## Lokale Env-Dateien
+## CodeRabbit
 
-Moeglich:
+Der kanonische Windows-Aufruf lautet:
+
+```powershell
+coderabbit --version
+coderabbit
+```
+
+Der Befehl routet zur bereits authentifizierten WSL-CLI. Regeln:
+
+- In Roadmaps mit Codeänderungen nur in S5 verwenden.
+- Genau ein Initiallauf und höchstens ein Verifikationslauf nach berechtigten
+  Korrekturen.
+- Findings gegen HESTIA-Produktvertrag, Roadmap und reale Implementierung
+  bewerten; niemals blind korrigieren.
+- Bei Doku-only Roadmaps kein CodeRabbit.
+- Außerhalb von Roadmaps nur auf ausdrücklichen Auftrag.
+- Schlägt der kanonische Befehl oder die Authentifizierung fehl, nicht neu
+  installieren und keinen alternativen CLI-Pfad improvisieren. Das Evidence-
+  Gap sichtbar dokumentieren.
+- Ein nativer Review wird nie als CodeRabbit-Ergebnis bezeichnet.
+
+## Lokale Codex-Usage-Telemetrie
+
+Diese Telemetrie ist der verbindliche Sensor für Usage-aware Continuation
+Gates bei lokaler Roadmap-Ausführung. Rainmeter zeigt denselben Zustand für
+Menschen; die Anzeige selbst entscheidet nichts.
+
+- Installierter Refresh-Sensor:
+  `C:\Users\steph\Documents\Rainmeter\Skins\illustro\Tokens\GetCodexUsage.ps1`
+- HESTIA-Kopie:
+  `tools/codex-usage/GetCodexUsage.ps1`
+- HESTIA-Validator:
+  `tools/codex-usage/Test-CodexUsageState.ps1`
+- Autoritativer State:
+  `C:\Users\steph\Documents\Rainmeter\Skins\illustro\Tokens\UsageState.json`
+- Schema: `schemaVersion = 3`
+- Sensorversion: `sensorVersion = 3.1.0`
+- Pflichtfenster: `300` und `10080` Minuten
+- Maximales Messalter: `120` Sekunden
+
+Die HESTIA-Kopie ist ein versionierter, bytegleicher Snapshot des
+maschinenweiten Sensors und besitzt keine Laufzeitabhängigkeit zu einem
+anderen Repository. Wird der Sensor geändert, müssen installierte
+Rainmeter-Kopie und alle bewusst verwendeten Repo-Snapshots gemeinsam
+aktualisiert werden.
+
+Roadmap-Agenten starten ausschließlich den Validator mit `-Refresh`. Dieser
+ruft die installierte Rainmeter-Kopie auf und hält `UsageState.json` außerhalb
+des Repositorys. Die kanonische Repo-Kopie wird nicht direkt als Refresh-
+Skript ausgeführt.
+
+Kanonischer Gate-Aufruf:
+
+```powershell
+$validator = 'C:\Users\steph\Projekte\H.E.S.T.I.A\tools\codex-usage\Test-CodexUsageState.ps1'
+$validation = & 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe' `
+  -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass `
+  -File $validator -Refresh
+if ($LASTEXITCODE -ne 0) {
+  throw "Codex usage state validation failed with exit code $LASTEXITCODE."
+}
+$usage = $validation | ConvertFrom-Json
+```
+
+Der Validator prüft unter anderem:
+
+- SHA-256-Gleichheit von installierter und kanonischer Kopie,
+- Schema und Sensorversion,
+- erfolgreichen Status,
+- beide vollständigen Buckets,
+- numerische Rest-/Verbrauchswerte und Resetidentitäten,
+- identische Attempt-/Success-Zeitstempel,
+- maximal zwei Minuten alte Messung.
+
+Nur Exitcode `0` plus kompakte Validatorausgabe ist ein gültiger Messnachweis.
+Das rohe JSON wird nicht eigenständig neu interpretiert. Vollständige States
+werden nicht ins Repository geschrieben. Schwellen, Delta-/Resetregeln und
+Safe Closure stehen ausschließlich im Roadmap Workflow Contract.
+
+## Lokale Env- und Secretgrenzen
+
+Möglich:
 
 ```text
 .env.supabase.local
 ```
 
-Regeln:
-
-- Keine Werte aus `.env.supabase.local` ausgeben.
+- Keine Env-Werte ausgeben.
 - Keine `.env`-Datei committen.
-- Keine Secrets in Roadmaps oder finalen Antworten dokumentieren.
-- Variablennamen duerfen bei Bedarf ohne Werte geprueft werden.
+- Variablennamen dürfen ohne Werte geprüft werden.
+- Secrets nicht in Screenshots, Terminaltranskripte, Roadmaps oder Evidence
+  übernehmen.
 
-## Typische Agent-Checklisten
+### Security-Watchlist vom 2026-08-28
 
-### Vor Code-Aenderungen
+Beim Tooling-Sweep wurde festgestellt, dass `.env.supabase.local` trotz der
+beabsichtigten Ignore-Regel bereits im Git-Index lag. Ursache war eine
+UTF-16-kodierte `.gitignore`, die Git nicht als normale Ignore-Datei auswerten
+konnte.
+
+Lokal korrigiert wurde:
+
+- `.gitignore` auf UTF-8 normalisiert,
+- `.env`/`.env.*` als wirksame Ignore-Regel bestätigt,
+- `.env.supabase.local` nur aus dem Git-Index entfernt; die lokale Datei blieb
+  erhalten,
+- `tools/codex-usage/UsageState.json` zusätzlich ignoriert.
+
+Bewusst nicht Teil dieses Sweeps:
+
+- keine Secret-Werte lesen oder dokumentieren,
+- keine Git-History umschreiben,
+- keine produktiven Credentials rotieren.
+
+Da frühere Commits gesetzte lokale Werte enthalten können, sollten mindestens
+das Supabase-Datenbankpasswort und der Household-Key in einer eigenen,
+owner-gated Sicherheitsaktion rotiert werden. Ein neuer Commit entfernt die
+Datei nur aus dem aktuellen Repositoryzustand, nicht rückwirkend aus der
+Historie.
+
+## Typische Abschlusschecks
+
+Vor Änderungen:
 
 ```powershell
-git status --short
+git status --short --branch
 ```
 
-- Dirty Worktree respektieren.
-- Keine fremden Aenderungen revertieren.
-- README, `PRODUCT.md` und betroffene Modul-Overview lesen.
-- Roadmap-/Guardrail-Kontext pruefen.
-
-### Nach Frontend-JS-Aenderungen
+Nach JavaScript-Änderungen:
 
 ```powershell
-node --check <datei.js>
+node --check <geänderte-datei.js>
 git diff --check
 ```
 
-Bei mehreren Dateien gezielt alle geaenderten JS-Dateien pruefen.
-
-### Nach CSS-/HTML-Aenderungen
+Nach HTML/CSS/PWA-Änderungen:
 
 ```powershell
 git diff --check
 ```
 
-Zusaetzlich nach Bedarf:
+Zusätzlich den relevanten Browser-/PWA-Smoke ausführen.
+
+Nach Sync-/Supabase-JavaScript-Änderungen:
 
 ```powershell
-rg -n "TODO|FIXME|justify-content: stretch" app/styles index.html
-```
-
-### Nach Sync-/Supabase-Aenderungen
-
-```powershell
-node --check app/supabase/list-sync.js
 node --check app/supabase/client.js
+node --check app/supabase/list-sync.js
 git diff --check
 ```
 
-Zusaetzlich:
+Zusätzlich Datenvertrag, lokale Fallbacks, Typtrennung und Secretgrenzen
+prüfen.
 
-- Kein Secret loggen.
-- `public/runtime-config.json` nur mit public Keys / leerem Household-Key.
-- Kein SQL/RLS/Schema-Drift ohne Freigabe.
-
-### Nach Doku-/Roadmap-Aenderungen
+Nach Doku-/Roadmap-Änderungen:
 
 ```powershell
 git diff --check
-rg -n "TODO|BLOCKED|P0|P1" docs/<betroffene-datei>.md
+rg -n "TODO|BLOCKED|P0|P1" docs\<betroffene-datei>.md
 ```
-
-### Browser-Smoke
-
-Lokaler Start:
-
-```powershell
-python -m http.server 8765
-```
-
-Manuell im Browser:
-
-```text
-http://127.0.0.1:8765
-```
-
-Typische Smokes:
-
-- Home startet.
-- `Schreiben` funktioniert.
-- Item kann frei eingetragen werden.
-- Menge/Einheit bleiben optional und nutzbar.
-- `Liste freigeben` wirkt plausibel.
-- `Einkaufen`, Toggle und `Liste abschliessen` funktionieren.
-- Mobile Layout ueberlappt nicht.
-- Offline-Fallback ist ehrlich.
-
-### Playwright-Smoke
-
-Nur als Hilfswerkzeug verwenden, nicht automatisch ins Repo einbauen.
-
-Beispiel-Setup fuer Node-Skripte:
-
-```powershell
-$env:NODE_PATH = npm.cmd root -g
-```
-
-Danach kann ein temporaeres Playwright-Skript gegen den lokalen Server laufen.
 
 ## Bekannte Eigenheiten
 
-- VS Code muss nach PATH-Aenderungen komplett neu gestartet werden.
-- `npm.ps1` kann in PowerShell durch Execution Policy blockiert sein; `npm.cmd` oder `cmd /c npm ...` verwenden.
-- Playwright ist global installiert, aber `require('playwright')` braucht ggf. `NODE_PATH`.
-- HESTIA hat keinen Build-Step und kein Root-`package.json`.
-- Service Worker kann Browser-Smokes beeinflussen; bei reinen UI-Smokes bewusst beruecksichtigen.
-- Historische Archivdokus koennen alte Pfade oder alte Produktentscheidungen enthalten; aktive Roadmaps und Module Overviews gelten vorrangig.
+- VS Code nach PATH- oder Tooländerungen vollständig neu starten.
+- `npm.ps1` kann blockiert sein; `npm.cmd` verwenden.
+- Globales Playwright braucht in temporären Node-Skripten gegebenenfalls
+  `NODE_PATH`.
+- Service Worker und Cache können Browser-Smokes beeinflussen.
+- Docker ist optional und muss vor Containerchecks bewusst gestartet werden.
+- Historische Roadmaps können alte Produkt- oder Pfadstände enthalten;
+  `AGENTS.md`, README, PRODUCT, aktive Roadmap und Module Overviews haben
+  Vorrang.
 
 ## Aktueller Stand
 
-Diese Toolchain reicht fuer die normale HESTIA-Arbeit:
+Die vorhandene Toolchain reicht für HESTIAs reale Arbeit:
 
-- Frontend-Syntaxchecks mit Node.
-- Lokaler Static Server mit Python.
-- Browser-/PWA-Smokes manuell oder mit globalem Playwright.
-- Supabase-Listen-Sync-Checks auf JS-/Runtime-Config-Ebene.
-- Git-/Diff-/Doku-Reviews mit lokalen Repo-Tools.
+- statische PWA-Entwicklung ohne Buildsystem,
+- gezielte JS- und Dokuchecks,
+- gebündelte Browser-/Responsive-/PWA-Smokes,
+- optionalen Supabase-/RLS-Test mit explizitem Gate,
+- GitHub-Workflow-Inspektion,
+- kontrollierten CodeRabbit-Review in S5,
+- usage-aware, sauber resumierbare Roadmap-Ausführung.
 
-Damit kann ein neuer LLM-/Coding-Agent die meisten HESTIA-Aufgaben lokal pruefen, ohne HESTIA in ein groesseres Build-, Backend- oder Testframework zu verschieben.
+Keines dieser Werkzeuge erweitert HESTIA automatisch zu einem größeren
+Framework oder Produkt.
