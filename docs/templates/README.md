@@ -17,6 +17,11 @@ verschoben.
 `docs/QA_CHECKS.md` bleiben lebende Sources of Truth und werden nicht in die
 Roadmap kopiert.
 
+KASRKIN besitzt die ausführbare Usage-Entscheidungsemantik des in
+`.kasrkin/binding.json` gepinnten Releases. HESTIA-Templates beschreiben nur
+Konsultation, lokale Ausführung und Evidence; sie bilden keine zweite aktive
+Policy. `.kasrkin/activation.json` bindet die dafür konsultierten Verträge.
+
 ## Neue Roadmap erstellen
 
 1. `AGENTS.md`, `README.md`, `PRODUCT.md` und

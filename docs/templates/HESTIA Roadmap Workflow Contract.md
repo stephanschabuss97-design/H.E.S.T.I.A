@@ -103,7 +103,14 @@ Scope-Prüfung. Er ist kein CodeRabbit-Ergebnis.
 
 Die lokale Telemetrie entscheidet, ob ein neuer Block sicher begonnen werden
 darf. Sensor, Validator, Pfade und Freshness stehen in
-`docs/DEV_ENVIRONMENT.md`.
+`docs/DEV_ENVIRONMENT.md`. Die technische Implementierung wird durch
+`.kasrkin/binding.json` an einen konkreten KASRKIN-Release gebunden; dieser
+Release ist die alleinige ausführbare Autorität für Entscheidungsemantik,
+Fallback und Statusausgabe. HESTIA bleibt Eigentümer der projektspezifischen
+Konsultationszeitpunkte, Ausführung, Rollbacks, Produktgrenzen und Owner-Gates.
+`.kasrkin/activation.json` bindet diese Autoritätsteilung sowie die dafür
+konsultierten Artefakte. Abweichende Hashes oder Semantik sind Contract Drift
+und sperren den nächsten Block.
 
 Ein Gate ist verpflichtend:
 
@@ -135,6 +142,10 @@ gepollt.
 | `CONTINUE` | 5h `> 40 %` und Woche `> 20 %`; Reserve reicht | nächsten kohärenten Block beginnen |
 | `CONTINUE_WITH_CAUTION` | 5h `25-40 %` oder Woche `10-20 %`; kein Safe-Closure-Grund | höchstens einen kurzen, lokalen, reversiblen und sicher resumierbaren Block beginnen |
 | `SAFE_CLOSURE` | 5h `< 25 %`, Woche `< 10 %`, ungültige Telemetrie oder Reserve reicht nicht | keinen neuen Block beginnen; sicheren Handoff herstellen |
+
+Diese Tabelle ist die menschenlesbare HESTIA-Verbraucherprojektion des exakt
+gebundenen Releases. Sie erzeugt keine zweite Policyautorität und darf die vom
+Release gelieferte Entscheidung nicht neu berechnen oder überschreiben.
 
 Exakt `25 %`/`10 %` ist Caution; exakt `40 %`/`20 %` noch nicht Continue.
 Der Sensorstatus `OK` ist keine Workflow-Entscheidung.

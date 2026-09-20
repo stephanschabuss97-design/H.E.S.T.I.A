@@ -249,10 +249,14 @@ Menschen; die Anzeige selbst entscheidet nichts.
 
 - Installierter Refresh-Sensor:
   `C:\Users\steph\Documents\Rainmeter\Skins\illustro\Tokens\GetCodexUsage.ps1`
-- HESTIA-Kopie:
-  `tools/codex-usage/GetCodexUsage.ps1`
-- HESTIA-Validator:
-  `tools/codex-usage/Test-CodexUsageState.ps1`
+- Versionsgebundener KASRKIN-Einstieg: stabiler Command `kasrkin` mit der
+  projektlokalen Bindung `.kasrkin/binding.json`.
+- Aktives HESTIA-Integrationsprofil: `.kasrkin/activation.json`; lokaler Proof:
+  `.kasrkin/Test-HestiaKasrkinActivation.ps1`.
+- Kanonischer State-Validator-Aufruf: `kasrkin validate -Refresh`.
+- Die frühere lokale Sensor-/Validator-Kopie wurde in W7 nach bewiesenem
+  KASRKIN-Cutover retiret. Recovery stützt sich auf die gebundene Installation,
+  `codex-tools`-Source und versionierte Receipts.
 - Autoritativer State:
   `C:\Users\steph\Documents\Rainmeter\Skins\illustro\Tokens\UsageState.json`
 - Schema: `schemaVersion = 3`
@@ -260,24 +264,20 @@ Menschen; die Anzeige selbst entscheidet nichts.
 - Pflichtfenster: `300` und `10080` Minuten
 - Maximales Messalter: `120` Sekunden
 
-Die HESTIA-Kopie ist ein versionierter, bytegleicher Snapshot des
-maschinenweiten Sensors und besitzt keine Laufzeitabhängigkeit zu einem
-anderen Repository. Wird der Sensor geändert, müssen installierte
-Rainmeter-Kopie und alle bewusst verwendeten Repo-Snapshots gemeinsam
-aktualisiert werden.
+Die KASRKIN-Source of Truth liegt in `codex-tools`; HESTIA bindet eine konkrete
+lokal installierte Releaseidentität und verwendet niemals `latest`. Der
+Rainmeter-Sensor und der Sensor im gebundenen Release müssen bytegleich bleiben.
+Der alte HESTIA-Snapshot bleibt ausschließlich als BH-Rollbackquelle erhalten.
 
-Roadmap-Agenten starten ausschließlich den Validator mit `-Refresh`. Dieser
-ruft die installierte Rainmeter-Kopie auf und hält `UsageState.json` außerhalb
-des Repositorys. Die kanonische Repo-Kopie wird nicht direkt als Refresh-
-Skript ausgeführt.
+Roadmap-Agenten starten ausschließlich `kasrkin validate -Refresh`. Der
+Resolver prüft zuerst Projektbindung, Receipt, Release und Payload und ruft
+danach den installierten Validator auf. Dieser verwendet die installierte
+Rainmeter-Kopie und hält `UsageState.json` außerhalb des Repositorys.
 
 Kanonischer Gate-Aufruf:
 
 ```powershell
-$validator = 'C:\Users\steph\Projekte\H.E.S.T.I.A\tools\codex-usage\Test-CodexUsageState.ps1'
-$validation = & 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe' `
-  -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass `
-  -File $validator -Refresh
+$validation = & kasrkin validate -Refresh
 if ($LASTEXITCODE -ne 0) {
   throw "Codex usage state validation failed with exit code $LASTEXITCODE."
 }
@@ -286,7 +286,7 @@ $usage = $validation | ConvertFrom-Json
 
 Der Validator prüft unter anderem:
 
-- SHA-256-Gleichheit von installierter und kanonischer Kopie,
+- SHA-256-Gleichheit von Rainmeter-Sensor und gebundenem Release-Sensor,
 - Schema und Sensorversion,
 - erfolgreichen Status,
 - beide vollständigen Buckets,
@@ -296,8 +296,12 @@ Der Validator prüft unter anderem:
 
 Nur Exitcode `0` plus kompakte Validatorausgabe ist ein gültiger Messnachweis.
 Das rohe JSON wird nicht eigenständig neu interpretiert. Vollständige States
-werden nicht ins Repository geschrieben. Schwellen, Delta-/Resetregeln und
-Safe Closure stehen ausschließlich im Roadmap Workflow Contract.
+werden nicht ins Repository geschrieben. Der exakt gebundene KASRKIN-Release
+besitzt die ausführbare Entscheidungsemantik. Der HESTIA Workflow Contract
+besitzt Konsultationszeitpunkte, projektspezifische Ausführung, Rollback und
+Safe Closure; seine lesbare Entscheidungstabelle ist eine Verbraucherprojektion
+und darf den Release nicht überschreiben. `.kasrkin/activation.json` bindet
+beide Seiten; ein Widerspruch ist Contract Drift und sperrt den nächsten Block.
 
 ## Lokale Env- und Secretgrenzen
 
@@ -326,7 +330,8 @@ Lokal korrigiert wurde:
 - `.env`/`.env.*` als wirksame Ignore-Regel bestätigt,
 - `.env.supabase.local` nur aus dem Git-Index entfernt; die lokale Datei blieb
   erhalten,
-- `tools/codex-usage/UsageState.json` zusätzlich ignoriert.
+- die frühere lokale Usage-State-Ignore-Regel in W7 gemeinsam mit der
+  duplizierten Toolkopie retiret.
 
 Bewusst nicht Teil dieses Sweeps:
 

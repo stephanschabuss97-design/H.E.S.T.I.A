@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "w6-h-hestia-ownership-20260919",
+  "status": "W6_H_COMPLETE",
+  "completedAt": "2026-09-19T21:09:21.6569154+02:00",
+  "ownerScope": "HESTIA_GOVERNANCE_OWNERSHIP_AND_REFERENCE_CLEANUP_ONLY",
+  "admission": {
+    "measuredAt": "2026-09-19T21:02:32.1981877+02:00",
+    "valid": true,
+    "schemaVersion": 3,
+    "sensorVersion": "3.1.0",
+    "sensorStatus": "OK",
+    "fiveHourRemaining": 72,
+    "weeklyRemaining": 71,
+    "fiveHourResetAtEpoch": 1789861391,
+    "weeklyResetAtEpoch": 1790412165,
+    "decision": "CONTINUE",
+    "workClass": "MEDIUM_LOCAL_REVERSIBLE"
+  },
+  "release": {
+    "releaseId": "kasrkin-2a0d185b0b04a93f",
+    "releaseFingerprint": "2a0d185b0b04a93f9794da885e5f200ba5cc6aacbd82063c44c6d115b9fd5658",
+    "payloadDigest": "c51e6b3ab528c528b44669992fd3a2fc112e4094ba09c3c04e7750523bb2137b",
+    "installationReceiptSha256": "1abdce21dd17c9a0ce9fda9cd86db0de71cb13b799515351040a16b362f96187",
+    "bindingSha256": "ff23b658b90d3f63b5dff0c874e0d33f999793665b9d7cc142c9163ee06eabf3",
+    "stableCommand": "C:\\Users\\steph\\.local\\bin\\kasrkin.cmd",
+    "changed": false
+  },
+  "activation": {
+    "path": ".kasrkin/activation.json",
+    "bytes": 3285,
+    "sha256": "0b258623fe176c050eb2ac35420d8edc09e086fee2b0b29d0fc28ba6e46bf418",
+    "proofPath": ".kasrkin/Test-HestiaKasrkinActivation.ps1",
+    "proofBytes": 4183,
+    "proofSha256": "7b5524dd490b1229c121255f82f14a2deacfb2240b6cfcc232c7ec5afff2e752",
+    "decisionSemanticsOwner": "KASRKIN",
+    "projectExecutionOwner": "HESTIA",
+    "consultationArtifacts": 8
+  },
+  "changedFiles": [
+    {
+      "role": "HESTIA_AGENT_ENFORCEMENT",
+      "path": "AGENTS.md",
+      "preimageSha256": "0161b28f44c23e75f31e9e5f127638db100ba109fd152b3d663bff44784250d0",
+      "postimageSha256": "ff2459206f6b497bc4d5d239f57ffca3644f3bcdd93d6e28a0b2be9747d6a51e"
+    },
+    {
+      "role": "HESTIA_SENSOR_OPERATIONS",
+      "path": "docs/DEV_ENVIRONMENT.md",
+      "preimageSha256": "9b9188bcf8a5bb45e8d337f660001d28d2d090e1d17c7fd88b734c67210506dd",
+      "postimageSha256": "c52ccae9ec3be5ad81b89c00cbb5a7687aec1cbd7af7abd89e93a5d573825753"
+    },
+    {
+      "role": "HESTIA_WORKFLOW_CONSULTATION",
+      "path": "docs/templates/HESTIA Roadmap Workflow Contract.md",
+      "preimageSha256": "f962d93ebe9bf124a8fba21526cdc0dbbf9b4307d6182dad404c7e5d5261b728",
+      "postimageSha256": "77a6c4c95cbb22343bf1183fba9ae789d6c7485a0b57cfb20e8f4f17cda482fa"
+    },
+    {
+      "role": "HESTIA_TEMPLATE_INDEX",
+      "path": "docs/templates/README.md",
+      "preimageSha256": "8d49772d72bd41df549c57dff7d75dcd6c87111ff3185176a0a5d6bc7d55bbbd",
+      "postimageSha256": "9dceb10680747e84e5c8a352691f8ae83a3937be637e01df23a513711092b661"
+    },
+    {
+      "role": "HESTIA_ROADMAP_TEMPLATE",
+      "path": "docs/templates/HESTIA Roadmap Template.md",
+      "preimageSha256": "2ae57688adad6e9a9eccaf6271eed19c57595cd67ad24c17353ad63e32fe95ed",
+      "postimageSha256": "a34df90ee97852dcf464c16e91e7768978dbf3241c6a1cb06bb7d26d2b4b3dc0"
+    },
+    {
+      "role": "HESTIA_EVIDENCE_TEMPLATE",
+      "path": "docs/templates/HESTIA Roadmap Evidence Template.md",
+      "preimageSha256": "fb9c993966540747ad1aad6a378e00d3621dbfa6c7e6148d769c82e11bb302c2",
+      "postimageSha256": "8a810ad26bb27965c0fd7be38253163a2a981244fd3d1e68dddec19ef78e033c"
+    }
+  ],
+  "proof": {
+    "activationSuite": "PASS",
+    "consultationArtifactHashes": "PASS_8_OF_8",
+    "rootVersion": "PASS",
+    "foreignCwd": "C:\\Users\\steph\\Projekte\\H.E.S.T.I.A\\docs",
+    "foreignCwdVersion": "PASS",
+    "storedStateValidation": "PASS",
+    "legacyValidatorCompatibility": "PASS",
+    "sourceCandidateStandalone": "PASS_47_FILES_7_SUITES_106_CASES",
+    "legacyW3SourceProof": "EXPECTED_INVALIDATED_BY_COMPLETED_CONSUMER_AND_OWNERSHIP_WAVES",
+    "disposableActivationFixture": "PASS",
+    "missingArtifactDriftExitCode": 1,
+    "temporaryFixtureRemoved": true,
+    "powershellParser": "PASS_1_OF_1",
+    "jsonParse": "PASS",
+    "diffCheck": "PASS"
+  },
+  "protectedInputs": {
+    "w3HConsumerReceiptSha256": "669b74d0329f4f21ef52f7c1cb0effbd2be97adbde50f3f0fd9ed1f7d4a58688",
+    "midasActivationSha256": "be16df5190e9ff46ff5b1685acfe063f8290d03a440a8e7a43496c56a4a2d99a",
+    "midasW6ReceiptSha256": "c494acbfe4814a8f265e4d1a3a92b33a2115510ee80bde9186069ba77796a413",
+    "kasrkinIntegrationContractSha256": "d2a2e780b1a28a22466e9cf7b2cd74e30f98a5c4c9b937525293aa7df87feb9a",
+    "w4ArchiveReceiptSha256": "0aeb7bc4945211eb038c350a2d487701277a92bcc77d0d5ad0249e9491c0be29",
+    "w5HandoffReceiptSha256": "062abb1247bd6e4a36c85171ac6ed9b31986c5a338cb964687272d1a75a45737",
+    "migrationInventorySha256": "d252e9bae2f2f0e6ef07d1d61c0fca7ffbd24cb4901ba41b0263a128dc359775"
+  },
+  "boundaries": {
+    "midasChanged": false,
+    "productCodeChanged": false,
+    "activePolicyChanged": false,
+    "installedPayloadChanged": false,
+    "runtimeStateMoved": false,
+    "additionalUsageWriter": false,
+    "legacyRollbackSourcesRetained": true,
+    "pilotArchiveChanged": false,
+    "argusProductStarted": false,
+    "migrationInventoryChanged": false,
+    "commitCreated": false
+  },
+  "rollback": {
+    "id": "B6H",
+    "restoreSixContractPreimagesTogether": true,
+    "removeActivationAndProof": true,
+    "preserveBindingAndW3HReceipt": true,
+    "preserveInstalledRelease": true,
+    "preserveRainmeterState": true,
+    "preserveLegacySources": true,
+    "preserveMidasConsumer": true,
+    "partialRollbackValid": false
+  },
+  "nextStep": "W7_OWNER_AUTHORIZATION_AND_FRESH_USAGE_GATE_REQUIRED"
+}

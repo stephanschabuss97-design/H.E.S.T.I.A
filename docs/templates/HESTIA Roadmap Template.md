@@ -27,6 +27,7 @@ Roadmap kopiert. Nicht benötigte Abschnitte werden entfernt.
 | Externes Reviewbudget | `S1-S4: 0; S5 Code: 1+1; Doku-only: 0` |
 | Deploy / Remote Write | `nein / owner-gated` |
 | Usage-Continuation | `verpflichtend; [Checkpoint-Grenzen]` |
+| KASRKIN-Aktivierung | `.kasrkin/activation.json; exakter Release; Proof grün` |
 | Evidence | `nicht erforderlich / docs/[Titel] Evidence.md` |
 | Workflow-Vertrag | `docs/templates/HESTIA Roadmap Workflow Contract.md` |
 | Archivziel | `docs/archive/[Titel] Roadmap (DONE).md` |
@@ -41,8 +42,9 @@ Roadmap kopiert. Nicht benötigte Abschnitte werden entfernt.
   3. `README.md` und `PRODUCT.md`
   4. `docs/DEV_ENVIRONMENT.md`
   5. `docs/templates/HESTIA Roadmap Workflow Contract.md`
-  6. `Pflichtreferenzen dieser Roadmap`
-  7. `git status --short und nur der relevante Diff`
+  6. `.kasrkin/activation.json und nur bei Invalidation der lokale Proof`
+  7. `Pflichtreferenzen dieser Roadmap`
+  8. `git status --short und nur der relevante Diff`
 - Startschritt:
   - `[S1 oder Resume-Schritt]`
 - Freigegebene autonome Welle:
@@ -50,7 +52,8 @@ Roadmap kopiert. Nicht benötigte Abschnitte werden entfernt.
 - Reasoning:
   - `[Standard und begründete Wellengrenzen]`
 - Usage-Gates:
-  - `vor dem ersten und jedem späteren kohärenten Block; Safe Closure stoppt`
+  - `vor dem ersten und jedem späteren kohärenten Block; die gebundene
+    KASRKIN-Entscheidung gilt, Safe Closure stoppt`
 - Owner-Gates:
   - `[SQL/RLS/Deploy/Workflow/Push/Device/none]`
 - Stop-Bedingungen:
@@ -180,6 +183,7 @@ Pflicht in S1:
 - `PRODUCT.md`
 - `docs/DEV_ENVIRONMENT.md`
 - `docs/templates/HESTIA Roadmap Workflow Contract.md`
+- `.kasrkin/activation.json`
 - `docs/modules/[Modul] Module Overview.md`
 - `[weitere Quelle]`
 

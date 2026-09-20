@@ -32,5 +32,3 @@ supabase/.temp/
 twa/android.keystore
 twa/keystore.properties
 twa/keystore.properties.example
-
-tools/codex-usage/UsageState.json

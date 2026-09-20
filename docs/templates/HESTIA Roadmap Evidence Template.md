@@ -22,6 +22,7 @@ unnötigen Terminal-Rohdaten eintragen.
 | Verantwortlicher Schritt | `[S4.x/S5/S6]` |
 | Umgebungen | `lokal / disposable / produktiv read-only / produktiv write` |
 | Baseline-Commit | `[SHA]` |
+| KASRKIN-Binding / Aktivierung | `[Release-ID; Binding-Hash; Activation-Hash]` |
 | Reviewbudget | `S1-S4: 0; S5 CodeRabbit: 1 Initial + 1 Verifikation` |
 | Archivziel | `docs/archive/[Titel] Evidence (DONE).md` |
 
@@ -30,6 +31,8 @@ unnötigen Terminal-Rohdaten eintragen.
 - Beweist: `[technische Aussage]`
 - Beweist nicht: `[Abgrenzung]`
 - Fachliche Source of Truth: `[Decision/Roadmap-Abschnitt]`
+- Usage-Entscheidungsautorität: `[exakt gebundener KASRKIN-Release; HESTIA
+  konsultiert und führt projektspezifisch aus]`
 - Verboten: Secrets, Household-Keys, unnötige Dumps und personenbezogene
   Rohdaten.
 

@@ -84,6 +84,17 @@ remain unchanged; otherwise read the authoritative source.
 - Refresh and validate only through the canonical commands in
   `docs/DEV_ENVIRONMENT.md`. Do not infer quota from Rainmeter, chat banners,
   browser UI, or remembered values, and do not reinterpret raw JSON ad hoc.
+- In this initialized consumer, invoke KASRKIN through the stable `kasrkin`
+  command from the project tree. Its resolver must validate the project-local
+  `.kasrkin/binding.json` and exact installed release before dispatch. W7
+  retired the duplicated local snapshot; recovery uses the proven
+  `codex-tools` source, installed release and receipts under an explicit
+  rollback boundary.
+- The exact bound KASRKIN release is the sole executable authority for usage
+  decisions. HESTIA owns when the tool is consulted and how its result is
+  applied to HESTIA-specific execution, rollback, product, and owner gates.
+  `.kasrkin/activation.json` binds that split and the consulted local contracts;
+  any mismatch is contract drift and fails closed.
 - Missing, partial, failed, or stale telemetry forbids a new major block.
   Preserve the last complete block, synchronize the roadmap and Resume Card,
   and stop at a safe resume boundary.

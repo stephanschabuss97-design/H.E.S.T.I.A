@@ -1,0 +1,103 @@
+{
+  "receiptVersion": "hestia-kasrkin-consumer-cutover/1",
+  "consumer": "HESTIA",
+  "wave": "W3-H",
+  "verifiedAt": "2026-09-19T16:08:23.9642743+02:00",
+  "projectRoot": "C:\\Users\\steph\\Projekte\\H.E.S.T.I.A",
+  "binding": {
+    "path": ".kasrkin/binding.json",
+    "bytes": 361,
+    "sha256": "ff23b658b90d3f63b5dff0c874e0d33f999793665b9d7cc142c9163ee06eabf3",
+    "bindingVersion": "kasrkin-project-binding/1",
+    "releaseId": "kasrkin-2a0d185b0b04a93f",
+    "releaseFingerprint": "2a0d185b0b04a93f9794da885e5f200ba5cc6aacbd82063c44c6d115b9fd5658",
+    "payloadDigest": "c51e6b3ab528c528b44669992fd3a2fc112e4094ba09c3c04e7750523bb2137b",
+    "installationReceiptSha256": "1abdce21dd17c9a0ce9fda9cd86db0de71cb13b799515351040a16b362f96187"
+  },
+  "command": {
+    "name": "kasrkin",
+    "shimPath": "C:\\Users\\steph\\.local\\bin\\kasrkin.cmd",
+    "checkoutIndependent": true,
+    "neverUsesLatest": true
+  },
+  "changedFiles": [
+    {
+      "role": "AGENT_ENFORCEMENT_REFERENCE",
+      "path": "AGENTS.md",
+      "preimageSha256": "a5cd11cbbe30d7e0a02f1bb4e03e02bb0d8da7a1bc25ee54321d344169f1a6a3",
+      "postimageSha256": "0161b28f44c23e75f31e9e5f127638db100ba109fd152b3d663bff44784250d0"
+    },
+    {
+      "role": "SENSOR_OPERATIONS_CONTRACT",
+      "path": "docs/DEV_ENVIRONMENT.md",
+      "preimageSha256": "f0fcf4c3a888d30d2544bcb25d7b6c908a08f562d9b12166d844958add6ff036",
+      "postimageSha256": "9b9188bcf8a5bb45e8d337f660001d28d2d090e1d17c7fd88b734c67210506dd"
+    },
+    {
+      "role": "HESTIA_WORKFLOW_CONTRACT",
+      "path": "docs/templates/HESTIA Roadmap Workflow Contract.md",
+      "preimageSha256": "9e6f7436ed0fa561a6298a5f24bd97e50ad31701a18c866104b596f212010db9",
+      "postimageSha256": "f962d93ebe9bf124a8fba21526cdc0dbbf9b4307d6182dad404c7e5d5261b728"
+    }
+  ],
+  "proof": {
+    "rootVersionExit": 0,
+    "foreignCwdVersionExit": 0,
+    "installedValidatorExit": 0,
+    "installedValidatorMeasuredAt": "2026-09-19T16:08:23.9642743+02:00",
+    "envelopeExit": 0,
+    "envelopeVersion": "guard-telemetry/1",
+    "envelopeResult": "VALID",
+    "legacyValidatorExit": 0,
+    "legacyContractCompatibility": "PASS",
+    "unbound": {
+      "exitCode": 2,
+      "code": "KASRKIN_PROJECT_BINDING_MISSING"
+    },
+    "drift": {
+      "exitCode": 2,
+      "code": "KASRKIN_BINDING_RECEIPT_HASH_MISMATCH"
+    },
+    "temporaryFixtureRemoved": true
+  },
+  "retainedRollbackSources": [
+    {
+      "path": "tools/codex-usage/GetCodexUsage.ps1",
+      "sha256": "3d8f8601d67e33193566cc4273faf517ed32915d8b758d4a5c5c60e08037c8d1"
+    },
+    {
+      "path": "tools/codex-usage/Test-CodexUsageState.ps1",
+      "sha256": "357c4227e613ba78bf652173aadc24eaf14281719143c7d89284b4cc36bccf6e"
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "8e960c268c739f8a2c1373c6bd1c6033324e3a4685226a496572ed22349e8f2f"
+    }
+  ],
+  "runtime": {
+    "statePath": "C:\\Users\\steph\\Documents\\Rainmeter\\Skins\\illustro\\Tokens\\UsageState.json",
+    "statePathChanged": false,
+    "sensorSha256": "3d8f8601d67e33193566cc4273faf517ed32915d8b758d4a5c5c60e08037c8d1",
+    "rainmeterInstalledAndReleaseSensorsByteIdentical": true,
+    "additionalScheduledUsageWriters": 0
+  },
+  "boundaries": {
+    "oldHestiaSourceRetained": true,
+    "midasConsumerChanged": false,
+    "activeHestiaWorkflowSemanticsChanged": false,
+    "migrationInventoryChanged": false,
+    "migrationInventorySha256": "d252e9bae2f2f0e6ef07d1d61c0fca7ffbd24cb4901ba41b0263a128dc359775",
+    "productCodeChanged": false,
+    "commitCreated": false
+  },
+  "rollback": {
+    "id": "BH",
+    "bindingPreimage": "ABSENT",
+    "restoreChangedFilesTogether": true,
+    "restoreToPreimageHashes": true,
+    "legacyValidatorPath": "tools/codex-usage/Test-CodexUsageState.ps1",
+    "preserveInstalledRelease": true,
+    "preserveRainmeterState": true,
+    "preserveMidasConsumer": true
+  }
+}

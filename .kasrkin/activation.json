@@ -1,0 +1,89 @@
+{
+  "activationVersion": "hestia-kasrkin-activation/1",
+  "consumer": "HESTIA",
+  "activatedAt": "2026-09-19T21:06:37.0066091+02:00",
+  "authority": {
+    "decisionSemanticsOwner": "KASRKIN",
+    "decisionDetailSource": "PINNED_INSTALLED_RELEASE",
+    "projectExecutionOwner": "HESTIA",
+    "projectContract": "docs/templates/HESTIA Roadmap Workflow Contract.md"
+  },
+  "binding": {
+    "path": ".kasrkin/binding.json",
+    "sha256": "ff23b658b90d3f63b5dff0c874e0d33f999793665b9d7cc142c9163ee06eabf3",
+    "releaseId": "kasrkin-2a0d185b0b04a93f",
+    "releaseFingerprint": "2a0d185b0b04a93f9794da885e5f200ba5cc6aacbd82063c44c6d115b9fd5658",
+    "payloadDigest": "c51e6b3ab528c528b44669992fd3a2fc112e4094ba09c3c04e7750523bb2137b",
+    "receiptSha256": "1abdce21dd17c9a0ce9fda9cd86db0de71cb13b799515351040a16b362f96187",
+    "sourceCandidateId": "source-candidate-a57d05e3aab820a1"
+  },
+  "consultationArtifacts": [
+    {
+      "role": "KASRKIN_INTEGRATION_CONTRACT",
+      "path": "C:\\Users\\steph\\Projekte\\codex-tools\\docs\\architecture\\KASRKIN Integration.md",
+      "sha256": "d2a2e780b1a28a22466e9cf7b2cd74e30f98a5c4c9b937525293aa7df87feb9a"
+    },
+    {
+      "role": "HESTIA_AGENT_ENFORCEMENT",
+      "path": "AGENTS.md",
+      "sha256": "8eb96fbd660c8ae71b1a5178ce6008ae2d3722130cf3133e61818683b56a62be"
+    },
+    {
+      "role": "HESTIA_SENSOR_OPERATIONS",
+      "path": "docs/DEV_ENVIRONMENT.md",
+      "sha256": "2020f30e171638b602059e0f93f001776e86f0db4eb91ca4775fc1b11c1c1660"
+    },
+    {
+      "role": "HESTIA_WORKFLOW_CONSULTATION",
+      "path": "docs/templates/HESTIA Roadmap Workflow Contract.md",
+      "sha256": "77a6c4c95cbb22343bf1183fba9ae789d6c7485a0b57cfb20e8f4f17cda482fa"
+    },
+    {
+      "role": "HESTIA_TEMPLATE_INDEX",
+      "path": "docs/templates/README.md",
+      "sha256": "9dceb10680747e84e5c8a352691f8ae83a3937be637e01df23a513711092b661"
+    },
+    {
+      "role": "HESTIA_ROADMAP_TEMPLATE",
+      "path": "docs/templates/HESTIA Roadmap Template.md",
+      "sha256": "a34df90ee97852dcf464c16e91e7768978dbf3241c6a1cb06bb7d26d2b4b3dc0"
+    },
+    {
+      "role": "HESTIA_EVIDENCE_TEMPLATE",
+      "path": "docs/templates/HESTIA Roadmap Evidence Template.md",
+      "sha256": "8a810ad26bb27965c0fd7be38253163a2a981244fd3d1e68dddec19ef78e033c"
+    },
+    {
+      "role": "HESTIA_ACTIVATION_PROOF",
+      "path": ".kasrkin/Test-HestiaKasrkinActivation.ps1",
+      "sha256": "175ce18602118df08f0a575fa052b5ec61951f1a666c54034e84c6bbca28e16d"
+    }
+  ],
+  "runtime": {
+    "statePath": "C:\\Users\\steph\\Documents\\Rainmeter\\Skins\\illustro\\Tokens\\UsageState.json",
+    "schemaVersion": 3,
+    "sensorVersion": "3.1.0"
+  },
+  "legacyRollback": {
+    "status": "RETIRED_W7",
+    "retiredAt": "2026-09-20T06:36:11.7147544+02:00",
+    "sourceRoot": "tools/codex-usage",
+    "active": false,
+    "successors": [
+      {
+        "role": "CODEX_TOOLS_SOURCE",
+        "path": "C:\\Users\\steph\\Projekte\\codex-tools\\apps\\kasrkin\\tools\\codex-usage"
+      },
+      {
+        "role": "PINNED_INSTALLED_RELEASE",
+        "path": "C:\\Users\\steph\\.local\\share\\kasrkin\\releases\\kasrkin-2a0d185b0b04a93f"
+      }
+    ]
+  },
+  "constraints": {
+    "policyChanged": false,
+    "runtimeStateMoved": false,
+    "additionalUsageWriter": false,
+    "midasChanged": false
+  }
+}
