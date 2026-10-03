@@ -1,3 +1,12 @@
+# Aktueller KASRKIN-Commandkontext (2026-10-03)
+
+Installation: C:\Users\steph\.local\share\kasrkin-gate-v1.
+Release: `kasrkin-846014632990bb03`. Vor allen unten dokumentierten
+kasrkin-Aufrufen in jedem neuen PowerShell-Prozess Receipt und ausgewählten
+Bootstrap in .kasrkin/command.json verifizieren, dann diesen Bootstrap mit
+-ProjectRoot dieses Projekts ausführen. K0: .kasrkin/Test-HestiaKasrkinActivation.ps1.
+Kein globaler PATHwrite oder Fallback zum bisherigen Shared-Shim.
+
 # HESTIA Dev Environment
 
 Dieses Dokument beschreibt die lokale Entwicklungsumgebung für HESTIA. Es ist

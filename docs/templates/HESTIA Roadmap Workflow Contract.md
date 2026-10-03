@@ -290,3 +290,15 @@ Ohne ausdrückliche Freigabe keine produktive oder extern sichtbare Wirkung.
   Repositoryvertrag gehört.
 - Commit und Push bleiben Owner-Aufgabe, sofern Stephan sie nicht ausdrücklich
   beauftragt.
+
+
+## Aktive Endphase-Konsultation (2026-10-03)
+
+Die Endphase-Regeln im Root-AGENTS und .kasrkin/integration.md gelten für
+den jetzt gebundenen Release. Fachliche Wahrheit, Roadmap-Scope, S5-Review,
+produktive Writes und Ownergates bleiben HESTIA-eigen. Der Cutover
+startet keine Produktroadmap. Reguläre Entscheidung und effektive Endphase-
+Zulassung bleiben getrennt; alte SMALL-/Ein-Block-Cautionprojektionen gelten
+nur für die unveränderte Legacyentscheidung, nicht als zusätzliche Sperre
+eines gültig persistierten Endphasepermits. Fehlende History braucht den
+exakten einmaligen Ownerbudgetvertrag. Kein pauschaler Reviewdefault.
