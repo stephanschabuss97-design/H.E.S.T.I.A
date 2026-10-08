@@ -26,7 +26,7 @@
     {
       "role": "HESTIA_AGENT_ENFORCEMENT",
       "path": "AGENTS.md",
-      "sha256": "801e3379a8bdedab18494313c9a82ce088e3e094aab4607e201ab052a9ee322f",
+      "sha256": "a9e755c5f480084320949e9ab16e5d5145ddd0d536e1c760b99d2f13c3e5c70e",
       "hashMode": "EXCLUDE_NON_NORMATIVE_NOTES_V1"
     },
     {
