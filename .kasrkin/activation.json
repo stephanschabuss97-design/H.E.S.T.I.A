@@ -1,7 +1,7 @@
 {
-  "activationVersion": "hestia-kasrkin-activation/2",
+  "activationVersion": "hestia-kasrkin-activation/3",
   "consumer": "HESTIA",
-  "activatedAt": "2026-10-03T13:38:19.364742+02:00",
+  "activatedAt": "2026-10-06T20:32:28.7812520+02:00",
   "authority": {
     "decisionSemanticsOwner": "KASRKIN",
     "decisionDetailSource": "PINNED_INSTALLED_RELEASE",
@@ -10,57 +10,66 @@
   },
   "binding": {
     "path": ".kasrkin/binding.json",
-    "sha256": "89206851ca5fe930959f13863a4fb57adccfecbb62a6ab33da31e705dc86759d",
-    "releaseId": "kasrkin-846014632990bb03",
-    "releaseFingerprint": "846014632990bb0398ecc8dd450981b43e29186d3f31641487e65818b0dbf0fb",
-    "payloadDigest": "3be4e889eda5875f0750332f8f88357b0c14d8c70e7f038225281d8a0d7f5217",
-    "receiptSha256": "6762c3725a4cb2c78a48998c39910b3b898e4554d4bd9e43ac42fb42786f5517"
+    "sha256": "8fb5c85b03eb013061ebd3a6e892070080ec7d50932107c7e950db4486deef52",
+    "releaseId": "kasrkin-5e4c28677939712a",
+    "releaseFingerprint": "5e4c28677939712ab038484c2732d24b8ec9a2a1fbba3d41e9bc344656bcd200",
+    "payloadDigest": "6823efdf36e5e31de59a7691e794e3659ab4e73906c31640d9461633f056e2b6",
+    "receiptSha256": "b20ac547e5beb8c5d559519e1ad0f1a2ef1d3811b2de3dfef64ede7186710b73"
   },
   "consultationArtifacts": [
     {
       "role": "KASRKIN_INTEGRATION_CONTRACT",
       "path": ".kasrkin/integration.md",
-      "sha256": "037a8a7eb703b394db5566299133049ed9416dc6e587c7dba14a1a50aa512b8e"
+      "sha256": "30abcc7a67d3613bc3d2e4394f958fc195c2cee86688c20fcbb2bb75f232d09b",
+      "hashMode": "EXCLUDE_NON_NORMATIVE_NOTES_V1"
     },
     {
       "role": "HESTIA_AGENT_ENFORCEMENT",
       "path": "AGENTS.md",
-      "sha256": "985656689ce20d84276e8134ee74506865cc60a18c12f0f649240ad86fc40c37"
+      "sha256": "801e3379a8bdedab18494313c9a82ce088e3e094aab4607e201ab052a9ee322f",
+      "hashMode": "EXCLUDE_NON_NORMATIVE_NOTES_V1"
     },
     {
       "role": "HESTIA_SENSOR_OPERATIONS",
       "path": "docs/DEV_ENVIRONMENT.md",
-      "sha256": "f4a8f948d512408ab54de8062f293c722409450f587a8cc444ec023e66d8141f"
+      "sha256": "c318c85e132aeece452a416d060abc6035ff6c7d165a48af54408626a2ab9b80",
+      "hashMode": "EXCLUDE_NON_NORMATIVE_NOTES_V1"
     },
     {
       "role": "HESTIA_WORKFLOW_CONSULTATION",
       "path": "docs/templates/HESTIA Roadmap Workflow Contract.md",
-      "sha256": "520774465b29b5e6a51c84079b3be0025001690bad9b2a8e6736f376f4f35f8a"
+      "sha256": "50e61d055e3b54678d92cbae4a08a52406a0848fb6517c682fa07bc23eed2b8e",
+      "hashMode": "EXCLUDE_NON_NORMATIVE_NOTES_V1"
     },
     {
       "role": "HESTIA_TEMPLATE_INDEX",
       "path": "docs/templates/README.md",
-      "sha256": "48defba82b65fb855b6cca30595a90d9ceb2232b4a4f457f5361b1f861862b6a"
+      "sha256": "190602d6b1e9f9ab655fd74e6760a7dea0290bebd865c90dbe41cdc6f59555f5",
+      "hashMode": "EXCLUDE_NON_NORMATIVE_NOTES_V1"
     },
     {
       "role": "HESTIA_ROADMAP_TEMPLATE",
       "path": "docs/templates/HESTIA Roadmap Template.md",
-      "sha256": "fd695459cc5888445459de5568c5d167b47ae2375086c07d4e2e8b209745dabc"
+      "sha256": "e8948a1324564601822c5cf83c6710dbddaf58e009c23c694b8ed9826c8a155f",
+      "hashMode": "EXCLUDE_NON_NORMATIVE_NOTES_V1"
     },
     {
       "role": "HESTIA_EVIDENCE_TEMPLATE",
       "path": "docs/templates/HESTIA Roadmap Evidence Template.md",
-      "sha256": "8a810ad26bb27965c0fd7be38253163a2a981244fd3d1e68dddec19ef78e033c"
+      "sha256": "28e5b005972b8f7d6821e741fe20201e1fc15fe22883ca7989a407f0ca0dec0b",
+      "hashMode": "EXCLUDE_NON_NORMATIVE_NOTES_V1"
     },
     {
       "role": "HESTIA_ACTIVATION_PROOF",
       "path": ".kasrkin/Test-HestiaKasrkinActivation.ps1",
-      "sha256": "d6ade996a8b566bd2a9f572b91f278c073f397e70b5660f4b01180c8427a4aeb"
+      "sha256": "f9c8e995409a0f6f865af6f17d4f48300c47cbb3370bfd794bdb27888f37ce78",
+      "hashMode": "FULL"
     },
     {
       "role": "HESTIA_COMMAND_SELECTION",
       "path": ".kasrkin/command.json",
-      "sha256": "a8c168df1bd50c4ef6b3604ac810fc254ed458fecf63147bc3a60f7f217f01ab"
+      "sha256": "4ee1c17c54ea6f33f59169dc5fbc2b2d9b001c48eb0755b8e4dc0c8e09b14754",
+      "hashMode": "FULL"
     }
   ],
   "runtime": {

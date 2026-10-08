@@ -32,3 +32,5 @@ supabase/.temp/
 twa/android.keystore
 twa/keystore.properties
 twa/keystore.properties.example
+
+/.kasrkin/work/

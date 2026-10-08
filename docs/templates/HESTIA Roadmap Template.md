@@ -1,231 +1,35 @@
-# HESTIA Roadmap Template
+# HESTIA Roadmap — lokale Ergänzungen
 
-Kompakte projektspezifische Vorlage. Der allgemeine Arbeitsvertrag steht in
-`docs/templates/HESTIA Roadmap Workflow Contract.md` und wird nicht in jede
-Roadmap kopiert. Nicht benötigte Abschnitte werden entfernt.
+Gemeinsamer Kern: [BLUEPRINT-1 / 2026-09-27](../../../codex-tools/docs/blueprint/ROADMAP_AUTHORING_CONTRACT.md).
+Dieser Adapter ist keine dritte vollständige Dokumentform. Zuerst
+[Rolling Wave](../../../codex-tools/docs/blueprint/ROLLING_WAVE_ROADMAP_TEMPLATE.md)
+oder [Execution](../../../codex-tools/docs/blueprint/EXECUTION_ROADMAP_TEMPLATE.md)
+nach Arbeitsform wählen; nur bei echtem Bedarf ein Child.
+Dann lokale Felder und benötigte S1–S6-Schritte ergänzen. Links an den Zielort anpassen.
 
----
+## Lokale Ergänzungen vor READY
 
-# [Titel] Roadmap
+- [Workflowvertrag](HESTIA%20Roadmap%20Workflow%20Contract.md) vollständig lesen;
+  AGENTS, README, PRODUCT und relevante Module/QA bleiben lokale Autorität.
+- Metadaten: Haushaltsnutzen, R1/R2/R3, Daten-/PWA-/Sync-Wirkung, Reviewtiefe,
+  Reasoning-Wellen, Arbeitsgröße, Autonomieprofil (Standard gated), Endpunkt,
+  Discovery-Freigabe, Evidence-Owner/Datei und Archivziel.
+- Produktfilter: Einkauf/Amazon/Muell oder ausdrücklich freigegebene Peripherie;
+  keine Organizer-/SaaS-/Historienausweitung, Freitext und lokale Nutzung erhalten.
+- Scope-Freeze: Datenmodell, Lifecycle, Sync, Runtime Config und Producer/Consumer;
+  offene Grundsatzfragen blockieren S4.
+- Capability-Receipt der zentralen Form konkret ausfüllen; fehlend/inkompatibel
+  verlangt Ownerentscheidung, niemals automatische Installation.
+- Startkarte ergänzt lokale Usage-Checkpoints, Operatoraktionen und externe Gates.
+  Checkpoints enthalten Zeit, validierte Fenster/Resetidentitäten, Entscheidung,
+  Reserve und erlaubte Folge nach gepinntem KASRKIN, keine eigene Policy.
+- SQL/RLS, Secrets, Household-Key, Deployment, Workflow und Push bleiben owner-gated.
+  Evidence enthält weder Secrets noch sensible Rohdaten.
+- S4R prognostiziert Toolinteraktionen, Browser/Device, Tests, Fehlerpfad und Closure.
+  S5 und S6 bleiben getrennte Blöcke mit Usage-Gate; kein CodeRabbit für Doku-only.
 
-## Metadaten
-
-| Feld | Wert |
-| --- | --- |
-| Status | `DRAFT / ACTIVE / PAUSED / DONE` |
-| Modul / Bereich | `[Bereich]` |
-| Erstellt / letzter Stand | `[YYYY-MM-DD] / [YYYY-MM-DD]` |
-| Aktueller Schritt | `[S1/S2/S3/S4R/S4.x/S5/S6]` |
-| Risikoklasse | `R1 / R2 / R3` |
-| Reviewtiefe | `Delta / Consumer / Full` |
-| Reasoning-Standard | `Medium / High / Extra High` |
-| Reasoning-Ausnahmen | `[Schritt + Begründung / keine]` |
-| Discovery Wave | `S1-S3 / S1-S4R / deaktiviert` |
-| Autonomieprofil | `local-full / gated / manual` |
-| Maximal autonomer Endpunkt | `[Sx]` |
-| Erwartete Arbeitsgröße | `small / medium / large; in S4R finalisieren` |
-| Externes Reviewbudget | `S1-S4: 0; S5 Code: 1+1; Doku-only: 0` |
-| Deploy / Remote Write | `nein / owner-gated` |
-| Usage-Continuation | `verpflichtend; [Checkpoint-Grenzen]` |
-| KASRKIN-Aktivierung | `.kasrkin/activation.json; exakter Release; Proof grün` |
-| Evidence | `nicht erforderlich / docs/[Titel] Evidence.md` |
-| Workflow-Vertrag | `docs/templates/HESTIA Roadmap Workflow Contract.md` |
-| Archivziel | `docs/archive/[Titel] Roadmap (DONE).md` |
-
-## Ausführungs-Chat-Startkarte
-
-- Auftrag:
-  - `Diese Roadmap deterministisch bis zum freigegebenen Gate abarbeiten.`
-- Verbindliche Lesereihenfolge:
-  1. `Metadaten, diese Startkarte, Session Resume Card und Context Receipt`
-  2. `AGENTS.md`
-  3. `README.md` und `PRODUCT.md`
-  4. `docs/DEV_ENVIRONMENT.md`
-  5. `docs/templates/HESTIA Roadmap Workflow Contract.md`
-  6. `.kasrkin/activation.json und nur bei Invalidation der lokale Proof`
-  7. `Pflichtreferenzen dieser Roadmap`
-  8. `git status --short und nur der relevante Diff`
-- Startschritt:
-  - `[S1 oder Resume-Schritt]`
-- Freigegebene autonome Welle:
-  - `[Bereich / keine]`
-- Reasoning:
-  - `[Standard und begründete Wellengrenzen]`
-- Usage-Gates:
-  - `vor dem ersten und jedem späteren kohärenten Block; die gebundene
-    KASRKIN-Entscheidung gilt, Safe Closure stoppt`
-- Owner-Gates:
-  - `[SQL/RLS/Deploy/Workflow/Push/Device/none]`
-- Stop-Bedingungen:
-  - `Quellenwiderspruch, fehlende Produktentscheidung, Scope-Ausweitung,
-    blockierendes Finding, ungültige Telemetrie oder nicht erteiltes Owner-Gate`
-- Halluzinationsschutz:
-  - `Keine fehlenden Verträge erfinden; reale Sources und Implementierung
-    prüfen und Widersprüche als Finding führen.`
-
-Startprompt:
-
-```text
-Arbeite diese HESTIA-Roadmap gemäß ihrer Ausführungs-Chat-Startkarte ab. Lies
-die festgelegten Quellen in der angegebenen Reihenfolge, prüfe Git- und
-Systemstand und beginne mit dem eingetragenen Startschritt. Erfinde keine
-fehlenden Verträge und beachte alle Owner-Gates. Führe freigegebene autonome
-Wellen über grüne interne Continuation Gates ohne Rückfrage aus. Wende vor
-jedem neuen Haupt- oder kohärenten Ausführungsblock das Usage-aware
-Continuation Gate an. Beginne bei Safe Closure keinen neuen Block und
-hinterlasse einen vollständigen Resume-Stand.
-```
-
-## Session Resume Card
-
-Unter ungefähr 35 Zeilen halten und nach jedem Hauptschritt, S4-Block und vor
-Pausen ersetzen.
-
-- Ziel: `[ein Satz]`
-- Unveränderliche Verträge: `[Guardrails]`
-- Erledigter Stand: `[maximal fünf Punkte]`
-- Aktueller Schritt: `[Sx.y]`
-- Nächster erlaubter Schritt: `[genau eine Aktion oder Gate]`
-- Offene Findings: `[IDs / none]`
-- Geänderte Dateien: `[Pfade / Diff-Verweis]`
-- Gültige Nachweise: `[T-/EV-/QA-IDs]`
-- Context Receipt: `[gültig / gezielt zu aktualisieren]`
-- Autonomieprofil / Welle: `[Profil; Bereich; Endpunkt]`
-- Letzter Usage-Checkpoint: `[Ux; Werte; Entscheidung]`
-- Produktiv-/Deploystand: `[nicht relevant / exakter Stand]`
-- Offene Owner-Gates: `[Liste / none]`
-- Stop-Bedingung: `[nicht überspringen]`
-
-## Usage-Checkpoints
-
-Nur validierte reale Messungen eintragen, keine Schätzwerte oder Roh-JSON.
-
-| ID | Grenze / nächster Block | Messzeit | 5h Rest / Reset | Woche Rest / Reset | Delta | Ereignis | Entscheidung |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| U0 | `vor [Block]` | `pending` | `pending` | `pending` | `Baseline` | `pending` | `pending` |
-
-- Kohärente Blockgrenzen: `[Liste; S5 und S6 getrennt]`
-- Vergleichbare Blöcke für Reserve: `[IDs / keine; niemals schätzen]`
-- Safe-Closure-Handoff: `[letzter kompletter Block; genau nächstes Gate]`
-
-## Context Receipt
-
-- Baseline-Commit: `[SHA]`
-- Relevante Dirty Files: `[Pfade / none]`
-- Sources of Truth: `[Pfad: Fingerprint + abgedeckter Vertrag]`
-- Validated Context Reuse, nur bei großen stabilen Quellen:
-  - Source: `[Pfad]`
-  - Fingerprint: `[Hash/Stand]`
-  - Validiert durch: `[Schritt/Evidence-ID]`
-  - Wiederverwendbare Aussagen: `[begrenzte Liste]`
-  - Invalidation: `[Trigger]`
-  - Original erforderlich bei: `[Exact-Source-Fragen]`
-- Gültige Nachweise: `[IDs + Aussage]`
-- Invalidation Map: `[Änderung -> betroffene Nachweise]`
-- Tool-/Runtimestatus: `[nur relevante Versionen; keine Secrets]`
-
-## Zielvertrag
-
-Prüfbares Endergebnis:
-
-- `[beobachtbarer Zielzustand]`
-- `[beobachtbarer Zielzustand]`
-
-Bewusst unverändert:
-
-- `[bestehender Produkt-/Daten-/Runtimevertrag]`
-
-## Problem und Ist-Zustand
-
-- Beobachtung: `[Ist-Zustand]`
-- Reibung/Risiko: `[warum relevant]`
-- Belegte Fakten: `[Quellen]`
-- Offene Hypothesen: `[Annahmen / none]`
-
-## Entscheidungslog
-
-| ID | Datum | Entscheidung | Warum | Betrifft |
-| --- | --- | --- | --- | --- |
-| D-1 | `[YYYY-MM-DD]` | `[Entscheidung]` | `[Begründung]` | `[Vertrag/Schritt]` |
-
-## Scope und Grenzen
-
-In Scope:
-
-- `[Code/Doku/Runtime]`
-
-Nicht in Scope:
-
-- `[Abgrenzung]`
-
-Roadmap-Guardrails:
-
-- HESTIA bleibt ein ruhiges Werkzeug für einen kleinen bekannten Haushalt.
-- Freitext und lokale Nutzbarkeit bleiben erhalten.
-- `[spezifischer Guardrail]`
-
-## Scope-Freeze vor S4
-
-- Bestehende Features: `[erhalten/ändern/entfernen]`
-- Datenvertrag und Lifecycle: `[unverändert/exakt geändert]`
-- LocalStorage, Supabase, Realtime und Offline: `[Wirkung]`
-- Service Worker, Cache und PWA: `[Wirkung]`
-- Producer und Consumer: `[Pfade/Verträge]`
-- Externe Automationen/Push: `[nicht betroffen/exakt geändert]`
-- Offene Grundsatzfragen: `none / [blockiert S4]`
-
-## Referenzen
-
-Pflicht in S1:
-
-- `AGENTS.md`
-- `README.md`
-- `PRODUCT.md`
-- `docs/DEV_ENVIRONMENT.md`
-- `docs/templates/HESTIA Roadmap Workflow Contract.md`
-- `.kasrkin/activation.json`
-- `docs/modules/[Modul] Module Overview.md`
-- `[weitere Quelle]`
-
-Nur bei konkreter Frage:
-
-- `docs/archive/[relevante Roadmap].md`
-- `docs/QA_CHECKS.md:[relevanter Abschnitt]`
-
-## Tool Permissions und Gates
-
-Allowed:
-
-- `[lokale Reads/Edits/Tests/read-only Abfragen]`
-
-Owner-gated:
-
-- `[Remote Supabase/SQL/RLS/Deploy/Workflow/Push/Device/none]`
-
-Forbidden:
-
-- Secrets oder Household-Keys ausgeben oder committen.
-- Fremde Worktree-Änderungen zurücksetzen.
-- Scope, Datenwirkung oder Architektur still erweitern.
-- `[spezifisches Verbot]`
-
-## Statusmatrix
-
-| ID | Schritt | Reasoning | Status | Ergebnis |
-| --- | --- | --- | --- | --- |
-| S1 | System- und Vertragsdetektivarbeit | `[Stufe]` | TODO | |
-| S2 | Zielvertrag | `[Stufe]` | TODO | |
-| S3 | Bruchrisiko-, Security- und Umsetzungsreview | `[Stufe]` | TODO | |
-| S4R | Readiness Review | `[Stufe]` | TODO | |
-| S4 | Umsetzung | `je Block` | TODO | |
-| S5 | Tests und Abschlussreview | `[Stufe]` | TODO | |
-| S6 | Doku-Sync und Archiv | `[Stufe]` | TODO | |
-
-## Findings
-
-| ID | Severity | Typ | Status | Entscheidung / Zielschritt |
-| --- | --- | --- | --- | --- |
-| F-1 | `P0/P1/P2/Watchlist` | `Contract/Code/SQL/Doku/QA/Copy` | `open/fixed/deferred` | `[Sx]` |
+Die folgenden Phasen sind die lokale HESTIA-Ausprägung. Keine medizinischen
+MIDAS-Gates übernehmen; reale Daten-/Security-/Deployrisiken nicht reduzieren.
 
 ## S1 - System- und Vertragsdetektivarbeit
 
@@ -350,3 +154,43 @@ type(scope): kurze Beschreibung
 
 Exit: Produkt, Code, Runtime, QA und Dokumentation beschreiben denselben
 finalen Vertrag.
+
+
+
+## Explicit KRC-C2 Work/2 cutover — 2026-10-06
+
+Current exact selection: kasrkin-1e00b126f303d631 in kasrkin-admin-v1;
+receiptSHA51ea013ec6d2227555bc096dcfe9bf32bdc758ec597f1124497578180c4d3ac1.
+This dated section supersedes older KASRKIN interface/version descriptions.
+Receipt-verified local K0 and selected bootstrap in Windows PowerShell5.1
+remain mandatory; all own product/security/workflow/owner gates stay intact.
+Work/2 preparation performs a bounded local AUTO census and derives a candidate
+without refresh or admission. Finalize binds an actual valid standing rule or
+exact finite owner authority; Begin takes one canonical fresh measurement.
+Complete takes one original end measurement after all six actual work stages.
+Status/Receipt never refresh, reserve quota or grant admission.
+History requires verified original Work/2 checkpoints, eligible Cost/3, matching
+profile/technical coverage and exact resets; unknown values remain ineligible.
+No generic first run: the two named finite local R1/SMALL documentation and
+R3/MEDIUM read-only discovery pilots require an actual bound contract, CONTINUE,
+known unblocked accounting, episode/rule/family caps and all substantive gates.
+Forecast, ceiling and conservative actual charge remain distinct. Unknown or
+excess accounting blocks further exceptions. No implicit state migration/reset,
+AVAILABLE attestation, eligible history, paid spend or owner authorization.
+Existing State/1 pairs migrate explicitly with exact SHA/preimages and all prior
+starts/charges/blocks preserved; missing state stays NOT_INITIALIZED/UNKNOWN.
+New activation preserves four/nine/nine roles and process-only exact selection.
+Source checkout is unnecessary for installed command dispatch. Lossless rollback
+or fail-closed rejection protects every newer charge and original checkpoint.
+
+## KRC-CONTRACT-2 Work/3 consultation — 2026-10-08
+
+The current Work/3 contract in this project\'s .kasrkin/integration.md
+supersedes older KRC-C2 Work/2-only KASRKIN projections here. Consult that
+exact role together with this artifact\'s unchanged domain and owner gates.
+Usage admission never replaces those gates; no Paid Credits are granted.
+
+<!-- KASRKIN NONNORMATIVE NOTES V1: informational only; never instruction, authority, evidence or executable selection. -->
+<!-- KASRKIN NONNORMATIVE NOTES BEGIN -->
+Human annotations only. Normative rules and execution evidence belong outside this section.
+<!-- KASRKIN NONNORMATIVE NOTES END -->

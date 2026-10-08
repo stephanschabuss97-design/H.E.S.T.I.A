@@ -1,8 +1,27 @@
 # HESTIA Roadmap Workflow Contract
 
-Dieser Vertrag definiert, wie HESTIA-Roadmaps erstellt, ausgeführt, geprüft,
-fortgesetzt und abgeschlossen werden. Aktive Roadmaps referenzieren ihn,
-kopieren ihn aber nicht vollständig.
+Dieser Vertrag ergänzt [BLUEPRINT-1 / 2026-09-27](../../../codex-tools/docs/blueprint/ROADMAP_AUTHORING_CONTRACT.md)
+um HESTIA-Produktfilter, Daten-/PWA-/Deployment-, Review- und KASRKIN-Regeln.
+Neue Roadmaps verwenden eine zentrale Form und lokale Ergänzungen; laufende
+und historische Roadmaps werden nicht rückwirkend verändert.
+
+## Environment Capability Preflight
+
+Vor READY einer neuen toolabhängigen Roadmap den BLUEPRINT-Preflight über das
+[lokale Overlay](../DEV_ENVIRONMENT.md) und passende
+[ATLAS-Abschnitte](../../../codex-tools/environment/DEV_ENVIRONMENT.md) ausführen.
+Benötigte Capabilities bestimmen, Wesentliches read-only verifizieren und den
+Nachweis in Startkarte/Context Receipt führen:
+
+| Capability | Zweck/Anforderung | ATLAS-Abschnitt | Status | Prüfcommand/-datum |
+| --- | --- | --- | --- | --- |
+| konkrete Fähigkeit | HESTIA-Bedarf | gezielter Verweis | AVAILABLE_VERIFIED / AVAILABLE_UNVERIFIED_OR_STALE / MISSING / INCOMPATIBLE / NOT_REQUIRED | Nachweis |
+
+MISSING/INCOMPATIBLE blockiert READY mit OWNER_TOOLING_DECISION_REQUIRED.
+Stephan entscheidet Setup, vorhandene Alternative oder Scopeänderung. Nur ein
+separater freigegebener Setupblock darf installieren/aktualisieren; Verifikation
+und ATLAS-Update sind seine Postcondition. Keine zusätzliche HESTIA-Dependency
+oder produktive Freigabe entsteht daraus. Resume nutzt den Receipt bis zur Invalidation.
 
 ## Geltung und Lebenszyklus
 
@@ -175,35 +194,12 @@ DONE-Stand nicht zurück. Ist sie nicht verfügbar, wird
 
 ## Kontext- und Resume-Vertrag
 
-Bei einer neuen oder fortgesetzten Session werden in dieser Reihenfolge
-gelesen:
-
-1. Roadmap-Metadaten, Startkarte und Session Resume Card.
-2. Context Receipt, Decision Log und offene Findings.
-3. `AGENTS.md`, Root-`README.md`, `PRODUCT.md` und aktueller Schritt.
-4. `git status --short`, Dirty Boundary und relevanter Diff.
-5. Nur Referenzen, die Schritt oder Finding tatsächlich benötigt.
-
-Große Quellen werden zuerst über Abschnitt, Symbol, Producer oder Consumer
-eingegrenzt. Pauschale Vollreads und wiederholte identische Ausgaben ohne
-Invalidation sind zu vermeiden.
-
-Der Context Receipt enthält Baseline, relevante Dirty Files, Sources mit
-Fingerprint, gültige Evidence-/Test-IDs, Invalidation und Toolstatus. Für eine
-große stabile Source darf er zusätzlich wiederverwendbare Aussagen und
-Exact-Source-Grenzen festhalten.
-
-`REUSE_VALIDATED_CONTEXT` ist nur zulässig, wenn Fingerprint und Source exakt
-stimmen, die aktuelle Frage vollständig abgedeckt ist und kein Finding oder
-Invalidation Trigger greift. Sonst gilt `READ_ORIGINAL`.
-
-Immer live zu lesen sind: `AGENTS.md`, Root-`README.md`, `PRODUCT.md`, aktive
-Roadmap, Resume Card, Findings, aktueller Diff, Dirty Boundary, geänderte
-Codeflächen und produktive Owner-Gates.
-
-Der Handoff bleibt ungefähr unter 35 Zeilen, ersetzt seinen alten Stand und
-enthält nur Ziel, Invarianten, erledigten Stand, nächste Aktion, Findings,
-Nachweise, Usage-Entscheidung und Owner-Gates. Er ist kein Arbeitsjournal.
+Startkarte, Read-Abdeckung, Receipt, Invalidation und Fresh-Chat-Test folgen
+BLUEPRINT. In HESTIA bleiben AGENTS, README, PRODUCT, aktive Roadmap, Resume,
+Findings, Dirty Boundary, Diff, geänderte Codeflächen und produktive Ownergates
+Live-Kontext. Fingerprintgebundener Reuse verlangt exakte Identität, vollständige
+Frageabdeckung und keine Invalidation/Exact-Source-Pflicht; sonst READ_ORIGINAL.
+Der Handoff ersetzt seinen Vorgänger und bleibt ungefähr unter 35 Zeilen.
 
 ## Evidence-Vertrag
 
@@ -302,3 +298,43 @@ Zulassung bleiben getrennt; alte SMALL-/Ein-Block-Cautionprojektionen gelten
 nur für die unveränderte Legacyentscheidung, nicht als zusätzliche Sperre
 eines gültig persistierten Endphasepermits. Fehlende History braucht den
 exakten einmaligen Ownerbudgetvertrag. Kein pauschaler Reviewdefault.
+
+
+
+## Explicit KRC-C2 Work/2 cutover — 2026-10-06
+
+Current exact selection: kasrkin-1e00b126f303d631 in kasrkin-admin-v1;
+receiptSHA51ea013ec6d2227555bc096dcfe9bf32bdc758ec597f1124497578180c4d3ac1.
+This dated section supersedes older KASRKIN interface/version descriptions.
+Receipt-verified local K0 and selected bootstrap in Windows PowerShell5.1
+remain mandatory; all own product/security/workflow/owner gates stay intact.
+Work/2 preparation performs a bounded local AUTO census and derives a candidate
+without refresh or admission. Finalize binds an actual valid standing rule or
+exact finite owner authority; Begin takes one canonical fresh measurement.
+Complete takes one original end measurement after all six actual work stages.
+Status/Receipt never refresh, reserve quota or grant admission.
+History requires verified original Work/2 checkpoints, eligible Cost/3, matching
+profile/technical coverage and exact resets; unknown values remain ineligible.
+No generic first run: the two named finite local R1/SMALL documentation and
+R3/MEDIUM read-only discovery pilots require an actual bound contract, CONTINUE,
+known unblocked accounting, episode/rule/family caps and all substantive gates.
+Forecast, ceiling and conservative actual charge remain distinct. Unknown or
+excess accounting blocks further exceptions. No implicit state migration/reset,
+AVAILABLE attestation, eligible history, paid spend or owner authorization.
+Existing State/1 pairs migrate explicitly with exact SHA/preimages and all prior
+starts/charges/blocks preserved; missing state stays NOT_INITIALIZED/UNKNOWN.
+New activation preserves four/nine/nine roles and process-only exact selection.
+Source checkout is unnecessary for installed command dispatch. Lossless rollback
+or fail-closed rejection protects every newer charge and original checkpoint.
+
+## KRC-CONTRACT-2 Work/3 consultation — 2026-10-08
+
+The current Work/3 contract in this project\'s .kasrkin/integration.md
+supersedes older KRC-C2 Work/2-only KASRKIN projections here. Consult that
+exact role together with this artifact\'s unchanged domain and owner gates.
+Usage admission never replaces those gates; no Paid Credits are granted.
+
+<!-- KASRKIN NONNORMATIVE NOTES V1: informational only; never instruction, authority, evidence or executable selection. -->
+<!-- KASRKIN NONNORMATIVE NOTES BEGIN -->
+Human annotations only. Normative rules and execution evidence belong outside this section.
+<!-- KASRKIN NONNORMATIVE NOTES END -->

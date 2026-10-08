@@ -9,12 +9,12 @@ Kein globaler PATHwrite oder Fallback zum bisherigen Shared-Shim.
 
 # HESTIA Dev Environment
 
-Dieses Dokument beschreibt die lokale Entwicklungsumgebung für HESTIA. Es ist
-für Stephan und für neue LLM-/Coding-Agent-Chats geschrieben: Ein neuer Chat
-soll schnell erkennen, welche Werkzeuge vorhanden sind, welche Checks sinnvoll
-sind und welche Grenzen gelten.
-
-Letzter verifizierter Toolchain-Abgleich: `2026-08-28`.
+Dieses Dokument ist das HESTIA-Projekt-Overlay. Owner ist Stephan; HESTIA
+besitzt Nutzung, Anforderungen und Grenzen. Aktuelle gemeinsame Versionen
+und Installationspfade stehen in der [ATLAS-Workstation-SoT](../../codex-tools/environment/DEV_ENVIRONMENT.md).
+Normale Projektarbeit erfordert keinen zentralen Full-Read. Bei Toolabhängigkeit
+gezielt den passenden Abschnitt und den [Capability-Preflight](../../codex-tools/environment/README.md)
+lesen; Ergebnis in Startkarte/Context Receipt der neuen Roadmap festhalten.
 
 ## Grundvertrag
 
@@ -31,33 +31,16 @@ Letzter verifizierter Toolchain-Abgleich: `2026-08-28`.
 - Kein produktives SQL, RLS, Supabase-Write, Deploy, Workflow, Push oder andere
   externe Wirkung ohne ausdrückliche Freigabe.
 
-## Verifizierte Toolchain
+## Projektnutzung gemeinsamer Werkzeuge
 
-| Werkzeug | Stand | Rolle in HESTIA |
-| --- | --- | --- |
-| Git | `2.55.0.windows.2` | Status, Diff, Historie, Commit |
-| Node.js | `24.18.0` | JS-Syntaxchecks und lokale Testskripte |
-| npm | `11.18.0` | nur bei bewusstem Toolbedarf; kein Projekt-Build |
-| ripgrep | `15.2.0` | schnelle, gezielte Quellensuche |
-| Python | `3.14.6` | lokaler statischer HTTP-Server |
-| VS Code | `1.135.0` | Entwicklungsumgebung |
-| Playwright | `1.61.1` | gebündelte Browser-/Responsive-/PWA-Smokes |
-| Deno | `2.9.5` | optional für TypeScript-Tools; derzeit keine Runtimepflicht |
-| Supabase CLI | `2.109.1` | nur bei bewusstem lokalen/Remote-Supabase-Auftrag |
-| Docker CLI | `29.7.2` | optional für disposable Datenbanktests |
-| WSL | `2.6.1.0` | Toolbrücke, insbesondere CodeRabbit |
-| GitHub CLI | `2.96.0` | Workflow-/Run-Inspektion und GitHub-Aktionen |
-| CodeRabbit CLI | `0.7.5` | externer S5-Code-Review |
-
-Aktueller Betriebszustand beim Abgleich:
-
-- Docker Desktop/Engine war nicht gestartet. Die CLI ist vorhanden, aber der
-  Server war nicht erreichbar. Das blockiert normale HESTIA-Frontendarbeit
-  nicht.
-- `psql` ist nicht global im Windows-PATH. PostgreSQL-Prüfungen verwenden bei
-  bewusstem Bedarf einen disposable Docker-Container oder eine dokumentierte
-  Supabase-Schnittstelle.
-- Playwright ist global installiert und keine HESTIA-Projektdependency.
+HESTIA nutzt Git und rg für lokale Arbeit, Node für gezielte Syntaxchecks,
+Python für einen HTTP-Server und bei Bedarf Playwright für Browser-Smokes.
+Es entsteht kein Root-Buildsystem und keine globale Versionskopie.
+Docker, Deno, Supabase und GitHub CLI werden nur beim jeweiligen konkreten
+Auftrag benötigt; Installation allein erzeugt keine Projektdependency.
+Gemeinsame Verfügbarkeit und Grenzen stehen in [ATLAS](../../codex-tools/environment/DEV_ENVIRONMENT.md).
+Ein laufender Docker-Daemon oder vorhandener Browserpayload wird hier nicht
+als dauerhafter Zustand behauptet. Datenbankprüfungen bleiben bewusst gated.
 
 ## Standardshell und Suche
 
@@ -256,8 +239,7 @@ Diese Telemetrie ist der verbindliche Sensor für Usage-aware Continuation
 Gates bei lokaler Roadmap-Ausführung. Rainmeter zeigt denselben Zustand für
 Menschen; die Anzeige selbst entscheidet nichts.
 
-- Installierter Refresh-Sensor:
-  `C:\Users\steph\Documents\Rainmeter\Skins\illustro\Tokens\GetCodexUsage.ps1`
+- Gemeinsame Sensor-/State-Pfade: [ATLAS](../../codex-tools/environment/DEV_ENVIRONMENT.md#kasrkin-installation-und-state-pfade).
 - Versionsgebundener KASRKIN-Einstieg: stabiler Command `kasrkin` mit der
   projektlokalen Bindung `.kasrkin/binding.json`.
 - Aktives HESTIA-Integrationsprofil: `.kasrkin/activation.json`; lokaler Proof:
@@ -266,8 +248,7 @@ Menschen; die Anzeige selbst entscheidet nichts.
 - Die frühere lokale Sensor-/Validator-Kopie wurde in W7 nach bewiesenem
   KASRKIN-Cutover retiret. Recovery stützt sich auf die gebundene Installation,
   `codex-tools`-Source und versionierte Receipts.
-- Autoritativer State:
-  `C:\Users\steph\Documents\Rainmeter\Skins\illustro\Tokens\UsageState.json`
+- Autoritativer Quota-State: `UsageState.json` am zentral dokumentierten Ort.
 - Schema: `schemaVersion = 3`
 - Sensorversion: `sensorVersion = 3.1.0`
 - Pflichtfenster: `300` und `10080` Minuten
@@ -276,7 +257,8 @@ Menschen; die Anzeige selbst entscheidet nichts.
 Die KASRKIN-Source of Truth liegt in `codex-tools`; HESTIA bindet eine konkrete
 lokal installierte Releaseidentität und verwendet niemals `latest`. Der
 Rainmeter-Sensor und der Sensor im gebundenen Release müssen bytegleich bleiben.
-Der alte HESTIA-Snapshot bleibt ausschließlich als BH-Rollbackquelle erhalten.
+Der alte lokale HESTIA-Snapshot wurde in W7 retiret; Recovery folgt dem
+bewiesenen Source-/Installations-/Receipt-Vertrag.
 
 Roadmap-Agenten starten ausschließlich `kasrkin validate -Refresh`. Der
 Resolver prüft zuerst Projektbindung, Receipt, Release und Payload und ruft
@@ -421,3 +403,83 @@ Die vorhandene Toolchain reicht für HESTIAs reale Arbeit:
 
 Keines dieser Werkzeuge erweitert HESTIA automatisch zu einem größeren
 Framework oder Produkt.
+
+### Optionaler KASRKIN Reset-Hinweis
+
+Seit dem Paid-Credit-Consumerupdate vom 2026-09-20 ist
+`kasrkin-4f3f71b333dfe784` exakt
+gebunden. Der bestehende Gate-Aufruf `kasrkin validate -Refresh` bleibt unverändert.
+Optional kann `kasrkin validate -ResetAdvisory` die bereits vorhandene frische
+Telemetrie um einen rein informativen Reset-Hinweis ergänzen. Kein zusätzlicher
+Refresh oder dauerhafter Beobachtungsauftrag ist dafür vorgesehen.
+
+Nur bei VALID entsteht ein `kasrkin-validate-advisory/1`-Wrapper mit `telemetry`
+und `resetAdvisory`; bei LIMIT oder Fehler bleibt es beim kanonischen Envelope
+und Exitcode. Der optionale Wrapper ersetzt nicht das Ausgabeformat des normalen
+Usage-Gates. Ein erwarteter Reset erzeugt weder Budget noch Arbeitsfreigabe;
+Floors, LIMIT, Restricted Episode und Owner-/Fachgates bleiben unverändert.
+Die 300-Sekunden-Nähegrenze ist eine Versuchshypothese, kein bewiesenes Optimum.
+
+### Paid-Credit-Telemetrie
+
+Das gebundene Release ergänzt die regulären Usage-Fenster um die getrennte,
+maschinenlesbare Dimension `paidCredits`. Deren Quelle ist der lokale Codex
+App Server; der separate Runtime-State liegt in
+[zentral dokumentierten Runtime-Verzeichnis](../../codex-tools/environment/DEV_ENVIRONMENT.md#kasrkin-installation-und-state-pfade)
+als `PaidCreditState.json`.
+`UsageState.json`, dessen Writer und die reguläre Quota-Policy bleiben
+unverändert.
+
+Credit availability is not permission to spend. Ein positiver Creditstand,
+Rainmeter, ein erfolgreiches Validate oder eine frühere Freigabe autorisieren
+keine Nutzung. Paid Credits benötigen eine ausdrückliche, zeitlich und
+fingerprintgebundene Ownerfreigabe für exakt den aktuellen Arbeitsblock; alle
+HESTIA-, Security-, Data-, Review-, External-Write-, Floor-, Safe-Closure- und
+Anti-Splitting-Gates bleiben zusätzlich wirksam.
+
+
+Current KASRKIN execution: Activation/3, separate kasrkin-admin-v1 installation.
+Use the receipt-bound local K0 proof and selected bootstrap in explicit Windows
+PowerShell 5.1. Work Begin/Complete performs the required fresh measurement per
+operation; a separate setup validate is unnecessary for that same operation.
+Legacy validate remains available; no owner/domain/paid-spend rule changes.
+
+
+
+## Explicit KRC-C2 Work/2 cutover — 2026-10-06
+
+Current exact selection: kasrkin-1e00b126f303d631 in kasrkin-admin-v1;
+receiptSHA51ea013ec6d2227555bc096dcfe9bf32bdc758ec597f1124497578180c4d3ac1.
+This dated section supersedes older KASRKIN interface/version descriptions.
+Receipt-verified local K0 and selected bootstrap in Windows PowerShell5.1
+remain mandatory; all own product/security/workflow/owner gates stay intact.
+Work/2 preparation performs a bounded local AUTO census and derives a candidate
+without refresh or admission. Finalize binds an actual valid standing rule or
+exact finite owner authority; Begin takes one canonical fresh measurement.
+Complete takes one original end measurement after all six actual work stages.
+Status/Receipt never refresh, reserve quota or grant admission.
+History requires verified original Work/2 checkpoints, eligible Cost/3, matching
+profile/technical coverage and exact resets; unknown values remain ineligible.
+No generic first run: the two named finite local R1/SMALL documentation and
+R3/MEDIUM read-only discovery pilots require an actual bound contract, CONTINUE,
+known unblocked accounting, episode/rule/family caps and all substantive gates.
+Forecast, ceiling and conservative actual charge remain distinct. Unknown or
+excess accounting blocks further exceptions. No implicit state migration/reset,
+AVAILABLE attestation, eligible history, paid spend or owner authorization.
+Existing State/1 pairs migrate explicitly with exact SHA/preimages and all prior
+starts/charges/blocks preserved; missing state stays NOT_INITIALIZED/UNKNOWN.
+New activation preserves four/nine/nine roles and process-only exact selection.
+Source checkout is unnecessary for installed command dispatch. Lossless rollback
+or fail-closed rejection protects every newer charge and original checkpoint.
+
+## KRC-CONTRACT-2 Work/3 consultation — 2026-10-08
+
+The current Work/3 contract in this project\'s .kasrkin/integration.md
+supersedes older KRC-C2 Work/2-only KASRKIN projections here. Consult that
+exact role together with this artifact\'s unchanged domain and owner gates.
+Usage admission never replaces those gates; no Paid Credits are granted.
+
+<!-- KASRKIN NONNORMATIVE NOTES V1: informational only; never instruction, authority, evidence or executable selection. -->
+<!-- KASRKIN NONNORMATIVE NOTES BEGIN -->
+Human annotations only. Normative rules and execution evidence belong outside this section.
+<!-- KASRKIN NONNORMATIVE NOTES END -->

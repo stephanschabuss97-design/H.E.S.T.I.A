@@ -1,66 +1,66 @@
 # HESTIA Roadmap Templates
 
-Dieser Ordner enthält die stabilen Prozessartefakte für neue
-HESTIA-Roadmaps. Aktive Roadmaps und Arbeitsnachweise gehören direkt unter
-`docs/`; abgeschlossene Roadmaps werden mit `(DONE)` nach `docs/archive/`
-verschoben.
+Owner: HESTIA / Stephan. Gemeinsamer Autorenkern und Dokumentformen:
+[BLUEPRINT](../../../codex-tools/docs/blueprint/README.md), Revision BLUEPRINT-1 / 2026-09-27.
+Neue Roadmaps nennen die Revision; laufende/historische Roadmaps bleiben eingefroren.
 
-## Dateien und Rollen
+1. AGENTS, README, PRODUCT und [lokales Overlay](../DEV_ENVIRONMENT.md) lesen.
+2. BLUEPRINT-Routing wählen und den
+   [HESTIA-Workflowvertrag](HESTIA%20Roadmap%20Workflow%20Contract.md) vollständig lesen.
+3. Relevante Module/QA gezielt konsultieren; zentrale Form mit
+   [lokalen Ergänzungen](HESTIA%20Roadmap%20Template.md) ausfüllen.
+4. Capability-Preflight, Contract Review und Fresh-Chat-Test vor READY abschließen.
+   MISSING/INCOMPATIBLE verlangt Ownerentscheidung; kein automatisches Setup.
+5. [Evidence](HESTIA%20Roadmap%20Evidence%20Template.md) nur bei lokalem Pflichtfall;
+   kleine lokale Nachweise bleiben in der Roadmap.
 
-| Datei | Rolle |
-| --- | --- |
-| `HESTIA Roadmap Workflow Contract.md` | Stabiler Ausführungs-, Review-, Usage- und Kontextvertrag |
-| `HESTIA Roadmap Template.md` | Schlanke Kopiervorlage für eine aktive Roadmap |
-| `HESTIA Roadmap Evidence Template.md` | Optionale technische Evidence bei produktiven oder riskanten Gates |
+Haushaltsnutzen, Datenvertrag, Offline/PWA, Sync, S1–S6 und produktive Gates bleiben
+HESTIA-eigen. BLUEPRINT importiert keine medizinischen MIDAS-Regeln.
+KASRKIN besitzt allein die ausführbare Policy; lokale Bindings/Activation und
+Usage-Konsultation bleiben verbindlich. S5 prüft, S6 synchronisiert; dazwischen
+neues Usage-Gate. CodeRabbit nur nach lokalem Vertrag, nie bei Doku-only.
 
-`README.md`, `PRODUCT.md`, `docs/DEV_ENVIRONMENT.md`, Module Overviews und
-`docs/QA_CHECKS.md` bleiben lebende Sources of Truth und werden nicht in die
-Roadmap kopiert.
+Aktive Roadmaps/Evidence liegen unter docs/, Prozessartefakte hier. Nach grünem
+S6 folgt das lokale (DONE)-Archiv. Kein automatischer Commit/Push und kein neuer
+Changelogzwang. Resume nutzt Startkarte/Receipt und rehydriert nur invalidierte
+Quellen; Root- und Produktverträge bleiben Live-Kontext.
 
-KASRKIN besitzt die ausführbare Usage-Entscheidungsemantik des in
-`.kasrkin/binding.json` gepinnten Releases. HESTIA-Templates beschreiben nur
-Konsultation, lokale Ausführung und Evidence; sie bilden keine zweite aktive
-Policy. `.kasrkin/activation.json` bindet die dafür konsultierten Verträge.
 
-## Neue Roadmap erstellen
 
-1. `AGENTS.md`, `README.md`, `PRODUCT.md` und
-   `docs/DEV_ENVIRONMENT.md` lesen.
-2. Diesen Einstieg und den Workflow-Vertrag vollständig lesen.
-3. Nur die für den Scope relevanten Module Overviews, QA-Abschnitte und
-   technischen Quellen lesen.
-4. Ziel, Nicht-Ziel, Datenwirkung, PWA-/Sync-Wirkung, Owner-Gates und
-   Rollback festlegen.
-5. Die Roadmap-Vorlage anpassen und unter `docs/[Titel] Roadmap.md` ablegen.
-6. Eine Evidence-Datei nur dann anlegen, wenn der Workflow-Vertrag sie
-   verlangt.
-7. Initialen Contract Review und Fresh-Chat-Test durchführen; Findings vor S1
-   korrigieren.
-8. Die Startkarte muss einen neuen Chat ohne Nacherzählung auf Ziel, Quellen,
-   Autonomie, Usage-Gates und ersten Schritt setzen.
+## Explicit KRC-C2 Work/2 cutover — 2026-10-06
 
-## Grundregeln
+Current exact selection: kasrkin-1e00b126f303d631 in kasrkin-admin-v1;
+receiptSHA51ea013ec6d2227555bc096dcfe9bf32bdc758ec597f1124497578180c4d3ac1.
+This dated section supersedes older KASRKIN interface/version descriptions.
+Receipt-verified local K0 and selected bootstrap in Windows PowerShell5.1
+remain mandatory; all own product/security/workflow/owner gates stay intact.
+Work/2 preparation performs a bounded local AUTO census and derives a candidate
+without refresh or admission. Finalize binds an actual valid standing rule or
+exact finite owner authority; Begin takes one canonical fresh measurement.
+Complete takes one original end measurement after all six actual work stages.
+Status/Receipt never refresh, reserve quota or grant admission.
+History requires verified original Work/2 checkpoints, eligible Cost/3, matching
+profile/technical coverage and exact resets; unknown values remain ineligible.
+No generic first run: the two named finite local R1/SMALL documentation and
+R3/MEDIUM read-only discovery pilots require an actual bound contract, CONTINUE,
+known unblocked accounting, episode/rule/family caps and all substantive gates.
+Forecast, ceiling and conservative actual charge remain distinct. Unknown or
+excess accounting blocks further exceptions. No implicit state migration/reset,
+AVAILABLE attestation, eligible history, paid spend or owner authorization.
+Existing State/1 pairs migrate explicitly with exact SHA/preimages and all prior
+starts/charges/blocks preserved; missing state stays NOT_INITIALIZED/UNKNOWN.
+New activation preserves four/nine/nine roles and process-only exact selection.
+Source checkout is unnecessary for installed command dispatch. Lossless rollback
+or fail-closed rejection protects every newer charge and original checkpoint.
 
-- HESTIA-Roadmaps bleiben proportional zum tatsächlichen Haushalts-Scope und
-  behalten nur die Abschnitte, die für den konkreten Auftrag gebraucht werden.
-- S1-S3 und optional S4R dürfen als autonome Discovery Wave laufen. Die
-  Schritte bleiben getrennt dokumentiert; nur unnötige Gesprächspausen
-  entfallen.
-- S4 baut. S5 prüft den finalen Gesamtdiff einschließlich CodeRabbit bei
-  Codeänderungen. S6 synchronisiert die Sources of Truth und archiviert.
-- S5 und S6 bleiben getrennte kohärente Blöcke mit Usage-Gate dazwischen.
-- Große Quellen zuerst über Abschnitt, Symbol, Producer oder Consumer
-  eingrenzen. Gültige fingerprintgebundene Context Receipts dürfen wiederholte
-  Rohreads ersetzen, sind aber nie Source of Truth.
-- Eine Roadmap soll kompakt sein. Sie darf länger werden, wenn sonst
-  Entscheidungen, Gates, Findings oder Fresh-Chat-Kontext verloren gehen;
-  Wiederholungen und Terminaltranskripte gehören nicht hinein.
+## KRC-CONTRACT-2 Work/3 consultation — 2026-10-08
 
-## Kurzauftrag
+The current Work/3 contract in this project\'s .kasrkin/integration.md
+supersedes older KRC-C2 Work/2-only KASRKIN projections here. Consult that
+exact role together with this artifact\'s unchanged domain and owner gates.
+Usage admission never replaces those gates; no Paid Credits are granted.
 
-```text
-Erstelle eine HESTIA-Roadmap analog zu docs/templates/. Lege aktive Dateien
-unter docs/ ab, halte den Produktvertrag aus README.md und PRODUCT.md ein,
-führe einen initialen Contract Review samt Fresh-Chat-Test durch, korrigiere
-berechtigte Findings und beginne noch nicht mit der Umsetzung.
-```
+<!-- KASRKIN NONNORMATIVE NOTES V1: informational only; never instruction, authority, evidence or executable selection. -->
+<!-- KASRKIN NONNORMATIVE NOTES BEGIN -->
+Human annotations only. Normative rules and execution evidence belong outside this section.
+<!-- KASRKIN NONNORMATIVE NOTES END -->
