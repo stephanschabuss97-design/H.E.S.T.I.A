@@ -1,5 +1,11 @@
 # HESTIA Roadmap — lokale Ergänzungen
 
+KASRKIN ist seit 2026-10-12 durch ausdrückliche Ownerentscheidung entbunden.
+Neue und laufende Roadmaps arbeiten ohne KASRKIN-Aufrufe, Usage-Gates, Permits
+oder KASRKIN-Checkpointfelder. Fachliche Readiness, Scope, Review, sichere
+Postconditions und produktive Ownergates bleiben verbindlich. Diese Entscheidung
+überstimmt ältere KASRKIN-Klauseln, auch in unveränderten aktiven Roadmaps.
+
 Gemeinsamer Kern: [BLUEPRINT-1 / 2026-09-27](../../../codex-tools/docs/blueprint/ROADMAP_AUTHORING_CONTRACT.md).
 Dieser Adapter ist keine dritte vollständige Dokumentform. Zuerst
 [Rolling Wave](../../../codex-tools/docs/blueprint/ROLLING_WAVE_ROADMAP_TEMPLATE.md)
@@ -20,13 +26,11 @@ Dann lokale Felder und benötigte S1–S6-Schritte ergänzen. Links an den Zielo
   offene Grundsatzfragen blockieren S4.
 - Capability-Receipt der zentralen Form konkret ausfüllen; fehlend/inkompatibel
   verlangt Ownerentscheidung, niemals automatische Installation.
-- Startkarte ergänzt lokale Usage-Checkpoints, Operatoraktionen und externe Gates.
-  Checkpoints enthalten Zeit, validierte Fenster/Resetidentitäten, Entscheidung,
-  Reserve und erlaubte Folge nach gepinntem KASRKIN, keine eigene Policy.
+- Startkarte ergänzt Operatoraktionen, fachliche Gates und sichere Postconditions.
 - SQL/RLS, Secrets, Household-Key, Deployment, Workflow und Push bleiben owner-gated.
   Evidence enthält weder Secrets noch sensible Rohdaten.
 - S4R prognostiziert Toolinteraktionen, Browser/Device, Tests, Fehlerpfad und Closure.
-  S5 und S6 bleiben getrennte Blöcke mit Usage-Gate; kein CodeRabbit für Doku-only.
+  S5 und S6 bleiben getrennte fachliche Phasen; kein CodeRabbit für Doku-only.
 
 Die folgenden Phasen sind die lokale HESTIA-Ausprägung. Keine medizinischen
 MIDAS-Gates übernehmen; reale Daten-/Security-/Deployrisiken nicht reduzieren.
@@ -73,7 +77,7 @@ Exit: Risiken sind geschlossen, owner-gated oder sichtbar deferred.
 - Invalidation Map: `[Änderung -> Check]`
 - Empfohlene S4-Blöcke: `[Zusammenlegung/Trennung]`
 - Sichere Resume-Postcondition je Block: `[Zustand]`
-- Usage-Gates: `[Ux vor jedem Block, S5 und S6]`
+- Fachliche Gates: `[Owner/Readiness/keine]`
 - Aufwandsprognose:
   - Größe: `[small/medium/large]`
   - Context/Tools/Troubleshooting: `[kurz]`
@@ -81,7 +85,7 @@ Exit: Risiken sind geschlossen, owner-gated oder sichtbar deferred.
   - Browser/Device/Reviews: `[kurz]`
   - Doku/Evidence/Postconditions: `[kurz]`
   - Autonome Wellen und Reasoning: `[Liste]`
-  - Empirische Reserve: `[Checkpoints x 1,5 / keine Daten]`
+  - Sichere Postconditions und Fehlerpfad: `[kurz]`
 - Owner-Briefing: `[PASS/nicht relevant]`
 
 Exit: Umsetzung kann ohne neue Grundsatzentscheidung beginnen.
@@ -107,7 +111,7 @@ Ergebnis:
 
 ## S5 - Testmatrix und Abschlussreview
 
-Vor S5 Usage-Gate ausführen.
+Vor S5 fachliche Readiness prüfen.
 
 1. Vollständige relevante statische, fachliche, Browser-/PWA- und
    gegebenenfalls disposable Testmatrix ausführen.
@@ -128,7 +132,7 @@ Exit: Alle relevanten Checks sind grün oder sichtbar abgegrenzt.
 
 ## S6 - Doku-Sync und Abschluss
 
-S6 beginnt nach grünem S5 und frischem Usage-Gate.
+S6 beginnt nach grünem S5 und erfüllten fachlichen Gates.
 
 1. README/PRODUCT und Module Overviews nur bei realer Vertragswirkung
    synchronisieren.
@@ -154,43 +158,3 @@ type(scope): kurze Beschreibung
 
 Exit: Produkt, Code, Runtime, QA und Dokumentation beschreiben denselben
 finalen Vertrag.
-
-
-
-## Explicit KRC-C2 Work/2 cutover — 2026-10-06
-
-Current exact selection: kasrkin-1e00b126f303d631 in kasrkin-admin-v1;
-receiptSHA51ea013ec6d2227555bc096dcfe9bf32bdc758ec597f1124497578180c4d3ac1.
-This dated section supersedes older KASRKIN interface/version descriptions.
-Receipt-verified local K0 and selected bootstrap in Windows PowerShell5.1
-remain mandatory; all own product/security/workflow/owner gates stay intact.
-Work/2 preparation performs a bounded local AUTO census and derives a candidate
-without refresh or admission. Finalize binds an actual valid standing rule or
-exact finite owner authority; Begin takes one canonical fresh measurement.
-Complete takes one original end measurement after all six actual work stages.
-Status/Receipt never refresh, reserve quota or grant admission.
-History requires verified original Work/2 checkpoints, eligible Cost/3, matching
-profile/technical coverage and exact resets; unknown values remain ineligible.
-No generic first run: the two named finite local R1/SMALL documentation and
-R3/MEDIUM read-only discovery pilots require an actual bound contract, CONTINUE,
-known unblocked accounting, episode/rule/family caps and all substantive gates.
-Forecast, ceiling and conservative actual charge remain distinct. Unknown or
-excess accounting blocks further exceptions. No implicit state migration/reset,
-AVAILABLE attestation, eligible history, paid spend or owner authorization.
-Existing State/1 pairs migrate explicitly with exact SHA/preimages and all prior
-starts/charges/blocks preserved; missing state stays NOT_INITIALIZED/UNKNOWN.
-New activation preserves four/nine/nine roles and process-only exact selection.
-Source checkout is unnecessary for installed command dispatch. Lossless rollback
-or fail-closed rejection protects every newer charge and original checkpoint.
-
-## KRC-CONTRACT-2 Work/3 consultation — 2026-10-08
-
-The current Work/3 contract in this project\'s .kasrkin/integration.md
-supersedes older KRC-C2 Work/2-only KASRKIN projections here. Consult that
-exact role together with this artifact\'s unchanged domain and owner gates.
-Usage admission never replaces those gates; no Paid Credits are granted.
-
-<!-- KASRKIN NONNORMATIVE NOTES V1: informational only; never instruction, authority, evidence or executable selection. -->
-<!-- KASRKIN NONNORMATIVE NOTES BEGIN -->
-Human annotations only. Normative rules and execution evidence belong outside this section.
-<!-- KASRKIN NONNORMATIVE NOTES END -->

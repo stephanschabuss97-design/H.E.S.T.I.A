@@ -1,13 +1,10 @@
-# Aktueller KASRKIN-Commandkontext (2026-10-03)
-
-Installation: C:\Users\steph\.local\share\kasrkin-gate-v1.
-Release: `kasrkin-846014632990bb03`. Vor allen unten dokumentierten
-kasrkin-Aufrufen in jedem neuen PowerShell-Prozess Receipt und ausgewählten
-Bootstrap in .kasrkin/command.json verifizieren, dann diesen Bootstrap mit
--ProjectRoot dieses Projekts ausführen. K0: .kasrkin/Test-HestiaKasrkinActivation.ps1.
-Kein globaler PATHwrite oder Fallback zum bisherigen Shared-Shim.
-
 # HESTIA Dev Environment
+
+KASRKIN ist seit 2026-10-12 durch ausdrückliche Ownerentscheidung entbunden.
+Neue und laufende Roadmaps arbeiten ohne KASRKIN-Aufrufe, Usage-Gates, Permits
+oder KASRKIN-Checkpointfelder. Fachliche Readiness, Scope, Review, sichere
+Postconditions und produktive Ownergates bleiben verbindlich. Diese Entscheidung
+überstimmt ältere KASRKIN-Klauseln, auch in unveränderten aktiven Roadmaps.
 
 Dieses Dokument ist das HESTIA-Projekt-Overlay. Owner ist Stephan; HESTIA
 besitzt Nutzung, Anforderungen und Grenzen. Aktuelle gemeinsame Versionen
@@ -233,66 +230,17 @@ Der Befehl routet zur bereits authentifizierten WSL-CLI. Regeln:
   Gap sichtbar dokumentieren.
 - Ein nativer Review wird nie als CodeRabbit-Ergebnis bezeichnet.
 
-## Lokale Codex-Usage-Telemetrie
+## KASRKIN-Consumerstatus
 
-Diese Telemetrie ist der verbindliche Sensor für Usage-aware Continuation
-Gates bei lokaler Roadmap-Ausführung. Rainmeter zeigt denselben Zustand für
-Menschen; die Anzeige selbst entscheidet nichts.
+KASRKIN ist seit 2026-10-12 durch ausdrückliche Ownerentscheidung entbunden.
+Neue und laufende Roadmaps arbeiten ohne KASRKIN-Aufrufe, Usage-Gates, Permits
+oder KASRKIN-Checkpointfelder. Fachliche Readiness, Scope, Review, sichere
+Postconditions und produktive Ownergates bleiben verbindlich. Diese Entscheidung
+überstimmt ältere KASRKIN-Klauseln, auch in unveränderten aktiven Roadmaps.
 
-- Gemeinsame Sensor-/State-Pfade: [ATLAS](../../codex-tools/environment/DEV_ENVIRONMENT.md#kasrkin-installation-und-state-pfade).
-- Versionsgebundener KASRKIN-Einstieg: stabiler Command `kasrkin` mit der
-  projektlokalen Bindung `.kasrkin/binding.json`.
-- Aktives HESTIA-Integrationsprofil: `.kasrkin/activation.json`; lokaler Proof:
-  `.kasrkin/Test-HestiaKasrkinActivation.ps1`.
-- Kanonischer State-Validator-Aufruf: `kasrkin validate -Refresh`.
-- Die frühere lokale Sensor-/Validator-Kopie wurde in W7 nach bewiesenem
-  KASRKIN-Cutover retiret. Recovery stützt sich auf die gebundene Installation,
-  `codex-tools`-Source und versionierte Receipts.
-- Autoritativer Quota-State: `UsageState.json` am zentral dokumentierten Ort.
-- Schema: `schemaVersion = 3`
-- Sensorversion: `sensorVersion = 3.1.0`
-- Pflichtfenster: `300` und `10080` Minuten
-- Maximales Messalter: `120` Sekunden
-
-Die KASRKIN-Source of Truth liegt in `codex-tools`; HESTIA bindet eine konkrete
-lokal installierte Releaseidentität und verwendet niemals `latest`. Der
-Rainmeter-Sensor und der Sensor im gebundenen Release müssen bytegleich bleiben.
-Der alte lokale HESTIA-Snapshot wurde in W7 retiret; Recovery folgt dem
-bewiesenen Source-/Installations-/Receipt-Vertrag.
-
-Roadmap-Agenten starten ausschließlich `kasrkin validate -Refresh`. Der
-Resolver prüft zuerst Projektbindung, Receipt, Release und Payload und ruft
-danach den installierten Validator auf. Dieser verwendet die installierte
-Rainmeter-Kopie und hält `UsageState.json` außerhalb des Repositorys.
-
-Kanonischer Gate-Aufruf:
-
-```powershell
-$validation = & kasrkin validate -Refresh
-if ($LASTEXITCODE -ne 0) {
-  throw "Codex usage state validation failed with exit code $LASTEXITCODE."
-}
-$usage = $validation | ConvertFrom-Json
-```
-
-Der Validator prüft unter anderem:
-
-- SHA-256-Gleichheit von Rainmeter-Sensor und gebundenem Release-Sensor,
-- Schema und Sensorversion,
-- erfolgreichen Status,
-- beide vollständigen Buckets,
-- numerische Rest-/Verbrauchswerte und Resetidentitäten,
-- identische Attempt-/Success-Zeitstempel,
-- maximal zwei Minuten alte Messung.
-
-Nur Exitcode `0` plus kompakte Validatorausgabe ist ein gültiger Messnachweis.
-Das rohe JSON wird nicht eigenständig neu interpretiert. Vollständige States
-werden nicht ins Repository geschrieben. Der exakt gebundene KASRKIN-Release
-besitzt die ausführbare Entscheidungsemantik. Der HESTIA Workflow Contract
-besitzt Konsultationszeitpunkte, projektspezifische Ausführung, Rollback und
-Safe Closure; seine lesbare Entscheidungstabelle ist eine Verbraucherprojektion
-und darf den Release nicht überschreiben. `.kasrkin/activation.json` bindet
-beide Seiten; ein Widerspruch ist Contract Drift und sperrt den nächsten Block.
+Installationen und historische Zustände bleiben unverändert außerhalb des
+Repositorys erhalten. Keine Binding-, Activation-, Proof- oder Validatorpflicht.
+Details: [lokaler Integrationsstatus](../.kasrkin/integration.md).
 
 ## Lokale Env- und Secretgrenzen
 
@@ -399,87 +347,10 @@ Die vorhandene Toolchain reicht für HESTIAs reale Arbeit:
 - optionalen Supabase-/RLS-Test mit explizitem Gate,
 - GitHub-Workflow-Inspektion,
 - kontrollierten CodeRabbit-Review in S5,
-- usage-aware, sauber resumierbare Roadmap-Ausführung.
+- fachlich geprüfte, sauber resumierbare Roadmap-Ausführung ohne KASRKIN.
 
 Keines dieser Werkzeuge erweitert HESTIA automatisch zu einem größeren
 Framework oder Produkt.
 
-### Optionaler KASRKIN Reset-Hinweis
-
-Seit dem Paid-Credit-Consumerupdate vom 2026-09-20 ist
-`kasrkin-4f3f71b333dfe784` exakt
-gebunden. Der bestehende Gate-Aufruf `kasrkin validate -Refresh` bleibt unverändert.
-Optional kann `kasrkin validate -ResetAdvisory` die bereits vorhandene frische
-Telemetrie um einen rein informativen Reset-Hinweis ergänzen. Kein zusätzlicher
-Refresh oder dauerhafter Beobachtungsauftrag ist dafür vorgesehen.
-
-Nur bei VALID entsteht ein `kasrkin-validate-advisory/1`-Wrapper mit `telemetry`
-und `resetAdvisory`; bei LIMIT oder Fehler bleibt es beim kanonischen Envelope
-und Exitcode. Der optionale Wrapper ersetzt nicht das Ausgabeformat des normalen
-Usage-Gates. Ein erwarteter Reset erzeugt weder Budget noch Arbeitsfreigabe;
-Floors, LIMIT, Restricted Episode und Owner-/Fachgates bleiben unverändert.
-Die 300-Sekunden-Nähegrenze ist eine Versuchshypothese, kein bewiesenes Optimum.
-
-### Paid-Credit-Telemetrie
-
-Das gebundene Release ergänzt die regulären Usage-Fenster um die getrennte,
-maschinenlesbare Dimension `paidCredits`. Deren Quelle ist der lokale Codex
-App Server; der separate Runtime-State liegt in
-[zentral dokumentierten Runtime-Verzeichnis](../../codex-tools/environment/DEV_ENVIRONMENT.md#kasrkin-installation-und-state-pfade)
-als `PaidCreditState.json`.
-`UsageState.json`, dessen Writer und die reguläre Quota-Policy bleiben
-unverändert.
-
-Credit availability is not permission to spend. Ein positiver Creditstand,
-Rainmeter, ein erfolgreiches Validate oder eine frühere Freigabe autorisieren
-keine Nutzung. Paid Credits benötigen eine ausdrückliche, zeitlich und
-fingerprintgebundene Ownerfreigabe für exakt den aktuellen Arbeitsblock; alle
-HESTIA-, Security-, Data-, Review-, External-Write-, Floor-, Safe-Closure- und
-Anti-Splitting-Gates bleiben zusätzlich wirksam.
-
-
-Current KASRKIN execution: Activation/3, separate kasrkin-admin-v1 installation.
-Use the receipt-bound local K0 proof and selected bootstrap in explicit Windows
-PowerShell 5.1. Work Begin/Complete performs the required fresh measurement per
-operation; a separate setup validate is unnecessary for that same operation.
-Legacy validate remains available; no owner/domain/paid-spend rule changes.
-
-
-
-## Explicit KRC-C2 Work/2 cutover — 2026-10-06
-
-Current exact selection: kasrkin-1e00b126f303d631 in kasrkin-admin-v1;
-receiptSHA51ea013ec6d2227555bc096dcfe9bf32bdc758ec597f1124497578180c4d3ac1.
-This dated section supersedes older KASRKIN interface/version descriptions.
-Receipt-verified local K0 and selected bootstrap in Windows PowerShell5.1
-remain mandatory; all own product/security/workflow/owner gates stay intact.
-Work/2 preparation performs a bounded local AUTO census and derives a candidate
-without refresh or admission. Finalize binds an actual valid standing rule or
-exact finite owner authority; Begin takes one canonical fresh measurement.
-Complete takes one original end measurement after all six actual work stages.
-Status/Receipt never refresh, reserve quota or grant admission.
-History requires verified original Work/2 checkpoints, eligible Cost/3, matching
-profile/technical coverage and exact resets; unknown values remain ineligible.
-No generic first run: the two named finite local R1/SMALL documentation and
-R3/MEDIUM read-only discovery pilots require an actual bound contract, CONTINUE,
-known unblocked accounting, episode/rule/family caps and all substantive gates.
-Forecast, ceiling and conservative actual charge remain distinct. Unknown or
-excess accounting blocks further exceptions. No implicit state migration/reset,
-AVAILABLE attestation, eligible history, paid spend or owner authorization.
-Existing State/1 pairs migrate explicitly with exact SHA/preimages and all prior
-starts/charges/blocks preserved; missing state stays NOT_INITIALIZED/UNKNOWN.
-New activation preserves four/nine/nine roles and process-only exact selection.
-Source checkout is unnecessary for installed command dispatch. Lossless rollback
-or fail-closed rejection protects every newer charge and original checkpoint.
-
-## KRC-CONTRACT-2 Work/3 consultation — 2026-10-08
-
-The current Work/3 contract in this project\'s .kasrkin/integration.md
-supersedes older KRC-C2 Work/2-only KASRKIN projections here. Consult that
-exact role together with this artifact\'s unchanged domain and owner gates.
-Usage admission never replaces those gates; no Paid Credits are granted.
-
-<!-- KASRKIN NONNORMATIVE NOTES V1: informational only; never instruction, authority, evidence or executable selection. -->
-<!-- KASRKIN NONNORMATIVE NOTES BEGIN -->
-Human annotations only. Normative rules and execution evidence belong outside this section.
-<!-- KASRKIN NONNORMATIVE NOTES END -->
+Paid Credits bleiben ohne konkrete Ownerfreigabe verboten. Die frühere
+KASRKIN-Reset-/Credit-Konsultation ist seit der Entbindung keine Projektpflicht.

@@ -1,5 +1,10 @@
 # HESTIA
 
+KASRKIN-Betriebsintegration ist seit 2026-10-12 auf Ownerauftrag entbunden.
+Projektarbeit und Roadmaps erfolgen ohne KASRKIN-Permits oder Usage-Gates;
+fachliche, Sicherheits-, Review- und produktive Ownergates gelten weiter.
+Details: [Integrationsstatus](.kasrkin/integration.md).
+
 Home Essentials & Shopping Task Inventory App
 
 Diese Datei ist als `ReadYou` gedacht.

@@ -1,7 +1,13 @@
 # HESTIA Roadmap Workflow Contract
 
+KASRKIN ist seit 2026-10-12 durch ausdrückliche Ownerentscheidung entbunden.
+Neue und laufende Roadmaps arbeiten ohne KASRKIN-Aufrufe, Usage-Gates, Permits
+oder KASRKIN-Checkpointfelder. Fachliche Readiness, Scope, Review, sichere
+Postconditions und produktive Ownergates bleiben verbindlich. Diese Entscheidung
+überstimmt ältere KASRKIN-Klauseln, auch in unveränderten aktiven Roadmaps.
+
 Dieser Vertrag ergänzt [BLUEPRINT-1 / 2026-09-27](../../../codex-tools/docs/blueprint/ROADMAP_AUTHORING_CONTRACT.md)
-um HESTIA-Produktfilter, Daten-/PWA-/Deployment-, Review- und KASRKIN-Regeln.
+um HESTIA-Produktfilter, Daten-/PWA-/Deployment-, Review- und Abschlussregeln.
 Neue Roadmaps verwenden eine zentrale Form und lokale Ergänzungen; laufende
 und historische Roadmaps werden nicht rückwirkend verändert.
 
@@ -63,7 +69,7 @@ Das Profil ändert weder Scope noch Reviewtiefe und hebt kein Gate auf.
 - S1: Iststand, Sources of Truth, Producer/Consumer und Baseline erfassen.
 - S2: Fachlichen und technischen Zielvertrag einfrieren.
 - S3: Bruchrisiken, Security, Sync, Offline/PWA, Rollback und Tests ableiten.
-- S4R: Readiness, Arbeitsgröße, kohärente Blöcke, Gates und Usage-Reserve
+- S4R: Readiness, Arbeitsgröße, kohärente Blöcke, Gates und sichere Postconditions
   bestätigen.
 - S4: Implementierung mit nativen Delta-/Consumer-Reviews und nur den jeweils
   invalidierten günstigen Checks.
@@ -84,9 +90,8 @@ Reviewtiefe kompatibel sind und kein Owner-Gate dazwischenliegt. Produktive
 SQL-/RLS-Aktionen, Deploys, Workflows, Pushes und andere externe Writes bleiben
 grundsätzlich eigene Gates.
 
-S5 und S6 sind getrennte kohärente Abschlussblöcke. Nach S5 wird vor S6 neu
-gemessen. Entsteht nach einem abgeschlossenen S5-Prüfblock eine separate
-Korrektur-/Retest-Welle, erhält auch sie ein Usage-Gate.
+S5 und S6 bleiben fachlich getrennte Abschlussphasen. Korrekturen und Retests
+folgen ihren fachlichen Gates; keine KASRKIN-Messung ist erforderlich.
 
 ## Reviewvertrag
 
@@ -118,79 +123,17 @@ Scope-Prüfung. Er ist kein CodeRabbit-Ergebnis.
 - Fällt CodeRabbit aus, wird das Evidence-Gap dokumentiert. Innerhalb der
   Roadmap wird keine alternative Installation improvisiert.
 
-## Usage-aware Continuation
+## Arbeitsfortsetzung ohne KASRKIN
 
-Die lokale Telemetrie entscheidet, ob ein neuer Block sicher begonnen werden
-darf. Sensor, Validator, Pfade und Freshness stehen in
-`docs/DEV_ENVIRONMENT.md`. Die technische Implementierung wird durch
-`.kasrkin/binding.json` an einen konkreten KASRKIN-Release gebunden; dieser
-Release ist die alleinige ausführbare Autorität für Entscheidungsemantik,
-Fallback und Statusausgabe. HESTIA bleibt Eigentümer der projektspezifischen
-Konsultationszeitpunkte, Ausführung, Rollbacks, Produktgrenzen und Owner-Gates.
-`.kasrkin/activation.json` bindet diese Autoritätsteilung sowie die dafür
-konsultierten Artefakte. Abweichende Hashes oder Semantik sind Contract Drift
-und sperren den nächsten Block.
+KASRKIN ist seit 2026-10-12 durch ausdrückliche Ownerentscheidung entbunden.
+Neue und laufende Roadmaps arbeiten ohne KASRKIN-Aufrufe, Usage-Gates, Permits
+oder KASRKIN-Checkpointfelder. Fachliche Readiness, Scope, Review, sichere
+Postconditions und produktive Ownergates bleiben verbindlich. Diese Entscheidung
+überstimmt ältere KASRKIN-Klauseln, auch in unveränderten aktiven Roadmaps.
 
-Ein Gate ist verpflichtend:
-
-- vor dem ersten Hauptblock einer neuen oder fortgesetzten Session,
-- nach jedem Discovery-Hauptschritt vor dem nächsten,
-- nach S4R vor dem ersten S4-Block,
-- nach jedem kohärenten S4-Block,
-- vor S5,
-- nach S5 vor S6,
-- vor einer getrennten S5-Korrektur-/Retest-Welle.
-
-Deterministische Folge:
-
-1. Vorherigen Block und seine Postconditions vollständig abschließen.
-2. Statusmatrix, Findings, Context Receipt und Resume Card synchronisieren.
-3. Sensor genau einmal refreshen und durch den kanonischen Validator prüfen.
-4. Nur die validierte kompakte Ausgabe verwenden; Roh-JSON nicht ad hoc
-   interpretieren.
-5. Resetwechsel, Adjustment, statische Schwellen und vorhandene empirische
-   Reserve anwenden.
-6. Entscheidung protokollieren und nur bei zulässigem Ergebnis den nächsten
-   Block beginnen.
-
-Während eines atomaren Blocks wird nicht usagebedingt abgebrochen oder
-gepollt.
-
-| Entscheidung | Messlage | Erlaubte Folge |
-| --- | --- | --- |
-| `CONTINUE` | 5h `> 40 %` und Woche `> 20 %`; Reserve reicht | nächsten kohärenten Block beginnen |
-| `CONTINUE_WITH_CAUTION` | 5h `25-40 %` oder Woche `10-20 %`; kein Safe-Closure-Grund | höchstens einen kurzen, lokalen, reversiblen und sicher resumierbaren Block beginnen |
-| `SAFE_CLOSURE` | 5h `< 25 %`, Woche `< 10 %`, ungültige Telemetrie oder Reserve reicht nicht | keinen neuen Block beginnen; sicheren Handoff herstellen |
-
-Diese Tabelle ist die menschenlesbare HESTIA-Verbraucherprojektion des exakt
-gebundenen Releases. Sie erzeugt keine zweite Policyautorität und darf die vom
-Release gelieferte Entscheidung nicht neu berechnen oder überschreiben.
-
-Exakt `25 %`/`10 %` ist Caution; exakt `40 %`/`20 %` noch nicht Continue.
-Der Sensorstatus `OK` ist keine Workflow-Entscheidung.
-
-Ein Blockdelta wird nur bei identischer `resetAtEpoch` als
-`remaining_vorher - remaining_nachher` berechnet. Bei neuer Resetidentität gilt
-`RESET_CROSSED`; ein steigender Restwert bei identischer Identität ist
-`ADJUSTMENT`. In beiden Fällen entsteht eine neue Baseline, kein negativer
-Verbrauch.
-
-Sobald vergleichbare reale Werte derselben Roadmap und desselben Resetzyklus
-vorliegen, ist die Reserve pro Bucket der höchste beobachtete Verbrauch eines
-vergleichbaren Blocks mal `1,5`. Mittelwerte oder erfundene Schätzungen sind
-verboten. Fehlen Vergleichswerte, entscheiden Schwellen, S4R-Größenklasse,
-Reversibilität und Resumierbarkeit.
-
-`SAFE_CLOSURE` ist kein Rollback: Da Gates regulär an sicheren Grenzen liegen,
-ist der vorherige Block bereits abgeschlossen. Nur ausnahmsweise offene
-notwendige Postconditions dieses Blocks werden beendet. Danach wird die
-Roadmap als `PAUSED_USAGE_SAFE_CLOSURE` mit genau einem nächsten Resume-Gate
-gespeichert; sie wird weder als `DONE` markiert noch archiviert.
-
-Eine optionale Messung nach vollständig abgeschlossenem S6 ist nur
-`FINAL_OBSERVATION`. Sie autorisiert keine Arbeit und stellt einen bewiesenen
-DONE-Stand nicht zurück. Ist sie nicht verfügbar, wird
-`FINAL_OBSERVATION_UNAVAILABLE` protokolliert.
+Vor der nächsten freigegebenen Arbeit bisherigen Schritt, Findings und sichere
+Postconditions prüfen; Resume Card und relevante Evidence aktuell halten.
+Eine Quota-Messung oder technische KASRKIN-Zulassung ist keine Voraussetzung.
 
 ## Kontext- und Resume-Vertrag
 
@@ -250,7 +193,7 @@ S4R muss vor der Umsetzung festhalten:
 - Review- und CodeRabbit-Budget,
 - Context-Rehydration, Toolinteraktionen und erwartbare Fehlersuche,
 - Doku-, Evidence- und Abschlussarbeit,
-- autonome Wellen samt Reasoning und Usage-Gates.
+- autonome Wellen samt Reasoning und fachlichen Gates.
 
 Wenige Dateien oder LOC beweisen keinen kleinen Block. Bei `large` erhält
 Stephan vor S4 ein kompaktes Owner-Briefing. Getrennte Roadmaps sind nur nötig,
@@ -286,55 +229,3 @@ Ohne ausdrückliche Freigabe keine produktive oder extern sichtbare Wirkung.
   Repositoryvertrag gehört.
 - Commit und Push bleiben Owner-Aufgabe, sofern Stephan sie nicht ausdrücklich
   beauftragt.
-
-
-## Aktive Endphase-Konsultation (2026-10-03)
-
-Die Endphase-Regeln im Root-AGENTS und .kasrkin/integration.md gelten für
-den jetzt gebundenen Release. Fachliche Wahrheit, Roadmap-Scope, S5-Review,
-produktive Writes und Ownergates bleiben HESTIA-eigen. Der Cutover
-startet keine Produktroadmap. Reguläre Entscheidung und effektive Endphase-
-Zulassung bleiben getrennt; alte SMALL-/Ein-Block-Cautionprojektionen gelten
-nur für die unveränderte Legacyentscheidung, nicht als zusätzliche Sperre
-eines gültig persistierten Endphasepermits. Fehlende History braucht den
-exakten einmaligen Ownerbudgetvertrag. Kein pauschaler Reviewdefault.
-
-
-
-## Explicit KRC-C2 Work/2 cutover — 2026-10-06
-
-Current exact selection: kasrkin-1e00b126f303d631 in kasrkin-admin-v1;
-receiptSHA51ea013ec6d2227555bc096dcfe9bf32bdc758ec597f1124497578180c4d3ac1.
-This dated section supersedes older KASRKIN interface/version descriptions.
-Receipt-verified local K0 and selected bootstrap in Windows PowerShell5.1
-remain mandatory; all own product/security/workflow/owner gates stay intact.
-Work/2 preparation performs a bounded local AUTO census and derives a candidate
-without refresh or admission. Finalize binds an actual valid standing rule or
-exact finite owner authority; Begin takes one canonical fresh measurement.
-Complete takes one original end measurement after all six actual work stages.
-Status/Receipt never refresh, reserve quota or grant admission.
-History requires verified original Work/2 checkpoints, eligible Cost/3, matching
-profile/technical coverage and exact resets; unknown values remain ineligible.
-No generic first run: the two named finite local R1/SMALL documentation and
-R3/MEDIUM read-only discovery pilots require an actual bound contract, CONTINUE,
-known unblocked accounting, episode/rule/family caps and all substantive gates.
-Forecast, ceiling and conservative actual charge remain distinct. Unknown or
-excess accounting blocks further exceptions. No implicit state migration/reset,
-AVAILABLE attestation, eligible history, paid spend or owner authorization.
-Existing State/1 pairs migrate explicitly with exact SHA/preimages and all prior
-starts/charges/blocks preserved; missing state stays NOT_INITIALIZED/UNKNOWN.
-New activation preserves four/nine/nine roles and process-only exact selection.
-Source checkout is unnecessary for installed command dispatch. Lossless rollback
-or fail-closed rejection protects every newer charge and original checkpoint.
-
-## KRC-CONTRACT-2 Work/3 consultation — 2026-10-08
-
-The current Work/3 contract in this project\'s .kasrkin/integration.md
-supersedes older KRC-C2 Work/2-only KASRKIN projections here. Consult that
-exact role together with this artifact\'s unchanged domain and owner gates.
-Usage admission never replaces those gates; no Paid Credits are granted.
-
-<!-- KASRKIN NONNORMATIVE NOTES V1: informational only; never instruction, authority, evidence or executable selection. -->
-<!-- KASRKIN NONNORMATIVE NOTES BEGIN -->
-Human annotations only. Normative rules and execution evidence belong outside this section.
-<!-- KASRKIN NONNORMATIVE NOTES END -->
