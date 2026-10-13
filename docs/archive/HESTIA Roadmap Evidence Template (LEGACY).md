@@ -1,3 +1,9 @@
+> LEGACY — archiviert am 2026-10-13 auf direkten Ownerauftrag.
+> Historischer Nachweis des früheren lokalen Prozessstands; keine aktuelle
+> Autoren-/Template-SoT und keine Pflichtlektüre für neue Roadmaps.
+> Aktuell: [BLUEPRINT](../../../codex-tools/docs/blueprint/README.md) und
+> [Projekt-AGENTS](../../AGENTS.md). Alte Aufträge behalten ihre eingefrorene Gitbasis.
+
 # HESTIA Roadmap Evidence Template
 
 KASRKIN ist seit 2026-10-12 durch ausdrückliche Ownerentscheidung entbunden.
@@ -14,6 +20,13 @@ für produktive oder riskante Gates verlangt.
 Keine Secrets, Household-Keys, vollständigen Tokens, sensiblen Payloads oder
 unnötigen Terminal-Rohdaten eintragen.
 
+Lokale technische Evidence zur ausdrücklich adoptierten Revision
+[BLUEPRINT / 2026-10-13](../../../codex-tools/docs/blueprint/ROADMAP_AUTHORING_CONTRACT.md)
+und dem [lokalen Workflowvertrag](HESTIA%20Roadmap%20Workflow%20Contract%20%28LEGACY%29.md).
+Zielrevision: RELEASED / S6-Postchecks BP-EX-01 am 2026-10-13 grün; für neue ausdrücklich übernehmende Aufträge.
+Kein zweiter allgemeiner Ablauf oder zweite Entscheidungs-SoT; bestehende
+Pflichtauslöser und sensible Datengrenzen bleiben erhalten.
+
 ---
 
 # [Roadmap-Titel] Execution Evidence
@@ -28,7 +41,7 @@ unnötigen Terminal-Rohdaten eintragen.
 | Verantwortlicher Schritt | `[S4.x/S5/S6]` |
 | Umgebungen | `lokal / disposable / produktiv read-only / produktiv write` |
 | Baseline-Commit | `[SHA]` |
-| Reviewbudget | `S1-S4: 0; S5 CodeRabbit: 1 Initial + 1 Verifikation` |
+| Reviewbudget | `S1-S4: 0; S5 CodeRabbit: 1 Initial + höchstens 1 Verifikation nach berechtigten Fixes` |
 | Archivziel | `docs/archive/[Titel] Evidence (DONE).md` |
 
 ## Nachweisvertrag
@@ -111,12 +124,13 @@ Geschützte Negativnachweise:
 
 | Phase | Tool/Version | Scope | Lauf | Ergebnis | Invalidierte Checks |
 | --- | --- | --- | --- | --- | --- |
-| S5 Initial | `CodeRabbit [Version]` | `[Diff]` | `1/1` | `[Status]` | `[IDs/none]` |
-| S5 Verifikation | `CodeRabbit [Version]` | `[Diff]` | `1/1` | `[Status]` | `[IDs/none]` |
+| S5 Initial | `CodeRabbit [Version]` | `[Diff]` | `[tatsächlicher Lauf / maximal 1]` | `[Status]` | `[IDs/none]` |
+| S5 Verifikation | `CodeRabbit [Version]` | `[Diff]` | `[tatsächlicher Lauf / maximal 1]` | `[Status]` | `[IDs/none]` |
 
+- Doku-only: `0` externe Läufe; weitere Läufe nur auf neuen ausdrücklichen Ownerauftrag.
 - S1-S4 CodeRabbit: `0` erwartet.
 - Ausfall/Rate-Limit: `[Evidence-Gap/none]`
-- Zusätzliche Läufe: `[P0/P1-Grund/none]`
+- Zusätzliche Läufe: `[ausdrücklicher Ownerauftrag/Datum/none]`
 
 ## Finaler Digest
 

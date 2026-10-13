@@ -17,16 +17,17 @@
 1. Read the root `README.md` for collaboration context and product intent.
 2. Read `PRODUCT.md` for the canonical product and system contract.
 3. Read only the relevant `docs/modules/*.md` files for module contracts.
-4. For roadmap work, follow `docs/templates/README.md` and
-   `docs/templates/HESTIA Roadmap Workflow Contract.md`.
+4. For roadmap creation, enter [BLUEPRINT](../codex-tools/docs/blueprint/README.md)
+   directly. Its authoring contract and central forms are the single current
+   roadmap process/template source of truth; apply the project boundaries below.
 5. Before finalizing a new tool-dependent roadmap, perform the Environment
-   Capability Preflight in the local workflow contract. Read the local overlay
+   Capability Preflight in the BLUEPRINT authoring contract. Read the local overlay
    and only needed ATLAS sections; missing/incompatible tools require an owner
    decision, never automatic installation. BLUEPRINT owns shared authoring;
    HESTIA retains household data, PWA, deployment and quality gates.
 6. The active roadmap and optional Evidence file govern current execution.
-7. Archived `(DONE)` roadmaps are historical evidence, not active
-   instructions.
+7. Archived `(DONE)` roadmaps and `(LEGACY)` process documents are historical
+   evidence, not active instructions for new work.
 
 Read only references relevant to the current task. Search large sources by
 section, symbol, producer, or consumer before opening a broad range. Reuse a
@@ -60,6 +61,8 @@ remain unchanged; otherwise read the authoritative source.
 - During roadmap execution with code changes, CodeRabbit belongs only to S5:
   one initial run and at most one verification run after justified fixes.
   Documentation-only roadmaps use no external review.
+- Further external review runs require a new explicit owner request; a new
+  finding alone does not increase the budget.
 - Outside a roadmap, run CodeRabbit only when Stephan explicitly requests it.
 - Use the canonical Windows command `coderabbit`. Do not reinstall or replace
   it while that command works. If command or authentication fails, report the
@@ -68,18 +71,44 @@ remain unchanged; otherwise read the authoritative source.
   contracts. A full rerun is required only where shared behavior, security,
   data integrity, or the roadmap demands it.
 
-## Roadmap Execution
+## Roadmap Execution and Local Boundaries
 
-- Discovery may run autonomously through S1-S3 and optionally S4R when the
-  roadmap permits it. Honor every owner gate and STOP condition.
-- S4 implements with native delta/consumer reviews. S5 runs the integrated
-  test matrix, native full review, and optional CodeRabbit review. S6
-  synchronizes documentation and closes the roadmap.
-- S4R forecasts the complete effort, including context, tooling, browser/PWA
-  work, review, troubleshooting, documentation, and postconditions. File count
-  or changed lines alone are not an effort estimate.
-- Keep Resume Card, Context Receipt, Findings, and optional Evidence current
-  enough for a fresh chat to continue without reconstructing project history.
+- Read BLUEPRINT directly with this AGENTS file. New roadmaps explicitly adopt
+  its dated revision; there is no local template or required LEGACY reading.
+  Existing active roadmaps retain their frozen process and scope. Exact old
+  rules come from their Git baseline when needed; current real product,
+  security and owner gates and KASRKIN detachment remain effective.
+- Local autonomy default is `gated`; use BLUEPRINT profiles and actual owner
+  authority. A concrete full-scope approval permits green internal continuation
+  without another routine question. Active roadmap/Evidence govern execution.
+- Keep product/README, active roadmap/Resume/Findings, dirty boundary/diff,
+  changed code and productive owner gates as live context; exact source reuse
+  and read sufficiency follow BLUEPRINT. No usage/reset/checkpoint prerequisite.
+- Active roadmap and optional Evidence live in `docs/`; after verified S6,
+  archive both as `(DONE)` in `docs/archive/`, maintain links and final checks.
+  `(LEGACY)` files have historical authority only. Commit/push require an
+  explicit owner request, separate from documentation completion.
+- PRODUCT and README are live project context. Before product implementation,
+  prove a real household flow becomes quieter/faster/clearer, no silent
+  organizer/SaaS/history expansion, and free text/local usage/current data
+  contracts remain intact or explicitly changed. Open product questions block
+  the affected implementation. Documentation work records preserved boundaries.
+- Target/risk review covers data/error/offline/snapshot-sync/security/copy,
+  silent overwrite/false sync state/data loss, auth/RLS/races/cache/service
+  worker/realtime as relevant. Freeze data model/lifecycle/sync/runtime config
+  and compatible producers/consumers before implementation.
+- S4R forecasts whole PWA/runtime/remote work, browser/device tests, review,
+  troubleshooting and closure using BLUEPRINT; all productive SQL/RLS, deploy,
+  workflow, push and external writes remain their own owner gates.
+- Separate Evidence is mandatory for productive write/delete SQL; migration,
+  RLS/ACL/roles/schedulers; multiple deploys or remote runtime gates; concurrency,
+  lock, rollback or extensive before/after proofs. Use central BLUEPRINT fields.
+  Small local proofs stay in the roadmap; no secrets, household keys, tokens
+  or sensitive raw data. Existing reasoning defaults remain unchanged:
+  creation/initial review may use Extra High, execution is planned by risk.
+- S6 updates affected README/PRODUCT/modules/QA/setup/future documentation only
+  with proven results. HESTIA has no mandatory changelog; don't introduce one.
+  Optional follow-up postimage receipt follows BLUEPRINT at one existing place.
 
 ## KASRKIN freeze / consumer detached — 2026-10-12
 

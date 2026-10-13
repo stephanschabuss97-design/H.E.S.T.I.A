@@ -20,8 +20,9 @@ lesen; Ergebnis in Startkarte/Context Receipt der neuen Roadmap festhalten.
 - Es gibt keinen Root-Build-Step und kein Root-`package.json`.
 - Der Produktvertrag steht in `README.md` und `PRODUCT.md`.
 - Der Agentenvertrag steht in `AGENTS.md`.
-- Roadmap-Prozess: `docs/templates/README.md` und
-  `docs/templates/HESTIA Roadmap Workflow Contract.md`.
+- Roadmap-Prozess: direkt [BLUEPRINT](../../codex-tools/docs/blueprint/README.md);
+  Projektgrenzen, Evidencepflichten und lokale Defaults in [AGENTS](../AGENTS.md).
+  Der frühere lokale Templateordner ist als (LEGACY) archiviert.
 - Runtime Config: `public/runtime-config.json`.
 - Lokale Supabase-Secrets dürfen in `.env.supabase.local` liegen; die Datei ist
   ignoriert und ihre Werte dürfen nie ausgegeben oder committet werden.

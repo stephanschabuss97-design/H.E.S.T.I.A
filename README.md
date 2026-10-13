@@ -90,7 +90,7 @@ Arbeitsregeln:
 - [setup-supabase.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/setup-supabase.md): Supabase-Setup und Household-Key-Header
 - [hestia-shared-list-sync-roadmap.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/hestia-shared-list-sync-roadmap.md): geplanter Sync-Ausbau
 - [DEV_ENVIRONMENT.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/DEV_ENVIRONMENT.md): Projekt-Overlay mit lokalen Checks/Grenzen und gezieltem ATLAS-Verweis
-- [docs/templates/README.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/templates/README.md): BLUEPRINT-Einstieg mit HESTIA-Zusatzregeln und Capability-Preflight vor READY
+- [BLUEPRINT](../codex-tools/docs/blueprint/README.md): direkter Roadmap-Einstieg, zentraler Autorenvertrag und Formen; HESTIA-Grenzen stehen in AGENTS.
 - [HESTIA Dev Panel, Touchlog & Diagnostics Roadmap (DONE).md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/archive/HESTIA%20Dev%20Panel,%20Touchlog%20%26%20Diagnostics%20Roadmap%20(DONE).md)
 - [QA_CHECKS.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/QA_CHECKS.md): manuelle Smokechecks und Regressionsbasis
 - [CSS Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/CSS%20Module%20Overview.md)

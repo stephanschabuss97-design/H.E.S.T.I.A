@@ -1,3 +1,9 @@
+> LEGACY — archiviert am 2026-10-13 auf direkten Ownerauftrag.
+> Historischer Nachweis des früheren lokalen Prozessstands; keine aktuelle
+> Autoren-/Template-SoT und keine Pflichtlektüre für neue Roadmaps.
+> Aktuell: [BLUEPRINT](../../../codex-tools/docs/blueprint/README.md) und
+> [Projekt-AGENTS](../../AGENTS.md). Alte Aufträge behalten ihre eingefrorene Gitbasis.
+
 # HESTIA Roadmap Workflow Contract
 
 KASRKIN ist seit 2026-10-12 durch ausdrückliche Ownerentscheidung entbunden.
@@ -6,28 +12,25 @@ oder KASRKIN-Checkpointfelder. Fachliche Readiness, Scope, Review, sichere
 Postconditions und produktive Ownergates bleiben verbindlich. Diese Entscheidung
 überstimmt ältere KASRKIN-Klauseln, auch in unveränderten aktiven Roadmaps.
 
-Dieser Vertrag ergänzt [BLUEPRINT-1 / 2026-09-27](../../../codex-tools/docs/blueprint/ROADMAP_AUTHORING_CONTRACT.md)
+Dieser Vertrag ergänzt [BLUEPRINT / 2026-10-13](../../../codex-tools/docs/blueprint/ROADMAP_AUTHORING_CONTRACT.md)
 um HESTIA-Produktfilter, Daten-/PWA-/Deployment-, Review- und Abschlussregeln.
+Zielrevision: RELEASED / S6-Postchecks BP-EX-01 am 2026-10-13 grün; für neue ausdrücklich übernehmende Aufträge.
+Gemeinsame Phasen, Routing, Autonomie, Kontext, Invalidation und Closure stehen
+im BLUEPRINT-Kern; hier bleiben die erforderlichen lokalen Ergänzungen.
+Alte aktive Aufträge behalten ihre eingefrorene Prozessbasis und ihren Scope
+ohne neue Pflichtfelder. Historische Regeln aus Roadmap/Gitbaseline lesen;
+aktuelle echte Produkt-/Security-/Ownergrenzen und Entbindung gelten weiter.
 Neue Roadmaps verwenden eine zentrale Form und lokale Ergänzungen; laufende
 und historische Roadmaps werden nicht rückwirkend verändert.
 
 ## Environment Capability Preflight
 
-Vor READY einer neuen toolabhängigen Roadmap den BLUEPRINT-Preflight über das
-[lokale Overlay](../DEV_ENVIRONMENT.md) und passende
-[ATLAS-Abschnitte](../../../codex-tools/environment/DEV_ENVIRONMENT.md) ausführen.
-Benötigte Capabilities bestimmen, Wesentliches read-only verifizieren und den
-Nachweis in Startkarte/Context Receipt führen:
-
-| Capability | Zweck/Anforderung | ATLAS-Abschnitt | Status | Prüfcommand/-datum |
-| --- | --- | --- | --- | --- |
-| konkrete Fähigkeit | HESTIA-Bedarf | gezielter Verweis | AVAILABLE_VERIFIED / AVAILABLE_UNVERIFIED_OR_STALE / MISSING / INCOMPATIBLE / NOT_REQUIRED | Nachweis |
-
-MISSING/INCOMPATIBLE blockiert READY mit OWNER_TOOLING_DECISION_REQUIRED.
-Stephan entscheidet Setup, vorhandene Alternative oder Scopeänderung. Nur ein
-separater freigegebener Setupblock darf installieren/aktualisieren; Verifikation
-und ATLAS-Update sind seine Postcondition. Keine zusätzliche HESTIA-Dependency
-oder produktive Freigabe entsteht daraus. Resume nutzt den Receipt bis zur Invalidation.
+Den [BLUEPRINT-Preflight](../../../codex-tools/docs/blueprint/ROADMAP_AUTHORING_CONTRACT.md#readiness-und-capability-preflight)
+mit [lokalem Overlay](../DEV_ENVIRONMENT.md) und nur benötigten ATLAS-Abschnitten
+anwenden; konkrete lokale Anforderungen/Nachweise in Startkarte/Receipt führen.
+Fehlende/inkompatible Tools verlangen OWNER_TOOLING_DECISION_REQUIRED, keine
+implizite Installation. Toolreadiness ersetzt keine lokalen Fach-/Secret-/
+Device-/Produktivgates. Gültigen Receipt bis zur Invalidation übernehmen.
 
 ## Geltung und Lebenszyklus
 
@@ -52,7 +55,9 @@ Jede Roadmap muss vor S4 belegen:
 4. Freitext, lokale Nutzbarkeit und der bestehende Datenvertrag bleiben
    erhalten oder ihre Änderung wurde ausdrücklich beschlossen.
 
-Ist einer dieser Punkte offen, ist S4 blockiert.
+Ist einer dieser Punkte offen, ist S4 blockiert. Reine Prozess-/Dokumentations-
+pflege belegt die unveränderten Produktgrenzen statt ein neues Haushaltsfeature
+zu erfinden; sie bleibt ein eigener ausdrücklich freigegebener Dokuauftrag.
 
 ## Autonomieprofile und Phasen
 
@@ -66,16 +71,10 @@ Jede Roadmap wählt genau ein Profil:
 
 Das Profil ändert weder Scope noch Reviewtiefe und hebt kein Gate auf.
 
-- S1: Iststand, Sources of Truth, Producer/Consumer und Baseline erfassen.
-- S2: Fachlichen und technischen Zielvertrag einfrieren.
-- S3: Bruchrisiken, Security, Sync, Offline/PWA, Rollback und Tests ableiten.
-- S4R: Readiness, Arbeitsgröße, kohärente Blöcke, Gates und sichere Postconditions
-  bestätigen.
-- S4: Implementierung mit nativen Delta-/Consumer-Reviews und nur den jeweils
-  invalidierten günstigen Checks.
-- S5: Vollständige relevante Testmatrix, nativer Full Review und bei
-  Codeänderungen der externe CodeRabbit-Zyklus.
-- S6: Doku-/QA-Sync, finaler Contract Review, Commit-Empfehlung und Archiv.
+Allgemeine Phasenführung und konkrete Blockfelder stehen im BLUEPRINT-Kern
+und seiner Execution. S3 prüft Bruchrisiken einschließlich Daten/Sync/Offline;
+S4R prüft S1–S3 final und friert den ausführbaren Scope vor S4 ein. S5 und S6
+bleiben getrennt, lokale Fach-/Test-/Doku-/Archivegates gelten ergänzend.
 
 S1-S3 und optional S4R dürfen als autonome Discovery Wave laufen. Jeder
 Hauptschritt bleibt separat dokumentiert und wird mit Review,
@@ -116,9 +115,8 @@ Scope-Prüfung. Er ist kein CodeRabbit-Ergebnis.
   bewertet und nie blind korrigiert.
 - Berechtigte Korrekturen werden gebündelt. Danach laufen nur invalidierte
   Checks und höchstens ein CodeRabbit-Verifikationslauf.
-- Ein zusätzlicher externer Lauf braucht ein neues P0/P1-, Security-,
-  Datenintegritäts- oder Vertragsrisiko oder einen ausdrücklichen
-  Owner-Auftrag.
+- Weitere externe Läufe benötigen ausschließlich einen neuen ausdrücklichen
+  Owner-Auftrag; ein neues Finding erhöht das Budget nicht automatisch.
 - Dokumentations-only Roadmaps verwenden keinen externen Review.
 - Fällt CodeRabbit aus, wird das Evidence-Gap dokumentiert. Innerhalb der
   Roadmap wird keine alternative Installation improvisiert.
@@ -164,7 +162,7 @@ betroffenen Gate, bei Invalidation und im S5-/S6-Abschlussreview gelesen.
 
 | Klasse | Typischer Scope | Arbeitsform |
 | --- | --- | --- |
-| `R1` | Doku, Copy, enger mechanischer Fix | kompakte S1-S3, Delta-Review |
+| `R1` | Doku, Copy, enger mechanischer Fix | Quick Change mit kurzem Contract Review, Delta; bei Unsicherheit Execution |
 | `R2` | UI-Flow, mehrere Consumer, PWA-/Sync-Code | normale S1-S6-Struktur |
 | `R3` | Auth, SQL, RLS, Datenverlust, Deploy, Push | volle Gates, Full Review, meist Evidence |
 
