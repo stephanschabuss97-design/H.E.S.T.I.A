@@ -252,3 +252,16 @@ Bevor du eine Idee oder Aenderung akzeptierst, stelle drei Fragen:
 3. Reduziert sie Abstimmung statt neue Verwaltung zu erzeugen?
 
 Wenn die Antwort darauf nicht klar `ja` ist, ist die Idee fuer HESTIA wahrscheinlich falsch.
+
+Offene Produktfragen blockieren die betroffene Umsetzung; Dokumentationsarbeit
+weist die erhaltenen Grenzen nach. Bei relevanten Flowänderungen Daten-, Fehler-,
+Offline-/Snapshot-Sync- und Securitywirkung prüfen: kein stilles Überschreiben,
+falscher Syncstatus oder Datenverlust. Betroffene Auth/RLS/Races/Cache/Service-
+Worker/Realtime-Verträge und kompatible Producer/Consumer bleiben verbindlich.
+Der gemeinsame Risiko-/Review-/Readinessablauf steht ausschließlich in BLUEPRINT.
+
+HESTIA-Ablage: aktive Roadmap und gegebenenfalls Evidence unter `docs/`, nach
+bewiesenem S6 beide als `(DONE)` unter `docs/archive/`. `(LEGACY)` ist nur Historie.
+Betroffene README/PRODUCT/Module/QA/Setup/Future-Dokumentation ausschließlich mit
+bewiesenen Ergebnissen pflegen. HESTIA hat keinen verpflichtenden Changelog;
+keinen neuen einführen. Gemeinsame Closure/Linkchecks nach BLUEPRINT.

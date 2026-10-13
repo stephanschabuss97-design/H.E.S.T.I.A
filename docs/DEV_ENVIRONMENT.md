@@ -21,7 +21,8 @@ lesen; Ergebnis in Startkarte/Context Receipt der neuen Roadmap festhalten.
 - Der Produktvertrag steht in `README.md` und `PRODUCT.md`.
 - Der Agentenvertrag steht in `AGENTS.md`.
 - Roadmap-Prozess: direkt [BLUEPRINT](../../codex-tools/docs/blueprint/README.md);
-  Projektgrenzen, Evidencepflichten und lokale Defaults in [AGENTS](../AGENTS.md).
+  [AGENTS](../AGENTS.md) bindet [PRODUCT](../PRODUCT.md) und Module für die
+  Projektgrenzen; gemeinsame Evidence-/Review-/Modellregeln ausschließlich im Kern.
   Der frühere lokale Templateordner ist als (LEGACY) archiviert.
 - Runtime Config: `public/runtime-config.json`.
 - Lokale Supabase-Secrets dürfen in `.env.supabase.local` liegen; die Datei ist
@@ -217,19 +218,13 @@ coderabbit --version
 coderabbit
 ```
 
-Der Befehl routet zur bereits authentifizierten WSL-CLI. Regeln:
-
-- In Roadmaps mit Codeänderungen nur in S5 verwenden.
-- Genau ein Initiallauf und höchstens ein Verifikationslauf nach berechtigten
-  Korrekturen.
-- Findings gegen HESTIA-Produktvertrag, Roadmap und reale Implementierung
-  bewerten; niemals blind korrigieren.
-- Bei Doku-only Roadmaps kein CodeRabbit.
-- Außerhalb von Roadmaps nur auf ausdrücklichen Auftrag.
-- Schlägt der kanonische Befehl oder die Authentifizierung fehl, nicht neu
-  installieren und keinen alternativen CLI-Pfad improvisieren. Das Evidence-
-  Gap sichtbar dokumentieren.
-- Ein nativer Review wird nie als CodeRabbit-Ergebnis bezeichnet.
+Der Befehl routet zur bereits authentifizierten WSL-CLI. Gemeinsame Toolquelle:
+[ATLAS CodeRabbit](../../codex-tools/environment/DEV_ENVIRONMENT.md#coderabbit).
+Geltung, S5-Reihenfolge, Budget, Findings/Retests und Fehlergates stehen einmal
+im [BLUEPRINT-Reviewvertrag](../../codex-tools/docs/blueprint/ROADMAP_AUTHORING_CONTRACT.md#gemeinsame-ausführungs--und-reviewregeln).
+Die dort erhaltene HESTIA-Code-Roadmap-Pflicht bleibt verbindlich. Fehlt der
+kanonische Command oder Auth, externen Pfad stoppen; Wiederherstellung/Login
+braucht eigenen begrenzten Ownerauftrag, keine alternative CLI installieren.
 
 ## KASRKIN-Consumerstatus
 
@@ -347,7 +342,7 @@ Die vorhandene Toolchain reicht für HESTIAs reale Arbeit:
 - gebündelte Browser-/Responsive-/PWA-Smokes,
 - optionalen Supabase-/RLS-Test mit explizitem Gate,
 - GitHub-Workflow-Inspektion,
-- kontrollierten CodeRabbit-Review in S5,
+- CodeRabbit nach der konkreten Geltung im BLUEPRINT-Reviewvertrag,
 - fachlich geprüfte, sauber resumierbare Roadmap-Ausführung ohne KASRKIN.
 
 Keines dieser Werkzeuge erweitert HESTIA automatisch zu einem größeren
