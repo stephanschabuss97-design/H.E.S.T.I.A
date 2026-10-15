@@ -3,16 +3,17 @@
 Kurze Einordnung:
 
 - Zweck: beschreibt, wie HESTIA heute ausgeliefert und betrieben wird.
-- Rolle innerhalb von HESTIA: verbindet Repo, GitHub Pages, PWA-Verhalten und Supabase-Betrieb zu einem einfachen Laufmodell.
+- Rolle innerhalb von HESTIA: verbindet Repo, GitHub Pages, PWA-Verhalten und
+  Supabase-Betrieb zu einem einfachen Laufmodell.
 - Abgrenzung: keine Produktlogik und keine tiefe CI/CD-Doku.
 
 Related docs:
 
 - [README.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/README.md)
 - [PRODUCT.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/PRODUCT.md)
-- [Runtime Config Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Runtime%20Config%20Module%20Overview.md)
-- [PWA Install Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/PWA%20Install%20Module%20Overview.md)
-- [Waste Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Waste%20Module%20Overview.md)
+- [Runtime Config Module Overview.md][local1]
+- [PWA Install Module Overview.md][local2]
+- [Waste Module Overview.md][local3]
 
 ---
 
@@ -46,7 +47,8 @@ Wichtige Ableitungen:
 
 - Die App laeuft auf GitHub Pages unter einem Repo-Unterpfad.
 - Die meisten Asset-Pfade bleiben relativ.
-- Das PWA-Manifest nutzt fuer `id`, `start_url` und `scope` absichtsvoll absolute GitHub-Pages-Pfade.
+- Das PWA-Manifest nutzt fuer `id`, `start_url` und `scope` absichtsvoll
+  absolute GitHub-Pages-Pfade.
 
 ---
 
@@ -66,7 +68,12 @@ http://127.0.0.1:8766
 
 Wichtige Regel:
 
-- Nicht ueber `file://` testen, wenn Service Worker oder PWA-Verhalten relevant sind.
+- Nicht ueber `file://` testen, wenn Service Worker oder PWA-Verhalten relevant
+  sind.
+- Server aus dem HESTIA-Repositoryroot starten. Ist Port `8766` belegt,
+  einen freien Port wählen und im Testnachweis angeben.
+- [QA](../QA_CHECKS.md#browser--und-pwa-prüfumfang) besitzt Browserfallback,
+  gebündelte Desktop-/Mobile-Smokes und die Service-Worker-Prüfgrenzen.
 
 ---
 
@@ -83,31 +90,37 @@ Relevante Betriebsbausteine:
 
 Wichtige Betriebsrealitaet:
 
-- Service-Worker-Caches muessen bei Shell-Aenderungen konsequent versioniert werden.
+- Service-Worker-Caches muessen bei Shell-Aenderungen konsequent versioniert
+  werden.
 - Installierte PWAs koennen sonst alte Assets laenger halten als Browser-Tabs.
 
 ---
 
 ## 6. Deployment-Constraints
 
-- Relative Pfade fuer Assets beibehalten, wenn sie nicht die GitHub-Pages-Basis brechen.
+- Relative Pfade fuer Assets beibehalten, wenn sie nicht die GitHub-Pages-Basis
+  brechen.
 - PWA-Identitaet ueber `manifest.webmanifest` stabil halten.
-- Runtime-Config soll moeglichst frisch geladen werden und nicht an altem Cache haengen.
+- Runtime-Config soll moeglichst frisch geladen werden und nicht an altem Cache
+  haengen.
 - Supabase ist externer Dienst und nicht Teil des statischen Deployments.
 
 ---
 
 ## 7. Bekannte Betriebsbesonderheiten
 
-- Edge kann Tracking-Prevention-Warnungen gegen das `jsdelivr`-Supabase-Skript loggen.
+- Edge kann Tracking-Prevention-Warnungen gegen das `jsdelivr`-Supabase-Skript
+  loggen.
 - Diese Meldungen sind derzeit eher Diagnosegeraesch als Produktfehler.
-- Der kritischere Betriebsfall war bisher korrupter lokaler Household-Key in der installierten PWA.
+- Der kritischere Betriebsfall war bisher korrupter lokaler Household-Key in der
+  installierten PWA.
 
 ---
 
 ## 8. GitHub Actions fuer Datenpflege
 
-HESTIA hat fuer das Entsorgungsdaten-Fundament einen kleinen GitHub-Actions-Workflow:
+HESTIA hat fuer das Entsorgungsdaten-Fundament einen kleinen
+GitHub-Actions-Workflow:
 
 - `.github/workflows/update-axams-waste-calendar.yml`
 
@@ -127,9 +140,11 @@ Betriebsvertrag:
 
 - `contents: write` ist noetig, damit `GITHUB_TOKEN` committen kann.
 - `concurrency` verhindert unnoetige parallele Laeufe fuer denselben Branch.
-- Der Workflow verwendet `actions/checkout@v6`, `actions/setup-node@v6`, Node 24 und keine Dependency-Installation.
+- Der Workflow verwendet `actions/checkout@v6`, `actions/setup-node@v6`, Node 24
+  und keine Dependency-Installation.
 - Der Commit ist auf `assets/data/waste-calendar.axams.json` begrenzt.
-- Fehlerhafte oder unplausible Quellen brechen im Script ab und duerfen keinen Teilstand committen.
+- Fehlerhafte oder unplausible Quellen brechen im Script ab und duerfen keinen
+  Teilstand committen.
 
 Nicht lokal pruefbar:
 
@@ -137,22 +152,48 @@ Nicht lokal pruefbar:
 - Bot-Push unter realen Repository-Permissions
 - moegliche Branch-Protection-Effekte
 
-Details stehen in [Waste Module Overview.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Waste%20Module%20Overview.md).
+Details stehen in [Waste Module Overview.md][local3].
 
 ---
+
+### Read-only-Inspektion und Wirkungsgates
+
+Für tatsächlich beauftragte Status-/Runinspektion sind diese Aufrufe gedacht:
+
+```powershell
+gh --version
+gh workflow list
+gh run list --limit 10
+```
+
+Gemeinsame technische Verfügbarkeit besitzt
+[ATLAS GitHub CLI][local4].
+Workflowausführung, Secretänderung, Deploy, Push und andere externe Wirkung
+bleiben owner-gated gemäß [AGENTS](../../AGENTS.md) und
+[PRODUCT](../../PRODUCT.md#verbindliche-betriebs--und-secretgrenzen).
+Diese Dokumentmigration führt weder Workflow noch Statusaufrufe aus;
+keine neue Auth-/Permissions-/Livefunktionsbehauptung.
 
 ## 9. Risiken
 
 - falsche Pfade koennen unter GitHub Pages brechen
 - Service-Worker-Cache kann alte Assets laenger sichtbar halten
-- installierte PWA und Browser-Tab koennen zeitweise unterschiedliche Shell-Staende sehen
-- Bot-Commits aus GitHub Actions koennen durch Repository-Permissions oder Branch Protection blockiert werden
+- installierte PWA und Browser-Tab koennen zeitweise unterschiedliche
+  Shell-Staende sehen
+- Bot-Commits aus GitHub Actions koennen durch Repository-Permissions oder
+  Branch Protection blockiert werden
 
 ---
 
 ## 10. Definition of Done
 
 - Ein neuer Chat versteht sofort, wie HESTIA lokal und gehostet laeuft.
-- GitHub Pages, PWA und Supabase sind als gemeinsames Betriebsmodell beschrieben.
+- GitHub Pages, PWA und Supabase sind als gemeinsames Betriebsmodell
+  beschrieben.
 - GitHub-Actions-Datenpflege ist als begrenzter Sonderfall dokumentiert.
 - Deployment bleibt leichter als das Produkt selbst.
+
+[local1]: /c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Runtime%20Config%20Module%20Overview.md
+[local2]: /c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/PWA%20Install%20Module%20Overview.md
+[local3]: /c:/Users/steph/Projekte/H.E.S.T.I.A/docs/modules/Waste%20Module%20Overview.md
+[local4]: ../../../codex-tools/apps/atlas/docs/WORKSTATION_CAPABILITIES.md#github-cli

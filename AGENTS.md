@@ -17,9 +17,18 @@
   three forms are the sole current process/template source, including the
   applicable review obligations also outside roadmaps. Active roadmap/Evidence
   govern execution.
-- Use [the local overlay](docs/DEV_ENVIRONMENT.md) for actual commands and secret
-  stores; tool-dependent work follows BLUEPRINT's Capability Preflight and only
-  needed ATLAS sections. Archived DONE/LEGACY files are historical evidence.
+- Enter [ATLAS](../codex-tools/apps/atlas/README.md) directly for shared tool
+  facts; follow BLUEPRINT's Capability Preflight and read only needed sections.
+- Adopt [NOMOS-QA](../codex-tools/apps/nomos/QA_STANDARDS.md) directly:
+  `NOMOS-QA / 2026-10-15 / E01`, prospectively for applicable new or changed
+  test and procedure definitions. Running and frozen roadmaps retain their
+  actual adopted basis. HESTIA owns concrete tests, product/architecture,
+  commands and household/security/owner boundaries; local QA remains binding.
+- Actual local checks belong to [QA](docs/QA_CHECKS.md); server/workflow use to
+  [deployment](docs/modules/Deployment%20Module%20Overview.md), config/secrets
+  to [runtime](docs/modules/Runtime%20Config%20Module%20Overview.md) and
+  [setup/watchlist](setup-supabase.md#security-watchlist-vom-2026-08-28).
+  Read affected local sources; archived DONE/LEGACY is historical evidence.
 
 ## Working rules
 

@@ -2,15 +2,19 @@
 
 ## Ein-Satz-Beschreibung
 
-HESTIA ersetzt Block und Bleistift fuer gemeinsame Einkaufslisten in einem bekannten Haushalt.
+HESTIA ersetzt Block und Bleistift fuer gemeinsame Einkaufslisten in einem
+bekannten Haushalt.
 
 Nicht mehr, aber auch nicht weniger.
 
 ## Produktkern
 
-HESTIA ist kein Familien-Organizer, kein Feature-Sammelbecken und kein SaaS-Produkt.
+HESTIA ist kein Familien-Organizer, kein Feature-Sammelbecken und kein
+SaaS-Produkt.
 
-HESTIA ist ein ruhiges Alltagswerkzeug fuer einen kleinen, bekannten Haushalt. Die App soll Reibung reduzieren, nicht Organisation simulieren. Sie darf wertig wirken, muss aber vor allem schnell, klar und alltagstauglich sein.
+HESTIA ist ein ruhiges Alltagswerkzeug fuer einen kleinen, bekannten Haushalt.
+Die App soll Reibung reduzieren, nicht Organisation simulieren. Sie darf wertig
+wirken, muss aber vor allem schnell, klar und alltagstauglich sein.
 
 Die Produktwahrheit lautet:
 
@@ -20,12 +24,14 @@ Die Produktwahrheit lautet:
 - Dinge werden abgehakt
 - nach dem Einkauf wird die Liste wieder leer
 
-HESTIA ist damit ein `fast in, fast out`-Werkzeug fuer den gemeinsamen Einkaufsfluss.
+HESTIA ist damit ein `fast in, fast out`-Werkzeug fuer den gemeinsamen
+Einkaufsfluss.
 
 Zusatz zum Einkaufsfluss:
 
 - `Einkauf` ist der Grocery-Fluss fuer Dinge aus dem Markt.
-- `Amazon` ist eine kleine Merkliste fuer Dinge, die spaeter bei Amazon bestellt werden sollen.
+- `Amazon` ist eine kleine Merkliste fuer Dinge, die spaeter bei Amazon bestellt
+  werden sollen.
 - Amazon bleibt dabei nur ein zweiter Beschaffungskanal, kein Shop-Portal.
 
 ## Reales Alltagsbild
@@ -35,26 +41,33 @@ Typischer Ablauf:
 - eine Person sitzt zuhause und schreibt die Einkaufsliste
 - die Eingabe soll mit so wenig Friktion wie moeglich funktionieren
 - die Semantik-Datei hilft schon nach wenigen Buchstaben mit Vorschlaegen
-- wenn die Liste fertig ist, kann spaeter optional ein manueller Push `Einkaufsliste fertig` an die anderen Geraete gesendet werden
+- wenn die Liste fertig ist, kann spaeter optional ein manueller Push
+  `Einkaufsliste fertig` an die anderen Geraete gesendet werden
 - die sendende Person selbst erhaelt diesen Push nicht
-- eine andere Person sieht den Hinweis unterwegs oder in der Arbeit und kann den Einkauf uebernehmen
+- eine andere Person sieht den Hinweis unterwegs oder in der Arbeit und kann den
+  Einkauf uebernehmen
 - im Einkauf werden Dinge mit `Im Wagen` markiert
 - nach dem Bezahlen wird der Einkauf abgeschlossen
 - erledigte Eintraege verschwinden und die gemeinsame Liste ist wieder leer
 
-Der Push ist spaeter nur ein Ersatz fuer die kurze WhatsApp-Nachricht. Er ist kein Reminder-System.
+Der Push ist spaeter nur ein Ersatz fuer die kurze WhatsApp-Nachricht. Er ist
+kein Reminder-System.
 
 ## Nicht verhandelbarer Produktvertrag
 
 1. HESTIA bleibt ein Haushaltswerkzeug, kein Haushaltsbetriebssystem.
-2. `Einkauf` ist der kombinierte Kernfluss fuer Aufschreiben, Abhaken und Abschliessen; technisch bleibt die Route vorerst `writing`.
-3. `Amazon` ist ein eigener kleiner Merkliste-Bereich fuer spaetere Bestellungen, ohne Amazon-Integration.
+2. `Einkauf` ist der kombinierte Kernfluss fuer Aufschreiben, Abhaken und
+   Abschliessen; technisch bleibt die Route vorerst `writing`.
+3. `Amazon` ist ein eigener kleiner Merkliste-Bereich fuer spaetere
+   Bestellungen, ohne Amazon-Integration.
 4. Freitext bleibt immer erlaubt.
 5. Semantik, Mengen und Einheiten helfen, sperren aber nicht.
-6. Der Listenstatus muss ehrlich bleiben: offen ist offen, gekauftes oder bestelltes verschwindet, Unerledigtes bleibt sichtbar.
+6. Der Listenstatus muss ehrlich bleiben: offen ist offen, gekauftes oder
+   bestelltes verschwindet, Unerledigtes bleibt sichtbar.
 7. Schreibende Aktionen brauchen klaren Nutzerimpuls.
 8. Push bleibt spaeter Awareness, nicht Druck.
-9. Mehr Features sind nur dann gut, wenn sie den gemeinsamen Einkaufsfluss ruhiger, schneller oder klarer machen.
+9. Mehr Features sind nur dann gut, wenn sie den gemeinsamen Einkaufsfluss
+   ruhiger, schneller oder klarer machen.
 
 ## Was HESTIA bewusst nicht ist
 
@@ -67,7 +80,8 @@ Der Push ist spaeter nur ein Ersatz fuer die kurze WhatsApp-Nachricht. Er ist ke
 - kein Reminder- oder Notification-System
 - keine Historien- oder Metrik-App fuer Haushaltsprozesse
 
-Wenn eine Idee mehr Verwaltung, mehr Status, mehr Navigation oder mehr Produktlautstaerke erzeugt, ist sie wahrscheinlich kein HESTIA-Feature.
+Wenn eine Idee mehr Verwaltung, mehr Status, mehr Navigation oder mehr
+Produktlautstaerke erzeugt, ist sie wahrscheinlich kein HESTIA-Feature.
 
 ## Produktstatus
 
@@ -76,14 +90,18 @@ Heute ist HESTIA ein fruehes PWA-Scaffold mit klaren Grenzen:
 - browser-first App ohne Build-Step
 - statisches HTML, CSS und JS
 - ruhiger Home-Einstieg mit `Einkauf`, `Amazon` und `Muell`
-- sichtbarer `Einkauf`-Flow zum schnellen Erfassen, Entfernen, Abhaken und Abschliessen von Eintraegen
-- sichtbarer `Amazon`-Flow zum schnellen Erfassen, Entfernen, Bestellen-Markieren und Entfernen bestellter Eintraege
-- alter Shopping-Flow bleibt technisch erreichbar, ist aber nur noch Vergleichs- und Uebergangsflaeche
+- sichtbarer `Einkauf`-Flow zum schnellen Erfassen, Entfernen, Abhaken und
+  Abschliessen von Eintraegen
+- sichtbarer `Amazon`-Flow zum schnellen Erfassen, Entfernen,
+  Bestellen-Markieren und Entfernen bestellter Eintraege
+- alter Shopping-Flow bleibt technisch erreichbar, ist aber nur noch Vergleichs-
+  und Uebergangsflaeche
 - Hard Delete der gekauften bzw. bestellten Eintraege beim jeweiligen Abschluss
 - lokale Semantik-Hilfe fuer Autocomplete und Einheitshinweise
 - lokaler Zustand ueber `localStorage`
 - PWA-Basis mit Manifest, Service Worker und Offline-Fallback
-- Runtime-Config, manueller Snapshot-Save-Pfad und erster Realtime-Load-Pfad fuer Supabase
+- Runtime-Config, manueller Snapshot-Save-Pfad und erster Realtime-Load-Pfad
+  fuer Supabase
 
 ## Design- und UX-Haltung
 
@@ -112,13 +130,15 @@ Heute:
 
 - die aktive Liste lebt lokal in `localStorage`
 - der Frontend-Vertrag ist `name`, `quantity`, `unit`, `inCart`, `listType`
-- Einkauf, Amazon und der alte Shopping-Screen muessen ohne Supabase-Credentials weiter funktionieren
+- Einkauf, Amazon und der alte Shopping-Screen muessen ohne Supabase-Credentials
+  weiter funktionieren
 
 Ziel:
 
 - Supabase wird die gemeinsame Listenoberflaeche zwischen den Geraeten
 - das Backend speichert den aktuellen Listenstand, keine Langzeithistorie
-- nach abgeschlossenem Einkauf oder entfernten bestellten Amazon-Eintraegen ist der Remote-Stand wieder leer bzw. nur mit offenen Restposten befuellt
+- nach abgeschlossenem Einkauf oder entfernten bestellten Amazon-Eintraegen ist
+  der Remote-Stand wieder leer bzw. nur mit offenen Restposten befuellt
 
 ### Datenmodell
 
@@ -136,13 +156,15 @@ Aktuelles Supabase-Zielmodell in `shopping_items`:
 
 Wichtige Vertragsregel:
 
-- der UI-Vertrag `name`, `quantity`, `unit`, `inCart`, `listType` bleibt stabil, solange keine bewusste Vertragsaenderung beschlossen wird
+- der UI-Vertrag `name`, `quantity`, `unit`, `inCart`, `listType` bleibt stabil,
+  solange keine bewusste Vertragsaenderung beschlossen wird
 - `listType` trennt `grocery` und `amazon`
 - alte oder ungueltige Typen fallen defensiv auf `grocery` zurueck
 
 ### Zugriffsmodell
 
-HESTIA verzichtet in V1 bewusst auf Google-Login oder ein schweres Account-System.
+HESTIA verzichtet in V1 bewusst auf Google-Login oder ein schweres
+Account-System.
 
 Das bevorzugte Modell ist:
 
@@ -151,14 +173,18 @@ Das bevorzugte Modell ist:
 - RLS auf Haushaltsebene
 - lokal gespeicherter Key pro Geraet
 
-Das passt zum Threat-Model: wenig Reibung, aber trotzdem kein voellig offener Zugriff.
+Das passt zum Threat-Model: wenig Reibung, aber trotzdem kein voellig offener
+Zugriff.
 
 Wichtige Langfrist-Regel:
 
-- Auch bei spaeter mehr beteiligten Personen bleibt HESTIA haushaltsbasiert statt identity-first.
-- Einkauf soll nicht an persoenliche Konten oder individuelle Login-Huerden gebunden werden.
+- Auch bei spaeter mehr beteiligten Personen bleibt HESTIA haushaltsbasiert
+  statt identity-first.
+- Einkauf soll nicht an persoenliche Konten oder individuelle Login-Huerden
+  gebunden werden.
 - Der schnellste Weg zum Eintrag ist wichtiger als saubere Nutzerverwaltung.
-- Personalisierung ist hoechstens optional und weich, nie Voraussetzung fuer den Kernfluss.
+- Personalisierung ist hoechstens optional und weich, nie Voraussetzung fuer den
+  Kernfluss.
 
 ### Sync-Modell
 
@@ -204,7 +230,7 @@ HESTIA ist `fast in, fast out`:
 | `app/app.css` | zentraler CSS-Bundle-Einstieg |
 | `app/main.js` | Boot und Modulinitialisierung |
 | `app/core/` | Router, State, PWA-Install, Semantik |
-| `app/modules/` | Home-, Writing/Einkauf-, Amazon-, Shopping-, Waste- und Kassa-Module |
+| `app/modules/` | UI-Module, Details unterhalb |
 | `app/styles/` | Tokens, Base, Layout, globale UI und Feature-Styles |
 | `app/supabase/` | Supabase-Client-Grenze |
 | `assets/js/semantics.de.json` | lokale Semantikquelle |
@@ -215,11 +241,15 @@ HESTIA ist `fast in, fast out`:
 | `sw.js` | Service Worker |
 | `manifest.webmanifest` | PWA-Metadaten |
 
+Zu `app/modules/` gehören Home-, Writing/Einkauf-, Amazon-, Shopping-, Waste-
+und Kassa-Module.
+
 ## Start
 
 HESTIA hat aktuell keinen Build-Prozess.
 
-Fuer PWA- und Service-Worker-Verhalten sollte die App ueber `localhost` laufen, nicht ueber `file://`.
+Fuer PWA- und Service-Worker-Verhalten sollte die App ueber `localhost` laufen,
+nicht ueber `file://`.
 
 ```powershell
 python -m http.server 8766
@@ -233,7 +263,7 @@ http://127.0.0.1:8766
 
 ## Regeln fuer neue Chats und Coding-Agents
 
-Lies zuerst [README.md](/c:/Users/steph/Projekte/H.E.S.T.I.A/README.md) und danach diese Datei.
+Lies zuerst [README.md][local1] und danach diese Datei.
 
 Arbeitsregeln:
 
@@ -241,8 +271,10 @@ Arbeitsregeln:
 - Behandle HESTIA nicht als Familien-Organizer fuer beliebige Lebensbereiche.
 - Behandle HESTIA nicht als SaaS-Vorstufe mit komplexem User-Management.
 - Priorisiere Ruhe, Klarheit und Reibungsarmut vor Feature-Breite.
-- Halte den Datenvertrag `name`, `quantity`, `unit`, `inCart`, `listType` stabil.
-- Denke lokale Persistenz, Supabase-Sync und PWA-Verhalten als zusammenhaengende Betriebsrealitaet.
+- Halte den Datenvertrag `name`, `quantity`, `unit`, `inCart`, `listType`
+  stabil.
+- Denke lokale Persistenz, Supabase-Sync und PWA-Verhalten als zusammenhaengende
+  Betriebsrealitaet.
 - Wenn ein zentraler Flow geaendert wird, aktualisiere auch die passende Doku.
 
 Bevor du eine Idee oder Aenderung akzeptierst, stelle drei Fragen:
@@ -251,17 +283,62 @@ Bevor du eine Idee oder Aenderung akzeptierst, stelle drei Fragen:
 2. Macht sie Einkauf ruhiger, schneller oder klarer?
 3. Reduziert sie Abstimmung statt neue Verwaltung zu erzeugen?
 
-Wenn die Antwort darauf nicht klar `ja` ist, ist die Idee fuer HESTIA wahrscheinlich falsch.
+Wenn die Antwort darauf nicht klar `ja` ist, ist die Idee fuer HESTIA
+wahrscheinlich falsch.
 
 Offene Produktfragen blockieren die betroffene Umsetzung; Dokumentationsarbeit
-weist die erhaltenen Grenzen nach. Bei relevanten Flowänderungen Daten-, Fehler-,
+weist die erhaltenen Grenzen nach. Bei relevanten Flowänderungen Daten-,
+Fehler-,
 Offline-/Snapshot-Sync- und Securitywirkung prüfen: kein stilles Überschreiben,
 falscher Syncstatus oder Datenverlust. Betroffene Auth/RLS/Races/Cache/Service-
 Worker/Realtime-Verträge und kompatible Producer/Consumer bleiben verbindlich.
-Der gemeinsame Risiko-/Review-/Readinessablauf steht ausschließlich in BLUEPRINT.
+Der gemeinsame Risiko-/Review-/Readinessablauf steht ausschließlich in
+BLUEPRINT.
 
 HESTIA-Ablage: aktive Roadmap und gegebenenfalls Evidence unter `docs/`, nach
-bewiesenem S6 beide als `(DONE)` unter `docs/archive/`. `(LEGACY)` ist nur Historie.
-Betroffene README/PRODUCT/Module/QA/Setup/Future-Dokumentation ausschließlich mit
+bewiesenem S6 beide als `(DONE)` unter `docs/archive/`. `(LEGACY)` ist nur
+Historie.
+Betroffene README/PRODUCT/Module/QA/Setup/Future-Dokumentation ausschließlich
+mit
 bewiesenen Ergebnissen pflegen. HESTIA hat keinen verpflichtenden Changelog;
 keinen neuen einführen. Gemeinsame Closure/Linkchecks nach BLUEPRINT.
+
+## Verbindliche Betriebs- und Secretgrenzen
+
+HESTIA bleibt eine statische browser-first PWA ohne Root-Build-Step,
+Root-`package.json` oder Bundler. Werkzeugbedarf erzeugt keine neue
+Framework-, Tool- oder Dependency-Pflicht. Gemeinsame technische Fakten besitzt
+[ATLAS](../codex-tools/apps/atlas/README.md); Readiness, Review, Budget und
+Evidence ausschließlich [BLUEPRINT](../codex-tools/docs/blueprint/README.md).
+Konkrete lokale Prüfungen stehen in [QA](docs/QA_CHECKS.md), Server und
+Workflowbetrieb im [Deploymentmodul][local2].
+
+- Einkauf, Amazon und der alte Shopping-Screen bleiben ohne Runtime-Credentials
+  lokal nutzbar. Household-Sync ist optional für den bekannten Haushalt;
+  keine stille Umstellung auf individuelle Accounts oder Multi-Tenancy.
+- [Runtime Config](docs/modules/Runtime%20Config%20Module%20Overview.md) besitzt
+  öffentliche Felder und lokale Household-Key-Erfassung. `householdKey` muss
+  in der committed und öffentlich ausgelieferten `public/runtime-config.json`
+  leer bleiben; der reale Key wird bei Bedarf lokal abgefragt, niemals in Git.
+- `service_role`, Secret Keys und private Tokens gehören niemals in die
+  öffentliche Runtime-Config. `.env.supabase.local` darf nur als ignorierte
+  lokale Referenz bestehen. Keine `.env`-Datei committen; allenfalls Namen
+  ohne Werte prüfen. Keine Werte oder Credentialteile in Logs, Screenshots,
+  Terminaltranskripte, Roadmaps, Evidence oder Antworten übernehmen.
+- SQL, RLS, Schema, Supabaseänderungen, Remote-Reads mit sensibler Wirkung,
+  Remote-Writes, Deploys, Workflows, Geräteaktionen, Push und andere externe
+  Wirkung benötigen konkrete Ownerautorität. Betriebsdokumentation allein
+  autorisiert keine Ausführung. Paid Credits bleiben ohne konkrete
+  Ownerfreigabe verboten; keine KASRKIN-Reset-/Creditkonsultationspflicht.
+- Die [Security-Watchlist vom 2026-08-28][local3]
+  bleibt OFFEN: frühere Git-History kann lokale Werte enthalten; empfohlene
+  Credentialrotation ist eine eigene owner-gated Sicherheitsaktion.
+
+Für Snapshot-/Realtime-/Dirty-State-/Pending-Remote-Grenzen gilt das
+[Syncmodul](docs/modules/Supabase%20Sync%20Module%20Overview.md), für lokale
+Fallbacks und ehrliche Statuscopy die [QA-Basis](docs/QA_CHECKS.md).
+KASRKIN bleibt gemäß [AGENTS](AGENTS.md) DETACHED / PRODUCTION_FROZEN.
+
+[local1]: /c:/Users/steph/Projekte/H.E.S.T.I.A/README.md
+[local2]: docs/modules/Deployment%20Module%20Overview.md
+[local3]: setup-supabase.md#security-watchlist-vom-2026-08-28
